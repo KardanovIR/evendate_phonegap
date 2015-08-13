@@ -38,7 +38,6 @@ var app = {
     // Update DOM on a Received Event
     receivedEvent: function(id) {
         $('.received').text('◊“Œ «¿ ‘»√Õﬂ “Œ!');
-
         console.log('Received Event: ' + id);
     }
 };
