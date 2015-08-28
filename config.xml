@@ -2,7 +2,7 @@
 <widget id="com.phonegap.helloworld" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0">
     <name>Evendate</name>
     <description>
-        Hello World sample application that responds to the deviceready event.
+        Evendate application
     </description>
     <author email="support@evendate.ru" href="http://evendate.ru">
         Evendate Team
@@ -21,8 +21,6 @@
     <preference name="show-splash-screen-spinner" value="true" />
     <preference name="auto-hide-splash-screen" value="true" />
     <preference name="disable-cursor" value="false" />
-    <preference name="android-minSdkVersion" value="7" />
-    <preference name="android-installLocation" value="auto" />
     <gap:plugin name="org.apache.cordova.battery-status" />
     <gap:plugin name="org.apache.cordova.camera" />
     <gap:plugin name="org.apache.cordova.media-capture" />
@@ -41,6 +39,11 @@
     <gap:plugin name="org.apache.cordova.network-information" />
     <gap:plugin name="org.apache.cordova.splashscreen" />
     <gap:plugin name="org.apache.cordova.vibration" />
+    <gap:plugin name="com.sharinglabs.cordova.plugin.datepicker" />
+    <gap:plugin name="com.phonegap.plugins.childbrowser" version="5.0.0" />
+    <gap:plugin name="org.apache.cordova.console"/>
+    <gap:plugin name="org.apache.cordova.dialogs"/>
+    <gap:plugin name="com.phonegap.plugins.pushplugin"/>
     <icon src="icon.png" />
     <icon gap:platform="ios" height="57" src="www/res/icon/ios/icon-57.png" width="57" />
     <icon gap:platform="ios" height="72" src="www/res/icon/ios/icon-72.png" width="72" />
@@ -60,12 +63,12 @@
     <allow-intent href="sms:*" />
     <allow-intent href="mailto:*" />
     <allow-intent href="geo:*" />
-    <platform name="android">
-        <allow-intent href="market:*" />
-    </platform>
     <platform name="ios">
         <allow-intent href="itms:*" />
         <allow-intent href="itms-apps:*" />
         <plugin name="InAppBrowser" value="CDVInAppBrowser" />
     </platform>
+    <feature name="DatePicker">
+        <param name="ios-package" value="DatePicker"/>
+    </feature>
 </widget>
