@@ -24,3 +24,10 @@
 }
 
 /*# sourceMappingURL=main.css.map */
+
+.vk-btn{
+  background-color: #48729e;
+  color: white;
+  border: none;
+  box-sizing: inherit;
+}

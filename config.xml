@@ -5,7 +5,7 @@
         Hello World sample application that responds to the deviceready event.
     </description>
     <author email="support@evendate.ru" href="http://evendate.ru">
-        PhoneGap Team
+        Evendate Team
     </author>
     <content src="index.html" />
     <preference name="permissions" value="none" />
@@ -66,5 +66,6 @@
     <platform name="ios">
         <allow-intent href="itms:*" />
         <allow-intent href="itms-apps:*" />
+        <plugin name="InAppBrowser" value="CDVInAppBrowser" />
     </platform>
 </widget>
