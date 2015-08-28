@@ -68,13 +68,26 @@ myapp.pages.IndexPageController = function (myapp, $$) {
 		var ref = window.open(URLs.VK, '_blank', 'location=no');
 		// attach listener to loadstart
 		ref.addEventListener('loadstart', function(event) {
-			alert(event.url);
 			if (/mobileAuthDone/.test(event.url)) {
 				ref.close();
+				document.body.innerText = event.url;
 			}
 		});
     });
-    
+
+	$$('.vk-btn2').click(function () {
+		// open win and turn off location
+		var ref = window.plugins.ChildBrowser.showWebPage(URLs.VK,
+            { showLocationBar: false, showAddress:false, showNavigationBar:false });
+		// attach listener to loadstart
+      window.plugins.ChildBrowser.onLocationChange = function (url) {
+        if (/mobileAuthDone/.test(url)) {
+          console.log(url);
+          window.plugins.ChildBrowser.close();
+        }
+      };
+    });
+
     $$(document).on('click', '.tutorial-next-link', function (e) {
       welcomescreen.next(); 
     });
