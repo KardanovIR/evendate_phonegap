@@ -1,7 +1,14 @@
 /*jslint browser: true*/
 /*global console, Framework7, angular, Dom7*/
 
-var myapp = myapp || {};
+var CONTRACT = {
+      URLS:{
+        BASE_NAME: 'http://evendate.ru',
+        API_FULL_PATH: 'http://evendate.ru/api',
+        USERS_PATH: '/users'
+      }
+  },
+    myapp = myapp || {};
 
 myapp.init = (function () {
   'use strict';
