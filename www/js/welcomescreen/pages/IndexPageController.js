@@ -2,11 +2,6 @@
 /*global console*/
 
 
-var path = fileSystem.toURL();//given by the success callback
-
-IOS_ASSETS_ABS_PATH = path.replace("file:////", "file:///private/");
-
-IOS_ASSETS_ABS_PATH += "www/";
 var myapp = myapp || {},
 	URLs = {
 		VK: 'https://oauth.vk.com/authorize?client_id=5029623&scope=friends,email,offline,nohttps&redirect_uri=http://evendate.ru/vkOauthDone.php?mobile=true&response_type=code',
@@ -56,7 +51,7 @@ myapp.pages.IndexPageController = function (myapp, $$) {
       },
       {
         id: 'slide3',
-        picture: '<div class="tutorial-img"><img src=' + IOS_ASSETS_ABS_PATH + '"res/screen/welcomeslides/4.png"></div>',
+        picture: '<div class="tutorial-img"><img src="res/screen/welcomeslides/4.png"></div>',
         text: '<div class="content-block"><p><a type="button" class="button button-big button-fill start-using-btn">Полетели </a></p></div>'
       }
     ];
