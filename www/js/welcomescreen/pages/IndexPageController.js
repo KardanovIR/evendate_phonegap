@@ -92,8 +92,6 @@ myapp.pages.IndexPageController = function (myapp, $$) {
         if (/mobileAuthDone/.test(url)) {
           saveTokenInLocalStorage(url);
           window.plugins.ChildBrowser.close();
-        } else {
-          myapp.alert('Auth error! Try again, please');
         }
       };
     });
@@ -101,6 +99,7 @@ myapp.pages.IndexPageController = function (myapp, $$) {
 
   function checkToken(){
     var token = permanentStorage.getItem('token');
+    myapp.alert(token);
     if (token != null){
       $$.ajax({
         url: CONTRACT.URLS.API_FULL_PATH + CONTRACT.URLS.USERS_PATH + '/me',
