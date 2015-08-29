@@ -48,27 +48,27 @@ myapp.pages.IndexPageController = function (myapp, $$) {
     welcomescreen_slides = [
       {
         id: 'slide0',
-        picture: '<div class="tutorial-img"><img src="www/res/screen/welcomeslides/0.png"></div>',
+        picture: '<div class="tutorial-img"><img src="img/welcomeslides/0.png"></div>',
         text: ''
       },
       {
         id: 'slide1',
-        picture: '<div class="tutorial-img"><img src="./www/res/screen/welcomeslides/1.png"></div>',
+        picture: '<div class="tutorial-img"><img src="img/welcomeslides/1.png"></div>',
         text: ''
       },
       {
         id: 'slide2',
-        picture: '<div class="tutorial-img"><img src="res/screen/welcomeslides/2.png"></div>',
+        picture: '<div class="tutorial-img"><img src="img/welcomeslides/2.png"></div>',
         text: ''
       },
       {
         id: 'slide3',
-        picture: '<div class="tutorial-img"><img src="./res/screen/welcomeslides/3.png"></div>',
+        picture: '<div class="tutorial-img"><img src="img//welcomeslides/3.png"></div>',
         text: ''
       },
       {
         id: 'slide3',
-        picture: '<div class="tutorial-img"><img src="res/screen/welcomeslides/4.png"></div>',
+        picture: '<div class="tutorial-img"><img src="img//welcomeslides/4.png"></div>',
         text: '<div class="content-block"><p><a type="button" class="button button-big button-fill start-using-btn">Полетели </a></p></div>'
       }
     ];
