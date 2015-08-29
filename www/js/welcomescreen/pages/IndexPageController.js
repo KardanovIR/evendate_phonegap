@@ -104,11 +104,16 @@ myapp.pages.IndexPageController = function (myapp, $$) {
 
   function checkToken(){
     var token = permanentStorage.getItem('token');
+    myapp.alert('URL ' +CONTRACT.URLS.API_FULL_PATH + CONTRACT.URLS.USERS_PATH + '/me');
+    myapp.alert('TOKEN ' + token);
     if (token != null){
       $$.ajax({
         url: CONTRACT.URLS.API_FULL_PATH + CONTRACT.URLS.USERS_PATH + '/me',
         headers: {
           'Authorization': token
+        },
+        complete: function(status){
+          myapp.alert(status);
         },
         success: function(res){
           myapp.alert(res.status);
