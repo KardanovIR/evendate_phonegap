@@ -25,3 +25,13 @@ myapp.init = (function () {
   return exports;
 
 }());
+
+document.addEventListener("deviceready", onDeviceReady, false);
+// PhoneGap is ready
+function onDeviceReady() {
+  alert(typeof window['plugins']);
+  alert(typeof window.plugins.hasOwnProperty('ChildBrowser'));
+  for (var i in window.plugins){
+    alert(window.plugins[i]);
+  }
+}
