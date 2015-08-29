@@ -72,9 +72,9 @@ myapp.pages.IndexPageController = function (myapp, $$) {
 		var ref = window.open(URLs.VK, '_blank', 'location=no');
 		// attach listener to loadstart
 		ref.addEventListener('loadstart', function(event) {
+          myapp.alert(event.url);
 			if (/mobileAuthDone/.test(event.url)) {
-				ref.close();
-				document.body.innerText = event.url;
+              myapp.alert('DONE: ' + event.url);
 			}
 		});
     });
