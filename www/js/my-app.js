@@ -16,9 +16,9 @@ myApp.onPageInit('about', function (page) {
 })
 
 document.addEventListener("deviceready", function(){
-    myApp.alert(typeof window['plugins']);
-    myApp.alert(typeof window.plugins.hasOwnProperty('ChildBrowser'));
+    alert(typeof window['plugins']);
+    alert(typeof window.plugins.hasOwnProperty('ChildBrowser'));
     for (var i in window.plugins){
-        myApp.alert(window.plugins[i]);
+        alert(window.plugins[i]);
     }
 }, false);
