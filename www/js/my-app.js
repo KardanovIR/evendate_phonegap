@@ -13,12 +13,13 @@ var mainView = myApp.addView('.view-main', {
 // Callbacks to run specific code for specific pages, for example for About page:
 myApp.onPageInit('about', function (page) {
     // run createContentPage func after link was clicked
-})
+});
 
-document.addEventListener("deviceready", function(){
+
+$$(document).on('deviceready', function(){
     alert(typeof window['plugins']);
     alert(typeof window.plugins.hasOwnProperty('ChildBrowser'));
     for (var i in window.plugins){
         alert(window.plugins[i]);
     }
-}, false);
+});
