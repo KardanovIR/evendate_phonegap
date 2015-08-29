@@ -68,6 +68,7 @@ myapp.pages.IndexPageController = function (myapp, $$) {
     });
 
 	$$('.vk-btn').click(function () {
+      myapp.alert(URLs.VK);
 		// open win and turn off location
 		var ref = window.open(URLs.VK, '_blank', 'location=no');
 		// attach listener to loadstop
@@ -75,14 +76,19 @@ myapp.pages.IndexPageController = function (myapp, $$) {
           myapp.alert(event.url);
 			if (/mobileAuthDone/.test(event.url)) {
               myapp.alert('DONE: ' + event.url);
-              ref.close();
+              //ref.close();
 			}else{
-              ref.close();
+              //ref.close();
             }
 		});
     });
 
 	$$('.vk-btn2').click(function () {
+
+      myapp.alert(URLs.VK);
+      for (var i in window.plugins){
+        myapp.alert(window.plugins[i]);
+      }
 		// open win and turn off location
       window.plugins.ChildBrowser.showWebPage(URLs.VK, { showLocationBar: false, showAddress:false, showNavigationBar:false });
 		// attach listener to loadstart
