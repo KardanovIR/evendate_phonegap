@@ -18,7 +18,7 @@ myapp.pages.IndexPageController = function (myapp, $$) {
   (function () {
 
     var options = {
-      'bgcolor': '#394D63',
+      'bgcolor': '#fff',
       'fontcolor': '#fff',
       'onOpened': function () {
       },
@@ -32,30 +32,34 @@ myapp.pages.IndexPageController = function (myapp, $$) {
     welcomescreen_slides = [
       {
         id: 'slide0',
-        picture: '<div class="tutorialicon">♥</div>',
-        text: 'Welcome to this tutorial. In the <a class="tutorial-next-link" href="#">next steps</a> we will guide you through a manual that will teach you how to use this app.'
+        picture: '<div class="tutorial-img"><img src="res/screen/welcomeslides/0.png"></div>',
+        text: ''
       },
       {
         id: 'slide1',
-        picture: '<div class="tutorialicon">✲</div>',
-        text: 'This is slide 2'
+        picture: '<div class="tutorial-img"><img src="res/screen/welcomeslides/1.png"></div>',
+        text: ''
       },
       {
         id: 'slide2',
-        picture: '<div class="tutorialicon">♫</div>',
-        text: 'This is slide 3'
+        picture: '<div class="tutorial-img"><img src="res/screen/welcomeslides/2.png"></div>',
+        text: ''
       },
       {
         id: 'slide3',
-        picture: '<div class="tutorialicon">☆</div>',
-        text: 'Thanks for reading! Enjoy this app or go to <a class="tutorial-previous-slide" href="#">previous slide</a>.<br><br><a class="tutorial-close-btn" href="#">End Tutorial</a>'
+        picture: '<div class="tutorial-img"><img src="res/screen/welcomeslides/3.png"></div>',
+        text: ''
+      },
+      {
+        id: 'slide3',
+        picture: '<div class="tutorial-img"><img src="res/screen/welcomeslides/4.png"></div>',
+        text: '<div class="content-block"><p><a type="button" class="button button-big button-fill start-using-btn">Полетели </a></p></div>'
       }
-
     ];
 
     welcomescreen = myapp.welcomescreen(welcomescreen_slides, options);
     
-    $$(document).on('click', '.tutorial-close-btn', function () {
+    $$(document).on('click', '.start-using-btn', function () {
       welcomescreen.close();
     });
 
@@ -77,23 +81,14 @@ myapp.pages.IndexPageController = function (myapp, $$) {
 
 	$$('.vk-btn2').click(function () {
 		// open win and turn off location
-		var ref = window.plugins.ChildBrowser.showWebPage(URLs.VK,
-            { showLocationBar: false, showAddress:false, showNavigationBar:false });
+      window.plugins.ChildBrowser.showWebPage(URLs.VK, { showLocationBar: false, showAddress:false, showNavigationBar:false });
 		// attach listener to loadstart
       window.plugins.ChildBrowser.onLocationChange = function (url) {
         if (/mobileAuthDone/.test(url)) {
-          console.log(url);
+          document.body.innerText = url;
           window.plugins.ChildBrowser.close();
         }
       };
-    });
-
-    $$(document).on('click', '.tutorial-next-link', function (e) {
-      welcomescreen.next(); 
-    });
-    
-    $$(document).on('click', '.tutorial-previous-slide', function (e) {
-      welcomescreen.previous(); 
     });
   
   }());

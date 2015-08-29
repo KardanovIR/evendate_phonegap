@@ -1,10 +1,11 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="com.phonegap.helloworld" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0">
+<widget id="re.evendate.phonegap" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0">
     <name>Evendate</name>
     <description>
         Evendate application
     </description>
     <author email="support@evendate.ru" href="http://evendate.ru">
+        Evendate Team
         Evendate Team
     </author>
     <content src="index.html" />

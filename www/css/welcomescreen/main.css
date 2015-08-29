@@ -3,16 +3,16 @@
   line-height: 170px;
 }
 
+.tutorial-img img {
+  max-height: 80%;
+  max-width: 100%;
+}
+
 .tutorial-close-btn {
   background: #fff;
   padding: 10px;
   border-radius: 10px;
   color: #0da6ec;
-}
-
-.welcomescreen-container .welcomescreen-text a{
-  color: #fff;
-  text-decoration: underline;
 }
 
 .tutorial-close-btn {

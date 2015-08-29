@@ -46,11 +46,11 @@
 }
 
 .welcomescreen-container .swiper-pagination-bullet{
-  background: rgba(255, 255, 255, 0.9) !important;
+  background: #394D63 !important;
 }
 
 .welcomescreen-container .swiper-pagination-bullet-active{
-  background: #fff;
+  background: #394D63 !important;
 }
 
 .swiper-container-horizontal>.swiper-pagination{
