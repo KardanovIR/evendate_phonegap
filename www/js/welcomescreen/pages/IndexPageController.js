@@ -85,19 +85,19 @@ myapp.pages.IndexPageController = function (myapp, $$) {
 	$$('.vk-btn2').click(function () {
       myapp.alert(URLs.VK);
       myapp.alert(typeof window['plugins']);
-      myapp.alert(typeof window.plugins.hasOwnProperty('ChildBrowser'));
+      myapp.alert(window.plugins.hasOwnProperty('ChildBrowser'));
       for (var i in window.plugins){
         myapp.alert(window.plugins[i]);
       }
 		// open win and turn off location
-     /* window.plugins.ChildBrowser.showWebPage(URLs.VK, { showLocationBar: false, showAddress:false, showNavigationBar:false });
+      window.plugins.ChildBrowser.showWebPage(URLs.VK, { showLocationBar: false, showAddress:false, showNavigationBar:false });
 		// attach listener to loadstart
       window.plugins.ChildBrowser.onLocationChange = function (url) {
         if (/mobileAuthDone/.test(url)) {
           document.body.innerText = url;
           window.plugins.ChildBrowser.close();
         }
-      };*/
+      };
     });
 
 
