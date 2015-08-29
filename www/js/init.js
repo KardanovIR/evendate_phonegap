@@ -8,6 +8,7 @@ var CONTRACT = {
         USERS_PATH: '/users'
       }
   },
+    __db,
     myapp = myapp || {};
 
 myapp.init = (function () {
@@ -32,3 +33,9 @@ myapp.init = (function () {
   return exports;
 
 }());
+
+document.addEventListener("deviceready", onDeviceReady, false);
+
+function onDeviceReady() {
+  __db = new PouchDB('my_database', {adapter: 'websql', location: 2});
+}

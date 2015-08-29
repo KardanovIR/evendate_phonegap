@@ -6,7 +6,6 @@
     </description>
     <author email="support@evendate.ru" href="http://evendate.ru">
         Evendate Team
-        Evendate Team
     </author>
     <content src="index.html" />
     <preference name="permissions" value="none" />
@@ -45,6 +44,8 @@
     <gap:plugin name="org.apache.cordova.console"/>
     <gap:plugin name="org.apache.cordova.dialogs"/>
     <gap:plugin name="com.phonegap.plugins.pushplugin"/>
+    <gap:plugin name="com.brodysoft.sqliteplugin" version="1.0.6" />
+    <gap:plugin name="nl.x-services.plugins.calendar" version="4.2" />
     <icon src="icon.png" />
     <icon gap:platform="ios" height="57" src="www/res/icon/ios/icon-57.png" width="57" />
     <icon gap:platform="ios" height="72" src="www/res/icon/ios/icon-72.png" width="72" />
@@ -56,6 +57,7 @@
     <gap:splash gap:platform="ios" height="1024" src="www/res/screen/ios/screen-ipad-portrait.png" width="768" />
     <gap:splash gap:platform="ios" height="768" src="www/res/screen/ios/screen-ipad-landscape.png" width="1024" />
     <gap:splash gap:platform="winphone" src="www/res/screen/windows-phone/screen-portrait.jpg" />
+
     <access origin="*" />
     <plugin name="cordova-plugin-whitelist" version="1" />
     <allow-intent href="http://*/*" />

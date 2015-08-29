@@ -107,14 +107,13 @@ myapp.pages.IndexPageController = function (myapp, $$) {
         headers: {
           'Authorization': token
         },
-        complete: function(status){
-          myapp.alert(status);
-        },
         success: function(res){
           myapp.alert(res.status);
           if (res.status == false){
+            myapp.alert('SHOW_SLIDES');
+            permanentStorage.setItem('user', res.data);
+
             showSlides();
-            myapp.alert('SHOW_SLIDED ');
           }else{
             openApplication();
           }
