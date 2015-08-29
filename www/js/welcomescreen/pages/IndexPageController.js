@@ -21,7 +21,7 @@ myapp.pages.IndexPageController = function (myapp, $$) {
     }.bind({}))[0];
   }
 
-  function saveTokenInLocalStorage(url) {
+  function saveTokenInLocalStorage(url){
     var url_parts = url.split('?'),
         search_object = url_parts.length > 1 ? getSearchAsObject(url_parts[1]) : null;
     permanentStorage.setItem('token', search_object['token']);
@@ -112,7 +112,6 @@ myapp.pages.IndexPageController = function (myapp, $$) {
           if (res.status == false){
             myapp.alert('SHOW_SLIDES');
             permanentStorage.setItem('user', res.data);
-
             showSlides();
           }else{
             openApplication();
