@@ -29,7 +29,7 @@ myapp.pages.IndexPageController = function (myapp, $$) {
   }
 
   function openApplication(){
-    myapp.alert('Все ок, чувак!');
+	  myapp.hideToolbar();
   }
 
   function showSlides(){
@@ -98,6 +98,9 @@ myapp.pages.IndexPageController = function (myapp, $$) {
   }
 
   function checkToken(){
+    if (__os == 'win'){ // FOR DEV PURPOSES!
+      openApplication();
+    }
     var token = permanentStorage.getItem('token');
     myapp.alert(token);
     if (token != null){
@@ -122,5 +125,6 @@ myapp.pages.IndexPageController = function (myapp, $$) {
     }
   }
 
+	myapp.hideToolbar();
   checkToken();
 };

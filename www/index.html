@@ -12,6 +12,7 @@
   <!-- Path to your custom app styles-->
   <link rel="stylesheet" href="css/welcomescreen/main.css?nc=3">
   <link rel="stylesheet" href="css/welcomescreen/welcomescreen.css?nc=3">
+  <link rel="stylesheet" href="css/ionic_icons.min.css">
 </head>
 
 <body>
@@ -22,21 +23,14 @@
 <div class="panel-overlay"></div>
 <!-- /Header -->
 <!-- Views-->
-<div class="views">
+<div class="views tabs toolbar-through">
   <!-- Your main view, should have "view-main" class-->
   <div class="view view-main">
-    <!-- Top Navbar-->
-    <div class="navbar">
-      <!-- Navbar page 1 -->
-      <div class="navbar-inner">
-        <div class="center sliding">Evendate</div>
-      </div>
-    </div>
     <!-- Pages, because we need fixed-through navbar and toolbar, it has additional
     appropriate classes-->
-    <div class="pages navbar-through toolbar-through">
+    <div class="pages no-toolbar">
       <!-- - [Page 1] ---------------------------------------- -->
-      <div data-page="index" class="page" ng-controller="IndexPageController">
+      <div data-page="index" class="page no-tabbar" ng-controller="IndexPageController">
         <!-- Page content-->
         <div class="page-content">
           <div class="content-block">
@@ -46,20 +40,25 @@
           </div>
         </div>
       </div>
-      <p><a href="#" class="button notification-callback">With callback on close</a></p>
     </div>
-    <!-- Bottom Toolbar-->
-    <!-- <div class="toolbar">
-</div>
---></div>
+  </div>
+  <div id="view-profile" class="view view-profile"></div>
+  <div id="view-events" class="view view-events"></div>
+  <div id="view-favorites" class="view view-favorites"></div>
+
+  <div class="toolbar tabbar tabbar-labels">
+    <div class="toolbar-inner">
+      <a href="#view-profile" class="tab-link"> <i class="icon ion-ios-person-outline"></i><span class="tabbar-label">Профиль</span></a>
+      <a href="#view-events" class="tab-link"><i class="icon ion-ios-albums"></i><span class="tabbar-label">Мероприятия</span></a>
+      <a href="#view-favorites" class="tab-link active"> <i class="icon ion-pin"></i><span class="tabbar-label">Избранное</span></a>
+  </div>
 </div>
 <script type="text/javascript" src="js/framework7.min.js"></script>
 <script type="text/javascript" src="js/welcomescreen/welcomescreen.js"></script>
 <script type="text/javascript" src="js/welcomescreen/pages/IndexPageController.js?nc=3"></script>
-<script src="phonegap.js" />
+<script src="cordova.js" />
 <script src="childbrowser.js" />
 <script src="SQLitePlugin.js" />
-<script type="text/javascript" src="js/pouchdb-4.0.0.min.js"></script>
 <script type="text/javascript" src="js/init.js"></script>
 </body>
 
