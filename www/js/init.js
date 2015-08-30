@@ -18,12 +18,55 @@ var CONTRACT = {
                 EVENTS: 'events',
                 FAVORITE_EVENTS: 'favorite_events',
                 TAGS: 'tags'
+            },
+            FIELDS: {
+                USERS: {
+                    FIRST_NAME: 'first_name',
+                    LAST_NAME: 'last_name',
+                    MIDDLE_NAME: 'middle_name',
+                    AVATAR_URL: 'avatar_url',
+                    _ID: 'id'
+                },
+                ORGANIZATIONS: {
+                    _ID: 'id',
+                    NAME: 'name',
+                    IMG_URL: 'img_url',
+                    IMG: 'img',
+                    SHORT_NAME: 'short_name',
+                    BACKGROUND_IMG_URL: 'background_img_url',
+                    DESCRIPTION: 'description',
+                    TYPE_NAME: 'type_name',
+                    TYPE_ID: 'type_id'
+                },
+                SUBSCRIPTIONS: {
+                    _ID: 'id',
+                    ORGANIZATION_ID: 'organization_id'
+                },
+                FAVORITE_EVENTS: {
+                    _ID: 'id',
+                    EVENT_ID: 'event_id',
+                    EVENT_DATE: 'event_date'
+                },
+                TAGS: {
+                    _ID: 'id',
+                    NAME: 'name'
+                },
+                EVENTS: {
+
+                }
             }
         }
     },
     __db,
-    __os = navigator.appVersion.indexOf("Win") != -1 ? 'win': 'hz',
-    myapp = myapp || {};
+    __os = navigator.platform == 'Win32' ? 'win': 'hz',
+    __user,
+    $$,
+    myapp = myapp || {},
+    fw7App;
+
+String.prototype.capitalize = function() {
+    return this.charAt(0).toUpperCase() + this.slice(1);
+};
 
 myapp.init = (function () {
     'use strict';
@@ -32,22 +75,22 @@ myapp.init = (function () {
 
     (function () {
         // Initialize app
-        var fw7App = new Framework7({
-                modalTitle: 'Evendate',
-                modalButtonCancel: 'Отмена',
-                modalPreloaderTitle: 'Загрузка...'
-            }),
-            fw7ViewOptions = {
+        fw7App = new Framework7({
+            modalTitle: 'Evendate',
+            modalButtonCancel: 'Отмена',
+            modalPreloaderTitle: 'Загрузка ...'
+        });
+        $$ = Dom7;
+        var fw7ViewOptions = {
                 dynamicNavbar: true,
                 domCache: true
             },
             main_view = fw7App.addView('.view-main', fw7ViewOptions),
             profile_view = fw7App.addView('.view-profile', fw7ViewOptions),
             events_view = fw7App.addView('.view-events', fw7ViewOptions),
-            favorites_view = fw7App.addView('.view-favorites', fw7ViewOptions),
-            ipc,
-            $$ = Dom7;
-        ipc = new myapp.pages.IndexPageController(fw7App, $$);
+            favorites_view = fw7App.addView('.view-favorites', fw7ViewOptions);
+        new myapp.pages.IndexPageController(fw7App, $$);
+        new myapp.pages.CalendarPageController(fw7App, $$);
     }());
 
     return exports;
@@ -81,27 +124,34 @@ function dropTables(table_names){
 function updateDBScheme() {
     dropTables(['USERS', 'ORGANIZATIONS','SUBSCRIPTIONS',
         'EVENTS', 'FAVORITE_EVENTS', 'TAGS']);
+    var q_create_users_table = 'CREATE TABLE ' + CONTRACT.DB.TABLES.USERS + '(' +
+        '' +
+        ')';
 }
 
 function initAPI(route, method){
     route = route.replace(/^\//, '');
-    var module = route.split('/')[0];
+    var module = route.split('/')[0],
+        module_instance = new window[module.capitalize()];
 
     switch(method){
         case 'post': {
 
             break;
         }
-        default: case 'get': {
-
+        default:
+        case 'get': {
+            module_instance.get(route);
+            break;
+        }
     }
-    }
-    /*parse route*/
 }
 
 function Users(){
     return {
+        getById: function(){
 
+        }
     }
 }
 
@@ -119,7 +169,9 @@ function Events(){
 
 function Subscriptions(){
     return {
+        getAll: function(){
 
+        }
     }
 }
 

@@ -8,7 +8,7 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   <title>Evendate</title>
   <!-- Path to Framework7 Library CSS-->
-  <link rel="stylesheet" href="css/framework7.ios.min.css">
+  <link rel="stylesheet" href="css/framework7.ios.css">
   <!-- Path to your custom app styles-->
   <link rel="stylesheet" href="css/welcomescreen/main.css?nc=3">
   <link rel="stylesheet" href="css/welcomescreen/welcomescreen.css?nc=3">
@@ -25,13 +25,9 @@
 <!-- Views-->
 <div class="views tabs tabbar-through">
   <!-- Your main view, should have "view-main" class-->
-  <div class="view view-main">
-    <!-- Pages, because we need fixed-through navbar and toolbar, it has additional
-    appropriate classes-->
+  <div class="view view-main tab">
     <div class="pages">
-      <!-- - [Page 1] ---------------------------------------- -->
       <div data-page="index" class="page no-toolbar no-tabbar" ng-controller="IndexPageController">
-        <!-- Page content-->
         <div class="page-content">
           <div class="content-block">
             <p><a href="#" class="tutorial-open-btn button">Начать все сначала</a></p>
@@ -42,14 +38,117 @@
       </div>
     </div>
   </div>
-  <div id="view-profile" class="view view-profile tab"></div>
-  <div id="view-events" class="view view-events tab"></div>
+
+  <div id="view-profile" class="view view-profile tab">
+    <div class="navbar navbar-hiding">
+      <div class="navbar-inner">
+        <!-- Sub navbar -->
+        <div class="subnavbar">
+          <div class="left"></div><div class="buttons-row">
+          <a href="#profile" class="button tab-link button-white active">Подписки</a>
+          <a href="#organizations" class="button tab-link button-white">Каталог</a>
+        </div>
+          <div class="right"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="pages navbar-through">
+      <!-- Pag has additional "with-subnavbar" class -->
+      <div id="subscriptions" data-page="suscriptions" class="page with-subnavbar">
+        <div class="page-content hide-bars-on-scroll profile-page-content">
+          <div class="tabs">
+            <div id="profile" class="tab active">
+              <div class="content-block">
+                <div class="content-block-inner">Here comes another text block additionaly wrapped with "content-block-inner". Praesent nec imperdiet diam. Maecenas vel lectus porttitor, consectetur magna nec, viverra sem. Aliquam sed risus dolor. Morbi tincidunt ut libero id sodales. Integer blandit varius nisi quis consectetur. </div>
+              </div>
+              <div class="list-block">
+                <ul>
+                  <li>
+                    <a href="#" class="item-link item-content">
+                      <div class="item-media"><i class="icon icon-f7"></i></div>
+                      <div class="item-inner">
+                        <div class="item-title">Item title</div>
+                      </div>
+                    </a>
+                  </li>
+                  <li>
+                    <a href="#" class="item-link item-content">
+                      <div class="item-media"><i class="icon icon-f7"></i></div>
+                      <div class="item-inner">
+                        <div class="item-title">Item with badge</div>
+                      </div>
+                    </a>
+                  </li>
+                  <li>
+                    <a href="#" class="item-link item-content">
+                      <div class="item-media"><i class="icon icon-f7"></i></div>
+                      <div class="item-inner">
+                        <div class="item-title">Another item</div>
+                        <div class="item-after">Another label</div>
+                      </div>
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <div id="organizations" class="tab">
+              <div class="content-block">
+                <p>Donec iaculis ...</p>
+                <p>Curabitur egestas, mi ...</p>
+                <p>Donec iaculis posuere ...</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="view-events" class="view view-events tab">
+    <div class="navbar navbar-hiding">
+      <div class="navbar-inner">
+        <!-- Sub navbar -->
+        <div class="subnavbar">
+          <div class="left"></div><div class="buttons-row">
+          <a href="#calendar" class="button tab-link button-white active">Календарь</a>
+          <a href="#timeline" class="button tab-link button-white">Лента</a>
+        </div>
+          <div class="right"><i class="ion ion-ios-search-strong"></i></div></div>
+      </div>
+    </div>
+
+    <div class="pages navbar-through">
+      <!-- Pag has additional "with-subnavbar" class -->
+      <div data-page="calendar" class="page with-subnavbar" ng-controller="CalendarPageController">
+        <div class="page-content hide-bars-on-scroll profile-page-content">
+          <div class="tabs">
+            <div id="calendar" class="tab active">
+              <div class="content-block">
+                <div style="padding:0; margin-right:-15px; width:auto" class="content-block-inner">
+                  <div id="calendar-inline-container"></div>
+                </div>
+              </div>
+            </div>
+
+            <div id="timeline" class="tab">
+              <div class="content-block">
+                <p>Donec iaculis ...</p>
+                <p>Curabitur egestas, mi ...</p>
+                <p>Donec iaculis posuere ...</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
   <div id="view-favorites" class="view view-favorites tab"></div>
 
-  <div class="toolbar tabbar tabbar-labels hidden">
+  <div class="toolbar tabbar tabbar-labels main-tabbar hidden">
     <div class="toolbar-inner">
       <a href="#view-profile" class="tab-link"> <i class="icon ion-ios-person-outline"></i><span class="tabbar-label">Профиль</span></a>
-      <a href="#view-events" class="tab-link"><i class="icon ion-ios-albums"></i><span class="tabbar-label">Мероприятия</span></a>
+      <a href="#view-events" class="tab-link active"><i class="icon ion-ios-albums"></i><span class="tabbar-label">Мероприятия</span></a>
       <a href="#view-favorites" class="tab-link"> <i class="icon ion-pin"></i><span class="tabbar-label">Избранное</span></a>
     </div>
   </div>
@@ -57,6 +156,7 @@
 <script type="text/javascript" src="js/framework7.min.js"></script>
 <script type="text/javascript" src="js/welcomescreen/welcomescreen.js"></script>
 <script type="text/javascript" src="js/welcomescreen/pages/IndexPageController.js?nc=3"></script>
+<script type="text/javascript" src="js/welcomescreen/pages/CalendarPageController.js"></script>
 <script type="text/javascript" src="phonegap.js"></script>
 <script type="text/javascript" src="childbrowser.js"></script>
 <script type="text/javascript" src="SQLitePlugin.js"></script>

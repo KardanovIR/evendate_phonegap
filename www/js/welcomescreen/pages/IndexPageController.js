@@ -29,7 +29,13 @@ myapp.pages.IndexPageController = function (myapp, $$) {
   }
 
   function openApplication(){
-    myapp.alert('Все ок, чувак!');
+    $$('.main-tabbar').removeClass('hidden');
+    var viewsElement = $$('.view-events')[0],
+        viewInstance = viewsElement.f7View;
+    viewInstance.showNavbar();
+    viewInstance.showToolbar();
+    $$('.view').removeClass('active');
+    $$(viewsElement).addClass('active');
   }
 
   function showSlides(){
@@ -98,19 +104,22 @@ myapp.pages.IndexPageController = function (myapp, $$) {
   }
 
   function checkToken(){
+    if (__os == 'win'){
+      permanentStorage.setItem('token', '2f0ac947b7cb365ec24580a155e44abe98ad9813e6c0398257568f0405578f4bb7394c5ebb81a8686f0511ef0460781113765bb00lFk03hoBzMx08x8v0sX3pfXhH0kW5SSZ6UMg1GPo5JFI0lDp3WpjxUunxNdnDV');
+    }
     var token = permanentStorage.getItem('token');
-    if (token != null){ //TODO: FIX BEFORE RELEASE!
+    if (token != null){
       $$.ajax({
         url: CONTRACT.URLS.API_FULL_PATH + CONTRACT.URLS.USERS_PATH + '/me',
         headers: {
           'Authorization': token
         },
         success: function(res){
-          myapp.alert(res.status);
           if (res.status == false){
-            permanentStorage.setItem('user', res.data);
             showSlides();
           }else{
+            permanentStorage.setItem('user', res.data);
+            __user = res.data;
             openApplication();
           }
         }
@@ -120,5 +129,4 @@ myapp.pages.IndexPageController = function (myapp, $$) {
     }
   }
   checkToken();
-  //showSlides();
 };

@@ -677,7 +677,7 @@ p {
   top: 0;
   width: 100%;
   height: 100%;
-  background: #efeff4;
+  background: #fff;
   -webkit-transform: translate3d(0, 0, 0);
   transform: translate3d(0, 0, 0);
 }
@@ -1085,7 +1085,7 @@ html.pixel-ratio-3 .navbar:after {
   left: 0;
   top: 100%;
   margin-top: -1px;
-  background: #f7f7f8;
+  background: #7387C5;
   z-index: 20;
   box-sizing: border-box;
   padding: 0 8px;
@@ -4491,7 +4491,7 @@ html.with-statusbar-overlay body .panel {
   padding-top: 20px;
 }
 .statusbar-overlay {
-  background: #f7f7f8;
+  background: #7387C5;
   z-index: 10000;
   position: absolute;
   left: 0;
@@ -5529,7 +5529,7 @@ html.pixel-ratio-3 .picker-calendar-week-days:after {
   top: auto;
   height: 1px;
   width: 100%;
-  background-color: #cccccc;
+  background-color: #fff;
   display: block;
   z-index: 15;
   -webkit-transform-origin: 50% 100%;
@@ -5584,7 +5584,7 @@ html.pixel-ratio-3 .picker-calendar-row:after {
   background: #e3e3e3;
 }
 .picker-calendar-day.picker-calendar-day-selected span {
-  background: #007aff;
+  background: #7286C4;
   color: #fff;
 }
 .picker-calendar-day span {
@@ -5593,6 +5593,7 @@ html.pixel-ratio-3 .picker-calendar-row:after {
   width: 30px;
   height: 30px;
   line-height: 30px;
+  font-size: 12px;
 }
 .picker-calendar-month-picker,
 .picker-calendar-year-picker {

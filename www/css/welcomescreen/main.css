@@ -34,3 +34,25 @@
 .hidden{
   display: none;
 }
+
+.navbar-inner, .toolbar-inner {
+  height: auto
+}
+.subnavbar>.buttons-row{
+  width: 75%;
+  min-width: 200px;;
+}
+
+a.button.button-white {
+  background: transparent;
+  border: 1px solid #fff;
+  color: #fff;
+}
+a.button-white.active {
+  background: #fff;
+  border: #fff;
+  color: #000;
+}
+.profile-page-content{
+  padding-top: 0 !important;
+}
