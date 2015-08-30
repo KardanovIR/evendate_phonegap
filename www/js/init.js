@@ -57,12 +57,12 @@ myapp.init = (function () {
 document.addEventListener("deviceready", onDeviceReady, false);
 
 function onDeviceReady(){
-    //var db_version = window.localStorage.getItem('db_version');
-    //__db = window.sqlitePlugin.openDatabase({name: CONTRACT.DB.NAME, location: 2});
-    //if (db_version != CONTRACT.DB.VERSION){
-    //    updateDBScheme();
-    //    window.localStorage.setItem('db_version', CONTRACT.DB.VERSION);
-    //}
+    var db_version = window.localStorage.getItem('db_version');
+    __db = window.sqlitePlugin.openDatabase({name: CONTRACT.DB.NAME, location: 2});
+    if (db_version != CONTRACT.DB.VERSION){
+        updateDBScheme();
+        window.localStorage.setItem('db_version', CONTRACT.DB.VERSION);
+    }
 }
 
 function dropTables(table_names){

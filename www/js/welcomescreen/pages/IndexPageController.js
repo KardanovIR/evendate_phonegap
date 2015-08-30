@@ -99,7 +99,6 @@ myapp.pages.IndexPageController = function (myapp, $$) {
 
   function checkToken(){
     var token = permanentStorage.getItem('token');
-    myapp.alert(token);
     if (token != null){ //TODO: FIX BEFORE RELEASE!
       $$.ajax({
         url: CONTRACT.URLS.API_FULL_PATH + CONTRACT.URLS.USERS_PATH + '/me',
@@ -109,7 +108,6 @@ myapp.pages.IndexPageController = function (myapp, $$) {
         success: function(res){
           myapp.alert(res.status);
           if (res.status == false){
-            myapp.alert('SHOW_SLIDES');
             permanentStorage.setItem('user', res.data);
             showSlides();
           }else{
