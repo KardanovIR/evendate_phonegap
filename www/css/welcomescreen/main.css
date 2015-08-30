@@ -31,3 +31,6 @@
   border: none;
   box-sizing: inherit;
 }
+.hidden{
+  display: none;
+}

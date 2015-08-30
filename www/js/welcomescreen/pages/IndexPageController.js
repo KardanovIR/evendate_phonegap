@@ -1,14 +1,14 @@
 /*jslint browser: true*/
 /*global console*/
 
-
-var permanentStorage = window.localStorage,
+var fn,
+    permanentStorage = window.localStorage,
     myapp = myapp || {},
-	URLs = {
-		VK: 'https://oauth.vk.com/authorize?client_id=5029623&scope=friends,email,offline,nohttps&redirect_uri=http://evendate.ru/vkOauthDone.php?mobile=true&response_type=code',
-		FACEBOOK: 'https://www.facebook.com/dialog/oauth?client_id=1692270867652630&response_type=code&scope=public_profile,email,user_friends&display=popup&redirect_uri=http://evendate.ru/fbOauthDone.php?mobile=true',
-		GOOGLE: 'https://accounts.google.com/o/oauth2/auth?scope=email profile https://www.googleapis.com/auth/plus.login &redirect_uri=http://evendate.ru/googleOauthDone.php?mobile=true&response_type=token&client_id=403640417782-lfkpm73j5gqqnq4d3d97vkgfjcoebucv.apps.googleusercontent.com'
-	};
+    URLs = {
+      VK: 'https://oauth.vk.com/authorize?client_id=5029623&scope=friends,email,offline,nohttps&redirect_uri=http://evendate.ru/vkOauthDone.php?mobile=true&response_type=code',
+      FACEBOOK: 'https://www.facebook.com/dialog/oauth?client_id=1692270867652630&response_type=code&scope=public_profile,email,user_friends&display=popup&redirect_uri=http://evendate.ru/fbOauthDone.php?mobile=true',
+      GOOGLE: 'https://accounts.google.com/o/oauth2/auth?scope=email profile https://www.googleapis.com/auth/plus.login &redirect_uri=http://evendate.ru/googleOauthDone.php?mobile=true&response_type=token&client_id=403640417782-lfkpm73j5gqqnq4d3d97vkgfjcoebucv.apps.googleusercontent.com'
+    };
 myapp.pages = myapp.pages || {};
 
 myapp.pages.IndexPageController = function (myapp, $$) {
@@ -29,7 +29,7 @@ myapp.pages.IndexPageController = function (myapp, $$) {
   }
 
   function openApplication(){
-	  myapp.hideToolbar();
+    myapp.alert('Все ок, чувак!');
   }
 
   function showSlides(){
@@ -98,12 +98,9 @@ myapp.pages.IndexPageController = function (myapp, $$) {
   }
 
   function checkToken(){
-    if (__os == 'win'){ // FOR DEV PURPOSES!
-      openApplication();
-    }
     var token = permanentStorage.getItem('token');
     myapp.alert(token);
-    if (token != null){
+    if (token != null){ //TODO: FIX BEFORE RELEASE!
       $$.ajax({
         url: CONTRACT.URLS.API_FULL_PATH + CONTRACT.URLS.USERS_PATH + '/me',
         headers: {
@@ -124,7 +121,6 @@ myapp.pages.IndexPageController = function (myapp, $$) {
       showSlides();
     }
   }
-
-	myapp.hideToolbar();
   checkToken();
+  //showSlides();
 };

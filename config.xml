@@ -40,12 +40,14 @@
     <gap:plugin name="org.apache.cordova.network-information" />
     <gap:plugin name="org.apache.cordova.splashscreen" />
     <gap:plugin name="org.apache.cordova.vibration" />
+
+
     <gap:plugin name="com.sharinglabs.cordova.plugin.datepicker" />
     <gap:plugin name="com.phonegap.plugins.childbrowser" version="5.0.0" />
     <gap:plugin name="org.apache.cordova.console"/>
     <gap:plugin name="org.apache.cordova.dialogs"/>
     <gap:plugin name="com.phonegap.plugins.pushplugin"/>
-    <gap:plugin name="com.brodysoft.sqliteplugin" version="1.0.6" />
+    <!--<gap:plugin name="com.brodysoft.sqliteplugin" version="1.0.6" />-->
 
     <icon src="icon.png" />
     <icon gap:platform="ios" height="57" src="www/res/icon/ios/icon-57.png" width="57" />
