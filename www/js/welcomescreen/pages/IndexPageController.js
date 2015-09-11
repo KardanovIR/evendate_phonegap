@@ -81,6 +81,7 @@ myapp.pages.IndexPageController = function (myapp, $$) {
     welcomescreen = myapp.welcomescreen(welcomescreen_slides, options);
 
     $$(document).on('click', '.start-using-btn', function() {
+      $$('.view-main').removeClass('tab');
       welcomescreen.close();
     });
 

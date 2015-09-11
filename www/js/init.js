@@ -116,6 +116,10 @@ myapp.init = (function () {
     }());
 
 
+    window.L = {
+        log: myapp.alert
+    };
+
     return exports;
 
 }());
@@ -123,19 +127,10 @@ myapp.init = (function () {
 document.addEventListener("deviceready", onDeviceReady, false);
 
 function onDeviceReady(){
-
-    window.L = {
-        log: function(text){
-            myapp.alert(text);
-        }
-    };
-    L.log('STARTED');
-    L.log('READY');
     var db_version = window.localStorage.getItem('db_version');
     __db = window.sqlitePlugin.openDatabase({name: CONTRACT.DB.NAME, location: 2});
 
 
-    L.log('VERSION: ' + CONTRACT.DB.VERSION);
     if (db_version != CONTRACT.DB.VERSION || CONTRACT.DB.VERSION == -1){
         updateDBScheme();
         window.localStorage.setItem('db_version', CONTRACT.DB.VERSION);
