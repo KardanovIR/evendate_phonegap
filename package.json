@@ -1,0 +1,26 @@
+{
+  "name": "Evendate_phonegap2",
+  "version": "1.0.0",
+  "description": "Evendate phonegap",
+  "main": "Gruntfile.js",
+  "dependencies": {
+    "grunt": "^0.4.5",
+    "grunt-phonegap": "^0.15.2"
+  },
+  "devDependencies": {
+    "grunt-phonegap": "^0.15.2"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/KardanovIR/evendate_phonegap.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/KardanovIR/evendate_phonegap/issues"
+  },
+  "homepage": "https://github.com/KardanovIR/evendate_phonegap"
+}
