@@ -118,7 +118,7 @@ myapp.pages.IndexPageController = function (myapp, $$) {
           if (res.status == false){
             showSlides();
           }else{
-            permanentStorage.setItem('user', res.data);
+            permanentStorage.setItem('user', JSON.stringify(res.data));
             __user = res.data;
             openApplication();
           }
