@@ -36,6 +36,7 @@ myapp.pages.IndexPageController = function (myapp, $$) {
     viewInstance.showToolbar();
     $$('.view').removeClass('active');
     $$(viewsElement).addClass('active');
+    $$('.view-main').addClass('tab');
   }
 
   function showSlides(){
@@ -106,7 +107,7 @@ myapp.pages.IndexPageController = function (myapp, $$) {
 
   function checkToken(){
     if (__os == 'win'){
-      //permanentStorage.setItem('token', '2f0ac947b7cb365ec24580a155e44abe98ad9813e6c0398257568f0405578f4bb7394c5ebb81a8686f0511ef0460781113765bb00lFk03hoBzMx08x8v0sX3pfXhH0kW5SSZ6UMg1GPo5JFI0lDp3WpjxUunxNdnDV');
+      permanentStorage.setItem('token', '859cb46b98a25834865a9a9f17ce005429da9b6d16295426d0e79f458e989ff7424b394e0dbbdf9e9cf8eb95668f93447413809SZtIHWnHnXx6gb42L2VXpk7IncMC1NBLpOSGJl7vBjCS57Vm49pv8DGDIS98023G');
     }
     var token = permanentStorage.getItem('token');
     if (token != null){
