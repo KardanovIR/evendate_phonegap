@@ -115,6 +115,13 @@ myapp.init = (function () {
         new myapp.pages.CalendarPageController(fw7App, $$);
     }());
 
+    window.L = {
+        log: function(text){
+            myapp.alert(text);
+        }
+    };
+    L.log('STARTED');
+
     return exports;
 
 }());
@@ -122,21 +129,22 @@ myapp.init = (function () {
 document.addEventListener("deviceready", onDeviceReady, false);
 
 function onDeviceReady(){
+
+    L.log('READY');
     var db_version = window.localStorage.getItem('db_version');
     __db = window.sqlitePlugin.openDatabase({name: CONTRACT.DB.NAME, location: 2});
+
+
+    L.log('VERSION: ' + CONTRACT.DB.VERSION);
     if (db_version != CONTRACT.DB.VERSION || CONTRACT.DB.VERSION == -1){
         updateDBScheme();
         window.localStorage.setItem('db_version', CONTRACT.DB.VERSION);
-    }
-    window.L = {
-        log: function(text){
-            myapp.alert(text);
-        }
     }
 }
 
 function dropTables(table_names){
 
+    L.log('DROP TABLED');
     if (table_names == null || table_names.length == 0) return true;
 
     __db.transaction(function(tx){
@@ -150,6 +158,7 @@ function dropTables(table_names){
 }
 
 function updateDBScheme() {
+    L.log('UPDATE SCHEMA');
     dropTables(['USERS', 'ORGANIZATIONS','SUBSCRIPTIONS',
         'EVENTS', 'FAVORITE_EVENTS', 'TAGS']);
     var q_create_users = 'CREATE TABLE ' + CONTRACT.DB.TABLES.USERS + '(' +
