@@ -1161,7 +1161,7 @@ html.pixel-ratio-3 .subnavbar:after {
 .toolbar {
   left: 0;
   bottom: 0;
-  background: #f7f7f8;
+  background: #ffffff;
 }
 .toolbar:before {
   content: '';
@@ -5427,15 +5427,17 @@ html.pixel-ratio-3 .picker-center-highlight:after {
   width: 320px;
 }
 .picker-calendar-week-days {
-  height: 18px;
+  height: 32px;
   background: #f7f7f8;
   display: -webkit-box;
   display: -ms-flexbox;
   display: -webkit-flex;
   display: flex;
-  font-size: 11px;
+  font-size: 13px;
   box-sizing: border-box;
   position: relative;
+  font-weight: 700;
+  color: #A1A0A0;
 }
 .picker-calendar-week-days:after {
   content: '';
@@ -5468,7 +5470,7 @@ html.pixel-ratio-3 .picker-calendar-week-days:after {
   width: -webkit-calc(100% / 7);
   width: -moz-calc(100% / 7);
   width: calc(100% / 7);
-  line-height: 17px;
+  line-height: 30px;
   text-align: center;
 }
 .picker-calendar-week-days + .picker-calendar-months {

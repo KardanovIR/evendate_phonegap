@@ -10,13 +10,14 @@ var CONTRACT = {
         },
         DB:{
             NAME: 'evendate.db',
-            VERSION: 1,
+            VERSION: -1,
             TABLES: {
                 USERS: 'users',
                 ORGANIZATIONS: 'organizations',
                 SUBSCRIPTIONS: 'subscriptions',
                 EVENTS: 'events',
                 FAVORITE_EVENTS: 'favorite_events',
+                EVENTS_TAGS: 'events_tags',
                 TAGS: 'tags'
             },
             FIELDS: {
@@ -52,7 +53,28 @@ var CONTRACT = {
                     NAME: 'name'
                 },
                 EVENTS: {
-
+                    _ID: 'id',
+                    TITLE: 'title',
+                    DESCRIPTION: 'description',
+                    LOCATION_TEXT: 'location',
+                    LOCATION_URI: 'location_uri',
+                    LOCATION_JSON: 'location_object',
+                    LATITUDE: 'latitude',
+                    LONGITUDE: 'longitude',
+                    START_DATE: 'event_start_date',
+                    END_DATE: 'event_end_date',
+                    NOTIFICATIONS: 'notifications_schema_json',
+                    ORGANIZATION_ID: 'organization_id',
+                    IMAGE_VERTICAL_URL: 'image_vertical_url',
+                    IMAGE_HORIZONTAL_URL: 'image_horizontal_url',
+                    DETAIL_INFO_URL: 'detail_info_url',
+                    BEGIN_TIME: 'begin_time',
+                    END_TIME: 'end_time'
+                },
+                EVENTS_TAGS: {
+                    _ID: 'id',
+                    EVENT_ID: 'event_id',
+                    TAG_ID: 'tag_id'
                 }
             }
         }
@@ -102,9 +124,14 @@ document.addEventListener("deviceready", onDeviceReady, false);
 function onDeviceReady(){
     var db_version = window.localStorage.getItem('db_version');
     __db = window.sqlitePlugin.openDatabase({name: CONTRACT.DB.NAME, location: 2});
-    if (db_version != CONTRACT.DB.VERSION){
+    if (db_version != CONTRACT.DB.VERSION || CONTRACT.DB.VERSION == -1){
         updateDBScheme();
         window.localStorage.setItem('db_version', CONTRACT.DB.VERSION);
+    }
+    window.L = {
+        log: function(text){
+            myapp.alert(text);
+        }
     }
 }
 
@@ -115,7 +142,8 @@ function dropTables(table_names){
     __db.transaction(function(tx){
         table_names.forEach(function(tbl_name){
             if (CONTRACT.DB.TABLES.hasOwnProperty(tbl_name)){
-                tx.executeSql('DROP TABLE IF EXISTS ' + tbl_name)
+                L.log('DROP TABLE IF EXISTS ' + tbl_name);
+                tx.executeSql('DROP TABLE IF EXISTS ' + tbl_name);
             }
         });
     });
@@ -124,9 +152,28 @@ function dropTables(table_names){
 function updateDBScheme() {
     dropTables(['USERS', 'ORGANIZATIONS','SUBSCRIPTIONS',
         'EVENTS', 'FAVORITE_EVENTS', 'TAGS']);
-    var q_create_users_table = 'CREATE TABLE ' + CONTRACT.DB.TABLES.USERS + '(' +
-        '' +
-        ')';
+    var q_create_users = 'CREATE TABLE ' + CONTRACT.DB.TABLES.USERS + '(' +
+            [
+                CONTRACT.DB.FIELDS.USERS._ID + ' INTEGER PRIMARY KEY',
+                CONTRACT.DB.FIELDS.USERS.FIRST_NAME + ' TEXT',
+                CONTRACT.DB.FIELDS.USERS.LAST_NAME + ' TEXT',
+                CONTRACT.DB.FIELDS.USERS.MIDDLE_NAME + ' TEXT',
+                CONTRACT.DB.FIELDS.USERS.AVATAR_URL + ' TEXT',
+            ].join(',') +
+        ')',
+        q_create_organizations = 'CREATE TABLE ' + CONTRACT.DB.TABLES.ORGANIZATIONS + '(' +
+            [
+                CONTRACT.DB.FIELDS.ORGANIZATIONS._ID + ' INTEGER PRIMARY KEY',
+                CONTRACT.DB.FIELDS.ORGANIZATIONS.BACKGROUND_IMG_URL + ' TEXT',
+                CONTRACT.DB.FIELDS.ORGANIZATIONS.IMG_URL + ' TEXT',
+                CONTRACT.DB.FIELDS.ORGANIZATIONS.DESCRIPTION + ' TEXT',
+                CONTRACT.DB.FIELDS.ORGANIZATIONS.NAME + ' TEXT',
+                CONTRACT.DB.FIELDS.ORGANIZATIONS.SHORT_NAME + ' TEXT',
+                CONTRACT.DB.FIELDS.ORGANIZATIONS.TYPE_NAME + ' TEXT',
+                CONTRACT.DB.FIELDS.ORGANIZATIONS.TYPE_ID + ' INTEGER ',
+            ].join(',') +
+            ')';
+
 }
 
 function initAPI(route, method){
@@ -151,19 +198,32 @@ function Users(){
     return {
         getById: function(){
 
+        },
+        getAll: function(){
+
         }
     }
 }
 
 function Organizations(){
     return {
+        getById: function(){
 
+        },
+        getAll: function(){
+
+        }
     }
 }
 
 function Events(){
     return {
+        getById: function(){
 
+        },
+        getAll: function(){
+
+        }
     }
 }
 
@@ -171,18 +231,34 @@ function Subscriptions(){
     return {
         getAll: function(){
 
+        },
+        getById: function(){
+
         }
     }
 }
 
 function FavoriteEvents(){
     return {
+        getAll: function(){
 
+        },
+        getById: function(){
+
+        },
+        getByEventId: function(){
+
+        }
     }
 }
 
 function Tags(){
     return {
+        getAll: function(){
 
+        },
+        getById: function(){
+
+        }
     }
 }

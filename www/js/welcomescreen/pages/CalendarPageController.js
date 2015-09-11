@@ -16,7 +16,7 @@ myapp.pages.CalendarPageController = function (myapp, $$) {
 			monthNames: monthNames,
 			container: '#calendar-inline-container',
 			value: [new Date()],
-			weekHeader: false,
+			weekHeader: true,
 			toolbarTemplate:
 			'<div class="toolbar calendar-custom-toolbar">' +
 			'<div class="toolbar-inner">' +
