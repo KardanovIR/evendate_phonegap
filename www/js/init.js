@@ -115,13 +115,6 @@ myapp.init = (function () {
         new myapp.pages.CalendarPageController(fw7App, $$);
     }());
 
-    window.L = {
-        log: function(text){
-            myapp.alert(text);
-        }
-    };
-    L.log('STARTED');
-
     return exports;
 
 }());
@@ -130,7 +123,7 @@ document.addEventListener("deviceready", onDeviceReady, false);
 
 function onDeviceReady(){
 
-    L.log('READY');
+    /*L.log('READY');
     var db_version = window.localStorage.getItem('db_version');
     __db = window.sqlitePlugin.openDatabase({name: CONTRACT.DB.NAME, location: 2});
 
@@ -139,7 +132,7 @@ function onDeviceReady(){
     if (db_version != CONTRACT.DB.VERSION || CONTRACT.DB.VERSION == -1){
         updateDBScheme();
         window.localStorage.setItem('db_version', CONTRACT.DB.VERSION);
-    }
+    }*/
 }
 
 function dropTables(table_names){
