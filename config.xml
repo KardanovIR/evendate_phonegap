@@ -109,4 +109,7 @@
     <feature name="DatePicker">
         <param name="ios-package" value="DatePicker"/>
     </feature>
+    <feature name="NetworkStatus">
+        <param name="ios-package" value="CDVConnection" />
+    </feature>
 </widget>

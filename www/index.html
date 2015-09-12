@@ -56,9 +56,9 @@
     <div class="pages navbar-through">
       <!-- Pag has additional "with-subnavbar" class -->
       <div id="subscriptions" data-page="suscriptions" class="page with-subnavbar">
-        <div class="page-content hide-bars-on-scroll profile-page-content">
+        <div class="page-content hide-bars-on-scroll profile-page-content" >
           <div class="tabs">
-            <div id="profile" class="tab active">
+            <div id="profile" class="tab active" ng-controller="ProfilePageController">
               <div class="content-block">
                 <div class="content-block-inner">Here comes another text block additionaly wrapped with "content-block-inner". Praesent nec imperdiet diam. Maecenas vel lectus porttitor, consectetur magna nec, viverra sem. Aliquam sed risus dolor. Morbi tincidunt ut libero id sodales. Integer blandit varius nisi quis consectetur. </div>
               </div>
@@ -91,7 +91,7 @@
                 </ul>
               </div>
             </div>
-            <div id="organizations" class="tab">
+            <div id="organizations" class="tab" ng-controller="OrganizationsPageController">
               <div class="content-block">
                 <p>Donec iaculis ...</p>
                 <p>Curabitur egestas, mi ...</p>

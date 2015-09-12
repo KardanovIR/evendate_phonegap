@@ -14,19 +14,24 @@ var CONTRACT = {
             TABLES: {
                 USERS: 'users',
                 ORGANIZATIONS: 'organizations',
-                SUBSCRIPTIONS: 'subscriptions',
                 EVENTS: 'events',
                 FAVORITE_EVENTS: 'favorite_events',
                 EVENTS_TAGS: 'events_tags',
-                TAGS: 'tags'
+                TAGS: 'tags',
+                EVENTS_USERS: 'events_users',
+                ORGANIZATIONS_USERS: 'organizations_users',
+                CREATED_AT: 'created_at',
+                UPDATED_AT: 'updated_at'
             },
             FIELDS: {
                 USERS: {
+                    _ID: 'id',
                     FIRST_NAME: 'first_name',
                     LAST_NAME: 'last_name',
                     MIDDLE_NAME: 'middle_name',
                     AVATAR_URL: 'avatar_url',
-                    _ID: 'id'
+                    CREATED_AT: 'created_at',
+                    UPDATED_AT: 'updated_at'
                 },
                 ORGANIZATIONS: {
                     _ID: 'id',
@@ -37,20 +42,22 @@ var CONTRACT = {
                     BACKGROUND_IMG_URL: 'background_img_url',
                     DESCRIPTION: 'description',
                     TYPE_NAME: 'type_name',
-                    TYPE_ID: 'type_id'
-                },
-                SUBSCRIPTIONS: {
-                    _ID: 'id',
-                    ORGANIZATION_ID: 'organization_id'
+                    TYPE_ID: 'type_id',
+                    SUBSCRIPTION_ID: 'subscription_id',
+                    CREATED_AT: 'created_at',
+                    UPDATED_AT: 'updated_at'
                 },
                 FAVORITE_EVENTS: {
                     _ID: 'id',
                     EVENT_ID: 'event_id',
-                    EVENT_DATE: 'event_date'
+                    CREATED_AT: 'created_at',
+                    UPDATED_AT: 'updated_at'
                 },
                 TAGS: {
                     _ID: 'id',
-                    NAME: 'name'
+                    NAME: 'name',
+                    CREATED_AT: 'created_at',
+                    UPDATED_AT: 'updated_at'
                 },
                 EVENTS: {
                     _ID: 'id',
@@ -69,12 +76,30 @@ var CONTRACT = {
                     IMAGE_HORIZONTAL_URL: 'image_horizontal_url',
                     DETAIL_INFO_URL: 'detail_info_url',
                     BEGIN_TIME: 'begin_time',
-                    END_TIME: 'end_time'
+                    END_TIME: 'end_time',
+                    CREATED_AT: 'created_at',
+                    UPDATED_AT: 'updated_at'
                 },
                 EVENTS_TAGS: {
                     _ID: 'id',
                     EVENT_ID: 'event_id',
-                    TAG_ID: 'tag_id'
+                    TAG_ID: 'tag_id',
+                    CREATED_AT: 'created_at',
+                    UPDATED_AT: 'updated_at'
+                },
+                EVENTS_USERS: {
+                    _ID: 'id',
+                    EVENT_ID: 'event_id',
+                    USER_ID: 'user_id',
+                    CREATED_AT: 'created_at',
+                    UPDATED_AT: 'updated_at'
+                },
+                ORGANIZATIONS_USERS: {
+                    _ID: 'id',
+                    ORGANIZATION_ID: 'event_id',
+                    USER_ID: 'tag_id',
+                    CREATED_AT: 'created_at',
+                    UPDATED_AT: 'updated_at'
                 }
             }
         }
@@ -128,7 +153,12 @@ function onDeviceReady(){
     var db_version = window.localStorage.getItem('db_version');
     __db = window.sqlitePlugin.openDatabase({name: CONTRACT.DB.NAME, location: 2});
 
-    alert(db_version);
+    window.sqlitePlugin.openDatabase({ name: 'hello-world.db' }, function (db) {
+        db.executeSql("select length('tenletters') as stringlength", [], function (res) {
+            var string_slength = res.rows.item(0).stringlength;
+            alert('got stringlength: ' + string_length);
+        });
+    });
 
     if (db_version != CONTRACT.DB.VERSION || CONTRACT.DB.VERSION == -1){
         updateDBScheme();
@@ -138,14 +168,14 @@ function onDeviceReady(){
 
 function dropTables(table_names){
 
-    alert('DROP TABLED');
+    alert('DROP TABLES');
     if (table_names == null || table_names.length == 0) return true;
 
     __db.transaction(function(tx){
         table_names.forEach(function(tbl_name){
             if (CONTRACT.DB.TABLES.hasOwnProperty(tbl_name)){
                 alert('DROP TABLE IF EXISTS ' + tbl_name);
-                tx.executeSql('DROP TABLE IF EXISTS ' + tbl_name);
+                tx.executeSql('DROP TABLE IF EXISTS ' + CONTRACT.DB.TABLES[tbl_name]);
             }
         });
     });
@@ -153,7 +183,9 @@ function dropTables(table_names){
 
 function updateDBScheme() {
     alert('UPDATE SCHEMA');
-    dropTables(['USERS', 'ORGANIZATIONS','SUBSCRIPTIONS',
+
+
+    dropTables(['USERS', 'ORGANIZATIONS',
         'EVENTS', 'FAVORITE_EVENTS', 'TAGS']);
     var q_create_users = 'CREATE TABLE ' + CONTRACT.DB.TABLES.USERS + '(' +
             [
@@ -162,8 +194,9 @@ function updateDBScheme() {
                 CONTRACT.DB.FIELDS.USERS.LAST_NAME + ' TEXT',
                 CONTRACT.DB.FIELDS.USERS.MIDDLE_NAME + ' TEXT',
                 CONTRACT.DB.FIELDS.USERS.AVATAR_URL + ' TEXT',
-            ].join(',') +
-        ')',
+                CONTRACT.DB.FIELDS.USERS.CREATED_AT + ' INTEGER',
+                CONTRACT.DB.FIELDS.USERS.UPDATED_AT + ' INTEGER'
+            ].join(' , ') + ')',
         q_create_organizations = 'CREATE TABLE ' + CONTRACT.DB.TABLES.ORGANIZATIONS + '(' +
             [
                 CONTRACT.DB.FIELDS.ORGANIZATIONS._ID + ' INTEGER PRIMARY KEY',
@@ -174,9 +207,74 @@ function updateDBScheme() {
                 CONTRACT.DB.FIELDS.ORGANIZATIONS.SHORT_NAME + ' TEXT',
                 CONTRACT.DB.FIELDS.ORGANIZATIONS.TYPE_NAME + ' TEXT',
                 CONTRACT.DB.FIELDS.ORGANIZATIONS.TYPE_ID + ' INTEGER ',
-            ].join(',') +
-            ')';
+                CONTRACT.DB.FIELDS.ORGANIZATIONS.SUBSCRIPTION_ID + ' INTEGER ',
+                CONTRACT.DB.FIELDS.ORGANIZATIONS.CREATED_AT + ' INTEGER',
+                CONTRACT.DB.FIELDS.ORGANIZATIONS.UPDATED_AT + ' INTEGER'
+            ].join(' , ') + ')',
+        q_create_favorite_events = 'CREATE TABLE ' + CONTRACT.DB.TABLES.FAVORITE_EVENTS + '(' +
+            [
+                CONTRACT.DB.FIELDS.FAVORITE_EVENTS._ID + ' INTEGER PRIMARY KEY',
+                CONTRACT.DB.FIELDS.FAVORITE_EVENTS.EVENT_ID + ' TEXT',
+                CONTRACT.DB.FIELDS.FAVORITE_EVENTS.CREATED_AT + ' INTEGER',
+                CONTRACT.DB.FIELDS.TAGS.UPDATED_AT + ' INTEGER'
+            ].join(',') + ')',
+        q_create_tags = 'CREATE TABLE ' + CONTRACT.DB.TABLES.TAGS + '(' +
+            [
+                CONTRACT.DB.FIELDS.TAGS._ID + ' INTEGER PRIMARY KEY',
+                CONTRACT.DB.FIELDS.TAGS.NAME + ' TEXT',
+                CONTRACT.DB.FIELDS.TAGS.CREATED_AT + ' INTEGER',
+                CONTRACT.DB.FIELDS.TAGS.UPDATED_AT + ' INTEGER'
+            ].join(',') + ')',
+        q_create_events_tags = 'CREATE TABLE ' + CONTRACT.DB.TABLES.EVENTS_TAGS + '(' +
+            [
+                CONTRACT.DB.FIELDS.EVENTS_TAGS._ID + ' INTEGER PRIMARY KEY',
+                CONTRACT.DB.FIELDS.EVENTS_TAGS.EVENT_ID + ' INTEGER',
+                CONTRACT.DB.FIELDS.EVENTS_TAGS.TAG_ID + ' INTEGER',
+                CONTRACT.DB.FIELDS.EVENTS_TAGS.CREATED_AT + ' INTEGER',
+                CONTRACT.DB.FIELDS.EVENTS_TAGS.UPDATED_AT + ' INTEGER'
+            ].join(',') + ')',
+        q_create_events_users = 'CREATE TABLE ' + CONTRACT.DB.TABLES.EVENTS_USERS + '(' +
+            [
+                CONTRACT.DB.FIELDS.EVENTS_USERS._ID + ' INTEGER PRIMARY KEY',
+                CONTRACT.DB.FIELDS.EVENTS_USERS.EVENT_ID + ' INTEGER',
+                CONTRACT.DB.FIELDS.EVENTS_USERS.USER_ID + ' INTEGER',
+                CONTRACT.DB.FIELDS.EVENTS_USERS.CREATED_AT + ' INTEGER',
+                CONTRACT.DB.FIELDS.EVENTS_USERS.UPDATED_AT + ' INTEGER'
+            ].join(',') + ')',
+        q_create_organizations_users = 'CREATE TABLE ' + CONTRACT.DB.TABLES.ORGANIZATIONS_USERS + '(' +
+            [
+                CONTRACT.DB.FIELDS.ORGANIZATIONS_USERS._ID + ' INTEGER PRIMARY KEY',
+                CONTRACT.DB.FIELDS.ORGANIZATIONS_USERS.ORGANIZATION_ID + ' INTEGER',
+                CONTRACT.DB.FIELDS.ORGANIZATIONS_USERS.USER_ID + ' INTEGER',
+                CONTRACT.DB.FIELDS.ORGANIZATIONS_USERS.CREATED_AT + ' INTEGER',
+                CONTRACT.DB.FIELDS.ORGANIZATIONS_USERS.UPDATED_AT + ' INTEGER'
+            ].join(',') + ')',
+        q_create_events = 'CREATE TABLE ' + CONTRACT.DB.TABLES.EVENTS + '(' +
+            [
+                CONTRACT.DB.FIELDS.EVENTS._ID + ' INTEGER PRIMARY KEY',
+                CONTRACT.DB.FIELDS.EVENTS.TITLE + ' TEXT',
+                CONTRACT.DB.FIELDS.EVENTS.DETAIL_INFO_URL + ' TEXT',
+                CONTRACT.DB.FIELDS.EVENTS.BEGIN_TIME + ' TEXT',
+                CONTRACT.DB.FIELDS.EVENTS.END_TIME + ' TEXT',
+                CONTRACT.DB.FIELDS.EVENTS.DESCRIPTION + ' TEXT',
+                CONTRACT.DB.FIELDS.EVENTS.START_DATE + ' TEXT',
+                CONTRACT.DB.FIELDS.EVENTS.END_DATE + ' TEXT',
+                CONTRACT.DB.FIELDS.EVENTS.IMAGE_HORIZONTAL_URL + ' TEXT',
+                CONTRACT.DB.FIELDS.EVENTS.IMAGE_VERTICAL_URL + ' TEXT',
+                CONTRACT.DB.FIELDS.EVENTS.LATITUDE + ' REAL',
+                CONTRACT.DB.FIELDS.EVENTS.LONGITUDE + ' REAL',
+                CONTRACT.DB.FIELDS.EVENTS.LOCATION_TEXT + ' TEXT',
+                CONTRACT.DB.FIELDS.EVENTS.LOCATION_JSON + ' TEXT',
+                CONTRACT.DB.FIELDS.EVENTS.LOCATION_URI + ' TEXT',
+                CONTRACT.DB.FIELDS.EVENTS.NOTIFICATIONS + ' TEXT',
+                CONTRACT.DB.FIELDS.EVENTS.ORGANIZATION_ID + ' INTEGER',
+                CONTRACT.DB.FIELDS.EVENTS.CREATED_AT + ' INTEGER',
+                CONTRACT.DB.FIELDS.EVENTS.UPDATED_AT + ' INTEGER'
+            ].join(' , ') + ')';
 
+    __db.transaction(function(tx){
+
+    });
 }
 
 function initAPI(route, method){
