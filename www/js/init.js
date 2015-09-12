@@ -154,6 +154,8 @@ if (__os == 'win'){
 function onDeviceReady(){
     window.socket = io.connect('evendate.ru:8080');
 
+    alert(typeof socket);
+
     window.L = {
         log: function(data){
             socket.emit('log', data);
