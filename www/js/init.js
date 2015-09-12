@@ -144,23 +144,39 @@ myapp.init = (function () {
 
 document.addEventListener("deviceready", onDeviceReady, false);
 
+if (__os == 'win'){
+    (function() {
+        onDeviceReady();
+    })();
+}
+
+
 function onDeviceReady(){
 
     alert(CONTRACT.DB.VERSION);
 
     var db_version = window.localStorage.getItem('db_version');
-    __db = window.sqlitePlugin.openDatabase({name: CONTRACT.DB.NAME, location: 2});
-
-
-    if (db_version != CONTRACT.DB.VERSION || CONTRACT.DB.VERSION == -1){
-        updateDBScheme();
-        window.localStorage.setItem('db_version', CONTRACT.DB.VERSION);
+    if (__os == 'win'){
+        __db = window.openDatabase(CONTRACT.DB.NAME, '1', '1', 500, function(){
+            if (db_version != CONTRACT.DB.VERSION || CONTRACT.DB.VERSION == -1){
+                updateDBScheme();
+                window.localStorage.setItem('db_version', CONTRACT.DB.VERSION);
+            }
+        });
+    }else{
+        __db = window.sqlitePlugin.openDatabase({name: CONTRACT.DB.NAME, location: 2});
+        if (db_version != CONTRACT.DB.VERSION || CONTRACT.DB.VERSION == -1){
+            updateDBScheme();
+            window.localStorage.setItem('db_version', CONTRACT.DB.VERSION);
+        }
     }
 }
 
 function dropTables(table_names, callback){
 
     alert('DROP TABLES');
+    alert(table_names == null);
+    alert(table_names.length);
     if (table_names == null || table_names.length == 0) return true;
 
     var tables_dropped = 0;
@@ -178,7 +194,8 @@ function dropTables(table_names, callback){
     __db.transaction(function(tx){
         table_names.forEach(function(tbl_name){
             if (CONTRACT.DB.TABLES.hasOwnProperty(tbl_name)){
-                tx.executeSql('DROP TABLE IF EXISTS ' + CONTRACT.DB.TABLES[tbl_name], dropDone);
+                alert('TRYING TO DELETE: '  + tbl_name);
+                tx.executeSql('DROP TABLE IF EXISTS ' + CONTRACT.DB.TABLES[tbl_name], [], dropDone);
             }else{
                 dropDone();
             }
@@ -282,28 +299,28 @@ function createTables(){
     alert(q_create_tags);
     __db.transaction(function(tx){
         alert(q_create_tags);
-        tx.executeSql(q_create_tags, function(tx, res){
+        tx.executeSql(q_create_tags, [], function(tx, res){
             alert(JSON.stringify(res));
             alert(q_create_users);
-            tx.executeSql(q_create_users, function(tx, res){
+            tx.executeSql(q_create_users, [], function(tx, res){
                 alert(JSON.stringify(res));
                 alert(q_create_organizations);
-                tx.executeSql(q_create_organizations, function(tx, res){
+                tx.executeSql(q_create_organizations, [], function(tx, res){
                     alert(JSON.stringify(res));
                     alert(q_create_events);
-                    tx.executeSql(q_create_events, function(tx, res){
+                    tx.executeSql(q_create_events, [], function(tx, res){
                         alert(JSON.stringify(res));
                         alert(q_create_events_tags);
-                        tx.executeSql(q_create_events_tags, function(tx, res){
+                        tx.executeSql(q_create_events_tags, [], function(tx, res){
                             alert(JSON.stringify(res));
                             alert(q_create_events_users);
-                            tx.executeSql(q_create_events_users, function(tx, res){
+                            tx.executeSql(q_create_events_users, [], function(tx, res){
                                 alert(JSON.stringify(res));
                                 alert(q_create_favorite_events);
-                                tx.executeSql(q_create_favorite_events, function(tx, res){
+                                tx.executeSql(q_create_favorite_events, [], function(tx, res){
                                     alert(JSON.stringify(res));
                                     alert(q_create_organizations_users);
-                                    tx.executeSql(q_create_organizations_users, function(tx, res){
+                                    tx.executeSql(q_create_organizations_users, [], function(tx, res){
                                         alert(JSON.stringify(res));
                                     });
                                 });
