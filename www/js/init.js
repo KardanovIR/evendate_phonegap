@@ -19,9 +19,7 @@ var CONTRACT = {
                 EVENTS_TAGS: 'events_tags',
                 TAGS: 'tags',
                 EVENTS_USERS: 'events_users',
-                ORGANIZATIONS_USERS: 'organizations_users',
-                CREATED_AT: 'created_at',
-                UPDATED_AT: 'updated_at'
+                ORGANIZATIONS_USERS: 'organizations_users'
             },
             FIELDS: {
                 USERS: {
@@ -153,44 +151,31 @@ function onDeviceReady(){
     var db_version = window.localStorage.getItem('db_version');
     __db = window.sqlitePlugin.openDatabase({name: CONTRACT.DB.NAME, location: 2});
 
-    var db = window.sqlitePlugin.openDatabase("Database", "1.0", "Demo", -1);
-                db.transaction(function(tx) {
-              tx.executeSql('DROP TABLE IF EXISTS test_table');
-              tx.executeSql('CREATE TABLE IF NOT EXISTS test_table (id integer primary key, data text, data_num integer)');
 
-              tx.executeSql("INSERT INTO test_table (data, data_num) VALUES (?,?)", ["test", 100], function(tx, res) {
-              console.log("insertId: " + res.insertId + " -- probably 1"); // check #18/#38 is fixed
-              alert("insertId: " + res.insertId + " -- should be valid");
-
-                db.transaction(function(tx) {
-                  tx.executeSql("SELECT data_num from test_table;", [], function(tx, res) {
-                    console.log("res.rows.length: " + res.rows.length + " -- should be 1");
-                    alert("res.rows.item(0).data_num: " + res.rows.item(0).data_num + " -- should be 100");
-                  });
-                });
-
-              }, function(e) {
-                console.log("ERROR: " + e.message);
-              });
-            });
-
-
-    //if (db_version != CONTRACT.DB.VERSION || CONTRACT.DB.VERSION == -1){
-    //    updateDBScheme();
-    //    window.localStorage.setItem('db_version', CONTRACT.DB.VERSION);
-    //}
+    if (db_version != CONTRACT.DB.VERSION || CONTRACT.DB.VERSION == -1){
+        updateDBScheme();
+        window.localStorage.setItem('db_version', CONTRACT.DB.VERSION);
+    }
 }
 
-function dropTables(table_names){
+function dropTables(table_names, callback){
 
     alert('DROP TABLES');
     if (table_names == null || table_names.length == 0) return true;
 
+    var tables_dropped = 0;
+    function dropDone(){
+        tables_dropped++;
+        alert(tables_dropped  + ' ; ' + table_names.length);
+        if (tables_dropped == table_names.length){
+            alert('TABLES DROPPED');
+        }
+    }
+
     __db.transaction(function(tx){
         table_names.forEach(function(tbl_name){
             if (CONTRACT.DB.TABLES.hasOwnProperty(tbl_name)){
-                alert('DROP TABLE IF EXISTS ' + tbl_name);
-                tx.executeSql('DROP TABLE IF EXISTS ' + CONTRACT.DB.TABLES[tbl_name]);
+                tx.executeSql('DROP TABLE IF EXISTS ' + CONTRACT.DB.TABLES[tbl_name], dropDone);
             }
         });
     });
@@ -199,9 +184,8 @@ function dropTables(table_names){
 function updateDBScheme() {
     alert('UPDATE SCHEMA');
 
-
     dropTables(['USERS', 'ORGANIZATIONS',
-        'EVENTS', 'FAVORITE_EVENTS', 'TAGS']);
+        'EVENTS', 'FAVORITE_EVENTS', 'TAGS', 'EVENTS_TAGS', 'EVENTS_USERS', 'ORGANIZATIONS_USERS']);
     var q_create_users = 'CREATE TABLE ' + CONTRACT.DB.TABLES.USERS + '(' +
             [
                 CONTRACT.DB.FIELDS.USERS._ID + ' INTEGER PRIMARY KEY',
@@ -231,7 +215,8 @@ function updateDBScheme() {
                 CONTRACT.DB.FIELDS.FAVORITE_EVENTS._ID + ' INTEGER PRIMARY KEY',
                 CONTRACT.DB.FIELDS.FAVORITE_EVENTS.EVENT_ID + ' TEXT',
                 CONTRACT.DB.FIELDS.FAVORITE_EVENTS.CREATED_AT + ' INTEGER',
-                CONTRACT.DB.FIELDS.TAGS.UPDATED_AT + ' INTEGER'
+                CONTRACT.DB.FIELDS.TAGS.UPDATED_AT + ' INTEGER',
+                'FOREIGN KEY(' + CONTRACT.DB.FIELDS.FAVORITE_EVENTS.EVENT_ID + ') REFERENCES ' + CONTRACT.DB.TABLES.EVENTS + '(' + CONTRACT.DB.FIELDS.EVENTS._ID + ')'
             ].join(',') + ')',
         q_create_tags = 'CREATE TABLE ' + CONTRACT.DB.TABLES.TAGS + '(' +
             [
@@ -246,7 +231,9 @@ function updateDBScheme() {
                 CONTRACT.DB.FIELDS.EVENTS_TAGS.EVENT_ID + ' INTEGER',
                 CONTRACT.DB.FIELDS.EVENTS_TAGS.TAG_ID + ' INTEGER',
                 CONTRACT.DB.FIELDS.EVENTS_TAGS.CREATED_AT + ' INTEGER',
-                CONTRACT.DB.FIELDS.EVENTS_TAGS.UPDATED_AT + ' INTEGER'
+                CONTRACT.DB.FIELDS.EVENTS_TAGS.UPDATED_AT + ' INTEGER',
+                'FOREIGN KEY(' + CONTRACT.DB.FIELDS.EVENTS_TAGS.EVENT_ID + ') REFERENCES ' + CONTRACT.DB.TABLES.EVENTS + '(' + CONTRACT.DB.FIELDS.EVENTS._ID + ')',
+                'FOREIGN KEY(' + CONTRACT.DB.FIELDS.EVENTS_TAGS.TAG_ID + ') REFERENCES ' + CONTRACT.DB.TABLES.TAGS + '(' + CONTRACT.DB.FIELDS.TAGS._ID + ')'
             ].join(',') + ')',
         q_create_events_users = 'CREATE TABLE ' + CONTRACT.DB.TABLES.EVENTS_USERS + '(' +
             [
@@ -254,7 +241,9 @@ function updateDBScheme() {
                 CONTRACT.DB.FIELDS.EVENTS_USERS.EVENT_ID + ' INTEGER',
                 CONTRACT.DB.FIELDS.EVENTS_USERS.USER_ID + ' INTEGER',
                 CONTRACT.DB.FIELDS.EVENTS_USERS.CREATED_AT + ' INTEGER',
-                CONTRACT.DB.FIELDS.EVENTS_USERS.UPDATED_AT + ' INTEGER'
+                CONTRACT.DB.FIELDS.EVENTS_USERS.UPDATED_AT + ' INTEGER',
+                'FOREIGN KEY(' + CONTRACT.DB.FIELDS.EVENTS_USERS.EVENT_ID + ') REFERENCES ' + CONTRACT.DB.TABLES.EVENTS + '(' + CONTRACT.DB.FIELDS.EVENTS._ID + ')',
+                'FOREIGN KEY(' + CONTRACT.DB.FIELDS.EVENTS_USERS.USER_ID + ') REFERENCES ' + CONTRACT.DB.TABLES.USERS + '(' + CONTRACT.DB.FIELDS.USERS._ID + ')'
             ].join(',') + ')',
         q_create_organizations_users = 'CREATE TABLE ' + CONTRACT.DB.TABLES.ORGANIZATIONS_USERS + '(' +
             [
@@ -262,7 +251,9 @@ function updateDBScheme() {
                 CONTRACT.DB.FIELDS.ORGANIZATIONS_USERS.ORGANIZATION_ID + ' INTEGER',
                 CONTRACT.DB.FIELDS.ORGANIZATIONS_USERS.USER_ID + ' INTEGER',
                 CONTRACT.DB.FIELDS.ORGANIZATIONS_USERS.CREATED_AT + ' INTEGER',
-                CONTRACT.DB.FIELDS.ORGANIZATIONS_USERS.UPDATED_AT + ' INTEGER'
+                CONTRACT.DB.FIELDS.ORGANIZATIONS_USERS.UPDATED_AT + ' INTEGER',
+                'FOREIGN KEY(' + CONTRACT.DB.FIELDS.ORGANIZATIONS_USERS.ORGANIZATION_ID + ') REFERENCES ' + CONTRACT.DB.TABLES.ORGANIZATIONS + '(' + CONTRACT.DB.FIELDS.ORGANIZATIONS._ID + ')',
+                'FOREIGN KEY(' + CONTRACT.DB.FIELDS.ORGANIZATIONS_USERS.USER_ID + ') REFERENCES ' + CONTRACT.DB.TABLES.USERS + '(' + CONTRACT.DB.FIELDS.USERS._ID + ')'
             ].join(',') + ')',
         q_create_events = 'CREATE TABLE ' + CONTRACT.DB.TABLES.EVENTS + '(' +
             [
@@ -288,7 +279,38 @@ function updateDBScheme() {
             ].join(' , ') + ')';
 
     __db.transaction(function(tx){
-
+        tx.executeSql(q_create_tags, function(tx, res){
+            alert(q_create_tags);
+            alert(JSON.stringify(res));
+            tx.executeSql(q_create_users, function(tx, res){
+                alert(q_create_users);
+                alert(JSON.stringify(res));
+                tx.executeSql(q_create_organizations, function(tx, res){
+                    alert(q_create_organizations);
+                    alert(JSON.stringify(res));
+                    tx.executeSql(q_create_events, function(tx, res){
+                        alert(q_create_events);
+                        alert(JSON.stringify(res));
+                        tx.executeSql(q_create_events_tags, function(tx, res){
+                            alert(q_create_events_tags);
+                            alert(JSON.stringify(res));
+                            tx.executeSql(q_create_events_users, function(tx, res){
+                                alert(q_create_events_users);
+                                alert(JSON.stringify(res));
+                                tx.executeSql(q_create_favorite_events, function(tx, res){
+                                    alert(q_create_favorite_events);
+                                    alert(JSON.stringify(res));
+                                    tx.executeSql(q_create_organizations_users, function(tx, res){
+                                        alert(q_create_organizations_users);
+                                        alert(JSON.stringify(res));
+                                    });
+                                });
+                            });
+                        });
+                    });
+                });
+            })
+        });
     });
 }
 
