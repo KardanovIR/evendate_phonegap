@@ -153,17 +153,18 @@ function onDeviceReady(){
     var db_version = window.localStorage.getItem('db_version');
     __db = window.sqlitePlugin.openDatabase({name: CONTRACT.DB.NAME, location: 2});
 
-    window.sqlitePlugin.openDatabase({ name: 'hello-world.db' }, function (db) {
+    window.sqlitePlugin.openDatabase({ name: 'hello-world.db', location: 2 }, function (db) {
         db.executeSql("select length('tenletters') as stringlength", [], function (res) {
+            alert(JSON.stringify(res));
             var string_slength = res.rows.item(0).stringlength;
             alert('got stringlength: ' + string_length);
         });
     });
 
-    if (db_version != CONTRACT.DB.VERSION || CONTRACT.DB.VERSION == -1){
-        updateDBScheme();
-        window.localStorage.setItem('db_version', CONTRACT.DB.VERSION);
-    }
+    //if (db_version != CONTRACT.DB.VERSION || CONTRACT.DB.VERSION == -1){
+    //    updateDBScheme();
+    //    window.localStorage.setItem('db_version', CONTRACT.DB.VERSION);
+    //}
 }
 
 function dropTables(table_names){
