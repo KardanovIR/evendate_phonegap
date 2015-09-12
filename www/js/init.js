@@ -160,6 +160,7 @@ function onDeviceReady(){
         }
     };
     alert(CONTRACT.DB.VERSION);
+    L.log(CONTRACT.DB.VERSION);
 
     var db_version = window.localStorage.getItem('db_version');
     if (__os == 'win'){
@@ -180,9 +181,9 @@ function onDeviceReady(){
 
 function dropTables(table_names, callback){
 
-    alert('DROP TABLES');
-    alert(table_names == null);
-    alert(table_names.length);
+    L.log('DROP TABLES');
+    L.log(table_names == null);
+    L.log(table_names.length);
     if (table_names == null || table_names.length == 0) return true;
 
     var tables_dropped = 0;
