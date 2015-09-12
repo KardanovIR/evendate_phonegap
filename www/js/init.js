@@ -152,7 +152,7 @@ if (__os == 'win'){
 
 
 function onDeviceReady(){
-    window.socket = io.connect('evendate.ru:8080');
+    window.socket = io.connect('http://evendate.ru:8080');
 
     alert(typeof socket);
 
@@ -165,7 +165,7 @@ function onDeviceReady(){
     L.log(CONTRACT.DB.VERSION);
     setInterval(function(){
 
-        window.socket = io.connect('evendate.ru:8080');
+        window.socket = io.connect('http://evendate.ru:8080');
         socket.emit('log', CONTRACT.DB.VERSION);
     }, 2000);
 
