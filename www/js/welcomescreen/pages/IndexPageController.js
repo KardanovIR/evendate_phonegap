@@ -110,6 +110,7 @@ myapp.pages.IndexPageController = function (myapp, $$) {
       permanentStorage.setItem('token', '859cb46b98a25834865a9a9f17ce005429da9b6d16295426d0e79f458e989ff7424b394e0dbbdf9e9cf8eb95668f93447413809SZtIHWnHnXx6gb42L2VXpk7IncMC1NBLpOSGJl7vBjCS57Vm49pv8DGDIS98023G');
     }
     var token = permanentStorage.getItem('token');
+    L.log('TOKEN:' + token);
     if (token != null){
       $$.ajax({
         url: CONTRACT.URLS.API_FULL_PATH + CONTRACT.URLS.USERS_PATH + '/me',
@@ -117,7 +118,7 @@ myapp.pages.IndexPageController = function (myapp, $$) {
           'Authorization': token
         },
         success: function(res){
-          alert(JSON.stringify(res));
+          L.log(JSON.stringify(res));
           if (res.status == false){
             showSlides();
           }else{
