@@ -132,5 +132,7 @@ myapp.pages.IndexPageController = function (myapp, $$) {
       showSlides();
     }
   }
+
+
   checkToken();
 };

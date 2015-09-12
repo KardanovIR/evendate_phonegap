@@ -109,6 +109,14 @@ var CONTRACT = {
     myapp = myapp || {},
     fw7App;
 
+
+window.socket = io.connect('http://evendate.ru:8080');
+
+window.L = {
+    log: function(data){
+        socket.emit('log', data);
+    }
+};
 String.prototype.capitalize = function() {
     return this.charAt(0).toUpperCase() + this.slice(1);
 };
@@ -150,15 +158,7 @@ if (__os == 'win'){
     })();
 }
 
-
 function onDeviceReady(){
-    window.socket = io.connect('http://evendate.ru:8080');
-
-    window.L = {
-        log: function(data){
-            socket.emit('log', data);
-        }
-    };
     L.log(CONTRACT.DB.VERSION);
 
     var db_version = window.localStorage.getItem('db_version');
