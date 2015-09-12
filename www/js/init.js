@@ -152,7 +152,7 @@ if (__os == 'win'){
 
 
 function onDeviceReady(){
-    window.socket = io.connect('evendate.ru:8080');
+    window.socket = io.connect('http://evendate.ru:8080');
 
     alert(typeof socket);
 
@@ -191,7 +191,6 @@ function dropTables(table_names, callback){
     var tables_dropped = 0;
     function dropDone(){
         tables_dropped++;
-        alert(tables_dropped  + ' ; ' + table_names.length);
         if (tables_dropped == table_names.length){
             alert('TABLES DROPPED');
             if (callback instanceof Function){
@@ -203,7 +202,6 @@ function dropTables(table_names, callback){
     __db.transaction(function(tx){
         table_names.forEach(function(tbl_name){
             if (CONTRACT.DB.TABLES.hasOwnProperty(tbl_name)){
-                alert('TRYING TO DELETE: '  + tbl_name);
                 tx.executeSql('DROP TABLE IF EXISTS ' + CONTRACT.DB.TABLES[tbl_name], [], dropDone);
             }else{
                 dropDone();
@@ -307,28 +305,28 @@ function createTables(){
 
     alert(q_create_tags);
     __db.transaction(function(tx){
-        alert(q_create_tags);
+        //alert(q_create_tags);
         tx.executeSql(q_create_tags, [], function(tx, res){
-            alert(JSON.stringify(res));
-            alert(q_create_users);
+            //alert(JSON.stringify(res));
+            //alert(q_create_users);
             tx.executeSql(q_create_users, [], function(tx, res){
-                alert(JSON.stringify(res));
-                alert(q_create_organizations);
+                //alert(JSON.stringify(res));
+                //alert(q_create_organizations);
                 tx.executeSql(q_create_organizations, [], function(tx, res){
-                    alert(JSON.stringify(res));
-                    alert(q_create_events);
+                    //alert(JSON.stringify(res));
+                    //alert(q_create_events);
                     tx.executeSql(q_create_events, [], function(tx, res){
-                        alert(JSON.stringify(res));
-                        alert(q_create_events_tags);
+                        //alert(JSON.stringify(res));
+                        //alert(q_create_events_tags);
                         tx.executeSql(q_create_events_tags, [], function(tx, res){
-                            alert(JSON.stringify(res));
-                            alert(q_create_events_users);
+                            //alert(JSON.stringify(res));
+                            //alert(q_create_events_users);
                             tx.executeSql(q_create_events_users, [], function(tx, res){
-                                alert(JSON.stringify(res));
-                                alert(q_create_favorite_events);
+                                //alert(JSON.stringify(res));
+                                //alert(q_create_favorite_events);
                                 tx.executeSql(q_create_favorite_events, [], function(tx, res){
-                                    alert(JSON.stringify(res));
-                                    alert(q_create_organizations_users);
+                                    //alert(JSON.stringify(res));
+                                    //alert(q_create_organizations_users);
                                     tx.executeSql(q_create_organizations_users, [], function(tx, res){
                                         alert(JSON.stringify(res));
                                     });

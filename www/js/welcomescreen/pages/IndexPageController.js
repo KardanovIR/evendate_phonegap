@@ -117,6 +117,7 @@ myapp.pages.IndexPageController = function (myapp, $$) {
           'Authorization': token
         },
         success: function(res){
+          alert(JSON.stringify(res));
           if (res.status == false){
             showSlides();
           }else{

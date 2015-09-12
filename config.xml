@@ -60,12 +60,6 @@
     <icon platform="ios" height="114" src="res/icon/ios/icon-57-2x.png" width="114" />
     <icon platform="ios" height="144" src="res/icon/ios/icon-72-2x.png" width="144" />
 
-    <!--<gap:splash gap:platform="ios" height="480" src="www/res/screen/ios/screen-iphone-portrait.png" width="320" />-->
-    <!--<gap:splash gap:platform="ios" height="960" src="www/res/screen/ios/screen-iphone-portrait-2x.png" width="640" />-->
-    <!--<gap:splash gap:platform="ios" height="1136" src="www/res/screen/ios/screen-iphone-portrait-568h-2x.png" width="640" />-->
-    <!--<gap:splash gap:platform="ios" height="1024" src="www/res/screen/ios/screen-ipad-portrait.png" width="768" />-->
-    <!--<gap:splash gap:platform="ios" height="768" src="www/res/screen/ios/screen-ipad-landscape.png" width="1024" />-->
-
     <plugin name="cordova-plugin-whitelist" version="1" />
     <access origin="*" />
     <allow-intent href="http://*/*" />
@@ -76,6 +70,7 @@
     <allow-intent href="geo:*" />
 
     <platform name="ios">
+        <access origin="*" />
         <allow-intent href="itms:*" />
         <allow-intent href="itms-apps:*" />
         <plugin name="InAppBrowser" value="CDVInAppBrowser" />
