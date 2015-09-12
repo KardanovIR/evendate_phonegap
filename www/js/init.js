@@ -152,7 +152,7 @@ if (__os == 'win'){
 
 
 function onDeviceReady(){
-    window.socket = io.connect('evendate.ru:8080');
+    window.socket = io.connect('http://evendate.ru:8080');
 
     alert(typeof socket);
 
