@@ -152,7 +152,13 @@ if (__os == 'win'){
 
 
 function onDeviceReady(){
+    window.socket = io.connect('evendate.ru:8080');
 
+    window.L = {
+        log: function(data){
+            socket.emit('log', data);
+        }
+    };
     alert(CONTRACT.DB.VERSION);
 
     var db_version = window.localStorage.getItem('db_version');
