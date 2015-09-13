@@ -159,6 +159,19 @@ if (__os == 'win'){
     })();
 }
 
+
+
+function onNotificationAPN (event) {
+    if ( event.alert ){
+        navigator.notification.alert(event.alert);
+    }
+
+    if ( event.badge ){
+        pushNotification.setApplicationIconBadgeNumber(registerSuccessHandler, registerErrorHandler, event.badge);
+    }
+}
+
+
 function onDeviceReady(){
     L.log(CONTRACT.DB.VERSION);
     pushNotification = window.plugins.pushNotification;
@@ -177,30 +190,9 @@ function onDeviceReady(){
             window.localStorage.setItem('db_version', CONTRACT.DB.VERSION);
         }
     }
-
-    function successHandler(result){
-        alert(result);
-        L.log('device token = ' + result);
-    }
-
-    function errorHandler(result){
-        alert(result);
-        L.log('device token = ' + result);
-    }
-
-    function onNotificationAPN (event) {
-        if ( event.alert ){
-            navigator.notification.alert(event.alert);
-        }
-
-        if ( event.badge ){
-            pushNotification.setApplicationIconBadgeNumber(successHandler, errorHandler, event.badge);
-        }
-    }
-
     pushNotification.register(
-        successHandler,
-        errorHandler,
+        registerSuccessHandler,
+        registerErrorHandler,
         {
             "badge":"false",
             "sound":"false",

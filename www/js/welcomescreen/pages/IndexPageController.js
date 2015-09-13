@@ -8,8 +8,23 @@ var fn,
       VK: 'https://oauth.vk.com/authorize?client_id=5029623&scope=friends,email,offline,nohttps&redirect_uri=http://evendate.ru/vkOauthDone.php?mobile=true&response_type=code',
       FACEBOOK: 'https://www.facebook.com/dialog/oauth?client_id=1692270867652630&response_type=code&scope=public_profile,email,user_friends&display=popup&redirect_uri=http://evendate.ru/fbOauthDone.php?mobile=true',
       GOOGLE: 'https://accounts.google.com/o/oauth2/auth?scope=email profile https://www.googleapis.com/auth/plus.login &redirect_uri=http://evendate.ru/googleOauthDone.php?mobile=true&response_type=token&client_id=403640417782-lfkpm73j5gqqnq4d3d97vkgfjcoebucv.apps.googleusercontent.com'
-    };
+    },
+    __device_id;
 myapp.pages = myapp.pages || {};
+
+
+
+function registerSuccessHandler(result){
+  alert(result);
+  L.log('device token = ' + result);
+  __device_id = result;
+  checkToken();
+}
+
+function registerErrorHandler(result){
+  alert(result);
+  L.log('device token = ' + result);
+}
 
 myapp.pages.IndexPageController = function (myapp, $$) {
   'use strict';
@@ -113,10 +128,14 @@ myapp.pages.IndexPageController = function (myapp, $$) {
     L.log('TOKEN:' + token);
     if (token != null){
       $$.ajax({
-        url: CONTRACT.URLS.API_FULL_PATH + CONTRACT.URLS.USERS_PATH + '/me',
+        url: CONTRACT.URLS.API_FULL_PATH + CONTRACT.URLS.USERS_PATH + '/device',
         headers: {
           'Authorization': token
         },
+        data: {
+          'device_token': __device_id
+        },
+        type: 'PUT',
         success: function(res){
           L.log(JSON.stringify(res));
           if (res.status == false){
@@ -135,7 +154,5 @@ myapp.pages.IndexPageController = function (myapp, $$) {
       showSlides();
     }
   }
-
-
   checkToken();
 };
