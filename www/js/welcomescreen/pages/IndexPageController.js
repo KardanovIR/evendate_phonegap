@@ -126,6 +126,9 @@ myapp.pages.IndexPageController = function (myapp, $$) {
             __user = res.data;
             openApplication();
           }
+        },
+        always: function(){
+
         }
       });
     }else{
