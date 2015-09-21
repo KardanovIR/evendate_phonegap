@@ -375,21 +375,21 @@ function createTables(){ // create new schema
 
     __db.transaction(function(tx){
         L.log(q_create_tags);
-        tx.executeSql(q_create_tags, [], function(tx, res){
+        tx.executeSql(q_create_tags, [], function(tx){
             L.log(q_create_users);
-            tx.executeSql(q_create_users, [], function(tx, res){
+            tx.executeSql(q_create_users, [], function(tx){
                 L.log(q_create_organizations);
-                tx.executeSql(q_create_organizations, [], function(tx, res){
+                tx.executeSql(q_create_organizations, [], function(tx){
                     L.log(q_create_events);
-                    tx.executeSql(q_create_events, [], function(tx, res){
+                    tx.executeSql(q_create_events, [], function(tx){
                         L.log(q_create_events_tags);
-                        tx.executeSql(q_create_events_tags, [], function(tx, res){
+                        tx.executeSql(q_create_events_tags, [], function(tx){
                             L.log(q_create_events_users);
-                            tx.executeSql(q_create_events_users, [], function(tx, res){
+                            tx.executeSql(q_create_events_users, [], function(tx){
                                 L.log(q_create_favorite_events);
-                                tx.executeSql(q_create_favorite_events, [], function(tx, res){
+                                tx.executeSql(q_create_favorite_events, [], function(tx){
                                     L.log(q_create_organizations_users);
-                                    tx.executeSql(q_create_organizations_users, [], function(tx, res){
+                                    tx.executeSql(q_create_organizations_users, [], function(){
                                         fillWithInitialData();
                                     });
                                 });
@@ -465,22 +465,17 @@ function showSlides(){
 
     fw7App.swiper('.swiper-container', {
         pagination:'.swiper-pagination'
-    })
-
-    $$(document).on('click', '.start-using-btn', function() {
-        welcomescreen.close();
     });
 
-    $$('.tutorial-open-btn').click(function() {
-        welcomescreen.open();
-    });
 
     $$('.vk-btn').click(function() {
+        L.log('Btn clicked');
         window.plugins.ChildBrowser.showWebPage(URLs.VK, {
             showLocationBar: false,
             showAddress: true,
             showNavigationBar: true
         });
+        L.log('showWebPageCaaled');
         window.plugins.ChildBrowser.onLocationChange = function(url) {
             if (/mobileAuthDone/.test(url)) {
                 saveTokenInLocalStorage(url);
@@ -557,8 +552,8 @@ function prepareFilterQuery(filters){
     filters.forEach(function(_value){
         if (!_value) return true;
         for (var key in _value){
-            var value = _value[key];
             if (_value.hasOwnProperty(key)){
+                var value = _value[key];
                 if (value.toLowerCase().trim() == 'null' || value.toLowerCase().trim() == 'not null'){
                     _q.push(key + ' IS ' + value.toUpperCase().trim());
                 }else{
