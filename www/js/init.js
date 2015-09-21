@@ -374,21 +374,13 @@ function createTables(){ // create new schema
             ].join(' , ') + ')';
 
     __db.transaction(function(tx){
-        L.log(q_create_tags);
         tx.executeSql(q_create_tags, [], function(tx){
-            L.log(q_create_users);
             tx.executeSql(q_create_users, [], function(tx){
-                L.log(q_create_organizations);
                 tx.executeSql(q_create_organizations, [], function(tx){
-                    L.log(q_create_events);
                     tx.executeSql(q_create_events, [], function(tx){
-                        L.log(q_create_events_tags);
                         tx.executeSql(q_create_events_tags, [], function(tx){
-                            L.log(q_create_events_users);
                             tx.executeSql(q_create_events_users, [], function(tx){
-                                L.log(q_create_favorite_events);
                                 tx.executeSql(q_create_favorite_events, [], function(tx){
-                                    L.log(q_create_organizations_users);
                                     tx.executeSql(q_create_organizations_users, [], function(){
                                         fillWithInitialData();
                                     });
@@ -468,7 +460,7 @@ function showSlides(){
     });
 
 
-    $$('.vk-btn').click(function() {
+    $$('.vk-btn').off('click').on('click',function() {
         L.log('Btn clicked');
         window.plugins.ChildBrowser.showWebPage(URLs.VK, {
             showLocationBar: false,
