@@ -1,9 +1,10 @@
 <!DOCTYPE html>
-<html ng-app="myapp">
+<html ng-app="MyApp">
 
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   <title>Evendate</title>
@@ -27,11 +28,13 @@
   <!-- Your main view, should have "view-main" class-->
   <div class="view view-main tab">
     <div class="pages">
-      <div data-page="index" class="page no-toolbar no-tabbar" ng-controller="IndexPageController">
+      <div data-page="index" class="page no-toolbar no-tabbar">
         <div class="page-content">
           <div class="content-block">
             <p><a href="#" class="tutorial-open-btn button">Начать все сначала</a></p>
+
             <p>Добро пожаловать. Чтобы продолжить необходимо авторизоваться с любой из социальных сетей:</p>
+
             <p><a href="#" class="button button-big vk-btn">Войти с ВКонтакте</a></p>
           </div>
         </div>
@@ -39,63 +42,129 @@
     </div>
   </div>
 
-  <div id="view-profile" class="view view-profile tab">
+  <div id="view-profile" class="view view-profile tab" ng-controller="SubscriptionsPageController">
     <div class="navbar navbar-hiding">
       <div class="navbar-inner">
         <!-- Sub navbar -->
         <div class="subnavbar">
-          <div class="left"></div><div class="buttons-row">
-          <a href="#profile" class="button tab-link button-white active">Подписки</a>
-          <a href="#organizations" class="button tab-link button-white">Каталог</a>
-        </div>
+          <div class="left"></div>
+          <div class="buttons-row">
+            <a ng-href="#profile" ng-click="getSubscriptionsList()"
+               class="button tab-link button-white active">Подписки</a>
+            <a ng-href="#organizations" ng-click="getOrganizationsCatalog()" class="button tab-link button-white">Каталог</a>
+          </div>
           <div class="right"></div>
         </div>
       </div>
+
+      <div class="navbar-inner cached organization-page-navbar" data-page="organizationPage">
+        <div class="left sliding">
+          <a href="index" class="link back">
+            <i class="icon icon-back"></i><span>Назад</span></a>
+        </div>
+        <div class="center sliding">{{selected_organization.short_name}}</div>
+      </div>
     </div>
+
 
     <div class="pages navbar-through">
       <!-- Pag has additional "with-subnavbar" class -->
-      <div id="subscriptions" data-page="suscriptions" class="page with-subnavbar">
-        <div class="page-content hide-bars-on-scroll profile-page-content" >
+      <div id="subscriptions" class="page with-subnavbar">
+        <div class="page-content profile-page-content">
           <div class="tabs">
-            <div id="profile" class="tab active" ng-controller="ProfilePageController">
-              <div class="content-block">
-                <div class="content-block-inner">Here comes another text block additionaly wrapped with "content-block-inner". Praesent nec imperdiet diam. Maecenas vel lectus porttitor, consectetur magna nec, viverra sem. Aliquam sed risus dolor. Morbi tincidunt ut libero id sodales. Integer blandit varius nisi quis consectetur. </div>
+            <div id="profile" class="tab active pull-to-refresh-content" data-ptr-distance="55">
+              <div class="pull-to-refresh-layer">
+                <div class="preloader"></div>
+                <div class="pull-to-refresh-arrow"></div>
               </div>
-              <div class="list-block">
+              <div class="content-block">
+                <div class="content-block-inner user-info">
+                  <div class="user-image">
+                    <img ng-src="{{info.avatar_url}}" class="img">
+                  </div>
+                  <div class="user-name">
+                    <div class="user-name-text">{{info.first_name}} {{info.last_name}}</div>
+                    <div class="user-is-editor" ng-show="{{info.is_editor}}"> Редактор</div>
+                    <div>
+                      <a href="#" ng-show="{{info.is_editor}}" class="button button-big button-round btn-black-blue">Создать
+                        мероприятие</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="content-block-title">Подписки</div>
+              <div class="list-block subscriptions-list">
                 <ul>
-                  <li>
-                    <a href="#" class="item-link item-content">
-                      <div class="item-media"><i class="icon icon-f7"></i></div>
+                  <li class="swipeout" ng-repeat="subscription in subscriptions"
+                      ng-click="openOrganization(subscription)">
+                    <a href="#" class="item-link swipeout-content item-content">
+                      <div class="item-media">
+                        <img ng-src="{{subscription.img_url}}">
+                      </div>
                       <div class="item-inner">
-                        <div class="item-title">Item title</div>
+                        <div class="item-title">{{subscription.short_name}}</div>
+                        <div class="item-after"></div>
                       </div>
                     </a>
-                  </li>
-                  <li>
-                    <a href="#" class="item-link item-content">
-                      <div class="item-media"><i class="icon icon-f7"></i></div>
-                      <div class="item-inner">
-                        <div class="item-title">Item with badge</div>
-                      </div>
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#" class="item-link item-content">
-                      <div class="item-media"><i class="icon icon-f7"></i></div>
-                      <div class="item-inner">
-                        <div class="item-title">Another item</div>
-                      </div>
-                    </a>
+
+                    <div class="swipeout-actions-right">
+                      <!-- We add data-confirm and data-confirm-title attributes -->
+                      <a href="#" class="swipeout-delete">Описаться</a>
+                    </div>
                   </li>
                 </ul>
               </div>
             </div>
-            <div id="organizations" class="tab" ng-controller="OrganizationsPageController">
+            <div id="organizations" class="tab pull-to-refresh-content" data-ptr-distance="55">
+              <div class="pull-to-refresh-layer">
+                <div class="preloader"></div>
+                <div class="pull-to-refresh-arrow"></div>
+              </div>
+              <div class="content-block-title">Подпишитесь на организации</div>
               <div class="content-block">
-                <p>Donec iaculis ...</p>
-                <p>Curabitur egestas, mi ...</p>
-                <p>Donec iaculis posuere ...</p>
+                <div class="list-block subscriptions-list media-list">
+                  <ul>
+                    <li ng-repeat="organization in organizations">
+                      <a href="#" class="item-link item-content">
+                        <div class="item-media ">
+                          <img ng-src="{{organization.img_url}}" width="80">
+                        </div>
+                        <div class="item-inner">
+                          <div class="item-title-row">
+                            <div class="item-title">{{organization.short_name}}</div>
+                            <div class="item-after"></div>
+                          </div>
+                          <div class="item-subtitle">{{organization.type_name}}</div>
+                          <div class="item-text">
+                            <button type="button" class="button">Подписаться</button>
+                          </div>
+                        </div>
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="page cached organization-page" data-page="organizationPage">
+        <div class="page-content">
+          <div class="content-block">
+            <div class="content-block-inner">
+              <p class="organization-page-img-wrapper">
+                <img ng-src="{{selected_organization.img_url}}" class="organization-page-img">
+              </p>
+              {{selected_organization.name}}
+              <div>
+                <div class="row">
+                  <div class="col-50">
+
+                  </div>
+                  <div class="col-50 theme-pink"><a href="#" class="button button button-round">Подписаться</a></div>
+                </div>
+                {{selected_organization.description}}
               </div>
             </div>
           </div>
@@ -109,20 +178,22 @@
       <div class="navbar-inner">
         <!-- Sub navbar -->
         <div class="subnavbar">
-          <div class="left"></div><div class="buttons-row">
-          <a href="#calendar" class="button tab-link button-white active">Календарь</a>
-          <a href="#timeline" class="button tab-link button-white">Лента</a>
+          <div class="left"></div>
+          <div class="buttons-row">
+            <a href="#calendar" class="button tab-link button-white active">Календарь</a>
+            <a href="#timeline" class="button tab-link button-white">Лента</a>
+          </div>
+          <div class="right"><i class="ion ion-ios-search-strong"></i></div>
         </div>
-          <div class="right"><i class="ion ion-ios-search-strong"></i></div></div>
       </div>
     </div>
 
     <div class="pages navbar-through">
       <!-- Pag has additional "with-subnavbar" class -->
-      <div data-page="calendar" class="page with-subnavbar" ng-controller="CalendarPageController">
+      <div data-page="calendar" class="page with-subnavbar">
         <div class="page-content hide-bars-on-scroll profile-page-content">
           <div class="tabs">
-            <div id="calendar" class="tab active">
+            <div id="calendar" class="tab active" ng-controller="CalendarPageController">
               <div class="content-block">
                 <div style="padding:0; margin-right:-15px; width:auto" class="content-block-inner">
                   <div id="calendar-inline-container"></div>
@@ -133,7 +204,9 @@
             <div id="timeline" class="tab">
               <div class="content-block">
                 <p>Donec iaculis ...</p>
+
                 <p>Curabitur egestas, mi ...</p>
+
                 <p>Donec iaculis posuere ...</p>
               </div>
             </div>
@@ -148,27 +221,28 @@
     <div class="toolbar-inner">
       <a href="#view-profile" class="tab-link"> <i class="icon ion-ios-person-outline"></i><span class="tabbar-label">Профиль</span></a>
       <a href="#view-events" class="tab-link active"><i class="icon ion-ios-albums"></i><span class="tabbar-label">Мероприятия</span></a>
-      <a href="#view-favorites" class="tab-link"> <i class="icon ion-pin"></i><span class="tabbar-label">Избранное</span></a>
+      <a href="#view-favorites" class="tab-link"> <i class="icon ion-pin"></i><span
+              class="tabbar-label">Избранное</span></a>
     </div>
   </div>
+
 </div>
+<script type="text/javascript" src="js/models/Organizations.js"></script>
+<script type="text/javascript" src="js/models/Subscriptions.js"></script>
+<script type="text/javascript" src="js/angular.min.js"></script>
 <script type="text/javascript" src="js/framework7.min.js"></script>
+<script type="text/javascript" src="js/ns.js"></script>
 <script type="text/javascript" src="js/moment-with-locales.js"></script>
 <script type="text/javascript" src="js/welcomescreen/welcomescreen.js"></script>
-<script type="text/javascript" src="js/welcomescreen/pages/IndexPageController.js?nc=3"></script>
-<script type="text/javascript" src="js/welcomescreen/pages/CalendarPageController.js"></script>
+<script type="text/javascript" src="js/pages/SubscriptionsPageController.js"></script>
+<script type="text/javascript" src="js/pages/CalendarPageController.js"></script>
+<script type="text/javascript" src="js/imgcache.js"></script>
 <script src="http://evendate.ru:443/socket.io/socket.io.js" type="text/javascript"></script>
-<script type="text/javascript" src="phonegap.js"></script>
-<script type="text/javascript" src="childbrowser.js"></script>
-<script type="text/javascript" src="SQLitePlugin.js"></script>
-<script type="text/javascript" src="js/PushNotification.js"></script>
+<!--<script type="text/javascript" src="phonegap.js"></script>-->
+<!--<script type="text/javascript" src="childbrowser.js"></script>-->
+<!--<script type="text/javascript" src="SQLitePlugin.js"></script>-->
+<!--<script type="text/javascript" src="js/PushNotification.js"></script>-->
 <script type="text/javascript" src="js/init.js"></script>
-
-
-
-<script id="template" type="text/template7">
-  <p>Hello, my name is {{firstName}} {{lastName}}</p>
-</script>
 
 </body>
 

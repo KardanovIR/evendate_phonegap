@@ -6,7 +6,12 @@ var CONTRACT = {
         URLS:{
             BASE_NAME: 'http://evendate.ru',
             API_FULL_PATH: 'http://evendate.ru/api',
-            USERS_PATH: '/users'
+            USERS_PATH: '/users',
+            SUBSCRIPTIONS_PATH: '/subscriptions',
+            ORGANIZATIONS_PATH: '/organizations',
+            EVENTS_PATH: '/events',
+            TAGS_PATH: '/tags',
+            MY_PART: '/my'
         },
         DB:{
             NAME: 'evendate.db',
@@ -16,9 +21,9 @@ var CONTRACT = {
                 ORGANIZATIONS: 'organizations',
                 EVENTS: 'events',
                 FAVORITE_EVENTS: 'favorite_events',
-                EVENTS_TAGS: 'events_tags',
                 TAGS: 'tags',
                 EVENTS_USERS: 'events_users',
+                EVENTS_TAGS: 'events_tags',
                 ORGANIZATIONS_USERS: 'organizations_users'
             },
             FIELDS: {
@@ -42,6 +47,7 @@ var CONTRACT = {
                     TYPE_NAME: 'type_name',
                     TYPE_ID: 'type_id',
                     SUBSCRIPTION_ID: 'subscription_id',
+                    SUBSCRIBED_COUNT: 'subscribed_count',
                     CREATED_AT: 'created_at',
                     UPDATED_AT: 'updated_at'
                 },
@@ -104,15 +110,22 @@ var CONTRACT = {
     },
     __db,
     __os = navigator.platform == 'Win32' ? 'win': 'hz',
+    permanentStorage = window.localStorage,
+    URLs = {
+        VK: 'https://oauth.vk.com/authorize?client_id=5029623&scope=friends,email,offline,nohttps&redirect_uri=http://evendate.ru/vkOauthDone.php?mobile=true&response_type=code',
+        FACEBOOK: 'https://www.facebook.com/dialog/oauth?client_id=1692270867652630&response_type=code&scope=public_profile,email,user_friends&display=popup&redirect_uri=http://evendate.ru/fbOauthDone.php?mobile=true',
+        GOOGLE: 'https://accounts.google.com/o/oauth2/auth?scope=email profile https://www.googleapis.com/auth/plus.login &redirect_uri=http://evendate.ru/googleOauthDone.php?mobile=true&response_type=token&client_id=403640417782-lfkpm73j5gqqnq4d3d97vkgfjcoebucv.apps.googleusercontent.com'
+    },
+    __device_id,
     __user,
+    __api,
+    __app,
     $$,
-    myapp = myapp || {},
-    fw7App,
-    pushNotification;
+    MyApp = MyApp || {},
+    fw7App;
 
 
 window.socket = io.connect('http://evendate.ru:443');
-
 window.L = {
     log: function(data){
         socket.emit('log', data);
@@ -122,36 +135,63 @@ String.prototype.capitalize = function() {
     return this.charAt(0).toUpperCase() + this.slice(1);
 };
 
-myapp.init = (function () {
+
+MyApp.init = (function () {
     'use strict';
 
-    var exports = {};
 
-    (function () {
-        // Initialize app
-        fw7App = new Framework7({
-            modalTitle: 'Evendate',
-            modalButtonCancel: 'Отмена',
-            modalPreloaderTitle: 'Загрузка ...'
-        });
-        $$ = Dom7;
-        var fw7ViewOptions = {
-                dynamicNavbar: true,
-                domCache: true
-            },
-            main_view = fw7App.addView('.view-main', fw7ViewOptions),
-            profile_view = fw7App.addView('.view-profile', fw7ViewOptions),
-            events_view = fw7App.addView('.view-events', fw7ViewOptions),
-            favorites_view = fw7App.addView('.view-favorites', fw7ViewOptions);
-        new myapp.pages.IndexPageController(fw7App, $$);
-        new myapp.pages.CalendarPageController(fw7App, $$);
-    }());
+    // Initialize app
+    fw7App = new Framework7({
+        modalTitle: 'Evendate',
+        modalButtonOk: 'OK',
+        modalButtonCancel: 'Отмена',
+        modalPreloaderTitle: 'Загрузка ...',
+        imagesLazyLoadThreshold: 50,
+        animateNavBackIcon: true,
+        swipeBackPage: true,
+        dynamicNavbar: true,
+        onAjaxStart: function () {
+            fw7App.showIndicator();
+        },
+        onAjaxComplete: function () {
+            fw7App.hideIndicator();
+        }
+    });
+    $$ = Dom7;
 
-    return exports;
+    var fw7ViewOptions = {
+        dynamicNavbar: true,
+        domCache: true
+    };
+
+    __app = angular.module('MyApp', []);
+
+    MyApp = MyApp || { views: [] };
+
+    fw7App.addView('.view-main', fw7ViewOptions);
+    fw7App.addView('.view-profile', fw7ViewOptions);
+    fw7App.addView('.view-events', fw7ViewOptions);
+    fw7App.addView('.view-favorites', fw7ViewOptions);
+
+
+//    new myapp.pages.CalendarPageController(fw7App, $$);
+
+    __api = initAPI();
+    __app.controller('SubscriptionsPageController', ['$scope', '$http', MyApp.pages.SubscriptionsPageController]);
+    __app.controller('CalendarPageController', ['$scope', '$http', MyApp.pages.CalendarPageController]);
 
 }());
 
 document.addEventListener("deviceready", onDeviceReady, false);
+
+function makeid(){
+    var text = "";
+    var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+    for( var i=0; i < 5; i++ )
+        text += possible.charAt(Math.floor(Math.random() * possible.length));
+    return text;
+}
 
 if (__os == 'win'){
     (function() {
@@ -159,53 +199,58 @@ if (__os == 'win'){
     })();
 }
 
-
-
 function onNotificationAPN (event) {
-    if ( event.alert ){
+    if (event.alert){
         navigator.notification.alert(event.alert);
-    }
-
-    if ( event.badge ){
-        pushNotification.setApplicationIconBadgeNumber(registerSuccessHandler, registerErrorHandler, event.badge);
     }
 }
 
+function registerPushService(){
+    if (__os == 'win'){
+        socket.on('connect', function(){
+            registerSuccessHandler(socket.id);
+        });
+    }else{
+        var pushNotification = window.plugins.pushNotification;
+        pushNotification.register(
+            registerSuccessHandler,
+            registerErrorHandler,
+            {
+                "badge":"false",
+                "sound":"false",
+                "alert":"true",
+                "ecb":"onNotificationAPN"
+            });
+    }
+    checkToken();
+}
 
 function onDeviceReady(){
-    L.log(CONTRACT.DB.VERSION);
-    pushNotification = window.plugins.pushNotification;
+
     var db_version = window.localStorage.getItem('db_version');
     if (__os == 'win'){
-        __db = window.openDatabase(CONTRACT.DB.NAME, '1', '1', 500, function(){
+        __db = window.openDatabase(CONTRACT.DB.NAME + '-' + makeid(), CONTRACT.DB.NAME, CONTRACT.DB.NAME, 5000, function(){
             if (db_version != CONTRACT.DB.VERSION || CONTRACT.DB.VERSION == -1){
-                updateDBScheme();
                 window.localStorage.setItem('db_version', CONTRACT.DB.VERSION);
+                updateDBScheme();
+            }else{
+                registerPushService();
             }
         });
     }else{
         __db = window.sqlitePlugin.openDatabase({name: CONTRACT.DB.NAME, location: 2});
-        if (db_version != CONTRACT.DB.VERSION || CONTRACT.DB.VERSION == -1){
-            updateDBScheme();
+        if (db_version != CONTRACT.DB.VERSION || CONTRACT.DB.VERSION == -1){ // schema updated
             window.localStorage.setItem('db_version', CONTRACT.DB.VERSION);
+            updateDBScheme();
+        }else{
+            registerPushService();
         }
     }
-    pushNotification.register(
-        registerSuccessHandler,
-        registerErrorHandler,
-        {
-            "badge":"false",
-            "sound":"false",
-            "alert":"true",
-            "ecb":"onNotificationAPN"
-        });
 }
 
 function dropTables(table_names, callback){
 
     L.log('DROP TABLES');
-    L.log(table_names == null);
-    L.log(table_names.length);
     if (table_names == null || table_names.length == 0) return true;
 
     var tables_dropped = 0;
@@ -230,7 +275,11 @@ function dropTables(table_names, callback){
     });
 }
 
-function createTables(){
+function fillWithInitialData(){
+    registerPushService();
+}
+
+function createTables(){ // create new schema
     var q_create_users = 'CREATE TABLE ' + CONTRACT.DB.TABLES.USERS + '(' +
             [
                 CONTRACT.DB.FIELDS.USERS._ID + ' INTEGER PRIMARY KEY',
@@ -252,6 +301,7 @@ function createTables(){
                 CONTRACT.DB.FIELDS.ORGANIZATIONS.TYPE_NAME + ' TEXT',
                 CONTRACT.DB.FIELDS.ORGANIZATIONS.TYPE_ID + ' INTEGER ',
                 CONTRACT.DB.FIELDS.ORGANIZATIONS.SUBSCRIPTION_ID + ' INTEGER ',
+                CONTRACT.DB.FIELDS.ORGANIZATIONS.SUBSCRIBED_COUNT + ' INTEGER ',
                 CONTRACT.DB.FIELDS.ORGANIZATIONS.CREATED_AT + ' INTEGER',
                 CONTRACT.DB.FIELDS.ORGANIZATIONS.UPDATED_AT + ' INTEGER'
             ].join(' , ') + ')',
@@ -340,6 +390,7 @@ function createTables(){
                                 tx.executeSql(q_create_favorite_events, [], function(tx, res){
                                     L.log(q_create_organizations_users);
                                     tx.executeSql(q_create_organizations_users, [], function(tx, res){
+                                        fillWithInitialData();
                                     });
                                 });
                             });
@@ -351,47 +402,223 @@ function createTables(){
     });
 }
 
-function updateDBScheme() {
+function updateDBScheme() { // drop all existing tables\
     dropTables(['USERS', 'ORGANIZATIONS', 'EVENTS', 'FAVORITE_EVENTS',
         'TAGS', 'EVENTS_TAGS', 'EVENTS_USERS', 'ORGANIZATIONS_USERS'], createTables);
 
 }
 
-function initAPI(route, method){
-    route = route.replace(/^\//, '');
-    var module = route.split('/')[0],
-        module_instance = new window[module.capitalize()];
 
-    switch(method){
-        case 'post': {
 
-            break;
-        }
-        default:
-        case 'get': {
-            module_instance.get(route);
-            break;
-        }
+function registerSuccessHandler(result){
+    L.log('device token = ' + result);
+    __device_id = result;
+    checkToken();
+}
+
+function isOnline() {
+    if (__os == 'win'){
+        return true;
     }
+    var networkState = navigator.connection.type;
+     return networkState != Connection.NONE;
+}
+
+function registerErrorHandler(result){
+    L.log('device token = ' + result);
+}
+
+function getSearchAsObject(search) {
+    if (search == null) return null;
+    return search.replace(/(^\?)/, '').split("&").map(function(n) {
+        return n = n.split("="), this[n[0]] = n[1], this
+    }.bind({}))[0];
+}
+
+function saveTokenInLocalStorage(url){
+    var url_parts = url.split('?'),
+        search_object = url_parts.length > 1 ? getSearchAsObject(url_parts[1]) : null;
+    permanentStorage.setItem('token', search_object['token']);
+    checkToken();
+}
+
+
+
+function openApplication(){
+    __app = angular.module('Evendate', []);
+    $$('.main-tabbar').removeClass('hidden');
+    var viewsElement = $$('.view-events')[0],
+        viewInstance = viewsElement.f7View;
+    viewInstance.showNavbar();
+    viewInstance.showToolbar();
+    $$('.view').removeClass('active');
+    $$(viewsElement).addClass('active');
+    $$('.view-main').addClass('tab');
+
+    var scope = angular.element($$('#profile')).scope();
+    scope.$apply(function () {
+        scope.setUser();
+    });
+}
+
+function showSlides(){
+    var options = {
+            'bgcolor': '#fff',
+            'fontcolor': '#fff',
+            'onOpened': function () {
+            },
+            'onClosed': function () {
+            },
+            'closeButtonText': 'Пропустить'
+        },
+        welcomescreen_slides,
+        welcomescreen;
+
+    welcomescreen_slides = [
+        {
+            id: 'slide0',
+            picture: '<div class="tutorial-img"><img src="img/welcomeslides/0.png"></div>',
+            text: ''
+        },
+        {
+            id: 'slide1',
+            picture: '<div class="tutorial-img"><img src="img/welcomeslides/1.png"></div>',
+            text: ''
+        },
+        {
+            id: 'slide2',
+            picture: '<div class="tutorial-img"><img src="img/welcomeslides/2.png"></div>',
+            text: ''
+        },
+        {
+            id: 'slide3',
+            picture: '<div class="tutorial-img"><img src="img//welcomeslides/3.png"></div>',
+            text: ''
+        },
+        {
+            id: 'slide3',
+            picture: '<div class="tutorial-img"><img src="img//welcomeslides/4.png"></div>',
+            text: '<div class="content-block"><p><a type="button" class="button button-big button-fill start-using-btn">Полетели </a></p></div>'
+        }
+    ];
+    welcomescreen = MyApp.welcomescreen(welcomescreen_slides, options);
+
+    $$(document).on('click', '.start-using-btn', function() {
+        $$('.view-main').removeClass('tab');
+        welcomescreen.close();
+    });
+
+    $$('.tutorial-open-btn').click(function() {
+        welcomescreen.open();
+    });
+
+    $$('.vk-btn').click(function() {
+        window.plugins.ChildBrowser.showWebPage(URLs.VK, {
+            showLocationBar: false,
+            showAddress: true,
+            showNavigationBar: true
+        });
+        window.plugins.ChildBrowser.onLocationChange = function(url) {
+            if (/mobileAuthDone/.test(url)) {
+                saveTokenInLocalStorage(url);
+                window.plugins.ChildBrowser.close();
+            }
+        };
+    });
+}
+
+function checkToken(){
+    if (__os == 'win'){
+        permanentStorage.setItem('token', '859cb46b98a25834865a9a9f17ce005429da9b6d16295426d0e79f458e989ff7424b394e0dbbdf9e9cf8eb95668f93447413809SZtIHWnHnXx6gb42L2VXpk7IncMC1NBLpOSGJl7vBjCS57Vm49pv8DGDIS98023G');
+    }
+    var token = permanentStorage.getItem('token');
+    L.log('TOKEN:' + token);
+    if (token != null){
+        $$.ajax({
+            url: CONTRACT.URLS.API_FULL_PATH + CONTRACT.URLS.USERS_PATH + '/device',
+            headers: {
+                'Authorization': token
+            },
+            data: {
+                'device_token': __device_id,
+                'client_type': __os == 'win' ? 'browser' : 'ios'
+            },
+            type: 'PUT',
+            dataType: 'JSON',
+            success: function(res){
+                var json_res = JSON.parse(res);
+                L.log(json_res);
+                if (json_res.status == false){
+                    showSlides();
+                }else{
+                    permanentStorage.setItem('user', JSON.stringify(json_res.data));
+                    __user = json_res.data;
+                    $$.ajaxSetup({
+                        headers: {
+                            'Authorization': token
+                        },
+                        dataType: "json"
+                    });
+                    openApplication();
+                }
+            }
+        });
+    }else{
+        showSlides();
+    }
+}
+
+
+function initAPI(){
+    return {
+        users: new Users(),
+        organizations: new Organizations(),
+        events: new Events(),
+        subscriptions: new Subscriptions(),
+        favorite_events: new FavoriteEvents(),
+        tags: new Tags()
+    }
+}
+
+function prepareFilterQuery(filters){
+
+    if (!Array.isArray(filters)){
+        return {
+            query: '',
+            args: []
+        };
+    }
+    var _q = [],
+        args = [];
+
+    filters.forEach(function(_value){
+        if (!_value) return true;
+        for (var key in _value){
+            var value = _value[key];
+            if (_value.hasOwnProperty(key)){
+                if (value.toLowerCase().trim() == 'null' || value.toLowerCase().trim() == 'not null'){
+                    _q.push(key + ' IS ' + value.toUpperCase().trim());
+                }else{
+                    _q.push(key + ' = ?');
+                    args.push(value.trim());
+                }
+            }
+        }
+
+    });
+
+    return {
+        query: 'WHERE ' + _q.join(' AND '),
+        args: args
+    };
 }
 
 function Users(){
     return {
-        getById: function(){
+        'get': function(){
 
         },
-        getAll: function(){
-
-        }
-    }
-}
-
-function Organizations(){
-    return {
-        getById: function(){
-
-        },
-        getAll: function(){
+        'post': function(){
 
         }
     }
@@ -408,16 +635,6 @@ function Events(){
     }
 }
 
-function Subscriptions(){
-    return {
-        getAll: function(){
-
-        },
-        getById: function(){
-
-        }
-    }
-}
 
 function FavoriteEvents(){
     return {

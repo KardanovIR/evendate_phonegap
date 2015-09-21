@@ -36,7 +36,7 @@
 }
 
 .navbar-inner, .toolbar-inner {
-  height: auto
+  height: auto;
 }
 .subnavbar>.buttons-row{
   width: 75%;
@@ -55,4 +55,69 @@ a.button-white.active {
 }
 .profile-page-content{
   padding-top: 8px !important;
+}
+
+.content-block-inner.user-info{
+  height: 140px;
+}
+
+.user-info .user-image{
+  padding-top: 25px;
+  padding-bottom: 26px;
+  padding-right: 25px;
+  padding-left: 10px;
+  display: inline-block;
+  float: left;
+}
+
+.user-image img{
+  width: 60px;
+  border-radius: 999px;
+}
+
+.user-info .user-name{
+  display: inline-block;
+  height: 100%;
+  padding-bottom: 25px;
+}
+
+.user-info .user-name-text{
+  padding-top: 36px;
+  font-size: 17px;
+}
+
+.user-info .user-name .user-is-editor{
+  font-size: 11px;
+  padding-bottom: 20px;
+  color: #6F6F6F;
+}
+
+.btn-black-blue{
+  border-color: #6B88C7;
+  color: #6B88C7;
+}
+
+.subscriptions-list{
+  margin-top: 0;
+}
+
+.navbar a.link, .toolbar a.link, .subnavbar a.link{
+  color: #fff !important;
+}
+
+.organization-page-navbar{
+  background: #6D89C5;
+  color: #fff !important;
+}
+.organization-page-img-wrapper{
+  width: 70px;
+  height: 70px;
+  border: 1px solid #ccc;
+  border-radius: 999px;
+}
+.organization-page-img{
+  width: 50px;
+  height: 50px;
+  padding-top: 10px;
+  padding-left: 10px;
 }

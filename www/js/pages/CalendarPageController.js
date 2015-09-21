@@ -1,15 +1,15 @@
 /*jslint browser: true*/
-/*global console*/
 
-var myapp = myapp || {};
-myapp.pages = myapp.pages || {};
+/*jslint browser: true*/
+/*global console, Dom7, $, angular, angularApp*/
 
+MyApp.ns('MyApp.pages');
 
-myapp.pages.CalendarPageController = function (myapp, $$) {
+MyApp.pages.CalendarPageController = function ($scope, $http) {
 	'use strict';
 
 	var monthNames = ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'],
-		calendarInline = myapp.calendar({
+		calendarInline = fw7App.calendar({
 			monthNamesShort: ['Янв', 'Фев', 'Мар', 'Апр', 'Май', 'Июн', 'Июл', 'Авг', 'Сен', 'Окт', 'Ноя', 'Дек'],
 			dayNames: ['Воскресенье', 'Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота'],
 			dayNamesShort: ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'],
@@ -42,7 +42,7 @@ myapp.pages.CalendarPageController = function (myapp, $$) {
 				$$('.calendar-custom-toolbar .center').text(monthNames[p.currentMonth] +', ' + p.currentYear);
 			},
 			onDayClick: function(p, dayContainer, year, month, day){
-				myapp.alert(day);
+				fw7App.alert(day);
 			}
-	});
+		});
 };
