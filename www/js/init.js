@@ -462,49 +462,12 @@ function openApplication(){
 }
 
 function showSlides(){
-    var options = {
-            'bgcolor': '#fff',
-            'fontcolor': '#fff',
-            'onOpened': function () {
-            },
-            'onClosed': function () {
-            },
-            'closeButtonText': 'Пропустить'
-        },
-        welcomescreen_slides,
-        welcomescreen;
 
-    welcomescreen_slides = [
-        {
-            id: 'slide0',
-            picture: '<div class="tutorial-img"><img src="img/welcomeslides/0.png"></div>',
-            text: ''
-        },
-        {
-            id: 'slide1',
-            picture: '<div class="tutorial-img"><img src="img/welcomeslides/1.png"></div>',
-            text: ''
-        },
-        {
-            id: 'slide2',
-            picture: '<div class="tutorial-img"><img src="img/welcomeslides/2.png"></div>',
-            text: ''
-        },
-        {
-            id: 'slide3',
-            picture: '<div class="tutorial-img"><img src="img//welcomeslides/3.png"></div>',
-            text: ''
-        },
-        {
-            id: 'slide3',
-            picture: '<div class="tutorial-img"><img src="img//welcomeslides/4.png"></div>',
-            text: '<div class="content-block"><p><a type="button" class="button button-big button-fill start-using-btn">Полетели </a></p></div>'
-        }
-    ];
-    welcomescreen = MyApp.welcomescreen(welcomescreen_slides, options);
+    fw7App.swiper('.swiper-container', {
+        pagination:'.swiper-pagination'
+    })
 
     $$(document).on('click', '.start-using-btn', function() {
-        $$('.view-main').removeClass('tab');
         welcomescreen.close();
     });
 
@@ -529,7 +492,7 @@ function showSlides(){
 
 function checkToken(){
     if (__os == 'win'){
-        permanentStorage.setItem('token', '859cb46b98a25834865a9a9f17ce005429da9b6d16295426d0e79f458e989ff7424b394e0dbbdf9e9cf8eb95668f93447413809SZtIHWnHnXx6gb42L2VXpk7IncMC1NBLpOSGJl7vBjCS57Vm49pv8DGDIS98023G');
+       // permanentStorage.setItem('token', '859cb46b98a25834865a9a9f17ce005429da9b6d16295426d0e79f458e989ff7424b394e0dbbdf9e9cf8eb95668f93447413809SZtIHWnHnXx6gb42L2VXpk7IncMC1NBLpOSGJl7vBjCS57Vm49pv8DGDIS98023G');
     }
     var token = permanentStorage.getItem('token');
     L.log('TOKEN:' + token);

@@ -26,17 +26,30 @@
 <!-- Views-->
 <div class="views tabs tabbar-through">
   <!-- Your main view, should have "view-main" class-->
-  <div class="view view-main tab">
+  <div class="view view-main">
     <div class="pages">
       <div data-page="index" class="page no-toolbar no-tabbar">
         <div class="page-content">
-          <div class="content-block">
-            <p><a href="#" class="tutorial-open-btn button">Начать все сначала</a></p>
 
-            <p>Добро пожаловать. Чтобы продолжить необходимо авторизоваться с любой из социальных сетей:</p>
-
-            <p><a href="#" class="button button-big vk-btn">Войти с ВКонтакте</a></p>
+          <div class="swiper-container">
+            <!-- Slides wrapper -->
+            <div class="swiper-wrapper">
+              <!-- Slides -->
+              <div class="swiper-slide">Slide 1</div>
+              <div class="swiper-slide">Slide 2</div>
+              <div class="swiper-slide">Slide 3</div>
+              <div class="swiper-slide">
+                <div class="content-block">
+                  <p><a href="#" class="tutorial-open-btn button">Начать все сначала</a></p>
+                  <p>Добро пожаловать. Чтобы продолжить необходимо авторизоваться с любой из социальных сетей:</p>
+                  <p><a href="#" class="button button-big vk-btn">Войти с ВКонтакте</a></p>
+                </div>
+              </div>
+            </div>
+            <!-- Pagination, if required -->
+            <div class="swiper-pagination"></div>
           </div>
+
         </div>
       </div>
     </div>
@@ -238,10 +251,10 @@
 <script type="text/javascript" src="js/pages/CalendarPageController.js"></script>
 <script type="text/javascript" src="js/imgcache.js"></script>
 <script src="http://evendate.ru:443/socket.io/socket.io.js" type="text/javascript"></script>
-<!--<script type="text/javascript" src="phonegap.js"></script>-->
-<!--<script type="text/javascript" src="childbrowser.js"></script>-->
-<!--<script type="text/javascript" src="SQLitePlugin.js"></script>-->
-<!--<script type="text/javascript" src="js/PushNotification.js"></script>-->
+<script type="text/javascript" src="phonegap.js"></script>
+<script type="text/javascript" src="childbrowser.js"></script>
+<script type="text/javascript" src="SQLitePlugin.js"></script>
+<script type="text/javascript" src="PushNotification.js"></script>
 <script type="text/javascript" src="js/init.js"></script>
 
 </body>
