@@ -453,6 +453,20 @@ function openApplication(){
     });
 }
 
+window.onerror = function sendCrashReport(message, url , linenumber, column, errorObj){
+    var stack = "";
+    if(errorObj !== undefined) //so it won’t blow up in the rest of the browsers
+        stack = errorObj.stack;
+    L.log({
+        message: message,
+        url: url,
+        linenumber: linenumber,
+        column: column,
+        errorObj: errorObj,
+        stack: stack
+    })
+}
+
 function showSlides(){
 
     fw7App.swiper('.swiper-container', {
