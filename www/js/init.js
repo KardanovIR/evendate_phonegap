@@ -480,7 +480,6 @@ function showSlides(){
     $$('.vk-btn').off('click').on('click',function(e) {
         L.log('Btn clicked');
         L.log(e);
-        L.log(stacktrace());
         window.plugins.ChildBrowser.showWebPage(URLs.VK, {
             showLocationBar: false,
             showAddress: true,
