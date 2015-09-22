@@ -20,7 +20,11 @@
     <preference name="exit-on-suspend" value="false" />
     <preference name="show-splash-screen-spinner" value="true" />
     <preference name="auto-hide-splash-screen" value="true" />
-    <preference name="disable-cursor" value="false" />
+    <preference name="disable-cursor" value="true" />
+
+    <preference name="StatusBarOverlaysWebView" value="true"/>
+    <preference name="StatusBarBackgroundColor" value="#000000"/>
+    <preference name="StatusBarStyle" value="lightcontent" />
 
     <gap:plugin name="org.apache.cordova.battery-status" />
     <gap:plugin name="org.apache.cordova.camera" />
@@ -48,6 +52,7 @@
     <gap:plugin name="org.apache.cordova.dialogs"/>
     <gap:plugin name="com.phonegap.plugins.pushplugin"/>
     <gap:plugin name="com.brodysoft.sqliteplugin" version="1.0.6" />
+    <gap:plugin name="org.apache.cordova.statusbar" version="0.1.4" />
 
     <icon src="www/res/icon/ios/icon.png" />
     <icon gap:platform="ios" height="57" src="res/icon/ios/icon-57.png" width="57" />
