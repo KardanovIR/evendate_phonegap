@@ -2,7 +2,8 @@
 /*global console, Framework7, angular, Dom7*/
 
 
-var CONTRACT = {
+var child_browser_opened = false,
+    CONTRACT = {
         URLS:{
             BASE_NAME: 'http://evendate.ru',
             API_FULL_PATH: 'http://evendate.ru/api',
@@ -465,7 +466,7 @@ window.onerror = function sendCrashReport(message, url , linenumber, column, err
         errorObj: errorObj,
         stack: stack
     })
-}
+};
 
 function stacktrace() {
     function st2(f) {
@@ -478,6 +479,8 @@ function stacktrace() {
 function showSlides(){
 
     $$('.vk-btn').off('click').on('click',function(e) {
+        if (child_browser_opened) return false;
+        child_browser_opened = true;
         L.log('Btn clicked');
         L.log(e);
         window.plugins.ChildBrowser.showWebPage(URLs.VK, {
@@ -486,12 +489,15 @@ function showSlides(){
             showNavigationBar: true
         });
         L.log('showWebPageCaaled');
-        //window.plugins.ChildBrowser.onLocationChange = function(url) {
-        //    if (/mobileAuthDone/.test(url)) {
-        //        saveTokenInLocalStorage(url);
-        //        window.plugins.ChildBrowser.close();
-        //    }
-        //};
+        window.plugins.ChildBrowser.onClose = function () {
+            child_browser_opened = false;
+        };
+        window.plugins.ChildBrowser.onLocationChange = function(url) {
+            if (/mobileAuthDone/.test(url)) {
+                saveTokenInLocalStorage(url);
+                window.plugins.ChildBrowser.close();
+            }
+        };
     });
 }
 
