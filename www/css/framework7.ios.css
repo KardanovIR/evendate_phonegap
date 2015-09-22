@@ -4506,6 +4506,7 @@ html.with-statusbar-overlay body .panel {
   display: none;
   -webkit-transition-duration: 400ms;
   transition-duration: 400ms;
+  color: #ffffff !important;
 }
 /* === Preloader === */
 .preloader {
