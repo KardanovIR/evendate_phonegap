@@ -1239,6 +1239,7 @@ html.pixel-ratio-3 .toolbar:before {
 }
 .tabbar i.icon {
   height: 30px;
+  font-size: 22px;
 }
 .tabbar-labels {
   height: 50px;
@@ -5417,7 +5418,7 @@ html.pixel-ratio-3 .picker-center-highlight:after {
 /* === Calendar === */
 .picker-calendar {
   background: #fff;
-  height: 300px;
+  height: 350px;
   width: 100%;
   overflow: hidden;
 }
@@ -5514,10 +5515,10 @@ html.pixel-ratio-3 .picker-calendar-week-days:after {
   top: 0;
 }
 .picker-calendar-row {
-  height: 16.66666667%;
-  height: -webkit-calc(100% / 6);
-  height: -moz-calc(100% / 6);
-  height: calc(100% / 6);
+  height: 14.27777777%;
+  height: -webkit-calc(100% / 7);
+  height: -moz-calc(100% / 7);
+  height: calc(100% / 7);
   display: -webkit-box;
   display: -ms-flexbox;
   display: -webkit-flex;

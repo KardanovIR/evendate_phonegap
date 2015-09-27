@@ -4,6 +4,7 @@
 
 var child_browser_opened = false,
     CONTRACT = {
+        DATE_FORMAT: 'YYYY-MM-DD',
         URLS:{
             BASE_NAME: 'http://evendate.ru',
             API_FULL_PATH: 'http://evendate.ru/api',
@@ -34,6 +35,9 @@ var child_browser_opened = false,
                     LAST_NAME: 'last_name',
                     MIDDLE_NAME: 'middle_name',
                     AVATAR_URL: 'avatar_url',
+                    TYPE: 'type',
+                    FRIEND_UID: 'friend_uid',
+                    LINK: 'link',
                     CREATED_AT: 'created_at',
                     UPDATED_AT: 'updated_at'
                 },
@@ -102,7 +106,7 @@ var child_browser_opened = false,
                 ORGANIZATIONS_USERS: {
                     _ID: 'id',
                     ORGANIZATION_ID: 'event_id',
-                    USER_ID: 'tag_id',
+                    USER_ID: 'user_id',
                     CREATED_AT: 'created_at',
                     UPDATED_AT: 'updated_at'
                 }
@@ -175,12 +179,9 @@ MyApp.init = (function () {
     fw7App.addView('.view-favorites', fw7ViewOptions);
 
 
-//    new myapp.pages.CalendarPageController(fw7App, $$);
-
     __api = initAPI();
     __app.controller('SubscriptionsPageController', ['$scope', '$http', MyApp.pages.SubscriptionsPageController]);
     __app.controller('CalendarPageController', ['$scope', '$http', MyApp.pages.CalendarPageController]);
-
 }());
 
 document.addEventListener("deviceready", onDeviceReady, false);
@@ -228,7 +229,6 @@ function registerPushService(){
 
 function onDeviceReady(){
 
-    StatusBar.styleBlackTranslucent();
     var db_version = window.localStorage.getItem('db_version');
     if (__os == 'win'){
         __db = window.openDatabase(CONTRACT.DB.NAME + '-' + makeid(), CONTRACT.DB.NAME, CONTRACT.DB.NAME, 5000, function(){
@@ -240,6 +240,7 @@ function onDeviceReady(){
             }
         });
     }else{
+        StatusBar.styleBlackTranslucent();
         __db = window.sqlitePlugin.openDatabase({name: CONTRACT.DB.NAME, location: 2});
         if (db_version != CONTRACT.DB.VERSION || CONTRACT.DB.VERSION == -1){ // schema updated
             window.localStorage.setItem('db_version', CONTRACT.DB.VERSION);
@@ -289,6 +290,9 @@ function createTables(){ // create new schema
                 CONTRACT.DB.FIELDS.USERS.LAST_NAME + ' TEXT',
                 CONTRACT.DB.FIELDS.USERS.MIDDLE_NAME + ' TEXT',
                 CONTRACT.DB.FIELDS.USERS.AVATAR_URL + ' TEXT',
+                CONTRACT.DB.FIELDS.USERS.LINK + ' TEXT',
+                CONTRACT.DB.FIELDS.USERS.TYPE + ' TEXT',
+                CONTRACT.DB.FIELDS.USERS.FRIEND_UID + ' TEXT',
                 CONTRACT.DB.FIELDS.USERS.CREATED_AT + ' INTEGER',
                 CONTRACT.DB.FIELDS.USERS.UPDATED_AT + ' INTEGER'
             ].join(' , ') + ')',
@@ -330,7 +334,8 @@ function createTables(){ // create new schema
                 CONTRACT.DB.FIELDS.EVENTS_TAGS.CREATED_AT + ' INTEGER',
                 CONTRACT.DB.FIELDS.EVENTS_TAGS.UPDATED_AT + ' INTEGER',
                 'FOREIGN KEY(' + CONTRACT.DB.FIELDS.EVENTS_TAGS.EVENT_ID + ') REFERENCES ' + CONTRACT.DB.TABLES.EVENTS + '(' + CONTRACT.DB.FIELDS.EVENTS._ID + ')',
-                'FOREIGN KEY(' + CONTRACT.DB.FIELDS.EVENTS_TAGS.TAG_ID + ') REFERENCES ' + CONTRACT.DB.TABLES.TAGS + '(' + CONTRACT.DB.FIELDS.TAGS._ID + ')'
+                'FOREIGN KEY(' + CONTRACT.DB.FIELDS.EVENTS_TAGS.TAG_ID + ') REFERENCES ' + CONTRACT.DB.TABLES.TAGS + '(' + CONTRACT.DB.FIELDS.TAGS._ID + '), ' +
+                'UNIQUE (' + CONTRACT.DB.FIELDS.EVENTS_TAGS.EVENT_ID + ', ' + CONTRACT.DB.FIELDS.EVENTS_TAGS.TAG_ID + ') ON CONFLICT REPLACE '
             ].join(',') + ')',
         q_create_events_users = 'CREATE TABLE ' + CONTRACT.DB.TABLES.EVENTS_USERS + '(' +
             [
@@ -350,7 +355,8 @@ function createTables(){ // create new schema
                 CONTRACT.DB.FIELDS.ORGANIZATIONS_USERS.CREATED_AT + ' INTEGER',
                 CONTRACT.DB.FIELDS.ORGANIZATIONS_USERS.UPDATED_AT + ' INTEGER',
                 'FOREIGN KEY(' + CONTRACT.DB.FIELDS.ORGANIZATIONS_USERS.ORGANIZATION_ID + ') REFERENCES ' + CONTRACT.DB.TABLES.ORGANIZATIONS + '(' + CONTRACT.DB.FIELDS.ORGANIZATIONS._ID + ')',
-                'FOREIGN KEY(' + CONTRACT.DB.FIELDS.ORGANIZATIONS_USERS.USER_ID + ') REFERENCES ' + CONTRACT.DB.TABLES.USERS + '(' + CONTRACT.DB.FIELDS.USERS._ID + ')'
+                'FOREIGN KEY(' + CONTRACT.DB.FIELDS.ORGANIZATIONS_USERS.USER_ID + ') REFERENCES ' + CONTRACT.DB.TABLES.USERS + '(' + CONTRACT.DB.FIELDS.USERS._ID + '), ' +
+                ' UNIQUE (' + CONTRACT.DB.FIELDS.ORGANIZATIONS_USERS.ORGANIZATION_ID + ', ' + CONTRACT.DB.FIELDS.ORGANIZATIONS_USERS.USER_ID + ') ON CONFLICT REPLACE '
             ].join(',') + ')',
         q_create_events = 'CREATE TABLE ' + CONTRACT.DB.TABLES.EVENTS + '(' +
             [
@@ -385,14 +391,14 @@ function createTables(){ // create new schema
                                 tx.executeSql(q_create_favorite_events, [], function(tx){
                                     tx.executeSql(q_create_organizations_users, [], function(){
                                         fillWithInitialData();
-                                    });
-                                });
-                            });
-                        });
-                    });
-                });
-            })
-        });
+                                    }, L.log);
+                                }, L.log);
+                            }, L.log);
+                        }, L.log);
+                    }, L.log);
+                }, L.log);
+            }, L.log)
+        }, L.log);
     });
 }
 
@@ -401,8 +407,6 @@ function updateDBScheme() { // drop all existing tables\
         'TAGS', 'EVENTS_TAGS', 'EVENTS_USERS', 'ORGANIZATIONS_USERS'], createTables);
 
 }
-
-
 
 function registerSuccessHandler(result){
     L.log('device token = ' + result);
@@ -430,8 +434,7 @@ function getSearchAsObject(search) {
 }
 
 function saveTokenInLocalStorage(url){
-    var url_parts = url.split('?'),
-        search_object = url_parts.length > 1 ? getSearchAsObject(url_parts[1]) : null;
+    var search_object = $$.parseUrlQuery(url);
     permanentStorage.setItem('token', search_object['token']);
     checkToken();
 }
@@ -452,6 +455,11 @@ function openApplication(){
     var scope = angular.element($$('#profile')).scope();
     scope.$apply(function () {
         scope.setUser();
+    });
+
+    var calendar_scope = angular.element($$('#calendar')).scope();
+    calendar_scope.$apply(function () {
+        calendar_scope.startBinding();
     });
 }
 
@@ -504,7 +512,7 @@ function showSlides(){
 
 function checkToken(){
     if (__os == 'win'){
-       // permanentStorage.setItem('token', '859cb46b98a25834865a9a9f17ce005429da9b6d16295426d0e79f458e989ff7424b394e0dbbdf9e9cf8eb95668f93447413809SZtIHWnHnXx6gb42L2VXpk7IncMC1NBLpOSGJl7vBjCS57Vm49pv8DGDIS98023G');
+        permanentStorage.setItem('token', '3fd657bfb585ca98ab01bb228dd64a1e898cb92d1d4a04953cf35a36f9e169dc2011e674853c2d9cb85ecee5b130cd88f0ac8c61XDS7nca4iD4jrvMvVXWRP6LHpdMesDH6nqA52iQH3YP60izgzYCYufVrKbwJpzA');
     }
     var token = permanentStorage.getItem('token');
     L.log('TOKEN:' + token);
@@ -532,7 +540,8 @@ function checkToken(){
                         headers: {
                             'Authorization': token
                         },
-                        dataType: "json"
+                        dataType: "json",
+                        contentType: 'application/x-www-form-urlencoded'
                     });
                     openApplication();
                 }
@@ -549,29 +558,34 @@ function initAPI(){
         users: new Users(),
         organizations: new Organizations(),
         events: new Events(),
+        event_tags: new EventTags(),
         subscriptions: new Subscriptions(),
         favorite_events: new FavoriteEvents(),
-        tags: new Tags()
+        tags: new Tags(),
+        organizations_users:new OrganizationsUsers()
+
     }
 }
 
 function prepareFilterQuery(filters){
-
     if (!Array.isArray(filters)){
         return {
             query: '',
-            args: []
+            args: [],
+            data: {}
         };
     }
     var _q = [],
-        args = [];
+        args = [],
+        data = {};
 
     filters.forEach(function(_value){
         if (!_value) return true;
         for (var key in _value){
             if (_value.hasOwnProperty(key)){
-                var value = _value[key];
-                if (value.toLowerCase().trim() == 'null' || value.toLowerCase().trim() == 'not null'){
+                var value = String(_value[key]);
+                data[key] = value;
+                if (value.toLowerCase().trim() === 'null' || value.toLowerCase().trim() === 'not null'){
                     _q.push(key + ' IS ' + value.toUpperCase().trim());
                 }else{
                     _q.push(key + ' = ?');
@@ -584,54 +598,7 @@ function prepareFilterQuery(filters){
 
     return {
         query: 'WHERE ' + _q.join(' AND '),
-        args: args
+        args: args,
+        data: data
     };
-}
-
-function Users(){
-    return {
-        'get': function(){
-
-        },
-        'post': function(){
-
-        }
-    }
-}
-
-function Events(){
-    return {
-        getById: function(){
-
-        },
-        getAll: function(){
-
-        }
-    }
-}
-
-
-function FavoriteEvents(){
-    return {
-        getAll: function(){
-
-        },
-        getById: function(){
-
-        },
-        getByEventId: function(){
-
-        }
-    }
-}
-
-function Tags(){
-    return {
-        getAll: function(){
-
-        },
-        getById: function(){
-
-        }
-    }
 }

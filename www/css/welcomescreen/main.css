@@ -1,3 +1,16 @@
+.button-pink{
+  border-color: #F82969;
+  color: #F82969;
+}
+
+.button-pink.button-filled{
+  background-color: #f82969;
+  color: #ffffff;
+}
+.button-pink.button-filled:active,.button-pink.button-filled:focus{
+  background-color: #f87796;
+}
+
 .tutorialicon {
   font-size: 250px;
   line-height: 170px;
@@ -105,6 +118,22 @@ a.button-white.active {
   color: #fff !important;
 }
 
+.navbar a.link.calendar, .toolbar a.link.calendar, .subnavbar a.link.calendar{
+  color: #827C7C !important;
+  font-size: 30px;
+}
+
+.calendar-month-name{
+  font-size: 20px;
+  font-weight: 700;
+}
+.calendar-head-year{
+  text-align: center;
+  padding-top: 3px;
+  font-size: 11px;
+  color: #676464;
+}
+
 .organization-page-navbar{
   background: #6D89C5;
   color: #fff !important;
@@ -114,6 +143,7 @@ a.button-white.active {
   height: 70px;
   border: 1px solid #ccc;
   border-radius: 999px;
+  display: inline-block;
 }
 .organization-page-img{
   width: 50px;
@@ -132,4 +162,40 @@ a.button-white.active {
   display:block;
   margin:20px;
   font-size:21px;
+}
+.back .ion-ios-arrow-back{
+  font-size: 1.6em;
+}
+
+.list-block .item-media img.event-vertical{
+  height: 85px;
+  width: auto;
+}
+
+span.day-number.with-events{
+  border-bottom: 2px solid #F82969;
+  background-color: transparent;
+  border-radius: 0;
+  width: 20px;
+  height: 22px;
+}
+.disable-active-state{
+  -webkit-transition-duration: 0ms !important;
+  transition-duration: 0ms !important;
+  background-color: transparent !important;
+}
+.picker-calendar-row{
+  -webkit-transition: all 0.5s ease-in-out;
+  transition: all 0.5s ease-in-out;
+}
+
+#calendar-date-events-list{
+  -webkit-transition: all 0.7s ease-in-out;
+  transition: all 0.7s ease-in-out;
+  position: absolute;
+  top: 350px
+}
+.picker-calendar.picker-modal-inline{
+  position: fixed;
+  top: 40px;
 }

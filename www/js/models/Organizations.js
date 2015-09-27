@@ -35,6 +35,16 @@ function Organizations(){
 				moment().unix()
 			], function(tx, res){
 				cb(res);
+				if (organization.hasOwnProperty('subscribed_friends')){
+					organization.subscribed_friends.forEach(function(user){
+						__api.users.post(user, function(res){
+							__api.organizations_users.post({
+								user_id: res.insertId,
+								organization_id: organization.id
+							}, function(){})
+						})
+					});
+				}
 			},function(tx, err){
 				L.log(tx, err);
 				cb(null);
@@ -58,7 +68,6 @@ function Organizations(){
 			q_get_items = 'SELECT * FROM ' + CONTRACT.DB.TABLES.ORGANIZATIONS +
 				' ' + _f.query;
 
-		debugger;
 		__db.transaction(function(tx) {
 			tx.executeSql(q_get_items, _f.args, function(tx, res){
 				cb(res.rows);
@@ -69,13 +78,20 @@ function Organizations(){
 	return {
 		'get': function(filters, cb){
 			var _post = this.post,
-				_r;
+				_r,
+				_filters_data = prepareFilterQuery(filters).data,
+				url = CONTRACT.URLS.API_FULL_PATH + CONTRACT.URLS.ORGANIZATIONS_PATH;
+
+			if (_filters_data.hasOwnProperty('id')){
+				url += '/' + _filters_data.id;
+			}
+
 			if (isOnline()){
 				$$.ajax({
-					url: CONTRACT.URLS.API_FULL_PATH + CONTRACT.URLS.ORGANIZATIONS_PATH,
-					data: {
+					url: url,
+					data: angular.extend({
 						with_subscriptions: true
-					},
+					}, _filters_data),
 					success: function(res){
 						_r = filterData(filters, res.data);
 						_r = normalize(_r);
@@ -88,13 +104,13 @@ function Organizations(){
 					}
 				});
 			}else{
-				getOffline(cb);
+				getOffline(filters, cb);
 			}
 		},
 		'post': function(data, cb){
 			if (!data) throw Error('Data is empty');
 			if (!Array.isArray(data)){
-				insert(data);
+				insert(data, cb);
 			}else{
 				var to_insert = data.length,
 					done = 0;
