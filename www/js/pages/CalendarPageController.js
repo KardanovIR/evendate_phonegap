@@ -168,6 +168,7 @@ MyApp.pages.CalendarPageController = function ($scope, $http) {
 								})
 							}
 							lastY = currentY;
+							e.preventDefault();
 						});
 				});
 			}
