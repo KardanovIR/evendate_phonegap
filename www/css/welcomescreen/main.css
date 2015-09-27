@@ -44,6 +44,18 @@
   border: none;
   box-sizing: inherit;
 }
+.facebook-btn{
+  background-color: #3F5C9A;
+  color: white;
+  border: none;
+  box-sizing: inherit;
+}
+.google-btn{
+  background-color: #DD4B39;
+  color: white;
+  border: none;
+  box-sizing: inherit;
+}
 .hidden{
   display: none;
 }
@@ -184,14 +196,15 @@ span.day-number.with-events{
   transition-duration: 0ms !important;
   background-color: transparent !important;
 }
+
 .picker-calendar-row{
   -webkit-transition: all 0.5s ease-in-out;
   transition: all 0.5s ease-in-out;
 }
 
 #calendar-date-events-list{
-  -webkit-transition: all 0.7s ease-in-out;
-  transition: all 0.7s ease-in-out;
+  -webkit-transition: all 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
   position: absolute;
   top: 350px
 }

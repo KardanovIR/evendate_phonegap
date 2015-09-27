@@ -114,38 +114,42 @@ MyApp.pages.CalendarPageController = function ($scope, $http) {
 					if (!already_selected_row){
 						$all_rows.each(function(index, el){
 							var $$row = $$(el),
+								_top = $$row.height() * index,
 								is_selected_row = $$row.hasClass('row-with-selected');
 							$$row.addClass('collapsed').css({
 								'background-color': '#fff',
 								'z-index': index * (is_selected_row) ? 100 : 10,
 								'position': 'absolute',
-								'top': ($$row.height() * index) + 'px'
-							}).data('max-top', $$row.height() * index);
+								'top': _top + 'px'
+							}).data('max-top', $$row.height() * index).data('top', _top);
 							setTimeout(function(){
 								$$row.css('top', 0);
 							}, index);
 						});
 						$events_wrapper.css('top', $calendar_days_wrapper.offset().top + $calendar_days_wrapper.height() + $row.height() + 'px');
 					}
-					$$('.picker-modal-inline')
+					$$('.picker-modal-inline, #calendar-date-events-list')
 						.off('touchmove')
 						.on('touchmove', function(e){
+							if ($$(e.target).is('#calendar-date-events-list')){
+								if (window.screenY != 40) return false;
+							}
 							var currentY = e.touches[0].clientY,
 								rows_count = $all_rows.length,
-								to_move = Math.abs(lastY - currentY) > 5;
+								to_move = true;
 							if(currentY > lastY && to_move){
 								$all_rows.each(function(index, el){
 									var $$row = $$(el),
 										max_top = $$row.data('max-top'),
-										new_top = parseInt($$row.css('top')) + index*20;
+										new_top = parseInt($$row.data('top')) + index * 5;
 									if (new_top > max_top){
 										new_top = max_top;
 										$$row.removeClass('collapsed row-with-selected');
 									}
 
-									setTimeout(function() {
-										$$row.css('top', new_top + 'px');
-									}, index);
+
+									$$row.css('top', new_top + 'px').data('top', new_top);
+
 									if(rows_count - 1 == index){
 										updateEventsPosition(new_top + $$row.height());
 									}
@@ -153,15 +157,13 @@ MyApp.pages.CalendarPageController = function ($scope, $http) {
 							}else if(currentY < lastY && to_move){
 								$all_rows.each(function(index, el){
 									var $$row = $$(el),
-										new_top = parseInt($$row.css('top')) - index*20;
+										new_top = parseInt($$row.data('top')) - index * 5;
 									if (new_top < 0){
 										new_top = 0;
 										$$row.removeClass('collapsed');
 									}
+									$$row.css('top', new_top + 'px').data('top', new_top);
 
-									setTimeout(function() {
-										$$row.css('top', new_top + 'px');
-									}, index);
 									if(rows_count - 1 == index){
 										updateEventsPosition(new_top + $$row.height());
 									}
