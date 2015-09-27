@@ -135,13 +135,12 @@ MyApp.pages.CalendarPageController = function ($scope, $http) {
 								if (window.screenY != 40) return false;
 							}
 							var currentY = e.touches[0].clientY,
-								rows_count = $all_rows.length,
-								to_move = true;
-							if(currentY > lastY && to_move){
+								rows_count = $all_rows.length;
+							if(currentY > lastY){
 								$all_rows.each(function(index, el){
 									var $$row = $$(el),
 										max_top = $$row.data('max-top'),
-										new_top = parseInt($$row.data('top')) + index * 5;
+										new_top = $$row.data('top') + index;
 									if (new_top > max_top){
 										new_top = max_top;
 										$$row.removeClass('collapsed row-with-selected');
@@ -153,11 +152,11 @@ MyApp.pages.CalendarPageController = function ($scope, $http) {
 									if(rows_count - 1 == index){
 										updateEventsPosition(new_top + $$row.height());
 									}
-								})
-							}else if(currentY < lastY && to_move){
+								});
+							}else if(currentY < lastY){
 								$all_rows.each(function(index, el){
 									var $$row = $$(el),
-										new_top = parseInt($$row.data('top')) - index * 5;
+										new_top = $$row.data('top') - index;
 									if (new_top < 0){
 										new_top = 0;
 										$$row.removeClass('collapsed');
@@ -167,7 +166,7 @@ MyApp.pages.CalendarPageController = function ($scope, $http) {
 									if(rows_count - 1 == index){
 										updateEventsPosition(new_top + $$row.height());
 									}
-								})
+								});
 							}
 							lastY = currentY;
 							e.preventDefault();
