@@ -491,8 +491,10 @@ function stacktrace() {
 
 function showSlides(){
 
-    $$('.vk-btn, .facebook-btn, .google-btn').off('click').on('click',function(e) {
-        var type = $(this).data('type');
+    $$('.vk-btn, .facebook-btn, .google-btn')
+        .off('click')
+        .on('click',function() {
+        var type = $$(this).data('type');
         if (child_browser_opened) return false;
         child_browser_opened = true;
         window.plugins.ChildBrowser.showWebPage(URLs[type], {
