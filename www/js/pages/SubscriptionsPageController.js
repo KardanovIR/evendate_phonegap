@@ -38,7 +38,6 @@ MyApp.pages.SubscriptionsPageController = function ($scope, $http) {
   };
 
   $scope.openOrganization = function(subscription){
-
     __api.organizations.get([{
       id: subscription.id
     }], function(){

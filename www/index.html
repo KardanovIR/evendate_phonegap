@@ -16,7 +16,7 @@
   <link rel="stylesheet" href="css/ionic_icons.min.css">
 </head>
 
-<body>
+<body id="main-body">
 <!-- Header -->
 <!-- Status bar overlay for fullscreen mode-->
 <div class="statusbar-overlay"></div>
@@ -134,7 +134,7 @@
                 <div class="list-block organizations-list media-list">
                   <ul>
                     <li ng-repeat="organization in organizations" class="organization">
-                      <a href="#" class="item-link item-content">
+                      <a href="#" class="item-link item-content disable-active-state">
                         <div class="item-media ">
                           <img ng-src="{{organization.img_url}}" width="80">
                         </div>

@@ -228,7 +228,6 @@ function registerPushService(){
 }
 
 function onDeviceReady(){
-
     var db_version = window.localStorage.getItem('db_version');
     if (__os == 'win'){
         __db = window.openDatabase(CONTRACT.DB.NAME + '-' + makeid(), CONTRACT.DB.NAME, CONTRACT.DB.NAME, 5000, function(){
@@ -249,10 +248,6 @@ function onDeviceReady(){
             registerPushService();
         }
     }
-
-    document.addEventListener("touchmove", function(event){
-        event.preventDefault();
-    });
 }
 
 function dropTables(table_names, callback){
@@ -480,14 +475,6 @@ window.onerror = function sendCrashReport(message, url , linenumber, column, err
         stack: stack
     })
 };
-
-function stacktrace() {
-    function st2(f) {
-        return !f ? [] :
-            st2(f.caller).concat([f.toString().split('(')[0].substring(9) + '(' + f.arguments.join(',') + ')']);
-    }
-    return st2(arguments.callee.caller);
-}
 
 function showSlides(){
 
