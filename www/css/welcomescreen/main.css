@@ -212,3 +212,34 @@ span.day-number.with-events{
   position: fixed;
   top: 40px;
 }
+
+.organizations-list{
+  margin: 15px 0;
+}
+
+.organizations-list ul::before, .organizations-list ul::after, {
+  background-color: transparent;
+}
+
+.organizations-list-title{
+  padding-top: 20px;
+}
+
+.organization-item .item-inner{
+  display: inherit !important;
+}
+.organization-item .item-media{
+  border: 1px solid #7387C5 !important;
+  border-radius: 99px !important;
+  padding: 5px !important;
+}
+
+.pull-right{
+  float: right;
+}
+#organizations > .content-block{
+  padding-left: 5px;
+}
+.disable-active-state.active-state .item-inner::after{
+  background-color: #c8c7cc !important;
+}

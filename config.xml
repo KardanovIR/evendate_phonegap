@@ -10,7 +10,7 @@
     <content src="index.html" />
     <preference name="permissions" value="none" />
     <preference name="orientation" value="default" />
-    <preference name="target-device" value="universal" />
+    <preference name="target-device" value="handset" />
     <preference name="fullscreen" value="true" />
     <preference name="webviewbounce" value="true" />
     <preference name="prerendered-icon" value="true" />
@@ -21,6 +21,8 @@
     <preference name="show-splash-screen-spinner" value="true" />
     <preference name="auto-hide-splash-screen" value="true" />
     <preference name="disable-cursor" value="true" />
+    <preference name="deployment-target" value="7.0" />
+
 
     <preference name="StatusBarOverlaysWebView" value="true"/>
     <preference name="StatusBarBackgroundColor" value="#000000"/>

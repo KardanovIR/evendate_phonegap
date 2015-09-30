@@ -11,9 +11,9 @@
   <!-- Path to Framework7 Library CSS-->
   <link rel="stylesheet" href="css/framework7.ios.css">
   <!-- Path to your custom app styles-->
-  <link rel="stylesheet" href="css/welcomescreen/main.css?nc=3">
   <link rel="stylesheet" href="css/welcomescreen/welcomescreen.css?nc=3">
   <link rel="stylesheet" href="css/ionic_icons.min.css">
+  <link rel="stylesheet" href="css/welcomescreen/main.css?nc=3">
 </head>
 
 <body id="main-body">
@@ -97,9 +97,9 @@
                   </div>
                   <div class="user-name">
                     <div class="user-name-text">{{info.first_name}} {{info.last_name}}</div>
-                    <div class="user-is-editor" ng-show="{{info.is_editor}}"> Редактор</div>
+                    <div class="user-is-editor" ng-hide="{{info.is_editor === false}}"> Редактор</div>
                     <div>
-                      <a href="#" ng-show="{{info.is_editor}}" class="button button-big button-round btn-black-blue">Создать
+                      <a href="#" ng-hide="{{info.is_editor === false}}" class="button button-big button-round btn-black-blue">Создать
                         мероприятие</a>
                     </div>
                   </div>
@@ -108,9 +108,9 @@
               <div class="content-block-title">Подписки</div>
               <div class="list-block subscriptions-list">
                 <ul>
-                  <li class="swipeout" ng-repeat="subscription in subscriptions"
-                      ng-click="openOrganization(subscription)">
-                    <a href="#" class="item-link swipeout-content item-content">
+                  <li class="swipeout" ng-repeat="subscription in subscriptions">
+                    <a href="#" class="item-link swipeout-content item-content"
+                       ng-click="openOrganization(subscription)">
                       <div class="item-media">
                         <img ng-src="{{subscription.img_url}}">
                       </div>
@@ -119,33 +119,32 @@
                         <div class="item-after"></div>
                       </div>
                     </a>
-
                     <div class="swipeout-actions-right">
                       <!-- We add data-confirm and data-confirm-title attributes -->
-                      <a href="#" class="swipeout-delete">Описаться</a>
+                      <a href="#" class="swipeout-delete">Отписаться</a>
                     </div>
                   </li>
                 </ul>
               </div>
             </div>
             <div id="organizations" class="tab">
-              <div class="content-block-title">Подпишитесь на организации</div>
+              <div class="content-block-title organizations-list-title">Подпишитесь на организации</div>
               <div class="content-block">
                 <div class="list-block organizations-list media-list">
                   <ul>
-                    <li ng-repeat="organization in organizations" class="organization">
-                      <a href="#" class="item-link item-content disable-active-state">
+                    <li ng-repeat="organization in organizations" class="organization"
+                        ng-click="openOrganization(organization)">
+                      <a href="#" class="item-link item-content disable-active-state organization-item">
                         <div class="item-media ">
                           <img ng-src="{{organization.img_url}}" width="80">
                         </div>
-                        <div class="item-inner">
-                          <div class="item-title-row">
+                        <div class="item-inner row">
+                          <div class="col-50">
                             <div class="item-title">{{organization.short_name}}</div>
-                            <div class="item-after"></div>
+                            <div class="item-subtitle">{{organization.subscribed_count}} подписчиков</div>
                           </div>
-                          <div class="item-subtitle">{{organization.type_name}}</div>
-                          <div class="item-text">
-                            <button type="button" class="button btn-black-blue">Подписаться</button>
+                          <div class="col-50">
+                            <button type="button" class="button btn-black-blue pull-right" ng-click="subscribe(organization.id, $event);">Подписаться</button>
                           </div>
                         </div>
                       </a>
@@ -201,7 +200,7 @@
                   </div>
                   <div class="item-inner">
                     <div class="item-title-row">
-                      <div class="item-title">{{event.title | limitTo: 25}}{{event.title.length > 20 ? '...' : ''}}</div>
+                      <div class="item-title">{{event.title}}</div>
                       <div class="item-after"></div>
                     </div>
                     <div class="item-subtitle">{{event.short_dates}}, {{event.time}}</div>
@@ -250,7 +249,7 @@
                         </div>
                         <div class="item-inner">
                           <div class="item-title-row">
-                            <div class="item-title">{{event.title | limitTo: 25}}{{event.title.length > 20 ? '...' : ''}}</div>
+                            <div class="item-title">{{event.title}}</div>
                             <div class="item-after"></div>
                           </div>
                           <div class="item-subtitle">{{event.short_dates}}, {{event.time}}</div>

@@ -36,6 +36,7 @@ function Organizations(){
 			], function(tx, res){
 				cb(res);
 				if (organization.hasOwnProperty('subscribed_friends')){
+					debugger;
 					organization.subscribed_friends.forEach(function(user){
 						__api.users.post(user, function(res){
 							__api.organizations_users.post({

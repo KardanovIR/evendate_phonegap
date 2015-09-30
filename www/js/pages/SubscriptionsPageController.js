@@ -10,6 +10,8 @@ MyApp.pages.SubscriptionsPageController = function ($scope, $http) {
   $scope.selected_organization = null;
 
   $scope.setUser = function(){
+    console.log(__user);
+    debugger;
     $scope.info = __user;
     $scope.getSubscriptionsList();
   };
@@ -26,22 +28,34 @@ MyApp.pages.SubscriptionsPageController = function ($scope, $http) {
     __api.organizations.get(null, function(data){
       $scope.organizations = data;
       $scope.$apply();
-      $$('.organizations-list .organization').on('click', function(e){
-        var $item_link = $$(this).find('.item-link');
+      $$('.organizations-list button')
+          .on('touchend', function(){
+            $$(this).parents('.item-link').removeClass('disable-active-state');
+          })
+          .on('click', function(){
+            var $item_link = $$(this).parents('.item-link');
+            $item_link.addClass('disable-active-state');
+          });
+      $$('.organizations-list .item-link').on('touchstart', function(e){
         if ($$(e.target).is('button')){
-          $item_link.addClass('disable-active-state');
+          $$(this).addClass('disable-active-state');
         }else{
-          $item_link.removeClass('disable-active-state');
+          $$(this).removeClass('disable-active-state');
         }
       });
     });
   };
 
+  $scope.subscribe = function(organization, $event){
+
+    $event.stopPropagation();
+  };
+
   $scope.openOrganization = function(subscription){
     __api.organizations.get([{
       id: subscription.id
-    }], function(){
-      $scope.selected_organization = subscription;
+    }], function(res){
+      $scope.selected_organization = res;
       $scope.$apply();
 
       fw7App.getCurrentView().router.load({
@@ -50,6 +64,7 @@ MyApp.pages.SubscriptionsPageController = function ($scope, $http) {
       });
     });
 
+    debugger;
     __api.events.get([{
       organization_id: subscription.id,
       type: 'future'

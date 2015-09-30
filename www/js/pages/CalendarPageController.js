@@ -122,32 +122,33 @@ MyApp.pages.CalendarPageController = function ($scope, $http) {
 								'position': 'absolute',
 								'top': _top + 'px'
 							}).data('max-top', $$row.height() * index).data('top', _top);
-							setTimeout(function(){
-								$$row.css('top', 0);
-							}, index);
+							$$row.css('top', 0);
 						});
 						$events_wrapper.css('top', $calendar_days_wrapper.offset().top + $calendar_days_wrapper.height() + $row.height() + 'px');
 					}
+
+
 					$$('.picker-modal-inline, #calendar-date-events-list')
 						.off('touchmove')
 						.on('touchmove', function(e){
-							if ($$(e.target).is('#calendar-date-events-list')){
-								if (window.screenY != 40) return false;
-							}
+							//if ($$(e.target).is('#calendar-date-events-list')){
+							//	if (window.screenY != 40) return false;
+							//}
 							var currentY = e.touches[0].clientY,
 								rows_count = $all_rows.length;
 							if(currentY > lastY){
 								$all_rows.each(function(index, el){
 									var $$row = $$(el),
 										max_top = $$row.data('max-top'),
-										new_top = $$row.data('top') + index;
+										new_top = $$row.data('top') + index * 15;
 									if (new_top > max_top){
 										new_top = max_top;
 										$$row.removeClass('collapsed row-with-selected');
 									}
 
-
-									$$row.css('top', new_top + 'px').data('top', new_top);
+									$$row
+										.css('top', new_top + 'px')
+										.data('top', new_top);
 
 									if(rows_count - 1 == index){
 										updateEventsPosition(new_top + $$row.height());
@@ -156,7 +157,7 @@ MyApp.pages.CalendarPageController = function ($scope, $http) {
 							}else if(currentY < lastY){
 								$all_rows.each(function(index, el){
 									var $$row = $$(el),
-										new_top = $$row.data('top') - index;
+										new_top = $$row.data('top') - index * 15;
 									if (new_top < 0){
 										new_top = 0;
 										$$row.removeClass('collapsed');
