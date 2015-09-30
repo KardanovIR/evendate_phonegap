@@ -63,11 +63,13 @@
     <icon gap:platform="ios" height="57" src="res/icon/ios/icon-57.png" width="57" />
     <icon gap:platform="ios" height="72" src="res/icon/ios/icon-72.png" width="72" />
     <icon gap:platform="ios" height="114" src="res/icon/ios/icon-57-2x.png" width="114" />
+    <icon gap:platform="ios" height="120" src="res/icon/ios/icon-120.png" width="120" />
     <icon gap:platform="ios" height="144" src="res/icon/ios/icon-72-2x.png" width="144" />
 
     <icon platform="ios" height="57" src="res/icon/ios/icon-57.png" width="57" />
     <icon platform="ios" height="72" src="res/icon/ios/icon-72.png" width="72" />
     <icon platform="ios" height="114" src="res/icon/ios/icon-57-2x.png" width="114" />
+    <icon platform="ios" height="120" src="res/icon/ios/icon-120.png" width="120" />
     <icon platform="ios" height="144" src="res/icon/ios/icon-72-2x.png" width="144" />
 
     <plugin name="cordova-plugin-whitelist" version="1" />
@@ -111,6 +113,9 @@
         <!-- iPad Spotlight and Settings Icon -->
         <icon src="res/ios/icon-57.png" width="50" height="50" />
         <icon src="res/ios/icon-57-2x.png" width="100" height="100" />
+
+        <!-- iPad Spotlight and Settings Icon -->
+        <icon src="res/ios/icon-120.png" width="120" height="120" />
     </platform>
     <feature name="DatePicker">
         <param name="ios-package" value="DatePicker"/>
