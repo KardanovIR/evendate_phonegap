@@ -11,7 +11,6 @@ MyApp.pages.SubscriptionsPageController = function ($scope, $http) {
 
   $scope.setUser = function(){
     console.log(__user);
-    debugger;
     $scope.info = __user;
     $scope.getSubscriptionsList();
   };
