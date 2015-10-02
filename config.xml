@@ -72,6 +72,35 @@
     <icon platform="ios" height="120" src="res/icon/ios/icon-120.png" width="120" />
     <icon platform="ios" height="144" src="res/icon/ios/icon-72-2x.png" width="144" />
 
+
+    <!-- Optional splash screen image, e.g.: -->
+    <gap:splash src="res/screen/ios/screen-iphone-landscape.png" gap:platform="ios" width="480" height="320" />
+    <gap:splash src="res/screen/ios/screen-iphone-portrait.png" gap:platform="ios" width="320" height="480" />
+
+    <gap:splash src="res/screen/ios/screen-iphone-landscape-2x.png" gap:platform="ios" width="960" height="640" />
+    <gap:splash src="res/screen/ios/screen-iphone-portrait-2x.png" gap:platform="ios" width="640" height="960" />
+
+    <gap:splash src="res/screen/ios/screen-iphone-portrait.png" gap:platform="ios" width="1136" height="640" />
+    <gap:splash src="res/screen/ios/screen-iphone-portrait-568h-2x.png" gap:platform="ios" width="640" height="1136" />
+
+    <gap:splash src="res/screen/ios/screen-ipad-landscape.png" gap:platform="ios" width="1024" height="768" />
+    <gap:splash src="res/screen/ios/screen-ipad-portrait.png" gap:platform="ios" width="768" height="1024" />
+
+    <gap:splash src="res/screen/ios/screen-iphone-portrait.png" gap:platform="ios" width="568" height="320" />
+    <gap:splash src="res/screen/ios/screen-iphone-portrait.png" gap:platform="ios" width="320" height="568" />
+
+    <gap:splash src="res/screen/ios/screen-iphone-portrait.png" gap:platform="ios" width="1334" height="750" />
+    <gap:splash src="res/screen/ios/screen-iphone-portrait.png" gap:platform="ios" width="750" height="1334" />
+
+    <gap:splash src="res/screen/ios/screen-iphone-portrait.png" gap:platform="ios" width="2208" height="1242" />
+    <gap:splash src="res/screen/ios/screen-iphone-portrait.png" gap:platform="ios" width="1242" height="2208" />
+
+    <gap:splash src="res/screen/ios/screen-iphone-portrait.png" gap:platform="ios" width="2048" height="1536" />
+    <gap:splash src="res/screen/ios/screen-iphone-portrait.png" gap:platform="ios" width="1536" height="2048" />
+
+
+
+
     <plugin name="cordova-plugin-whitelist" version="1" />
     <access origin="*" />
     <allow-intent href="http://*/*" />
