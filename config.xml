@@ -117,6 +117,8 @@
         <!-- iPad Spotlight and Settings Icon -->
         <icon src="res/ios/icon-120.png" width="120" height="120" />
     </platform>
+
+
     <feature name="DatePicker">
         <param name="ios-package" value="DatePicker"/>
     </feature>

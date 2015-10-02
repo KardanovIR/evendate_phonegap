@@ -503,7 +503,7 @@ function showSlides(){
 
 function checkToken(){
     if (__os == 'win'){
-        permanentStorage.setItem('token', '3fd657bfb585ca98ab01bb228dd64a1e898cb92d1d4a04953cf35a36f9e169dc2011e674853c2d9cb85ecee5b130cd88f0ac8c61XDS7nca4iD4jrvMvVXWRP6LHpdMesDH6nqA52iQH3YP60izgzYCYufVrKbwJpzA');
+        permanentStorage.setItem('token', '88edb512346e17741fad8f1482ea68ecebb6c022751fc19d5e78750d10819802ce15e8861802a7980babe0c5785379fa73c1275MZ1OSjHRJ2lrZVorX9NEBTJKoK3zX47rbwWwO8D1aCIMhg4VBXXgQSzabL0ut6Iv');
     }
     var token = permanentStorage.getItem('token');
     L.log('TOKEN:' + token);

@@ -11,33 +11,6 @@
   background-color: #f87796;
 }
 
-.tutorialicon {
-  font-size: 250px;
-  line-height: 170px;
-}
-
-.tutorial-img img {
-  max-height: 80%;
-  max-width: 100%;
-}
-
-.tutorial-close-btn {
-  background: #fff;
-  padding: 10px;
-  border-radius: 10px;
-  color: #0da6ec;
-}
-
-.tutorial-close-btn {
-  background: #fff;
-  padding: 10px;
-  border-radius: 10px;
-  color: #0da6ec !important;
-  text-decoration: none !important;
-}
-
-/*# sourceMappingURL=main.css.map */
-
 .vk-btn{
   background-color: #48729e;
   color: white;
@@ -156,12 +129,13 @@ a.button-white.active {
   border: 1px solid #ccc;
   border-radius: 999px;
   display: inline-block;
+  margin-top: -35px;
+  background-color: #ffffff;
 }
 .organization-page-img{
   width: 50px;
   height: 50px;
   padding-top: 10px;
-  padding-left: 10px;
 }
 .swiper-container {
   height: 100%;
@@ -228,6 +202,7 @@ span.day-number.with-events{
 .organization-item .item-inner{
   display: inherit !important;
 }
+
 .organization-item .item-media{
   border: 1px solid #7387C5 !important;
   border-radius: 99px !important;
@@ -242,4 +217,27 @@ span.day-number.with-events{
 }
 .disable-active-state.active-state .item-inner::after{
   background-color: #c8c7cc !important;
+}
+
+.background-img{
+  width: 100%;
+  height: auto;
+}
+
+.organization-img-wrapper{
+  width: 100%;
+  text-align: center;
+}
+
+.organization-name{
+  text-align: center;
+  font-weight: 600;
+  font-size: 18px;
+}
+
+.liked-users .user-avatar{
+  width: 35px;
+  height: 35px;
+  border-radius: 1000px;
+  margin-right: -15px;
 }

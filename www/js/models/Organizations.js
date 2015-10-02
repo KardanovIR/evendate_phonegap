@@ -96,6 +96,7 @@ function Organizations(){
 					success: function(res){
 						_r = filterData(filters, res.data);
 						_r = normalize(_r);
+						console.log(_r);
 						cb(_r);
 						_post(res.data, function(){});
 					},

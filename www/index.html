@@ -85,7 +85,6 @@
 
 
     <div class="pages navbar-through">
-      <!-- Pag has additional "with-subnavbar" class -->
       <div id="subscriptions" class="page with-subnavbar">
         <div class="page-content profile-page-content">
           <div class="tabs">
@@ -159,29 +158,28 @@
 
       <div class="page cached organization-page" data-page="organizationPage">
         <div class="page-content">
+          <div class="background-img-wrapper">
+            <img ng-src="{{selected_organization.background_img_url}}" class="background-img">
+          </div>
+          <div class="organization-img-wrapper">
+            <div class="organization-page-img-wrapper">
+              <img ng-src="{{selected_organization.img_url}}" class="organization-page-img">
+            </div>
+          </div>
+          <div class="organization-name">
+            {{selected_organization.name}}
+          </div>
           <div class="content-block">
             <div class="content-block-inner">
-              <table>
-                <tr>
-                  <td>
-                    <div class="organization-page-img-wrapper">
-                      <img ng-src="{{selected_organization.img_url}}" class="organization-page-img">
-                    </div>
-                  </td>
-                  <td>
-                    <div>
-                      {{selected_organization.name}}
-                    </div>
-                  </td>
-                </tr>
-              </table>
               <div>
                 <div class="row">
                   <div class="col-50">
-
+                    <div class="liked-users">
+                      <img class="user-avatar" ng-repeat="user in selected_organization.subscribed_friends" ng-src="{{user.avatar_url}}">
+                    </div>
                   </div>
                   <div class="col-50">
-                    <button type="button" ng-click="toggleSubscription(selected_organization);" class="button button button-round button-pink {{selected_organization.subscription_id == null ? 'button-filled':''}}">
+                    <button type="button" ng-click="toggleSubscription(selected_organization);" class="button button button-round button-pink pull-right {{selected_organization.subscription_id == null ? 'button-filled':''}}">
                       {{selected_organization.subscription_id == null ? 'Подписаться' : 'Отписаться'}}
                     </button>
                   </div>
@@ -307,7 +305,7 @@
 <script type="text/javascript" src="js/pages/SubscriptionsPageController.js"></script>
 <script type="text/javascript" src="js/pages/CalendarPageController.js"></script>
 <script type="text/javascript" src="js/imgcache.js"></script>
-<script src="http://evendate.ru:443/socket.io/socket.io.js" type="text/javascript"></script>
+<script type="text/javascript" src="http://evendate.ru:443/socket.io/socket.io.js"></script>
 <script type="text/javascript" src="phonegap.js"></script>
 <script type="text/javascript" src="childbrowser.js"></script>
 <script type="text/javascript" src="SQLitePlugin.js"></script>
