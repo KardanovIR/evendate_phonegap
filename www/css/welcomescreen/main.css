@@ -319,6 +319,10 @@ span.day-number.with-events{
   text-align: center;
 }
 
+.text-bold{
+  font-weight: 600;
+}
+
 .event-viewport {
   overflow: hidden;
   height: 100%;
@@ -390,9 +394,16 @@ span.day-number.with-events{
 .event-menu-items{
   margin-bottom: 5px;
 }
+
 .event-menu-items li{
   border-bottom: 1px solid #ECECEC;
 }
+
 .event-menu-items ul::before{
   height: 0;
+}
+
+.event-menu-items .item-title{
+  font-size: 15px;
+  color: #4C4B4B;
 }

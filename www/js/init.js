@@ -13,7 +13,12 @@ var child_browser_opened = false,
             ORGANIZATIONS_PATH: '/organizations',
             EVENTS_PATH: '/events',
             TAGS_PATH: '/tags',
-            MY_PART: '/my'
+            MY_PART: '/my',
+            FAVORITES_PART: '/favorites'
+        },
+        ALERTS: {
+            NO_INTERNET: 'Отсутствует соединение с сервером',
+
         },
         DB:{
             NAME: 'evendate.db',

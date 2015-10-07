@@ -63,7 +63,7 @@ function Organizations(){
 					url: CONTRACT.URLS.API_FULL_PATH + CONTRACT.URLS.SUBSCRIPTIONS_PATH,
 					data: {organization_id: value.id},
 					error: function(){
-						fw7App.alert('Отсутствует соединение с сервером');
+						fw7App.alert(CONTRACT.ALERTS.NO_INTERNET);
 					}
 				};
 				if (value.is_subscribed){
@@ -72,14 +72,14 @@ function Organizations(){
 						url: CONTRACT.URLS.API_FULL_PATH + CONTRACT.URLS.SUBSCRIPTIONS_PATH + '/' + value.subscription_id,
 						data: {subscription_id: value.subscription_id},
 						error: function(){
-							fw7App.alert('Отсутствует соединение с сервером');
+							fw7App.alert(CONTRACT.ALERTS.NO_INTERNET);
 						}
 					};
 				}
 				if (isOnline()){
 					$$.ajax(opts);
 				}else{
-					fw7App.alert('Отсутствует соединение с сервером');
+					fw7App.alert(CONTRACT.ALERTS.NO_INTERNET);
 				}
 
 				value.is_subscribed = !value.is_subscribed;

@@ -146,6 +146,48 @@ function Events(){
 				});
 			};
 
+			event.openDetailInfoUrl = function(){
+				window.plugins.ChildBrowser.showWebPage(event.detail_info_url, {
+					showLocationBar: true,
+					showAddress: true,
+					showNavigationBar: true
+				});
+			};
+
+			event.toggleFavorite = function(){
+				var opts = {
+					type: 'POST',
+					url: CONTRACT.URLS.API_FULL_PATH + CONTRACT.URLS.EVENTS_PATH + CONTRACT.URLS.FAVORITES_PART,
+					data: {event_id: event.id},
+					error: function(){
+						fw7App.alert(CONTRACT.ALERTS.NO_INTERNET);
+					}
+				};
+				if (event.is_favorite){
+					opts = {
+						type: 'DELETE',
+						url: CONTRACT.URLS.API_FULL_PATH + CONTRACT.URLS.EVENTS_PATH +
+							CONTRACT.URLS.FAVORITES_PART + '/' + event.id,
+						data: {event_id: event.id},
+						error: function(){
+							fw7App.alert(CONTRACT.ALERTS.NO_INTERNET);
+						}
+					};
+				}
+				if (isOnline()){
+					$$.ajax(opts);
+				}else{
+					fw7App.alert(CONTRACT.ALERTS.NO_INTERNET);
+				}
+
+				event.is_favorite = !value.is_favorite;
+				event.updateFavoriteText();
+			};
+
+			event.updateFavoriteText = function(){
+
+			};
+
 			_items.push(event);
 		});
 		return _items;
