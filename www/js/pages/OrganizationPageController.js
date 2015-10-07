@@ -10,6 +10,13 @@ MyApp.pages.OrganizationPageController = function ($scope, $http) {
 
 	$scope.setOrganization = function(organization){
 		$scope.organization = organization;
+		__api.events.get([{
+			organization_id: organization.id,
+			type: 'future'
+		}], function(res){
+			$scope.organization.events = res;
+			$scope.$apply();
+		});
 	}
 
 };

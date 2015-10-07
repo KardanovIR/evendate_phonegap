@@ -58,6 +58,8 @@
     <gap:plugin name="com.phonegap.plugins.pushplugin"/>
     <gap:plugin name="com.brodysoft.sqliteplugin" version="1.0.6" />
     <gap:plugin name="org.apache.cordova.statusbar" version="0.1.4" />
+    <gap:plugin name="uk.co.workingedge.phonegap.plugin.launchnavigator" source="npm" />
+
 
     <icon src="www/res/icon/ios/icon.png" />
     <icon gap:platform="ios" height="57" src="res/icon/ios/icon-57.png" width="57" />
@@ -159,7 +161,6 @@
 
         <splash src="res/screen/ios/iPADNR2.png" width="768" height="1024"/>
         <splash src="res/screen/ios/iPADNR1.png" width="1024" height="768"/>
-
 
 
         <splash src="res/screen/ios/screen-ipad-portrait-2x.png" width="1536" height="2048"/>

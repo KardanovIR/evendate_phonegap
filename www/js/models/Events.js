@@ -116,20 +116,27 @@ function Events(){
 					callbackObjects['eventPageBeforeAnimation'].remove();
 				}
 				callbackObjects['eventPageBeforeAnimation'] = fw7App.onPageBeforeAnimation('event', function(page){
-					var rootElement = angular.element(document);
-					rootElement.ready(function(){
-						rootElement.injector().invoke([ "$compile", function($compile) {
-							var scope = angular.element(page.container).scope(),
-								$$page = $$('.page.event');
-							$compile(page.container)(scope);
-							var $scope = angular.element($$page).scope();
-							console.log(_event);
-							$scope.setEvent(_event);
-							$scope.$apply();
 
-							$$page.find('.heading-name').text(_event.title);
-						}]);
-					});
+					var $$container = $$(page.container),
+						$$page = $$container.parents('.page.event');
+					if ($$container.data('opened') == true){
+						var $scope = angular.element($$container[0]).scope();
+						$scope.setEvent(_event);
+						$$page.find('.heading-name').text(_event.title);
+					}else{
+						var rootElement = angular.element(document);
+						rootElement.ready(function(){
+							rootElement.injector().invoke([ "$compile", function($compile) {
+								var scope = angular.element(page.container).scope();
+								$compile(page.container)(scope);
+								var $scope = angular.element($$container[0]).scope();
+								$scope.setEvent(_event);
+								$$page.find('.heading-name').text(_event.title);
+								$$container.data('opened', true);
+							}]);
+						});
+					}
+
 				});
 				fw7App.getCurrentView().router.loadPage({
 					url: 'pages/event.html',

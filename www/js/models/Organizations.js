@@ -36,7 +36,6 @@ function Organizations(){
 			], function(tx, res){
 				cb(res);
 				if (organization.hasOwnProperty('subscribed_friends')){
-					debugger;
 					organization.subscribed_friends.forEach(function(user){
 						__api.users.post(user, function(res){
 							__api.organizations_users.post({
@@ -94,32 +93,30 @@ function Organizations(){
 
 			value.open = function(){
 				var _organization = this;
-				debugger;
 				if (callbackObjects['organizationPageBeforeAnimation']){
 					callbackObjects['organizationPageBeforeAnimation'].remove();
 				}
 				callbackObjects['organizationPageBeforeAnimation'] = fw7App.onPageBeforeAnimation('organization', function(page){
-					var rootElement = angular.element(document);
-					rootElement.ready(function(){
-						rootElement.injector().invoke([ "$compile", function($compile) {
-							var scope = angular.element(page.container).scope(),
-								$$page = $$('.page.organization');
-							$compile(page.container)(scope);
-							var $scope = angular.element($$page).scope();
-							$scope.setOrganization(_organization);
 
-
-							$$page.find('.heading-name').text(_organization.short_name);
-							__api.events.get([{
-								organization_id: _organization.id,
-								type: 'future'
-							}], function(res){
-								debugger;
-								$scope.organization.events = res;
-								$scope.$apply();
-							});
-						}]);
-					});
+					var $$container = $$(page.container),
+						$$page = $$container.parents('.page.organization');
+					if ($$container.data('opened') == true){
+						var $scope = angular.element($$container[0]).scope();
+						$scope.setOrganization(_organization);
+						$$page.find('.heading-name').text(_organization.short_name);
+					}else{
+						var rootElement = angular.element(document);
+						rootElement.ready(function(){
+							rootElement.injector().invoke([ "$compile", function($compile) {
+								var scope = angular.element(page.container).scope();
+								$compile(page.container)(scope);
+								var $scope = angular.element($$container[0]).scope();
+								$scope.setOrganization(_organization);
+								$$page.find('.heading-name').text(_organization.short_name);
+								$$container.data('opened', true);
+							}]);
+						});
+					}
 				});
 				fw7App.getCurrentView().router.loadPage({
 					url: 'pages/organization.html',

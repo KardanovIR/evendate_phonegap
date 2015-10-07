@@ -346,7 +346,7 @@ span.day-number.with-events{
 .diagonal-block {
   position: relative;
   left: 0;
-  height: 75px;
+  height: 80px;
   margin: 0 -15px;
 }
 
@@ -372,6 +372,27 @@ span.day-number.with-events{
 .event-attributes i{
   font-size: 18px;
 }
+
 .event-attributes{
   color: #615F5F;
+}
+
+.favorite-button{
+  margin-top: 5px;
+}
+
+
+.event-menu-items .item-media{
+  font-size: 20px;
+  color: #828282;
+}
+
+.event-menu-items{
+  margin-bottom: 5px;
+}
+.event-menu-items li{
+  border-bottom: 1px solid #ECECEC;
+}
+.event-menu-items ul::before{
+  height: 0;
 }

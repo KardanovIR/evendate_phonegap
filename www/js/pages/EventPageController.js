@@ -9,6 +9,7 @@ MyApp.pages.EventPageController = function ($scope, $http) {
 	$scope.event = {};
 	$scope.setEvent = function(event){
 		$scope.event = event;
+		$scope.$digest();
 	}
 
 };
