@@ -56,11 +56,119 @@ function Organizations(){
 
 	function normalize(items){
 
-		return items;
+		var _ret = [];
+		items.forEach(function(value){
+			value.toggleSubscriptionStatus = function($event){
+				var opts = {
+					type: 'POST',
+					url: CONTRACT.URLS.API_FULL_PATH + CONTRACT.URLS.SUBSCRIPTIONS_PATH,
+					data: {organization_id: value.id},
+					error: function(){
+						fw7App.alert('Отсутствует соединение с сервером');
+					}
+				};
+				if (value.is_subscribed){
+					opts = {
+						type: 'DELETE',
+						url: CONTRACT.URLS.API_FULL_PATH + CONTRACT.URLS.SUBSCRIPTIONS_PATH + '/' + value.subscription_id,
+						data: {subscription_id: value.subscription_id},
+						error: function(){
+							fw7App.alert('Отсутствует соединение с сервером');
+						}
+					};
+				}
+				if (isOnline()){
+					$$.ajax(opts);
+				}else{
+					fw7App.alert('Отсутствует соединение с сервером');
+				}
+
+				value.is_subscribed = !value.is_subscribed;
+				value.updateSubscriptionText();
+				$event.stopPropagation();
+			};
+
+			value.updateSubscriptionText = function(){
+				value.subscription_text = value.is_subscribed ? 'Отписаться' : 'Подписаться';
+			};
+
+			value.open = function(){
+				var _organization = this;
+				debugger;
+				if (callbackObjects['organizationPageBeforeAnimation']){
+					callbackObjects['organizationPageBeforeAnimation'].remove();
+				}
+				callbackObjects['organizationPageBeforeAnimation'] = fw7App.onPageBeforeAnimation('organization', function(page){
+					var rootElement = angular.element(document);
+					rootElement.ready(function(){
+						rootElement.injector().invoke([ "$compile", function($compile) {
+							var scope = angular.element(page.container).scope(),
+								$$page = $$('.page.organization');
+							$compile(page.container)(scope);
+							var $scope = angular.element($$page).scope();
+							$scope.setOrganization(_organization);
+
+
+							$$page.find('.heading-name').text(_organization.short_name);
+							__api.events.get([{
+								organization_id: _organization.id,
+								type: 'future'
+							}], function(res){
+								debugger;
+								$scope.organization.events = res;
+								$scope.$apply();
+							});
+						}]);
+					});
+				});
+				fw7App.getCurrentView().router.loadPage({
+					url: 'pages/organization.html',
+					query: {id: value.id},
+					pushState: true,
+					animatePages: true
+				});
+			};
+
+			value.updateSubscriptionText();
+			_ret.push(value);
+		});
+
+		return _ret;
 	}
 
 	function filterData(filters, data){
+		var _res = [],
+			name,
+			params = prepareFilterQuery(filters).data;
 
+		if (Array.isArray(data) == false){
+			var arr = [];
+			arr.push(data);
+			data = arr;
+		}
+
+		data.forEach(function(item){
+			for(name in params){
+				if (!params.hasOwnProperty(name)) continue;
+				if (!item.hasOwnProperty(name)) continue;
+
+				if (item[name] != params[name]){
+					item.to_exclude = true;
+				}
+			}
+			_res.push(item);
+		});
+
+		data = [];
+		_res.forEach(function(item){
+			if (item.hasOwnProperty('to_exclude') && item.to_exclude == true){
+				return true;
+			}else{
+				delete item.to_exclude;
+				data.push(item);
+			}
+		});
+		console.log(data);
 		return data;
 	}
 
@@ -86,7 +194,6 @@ function Organizations(){
 			if (_filters_data.hasOwnProperty('id')){
 				url += '/' + _filters_data.id;
 			}
-
 			if (isOnline()){
 				$$.ajax({
 					url: url,
@@ -96,7 +203,7 @@ function Organizations(){
 					success: function(res){
 						_r = filterData(filters, res.data);
 						_r = normalize(_r);
-						console.log(_r);
+						console.log('AJAX:', _r);
 						cb(_r);
 						_post(res.data, function(){});
 					},

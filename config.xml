@@ -147,13 +147,26 @@
         <icon src="res/ios/icon-120.png" width="120" height="120" />
 
 
-        <splash src="res/screen/ios/screen-iphone-portrait.png" width="320" height="480"/>
-        <splash src="res/screen/ios/screen-iphone-portrait-568h-2x.png" width="640" height="960"/>
-        <splash src="res/screen/ios/screen-ipad-portrait.png" width="768" height="1024"/>
+        <splash src="res/screen/ios/iPOD1.png" width="320" height="480"/>
+        <splash src="res/screen/ios/iPOD2.png" width="480" height="320"/>
+
+        <splash src="res/screen/ios/iPODR1.png" width="640" height="960"/>
+        <splash src="res/screen/ios/iPODR2.png" width="960" height="640"/>
+
+        <splash src="res/screen/ios/iPHONE6 2.png" width="750" height="1134"/>
+        <splash src="res/screen/ios/iPHONE6 2.png" width="750" height="1134"/>
+
+
+        <splash src="res/screen/ios/iPADNR2.png" width="768" height="1024"/>
+        <splash src="res/screen/ios/iPADNR1.png" width="1024" height="768"/>
+
+
+
         <splash src="res/screen/ios/screen-ipad-portrait-2x.png" width="1536" height="2048"/>
-        <splash src="res/screen/ios/screen-ipad-landscape.png" width="1024" height="768"/>
+
         <splash src="res/screen/ios/screen-ipad-landscape-2x.png" width="2048" height="1536"/>
-        <splash src="res/screen/ios/screen-iphone-portrait-2x.png" width="640" height="1136"/>
+        <splash src="res/screen/ios/iPHONE5 2.png" width="640" height="1136"/>
+        <splash src="res/screen/ios/iPHONE5 1.png" width="1136" height="640"/>
         <splash src="res/screen/ios/Default-667h.png" width="750" height="1334"/>
         <splash src="res/screen/ios/Default-736h.png" width="1242" height="2208"/>
         <splash src="res/screen/ios/Default-Landscape-736h.png" width="2208" height="1242"/>

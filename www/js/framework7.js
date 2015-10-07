@@ -38,7 +38,7 @@
             allowDuplicateUrls: false,
             router: true,
             // Push State
-            pushState: false,
+            pushState: true,
             pushStateRoot: undefined,
             pushStateNoAnimation: false,
             pushStateSeparator: '#!/',
@@ -79,9 +79,9 @@
             swipeoutActionsNoFold: false,
             swipeoutNoFollow: false,
             // Smart Select Back link template
-            smartSelectBackText: 'Back',
+            smartSelectBackText: 'Назад',
             smartSelectInPopup: false,
-            smartSelectPopupCloseText: 'Close',
+            smartSelectPopupCloseText: 'Закрыть',
             smartSelectSearchbar: false,
             smartSelectBackOnSelect: false,
             // Tap Navbar or Statusbar to scroll to top
@@ -97,14 +97,14 @@
             panelsCloseByOutside: true,
             // Modals
             modalButtonOk: 'OK',
-            modalButtonCancel: 'Cancel',
+            modalButtonCancel: 'Отмена',
             modalUsernamePlaceholder: 'Username',
             modalPasswordPlaceholder: 'Password',
             modalTitle: 'Framework7',
             modalCloseByOutside: false,
             actionsCloseByOutside: true,
             popupCloseByOutside: true,
-            modalPreloaderTitle: 'Loading... ',
+            modalPreloaderTitle: 'Загрузка... ',
             modalStack: true,
             // Lazy Load
             imagesLazyLoadThreshold: 0,

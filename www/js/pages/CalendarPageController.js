@@ -111,23 +111,6 @@ MyApp.pages.CalendarPageController = function ($scope, $http) {
 					$scope.day_events = events;
 					$scope.$apply();
 
-					if (!already_selected_row){
-						$all_rows.each(function(index, el){
-							var $$row = $$(el),
-								_top = $$row.height() * index,
-								is_selected_row = $$row.hasClass('row-with-selected');
-							$$row.addClass('collapsed').css({
-								'background-color': '#fff',
-								'z-index': index * (is_selected_row) ? 100 : 10,
-								'position': 'absolute',
-								'top': _top + 'px'
-							}).data('max-top', $$row.height() * index).data('top', _top);
-							$$row.css('top', 0);
-						});
-						$events_wrapper.css('top', $calendar_days_wrapper.offset().top + $calendar_days_wrapper.height() + $row.height() + 'px');
-					}
-
-
 					$$('.picker-modal-inline, #calendar-date-events-list')
 						.off('touchmove')
 						.on('touchmove', function(e){
@@ -137,6 +120,21 @@ MyApp.pages.CalendarPageController = function ($scope, $http) {
 							var currentY = e.touches[0].clientY,
 								rows_count = $all_rows.length;
 							if(currentY > lastY){
+								if (!already_selected_row){
+									$all_rows.each(function(index, el){
+										var $$row = $$(el),
+											_top = $$row.height() * index,
+											is_selected_row = $$row.hasClass('row-with-selected');
+										$$row.addClass('collapsed').css({
+											'background-color': '#fff',
+											'z-index': index * (is_selected_row) ? 100 : 10,
+											'position': 'absolute',
+											'top': _top + 'px'
+										}).data('max-top', $$row.height() * index).data('top', _top);
+										$$row.css('top', 0);
+									});
+									$events_wrapper.css('top', $calendar_days_wrapper.offset().top + $calendar_days_wrapper.height() + $row.height() + 'px');
+								}
 								$all_rows.each(function(index, el){
 									var $$row = $$(el),
 										max_top = $$row.data('max-top'),
@@ -155,6 +153,7 @@ MyApp.pages.CalendarPageController = function ($scope, $http) {
 									}
 								});
 							}else if(currentY < lastY){
+								console.log('SECOND');
 								$all_rows.each(function(index, el){
 									var $$row = $$(el),
 										new_top = $$row.data('top') - index * 15;
@@ -163,14 +162,13 @@ MyApp.pages.CalendarPageController = function ($scope, $http) {
 										$$row.removeClass('collapsed');
 									}
 									$$row.css('top', new_top + 'px').data('top', new_top);
-
 									if(rows_count - 1 == index){
 										updateEventsPosition(new_top + $$row.height());
 									}
 								});
 							}
 							lastY = currentY;
-							e.preventDefault();
+							//e.preventDefault();
 						});
 				});
 			}

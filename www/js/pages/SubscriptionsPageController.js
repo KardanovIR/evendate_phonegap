@@ -45,40 +45,11 @@ MyApp.pages.SubscriptionsPageController = function ($scope, $http) {
     });
   };
 
-  $scope.subscribe = function(organization, $event){
-
-    $event.stopPropagation();
-  };
-
   $scope.openOrganization = function(subscription){
-    __api.organizations.get([{
-      id: subscription.id
-    }], function(res){
-      $scope.selected_organization = res;
-      $scope.$apply();
 
-      fw7App.getCurrentView().router.load({
-        pageName: 'organizationPage',
-        animatePages: true
-      });
-    });
+    subscription.open();
 
-    debugger;
-    __api.events.get([{
-      organization_id: subscription.id,
-      type: 'future'
-    }], function(res){
-      $scope.selected_organization.events = res;
-      $scope.$apply();
-    });
-  };
 
-  $scope.toggleSubscription = function(){
-    if ($scope.selected_organization.subscription_id == null){
-
-    }else{
-
-    }
   };
 
   $$('#profile').on('refresh', function(){

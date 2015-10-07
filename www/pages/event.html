@@ -1,0 +1,74 @@
+
+<!-- We don't need full layout here, because this page will be parsed with Ajax-->
+<!-- Top Navbar-->
+<div class="navbar">
+  <div class="navbar-inner">
+    <div class="left sliding">
+      <a href="#" class="link back">
+        <i class="ion-ios-arrow-back"></i><span>Назад</span></a>
+    </div>
+    <div class="center sliding heading-name"></div>
+  </div>
+</div>
+<div class="pages">
+  <!-- Page, data-page contains page name-->
+  <div data-page="event" class="page event" ng-controller="EventPageController">
+    <!-- Scrollable page content-->
+    <div class="page-content">
+      <div class="event-viewport">
+        <div class="background-img-wrapper">
+          <img ng-src="{{event.image_horizontal_url}}" class="background-img">
+        </div>
+        <div class="event-wrapper">
+          <img ng-src="{{event.image_horizontal_url}}" class="hidden-img">
+          <div class="content-block">
+            <div class="diagonal-block">
+              <div class="diagonal-content">
+                <div class="liked-users">
+                  <img class="user-avatar" ng-repeat="user in event.liked_users | limitTo: 5" ng-src="{{user.avatar_url}}">
+                  <div class="organization-subscribed-count">+{{event.liked_users_count}}</div>
+                </div>
+                <button type="button" ng-click="" class="button pull-right" ng-class="">
+                  В избранное
+                </button>
+              </div>
+            </div>
+            <div class="event-name">
+              {{event.name}}
+            </div>
+            <div class="content-block-inner without-top-border without-bottom-border">
+              <div>
+                <table class="event-attributes">
+                  <tr>
+                    <td><i class="ion-ios-calendar-outline"></i> {{event.dates}}</td>
+                    <td rowspan="3" class="text-center">
+                      <div class="event-page-img-wrapper">
+                        <img ng-src="{{event.organization_img_url}}" class="">
+                      </div>
+                      {{event.organization_short_name}}
+                    </td>
+                  </tr>
+                  <tr><td><i class="ion-ios-time-outline"></i> {{event.time}}</td></tr>
+                  <tr><td><i class="ion-ios-location-outline"></i> {{event.location_object.formatted_address}}</td></tr>
+                </table>
+                <div class="event-name">
+                  {{event.title}}
+                </div>
+                <div class="row">
+                  <div class="col-60">
+
+                  </div>
+                  <div class="col-40">
+
+                  </div>
+                </div>
+                {{event.description}}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>

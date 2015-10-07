@@ -1,0 +1,81 @@
+
+<!-- We don't need full layout here, because this page will be parsed with Ajax-->
+<!-- Top Navbar-->
+<div class="https://guuru-my.sharepoint.com/personal/aa_makarov_guu_ru/Documents/Регламент">
+  <div class="navbar-inner">
+    <div class="left sliding">
+      <a href="#" class="link back">
+        <i class="ion-ios-arrow-back"></i><span>Назад</span></a>
+    </div>
+    <div class="center sliding heading-name"></div>
+  </div>
+</div>
+<div class="pages">
+  <!-- Page, data-page contains page name-->
+  <div class="page organization" data-page="organization" ng-controller="OrganizationPageController">
+    <div class="page-content">
+      <div class="background-img-wrapper">
+        <img ng-src="{{organization.background_img_url}}" class="background-img">
+      </div>
+      <div class="organization-img-wrapper">
+        <div class="organization-page-img-wrapper">
+          <img ng-src="{{organization.img_url}}" class="organization-page-img">
+        </div>
+      </div>
+      <div class="organization-name">
+        {{organization.name}}
+      </div>
+      <div class="content-block">
+        <div class="content-block-inner without-top-border without-bottom-border">
+          <div>
+            <div class="row">
+              <div class="col-50 text-center">
+                <div class="liked-users">
+                  <img class="user-avatar" ng-repeat="user in organization.subscribed_friends | limitTo: 5" ng-src="{{user.avatar_url}}">
+                  <div class="organization-subscribed-count">+{{organization.subscribed_count}}</div>
+                </div>
+                <div class="subscribed-friends-count text-center">
+                  {{organization.subscribed_friends.length}} друзей подписано
+                </div>
+              </div>
+              <div class="col-50">
+                <button type="button" ng-click="organization.toggleSubscriptionStatus($event);" class="button pull-right" ng-class="{'button-pink':organization.is_subscribed}">
+                  {{organization.subscription_text}}
+                </button>
+              </div>
+            </div>
+            {{organization.description}}
+          </div>
+        </div>
+      </div>
+
+      <div class="list-block media-list">
+        <ul>
+          <li ng-repeat="event in organization.events" class="event-item" ng-click="event.open()">
+            <a href="#" class="item-link item-content">
+              <div class="item-media">
+                <img ng-src="{{event.image_vertical_url}}" class="event-vertical">
+              </div>
+              <div class="item-inner">
+                <div class="item-title-row">
+                  <div class="item-title">{{event.title}}</div>
+                  <div class="item-after"></div>
+                </div>
+                <div class="item-text">
+                  <div class="liked-users">
+                    <img class="user-avatar" ng-repeat="user in event.favorite_friends | limitTo: 5" ng-src="{{user.avatar_url}}">
+                    <div class="organization-subscribed-count">+{{event.liked_users_count}}</div>
+                  </div>
+                </div>
+                <div class="item-subtitle event-datetime">
+                  {{event.short_dates}} | {{event.time}}
+                </div>
+              </div>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+</div>

@@ -1206,7 +1206,7 @@ html.pixel-ratio-3 .toolbar:before {
   color: #929292;
 }
 .tabbar a.active {
-  color: #007aff;
+  color: #6A80BC;
 }
 .tabbar a.link {
   line-height: 1.4;
@@ -2196,7 +2196,7 @@ html.pixel-ratio-3 .list-block ul:after {
   margin-left: 5px;
 }
 .list-block .item-media + .item-inner {
-  margin-left: 15px;
+  padding-left: 15px;
 }
 .list-block .item-inner {
   padding-right: 15px;
@@ -2454,7 +2454,7 @@ html.pixel-ratio-3 .list-block .item-link.list-button:after {
   line-height: 21px;
   position: relative;
   overflow: hidden;
-  height: 42px;
+  height: 50px;
   text-overflow: ellipsis;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
@@ -2829,8 +2829,8 @@ html.android .label-switch input[type="checkbox"] + .checkbox:before {
   transition-duration: 0;
 }
 .button {
-  border: 1px solid #007aff;
-  color: #007aff;
+  border: 1px solid #6b88c7;
+  color: #6B88C7;
   text-decoration: none;
   text-align: center;
   display: block;

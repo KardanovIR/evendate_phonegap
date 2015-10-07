@@ -93,6 +93,10 @@ function Events(){
 			event.dates = end_date.format('DD MMMM') ;
 			event.short_dates = end_date.format('DD/MM') ;
 			event.day_name = end_date.format('dddd');
+			try{
+				event.location_object = JSON.parse(event.location_object);
+			}catch(e){}
+
 			if (end_date.format(CONTRACT.DATE_FORMAT) != st_date.format(CONTRACT.DATE_FORMAT)){
 				event.one_day = false;
 				if (end_date.format('MM') == st_date.format('MM')){
@@ -105,6 +109,35 @@ function Events(){
 				event.one_day = true;
 			}
 			event.tags_text = event.tags_array.join(', ');
+
+			event.open = function(){
+				var _event = this;
+				if (callbackObjects['eventPageBeforeAnimation']){
+					callbackObjects['eventPageBeforeAnimation'].remove();
+				}
+				callbackObjects['eventPageBeforeAnimation'] = fw7App.onPageBeforeAnimation('event', function(page){
+					var rootElement = angular.element(document);
+					rootElement.ready(function(){
+						rootElement.injector().invoke([ "$compile", function($compile) {
+							var scope = angular.element(page.container).scope(),
+								$$page = $$('.page.event');
+							$compile(page.container)(scope);
+							var $scope = angular.element($$page).scope();
+							console.log(_event);
+							$scope.setEvent(_event);
+							$scope.$apply();
+
+							$$page.find('.heading-name').text(_event.title);
+						}]);
+					});
+				});
+				fw7App.getCurrentView().router.loadPage({
+					url: 'pages/event.html',
+					query: {id: event.id},
+					pushState: true,
+					animatePages: true
+				});
+			};
 
 			_items.push(event);
 		});

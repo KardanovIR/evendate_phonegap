@@ -127,7 +127,8 @@ var child_browser_opened = false,
     __app,
     $$,
     MyApp = MyApp || {},
-    fw7App;
+    fw7App,
+    callbackObjects = {};
 
 
 window.socket = io.connect('http://evendate.ru:443');
@@ -164,14 +165,29 @@ MyApp.init = (function () {
     });
     $$ = Dom7;
 
+    fw7App.getViewByName = function(name){
+        var _view = null;
+        fw7App.views.forEach(function(view){
+            if (view.selector == '.view-' + name){
+                _view = view;
+            }
+        });
+        return _view;
+    };
+
+    fw7App.setView = function(name){
+        var viewInstance = fw7App.getViewByName(name);
+        $$('.view').removeClass('active');
+        $$(viewInstance.container).addClass('active');
+    };
+
+
     var fw7ViewOptions = {
         dynamicNavbar: true,
         domCache: true
     };
 
     __app = angular.module('MyApp', []);
-
-    MyApp = MyApp || { views: [] };
 
     fw7App.addView('.view-main', fw7ViewOptions);
     fw7App.addView('.view-profile', fw7ViewOptions);
@@ -182,6 +198,8 @@ MyApp.init = (function () {
     __api = initAPI();
     __app.controller('SubscriptionsPageController', ['$scope', '$http', MyApp.pages.SubscriptionsPageController]);
     __app.controller('CalendarPageController', ['$scope', '$http', MyApp.pages.CalendarPageController]);
+    __app.controller('EventPageController', ['$scope', MyApp.pages.EventPageController]);
+    __app.controller('OrganizationPageController', ['$scope', MyApp.pages.OrganizationPageController]);
 }());
 
 document.addEventListener("deviceready", onDeviceReady, false);
@@ -443,12 +461,10 @@ function saveTokenInLocalStorage(url){
 function openApplication(){
     __app = angular.module('Evendate', []);
     $$('.main-tabbar').removeClass('hidden');
-    var viewsElement = $$('.view-events')[0],
-        viewInstance = viewsElement.f7View;
+    var viewInstance = fw7App.getViewByName('events');
     viewInstance.showNavbar();
     viewInstance.showToolbar();
-    $$('.view').removeClass('active');
-    $$(viewsElement).addClass('active');
+    fw7App.setView('events');
     $$('.view-main').addClass('tab');
 
     var scope = angular.element($$('#profile')).scope();
@@ -544,6 +560,15 @@ function checkToken(){
 }
 
 
+function openEvent(){
+
+}
+
+function openOrganization(){
+
+}
+
+
 function initAPI(){
     return {
         users: new Users(),
@@ -574,8 +599,8 @@ function prepareFilterQuery(filters){
         if (!_value) return true;
         for (var key in _value){
             if (_value.hasOwnProperty(key)){
+                data[key] = _value[key];
                 var value = String(_value[key]);
-                data[key] = value;
                 if (value.toLowerCase().trim() === 'null' || value.toLowerCase().trim() === 'not null'){
                     _q.push(key + ' IS ' + value.toUpperCase().trim());
                 }else{
