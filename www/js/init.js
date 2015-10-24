@@ -14,7 +14,8 @@ var child_browser_opened = false,
             EVENTS_PATH: '/events',
             TAGS_PATH: '/tags',
             MY_PART: '/my',
-            FAVORITES_PART: '/favorites'
+            FAVORITES_PART: '/favorites',
+            FEED_PART: '/feed'
         },
         ALERTS: {
             NO_INTERNET: 'Отсутствует соединение с сервером',
@@ -58,6 +59,10 @@ var child_browser_opened = false,
                     TYPE_ID: 'type_id',
                     SUBSCRIPTION_ID: 'subscription_id',
                     SUBSCRIBED_COUNT: 'subscribed_count',
+                    BACKGROUND_MEDIUM_IMG_URL: 'background_medium_img_url',
+                    BACKGROUND_SMALL_IMG_URL: 'background_small_img_url',
+                    IMG_MEDIUM_URL: 'img_medium_url',
+                    IMG_SMALL_URL: 'img_small_url',
                     CREATED_AT: 'created_at',
                     UPDATED_AT: 'updated_at'
                 },
@@ -203,8 +208,11 @@ MyApp.init = (function () {
     __api = initAPI();
     __app.controller('SubscriptionsPageController', ['$scope', '$http', MyApp.pages.SubscriptionsPageController]);
     __app.controller('CalendarPageController', ['$scope', '$http', MyApp.pages.CalendarPageController]);
+    __app.controller('FavoritesPageController', ['$scope', MyApp.pages.FavoritesPageController]);
     __app.controller('EventPageController', ['$scope', MyApp.pages.EventPageController]);
     __app.controller('OrganizationPageController', ['$scope', MyApp.pages.OrganizationPageController]);
+    __app.controller('FriendsPageController', ['$scope', MyApp.pages.FriendsPageController]);
+    __app.controller('FriendsTabController', ['$scope', MyApp.pages.FriendsTabController]);
 }());
 
 document.addEventListener("deviceready", onDeviceReady, false);
@@ -251,6 +259,9 @@ function registerPushService(){
 }
 
 function onDeviceReady(){
+
+    moment.locale("ru");
+
     var db_version = window.localStorage.getItem('db_version');
     if (__os == 'win'){
         __db = window.openDatabase(CONTRACT.DB.NAME + '-' + makeid(), CONTRACT.DB.NAME, CONTRACT.DB.NAME, 5000, function(){
@@ -481,6 +492,11 @@ function openApplication(){
     calendar_scope.$apply(function () {
         calendar_scope.startBinding();
     });
+
+    var favorites_scope = angular.element($$('#favorites')).scope();
+    favorites_scope.$apply(function () {
+        favorites_scope.startBinding();
+    });
 }
 
 window.onerror = function sendCrashReport(message, url , linenumber, column, errorObj){
@@ -524,7 +540,7 @@ function showSlides(){
 
 function checkToken(){
     if (__os == 'win'){
-        permanentStorage.setItem('token', '88edb512346e17741fad8f1482ea68ecebb6c022751fc19d5e78750d10819802ce15e8861802a7980babe0c5785379fa73c1275MZ1OSjHRJ2lrZVorX9NEBTJKoK3zX47rbwWwO8D1aCIMhg4VBXXgQSzabL0ut6Iv');
+        permanentStorage.setItem('token', 'ya29.EALdxSDaGuJRTQnhjzmSAwL8pIirP_cZjA5zZTCU3EVlBPTSm31qhstfmujkcCfEH3Z_5sNyX1f3xwuzkmps96axdxtBGQMsLblFfKHNfgHDFhMska0A9zbmntpAkk2Xtog6J3YaAIHqq8');
     }
     var token = permanentStorage.getItem('token');
     L.log('TOKEN:' + token);

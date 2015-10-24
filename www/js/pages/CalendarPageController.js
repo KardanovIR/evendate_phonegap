@@ -8,10 +8,73 @@ MyApp.ns('MyApp.pages');
 MyApp.pages.CalendarPageController = function ($scope, $http) {
 	'use strict';
 
+	var events_by_days = {};
+
 	$scope.year = 0;
 	$scope.month = '';
+	$scope.timeline_days = [];
 
+	$scope.page_counter = 0;
 	$scope.binded = false;
+
+	$scope.getMyTimeline = function(first_page){
+		if (first_page == true){
+			$scope.page_counter = 0;
+			$$('.profile-page-content').on('infinite', function (){
+				$scope.getMyTimeline(false);
+			});
+		}
+		__api.events.get([
+			{timeline: true},
+			{type: 'future'},
+			{page: $scope.page_counter++},
+			{length: 10}
+		], function(data){
+			var today_timestamp = new Date(moment().format('YYYY-MM-DD 00:00:00')),
+				moment_today = moment(today_timestamp);
+
+			data.forEach(function(item){
+				item.moment_dates_range = [];
+				item.dates_range.forEach(function(date){
+					var m_date = moment(date);
+					if (m_date.unix() >= moment_today.unix()){
+						item.moment_dates_range.push(m_date);
+					}
+				});
+			});
+
+
+			events_by_days = first_page ? {} : events_by_days;
+			data.forEach(function(item){
+				var first_date = item.moment_dates_range[0].format('DD MMMM');
+				if (!events_by_days.hasOwnProperty(first_date)){
+					events_by_days[first_date] = {};
+				}
+				if (!events_by_days[first_date].hasOwnProperty('_' + item.id)){
+					events_by_days[first_date]['_' + item.id] = item;
+				}
+			});
+
+			$scope.timeline_days = [];
+
+			for(var day in events_by_days){
+				if (events_by_days.hasOwnProperty(day)){
+					var _events_array = [];
+					for (var event_key in events_by_days[day]){
+						if (events_by_days[day].hasOwnProperty(event_key)){
+							_events_array.push(events_by_days[day][event_key]);
+						}
+					}
+					$scope.timeline_days.push({
+						name: day,
+						events: _events_array
+					});
+				}
+			}
+			$scope.$apply();
+
+		});
+	};
 
 	function addClassesToDatesWithEvents(events){
 		events.forEach(function(event){
@@ -21,7 +84,7 @@ MyApp.pages.CalendarPageController = function ($scope, $http) {
 					month = m_date.format('M') - 1,
 					day = m_date.format('D');
 				$$('.picker-calendar-day[data-date="' + [year, month,day].join('-') + '"] .day-number')
-					.addClass('with-events');;
+					.addClass('with-events');
 			});
 		});
 	}
@@ -73,8 +136,10 @@ MyApp.pages.CalendarPageController = function ($scope, $http) {
 				$$('.calendar-custom-toolbar .right .link').on('click', function () {
 					calendarInline.nextMonth();
 				});
+
+				$$('.picker-calendar-day-selected').removeClass('picker-calendar-day-selected');
 			},
-			onMonthYearChangeStart: function (p) {
+			onMonthYearChangeEnd: function (p) {
 				$scope.year = p.currentYear;
 				$scope.month = p.currentMonth + 1;
 				$scope.$digest();
@@ -90,86 +155,12 @@ MyApp.pages.CalendarPageController = function ($scope, $http) {
 				}
 			},
 			onDayClick: function(p, dayContainer, year, month, day){
-
-				var $row = $$(dayContainer).parents('.picker-calendar-row'),
-					already_selected_row = $row.hasClass('row-with-selected'),
-					$month = $row.parents('.picker-calendar-month'),
-					$all_rows = $month.find('.picker-calendar-row').removeClass('row-with-selected'),
-					$events_wrapper = $$('#calendar-date-events-list'),
-					$calendar_days_wrapper = $$('.picker-calendar-week-days'),
-					lastY;
-				$row.addClass('row-with-selected');
-
 				__api.events.get([
-					{date: moment([year, parseInt(month) + 1, day].join('-'), 'YYYY-M-D').format(CONTRACT.DATE_FORMAT)}
+					{date: moment([year, parseInt(month) + 1, day].join('-'), 'YYYY-M-D').format(CONTRACT.DATE_FORMAT)},
+					{my: true}
 				], function(events){
-
-					function updateEventsPosition(top){
-						$events_wrapper.css('top', top + $month.offset().top + 'px');
-					}
-
 					$scope.day_events = events;
 					$scope.$apply();
-
-					$$('.picker-modal-inline, #calendar-date-events-list')
-						.off('touchmove')
-						.on('touchmove', function(e){
-							//if ($$(e.target).is('#calendar-date-events-list')){
-							//	if (window.screenY != 40) return false;
-							//}
-							var currentY = e.touches[0].clientY,
-								rows_count = $all_rows.length;
-							if(currentY > lastY){
-								if (!already_selected_row){
-									$all_rows.each(function(index, el){
-										var $$row = $$(el),
-											_top = $$row.height() * index,
-											is_selected_row = $$row.hasClass('row-with-selected');
-										$$row.addClass('collapsed').css({
-											'background-color': '#fff',
-											'z-index': index * (is_selected_row) ? 100 : 10,
-											'position': 'absolute',
-											'top': _top + 'px'
-										}).data('max-top', $$row.height() * index).data('top', _top);
-										$$row.css('top', 0);
-									});
-									$events_wrapper.css('top', $calendar_days_wrapper.offset().top + $calendar_days_wrapper.height() + $row.height() + 'px');
-								}
-								$all_rows.each(function(index, el){
-									var $$row = $$(el),
-										max_top = $$row.data('max-top'),
-										new_top = $$row.data('top') + index * 15;
-									if (new_top > max_top){
-										new_top = max_top;
-										$$row.removeClass('collapsed row-with-selected');
-									}
-
-									$$row
-										.css('top', new_top + 'px')
-										.data('top', new_top);
-
-									if(rows_count - 1 == index){
-										updateEventsPosition(new_top + $$row.height());
-									}
-								});
-							}else if(currentY < lastY){
-								console.log('SECOND');
-								$all_rows.each(function(index, el){
-									var $$row = $$(el),
-										new_top = $$row.data('top') - index * 15;
-									if (new_top < 0){
-										new_top = 0;
-										$$row.removeClass('collapsed');
-									}
-									$$row.css('top', new_top + 'px').data('top', new_top);
-									if(rows_count - 1 == index){
-										updateEventsPosition(new_top + $$row.height());
-									}
-								});
-							}
-							lastY = currentY;
-							//e.preventDefault();
-						});
 				});
 			}
 		});

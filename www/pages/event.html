@@ -7,14 +7,14 @@
       <a href="#" class="link back">
         <i class="ion-ios-arrow-back"></i><span>Назад</span></a>
     </div>
-    <div class="center sliding heading-name"></div>
+    <div class="center sliding heading-name">Событие</div>
   </div>
 </div>
 <div class="pages">
   <div data-page="event" class="page event" ng-controller="EventPageController">
     <div class="page-content">
       <div class="event-viewport">
-        <div class="background-img-wrapper">
+        <div class="background-img-wrapper" data-top="0">
           <img ng-src="{{event.image_horizontal_url}}" class="background-img">
         </div>
         <div class="event-wrapper">
@@ -22,12 +22,12 @@
           <div class="content-block">
             <div class="diagonal-block">
               <div class="diagonal-content">
-                <div class="liked-users">
-                  <img class="user-avatar" ng-repeat="user in event.liked_users | limitTo: 5" ng-src="{{user.avatar_url}}">
+                <div class="liked-users text-right" ng-click="event.openLikedFriends();">
+                  <img class="user-avatar" ng-repeat="user in event.favorite_friends | limitTo: 5" ng-src="{{user.avatar_url}}">
                   <div class="organization-subscribed-count">+{{event.liked_users_count}}</div>
                 </div>
-                <button type="button" ng-click="event.toggleFavorite();" class="button pull-right favorite-button" ng-class="">
-                  В избранное
+                <button type="button" ng-click="event.toggleFavorite($event);" class="button pull-right favorite-button" ng-class="{'button-pink':event.is_favorite}">
+                  {{event.favorite_text}}
                 </button>
               </div>
             </div>
@@ -37,17 +37,12 @@
             <div class="content-block-inner without-top-border without-bottom-border">
               <div>
                 <table class="event-attributes">
-                  <tr>
-                    <td><i class="ion-ios-calendar-outline"></i> {{event.dates}}</td>
-                    <td rowspan="3" class="text-center">
-                      <div class="event-page-img-wrapper">
-                        <img ng-src="{{event.organization_img_url}}" class="">
-                      </div>
-                      {{event.organization_short_name}}
-                    </td>
-                  </tr>
-                  <tr><td><i class="ion-ios-time-outline"></i> {{event.time}}</td></tr>
-                  <tr><td><i class="ion-ios-location-outline"></i> {{event.location_object.formatted_address}}</td></tr>
+                  <tr><td colspan="2"><i class="ion-ios-time-outline"></i> {{event.dates}}, {{event.time}}</td></tr>
+                  <tr><td colspan="2"><i class="ion-ios-location-outline"></i> {{event.location_object.formatted_address}}</td></tr>
+                  <tr><td colspan="2"><i class="ion-ios-pricetags-outline"></i> {{event.tags_text}}</td></tr>
+                  <tr ng-click="event.openOrganization();"><td class="text-center organization-logo-td">
+                    <div class="event-page-img-wrapper"> <img ng-src="{{event.organization_img_url}}" class=""></div></td>
+                    <td>{{event.organization_name}}</td></tr>
                 </table>
                 <div class="event-name">
                   {{event.title}}

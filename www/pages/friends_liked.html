@@ -1,0 +1,47 @@
+
+<!-- We don't need full layout here, because this page will be parsed with Ajax-->
+<!-- Top Navbar-->
+<div class="navbar">
+  <div class="navbar-inner">
+    <div class="left sliding">
+      <a href="#" class="link back">
+        <i class="ion-ios-arrow-back"></i><span>Назад</span></a>
+    </div>
+    <div class="center sliding heading-name">Добавили в избранное</div>
+  </div>
+</div>
+<div class="pages">
+  <div data-page="friends_liked" class="page friends_liked" ng-controller="FriendsPageController">
+    <div class="page-content">
+      <div class="friends-page-header" style="background-image: url({{info.background_img_url}})">
+      </div>
+      <div class="friends-page-header-shadow">
+      </div>
+      <div class="friends-page-header-text text-center">
+        <div class="img-cirle-wrapper" ng-hide="info.logo_url == null">
+          <img ng-src="{{info.logo_url}}">
+        </div>
+        <span class="margin-left-10">{{info.name}}</span>
+      </div>
+      <div class="list-block no-margin media-list">
+        <ul>
+          <li ng-repeat="friend in info.friends">
+            <a href="#" class="item-link item-content">
+              <div class="item-media">
+                <img ng-src="{{friend.avatar_url}}" class="friend-image">
+              </div>
+              <div class="item-inner">
+                <div class="item-title-row">
+                  <div class="item-title">{{friend.last_name}} {{friend.first_name}}</div>
+                </div>
+                <div class="item-subtitle text-gray" ng-show="friend.is_friend == true">
+                  {{friend.type_name}}
+                </div>
+              </div>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>

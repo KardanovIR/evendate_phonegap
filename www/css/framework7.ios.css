@@ -48,6 +48,7 @@ body {
 * {
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
   -webkit-touch-callout: none;
+  -webkit-user-select: none; /* Disable selection/copy in UIWebView */
 }
 a,
 input,
@@ -2619,7 +2620,7 @@ html.pixel-ratio-3 .list-block .list-group-title:before {
 }
 .list-block li:last-child .item-inner:after,
 .list-block li:last-child li:last-child .item-inner:after {
-  display: none;
+  /*display: none;*/
 }
 .list-block li li:last-child .item-inner:after,
 .list-block li:last-child li .item-inner:after {
@@ -4054,9 +4055,7 @@ html.pixel-ratio-3 .picker-modal .toolbar:before {
   transform: scaleY(0.33);
 }
 .picker-modal .toolbar + .picker-modal-inner {
-  height: -webkit-calc(100% - 44px);
-  height: -moz-calc(100% - 44px);
-  height: calc(100% - 44px);
+  height: 80%;
 }
 .picker-modal.picker-modal-inline,
 .popover .picker-modal {
@@ -5418,7 +5417,7 @@ html.pixel-ratio-3 .picker-center-highlight:after {
 /* === Calendar === */
 .picker-calendar {
   background: #fff;
-  height: 350px;
+  height: 50%;
   width: 100%;
   overflow: hidden;
 }

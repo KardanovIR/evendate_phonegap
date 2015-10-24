@@ -1,6 +1,5 @@
 function Users(){
 	function insert(user, cb){
-		debugger;
 		var q_ins = '',
 			placeholders = [],
 			_fields = [
@@ -61,18 +60,26 @@ function Users(){
 
 	return {
 		'get': function(filters, cb){
-			debugger;
 			var _f = prepareFilterQuery(filters),
 				_post = this.post,
-				_r;
+				_r, is_feed = false,
+				url = CONTRACT.URLS.API_FULL_PATH + CONTRACT.URLS.USERS_PATH;
+
+			if (_f.data.hasOwnProperty('feed') && _f.data.feed == true){
+				url += '/' + CONTRACT.URLS.FEED_PART;
+				is_feed = true;
+			}
+
 			if (isOnline()){
 				$$.ajax({
-					url: CONTRACT.URLS.API_FULL_PATH + CONTRACT.URLS.EVENTS_PATH,
+					url: url,
 					data: _f.data,
 					success: function(res){
-						_r = normalize(res);
+						_r = normalize(res.data);
 						cb(_r);
-						_post(res.data, function(){});
+						if (is_feed == false){
+							_post(res.data, function(){});
+						}
 					},
 					error: function(err){
 						L.log(err);

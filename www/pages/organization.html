@@ -1,25 +1,21 @@
-
-<!-- We don't need full layout here, because this page will be parsed with Ajax-->
-<!-- Top Navbar-->
-<div class="https://guuru-my.sharepoint.com/personal/aa_makarov_guu_ru/Documents/Регламент">
-  <div class="navbar-inner">
+<div class="navbar">
+  <div class="navbar-inner organization-page-navbar">
     <div class="left sliding">
       <a href="#" class="link back">
         <i class="ion-ios-arrow-back"></i><span>Назад</span></a>
     </div>
-    <div class="center sliding heading-name"></div>
+    <div class="center sliding heading-name">Организатор</div>
   </div>
 </div>
 <div class="pages">
-  <!-- Page, data-page contains page name-->
   <div class="page organization" data-page="organization" ng-controller="OrganizationPageController">
     <div class="page-content">
       <div class="background-img-wrapper">
-        <img ng-src="{{organization.background_img_url}}" class="background-img">
+        <img ng-src="{{organization.background_medium_img_url}}" class="background-img">
       </div>
       <div class="organization-img-wrapper">
         <div class="organization-page-img-wrapper">
-          <img ng-src="{{organization.img_url}}" class="organization-page-img">
+          <img ng-src="{{organization.img_medium_url}}" class="organization-page-img">
         </div>
       </div>
       <div class="organization-name">
@@ -30,7 +26,7 @@
           <div>
             <div class="row">
               <div class="col-50 text-center">
-                <div class="liked-users">
+                <div class="liked-users" ng-click="organization.openSubscribedFriends()">
                   <img class="user-avatar" ng-repeat="user in organization.subscribed_friends | limitTo: 5" ng-src="{{user.avatar_url}}">
                   <div class="organization-subscribed-count">+{{organization.subscribed_count}}</div>
                 </div>
@@ -51,8 +47,8 @@
 
       <div class="list-block media-list">
         <ul>
-          <li ng-repeat="event in organization.events" class="event-item" ng-click="event.open()">
-            <a href="#" class="item-link item-content">
+          <li ng-repeat="event in organization.events" class="event-item swipeout" ng-class="{'favorite':event.is_favorite}">
+            <a href="#" class="item-link swipeout-content item-content" ng-click="event.open()">
               <div class="item-media">
                 <img ng-src="{{event.image_vertical_url}}" class="event-vertical">
               </div>
@@ -72,6 +68,10 @@
                 </div>
               </div>
             </a>
+            <div class="swipeout-actions-right">
+              <!-- We add data-confirm and data-confirm-title attributes -->
+              <a href="#" class="action1 favorite-action" ng-click="event.toggleFavorite($event);" >{{event.favorite_text}}</a>
+            </div>
           </li>
         </ul>
       </div>

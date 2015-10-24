@@ -15,6 +15,10 @@ function Organizations(){
 				CONTRACT.DB.FIELDS.ORGANIZATIONS.SUBSCRIPTION_ID,
 				CONTRACT.DB.FIELDS.ORGANIZATIONS.TYPE_ID,
 				CONTRACT.DB.FIELDS.ORGANIZATIONS.TYPE_NAME,
+				CONTRACT.DB.FIELDS.ORGANIZATIONS.BACKGROUND_MEDIUM_IMG_URL,
+				CONTRACT.DB.FIELDS.ORGANIZATIONS.BACKGROUND_SMALL_IMG_URL,
+				CONTRACT.DB.FIELDS.ORGANIZATIONS.IMG_MEDIUM_URL,
+				CONTRACT.DB.FIELDS.ORGANIZATIONS.IMG_SMALL_URL,
 				CONTRACT.DB.FIELDS.ORGANIZATIONS.UPDATED_AT];
 		q_ins = 'INSERT INTO ' + CONTRACT.DB.TABLES.ORGANIZATIONS + ' (' +
 			_fields.join(',') + ') ' +
@@ -32,6 +36,10 @@ function Organizations(){
 				organization.subscription_id ? organization.subscription_id : null,
 				organization.type_id,
 				organization.type_name,
+				organization.background_medium_img_url,
+				organization.background_small_img_url,
+				organization.img_medium_url,
+				organization.img_small_url,
 				moment().unix()
 			], function(tx, res){
 				cb(res);
@@ -84,7 +92,9 @@ function Organizations(){
 
 				value.is_subscribed = !value.is_subscribed;
 				value.updateSubscriptionText();
-				$event.stopPropagation();
+				if ($event){
+					$event.stopPropagation();
+				}
 			};
 
 			value.updateSubscriptionText = function(){
@@ -103,7 +113,6 @@ function Organizations(){
 					if ($$container.data('opened') == true){
 						var $scope = angular.element($$container[0]).scope();
 						$scope.setOrganization(_organization);
-						$$page.find('.heading-name').text(_organization.short_name);
 					}else{
 						var rootElement = angular.element(document);
 						rootElement.ready(function(){
@@ -112,7 +121,6 @@ function Organizations(){
 								$compile(page.container)(scope);
 								var $scope = angular.element($$container[0]).scope();
 								$scope.setOrganization(_organization);
-								$$page.find('.heading-name').text(_organization.short_name);
 								$$container.data('opened', true);
 							}]);
 						});
@@ -120,6 +128,50 @@ function Organizations(){
 				});
 				fw7App.getCurrentView().router.loadPage({
 					url: 'pages/organization.html',
+					query: {id: value.id},
+					pushState: true,
+					animatePages: true
+				});
+			};
+
+			value.openSubscribedFriends = function(){
+				var _organization = this;
+				if (callbackObjects['subscribedFriendsPageBeforeAnimation']){
+					callbackObjects['subscribedFriendsPageBeforeAnimation'].remove();
+				}
+				callbackObjects['subscribedFriendsPageBeforeAnimation'] = fw7App.onPageBeforeAnimation('friends_subscribed', function(page){
+
+					var $$container = $$(page.container);
+					if ($$container.data('opened') == true){
+						var $scope = angular.element($$container[0]).scope();
+						console.log(_organization);
+						$scope.setInfo({
+							background_img_url: _organization.background_img_url,
+							logo_url: _organization.img_url,
+							name: _organization.name,
+							friends: _organization.subscribed_friends
+						});
+					}else{
+						var rootElement = angular.element(document);
+						rootElement.ready(function(){
+							rootElement.injector().invoke([ "$compile", function($compile) {
+								var scope = angular.element(page.container).scope();
+								$compile(page.container)(scope);
+								var $scope = angular.element($$container[0]).scope();
+								console.log(_organization);
+								$scope.setInfo({
+									background_img_url: _organization.background_img_url,
+									logo_url: _organization.img_url,
+									name: _organization.name,
+									friends: _organization.subscribed_friends
+								});
+								$$container.data('opened', true);
+							}]);
+						});
+					}
+				});
+				fw7App.getCurrentView().router.loadPage({
+					url: 'pages/friends_subscribed.html',
 					query: {id: value.id},
 					pushState: true,
 					animatePages: true
@@ -200,7 +252,6 @@ function Organizations(){
 					success: function(res){
 						_r = filterData(filters, res.data);
 						_r = normalize(_r);
-						console.log('AJAX:', _r);
 						cb(_r);
 						_post(res.data, function(){});
 					},

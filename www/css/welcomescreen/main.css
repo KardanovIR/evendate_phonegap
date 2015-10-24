@@ -1,3 +1,4 @@
+
 .button-pink{
   border-color: #F82969;
   color: #F82969;
@@ -7,6 +8,7 @@
   background-color: #f82969;
   color: #ffffff;
 }
+
 .button-pink.button-filled:active,.button-pink.button-filled:focus{
   background-color: #f87796;
 }
@@ -17,18 +19,21 @@
   border: none;
   box-sizing: inherit;
 }
+
 .facebook-btn{
   background-color: #3F5C9A;
   color: white;
   border: none;
   box-sizing: inherit;
 }
+
 .google-btn{
   background-color: #DD4B39;
   color: white;
   border: none;
   box-sizing: inherit;
 }
+
 .hidden{
   display: none;
 }
@@ -40,6 +45,7 @@
 .navbar-inner, .toolbar-inner {
   height: auto;
 }
+
 .subnavbar>.buttons-row{
   width: 75%;
   min-width: 200px;;
@@ -50,11 +56,13 @@ a.button.button-white {
   border: 1px solid #fff;
   color: #fff;
 }
+
 a.button-white.active {
   background: #fff;
   border: #fff;
   color: #000;
 }
+
 .profile-page-content{
   padding-top: 8px !important;
 }
@@ -116,12 +124,14 @@ a.button-white.active {
   font-size: 20px;
   font-weight: 700;
 }
+
 .calendar-head-year{
   text-align: center;
   padding-top: 3px;
   font-size: 11px;
   color: #676464;
 }
+
 .navbar-inner{
   color: #fff !important;
 }
@@ -129,6 +139,7 @@ a.button-white.active {
 .organization-page-navbar{
   background: #6D89C5;
 }
+
 .organization-page-img-wrapper{
   width: 70px;
   height: 70px;
@@ -140,34 +151,40 @@ a.button-white.active {
 }
 
 .event-page-img-wrapper img{
-  width: 40px;
+  width: 30px;
   padding-top: 10px;
 }
+
 .event-page-img-wrapper{
-  width: 60px;
-  height: 60px;
+  width: 50px;
+  height: 50px;
   border: 1px solid #ccc;
   border-radius: 999px;
   display: inline-block;
   background-color: #ffffff;
 }
+
 .organization-page-img{
   width: 50px;
   height: 50px;
   padding-top: 10px;
 }
+
 .swiper-container {
   height: 100%;
 }
+
 .swiper-slide {
   background:#fff;
 }
+
 .swiper-slide span {
   text-align:center;
   display:block;
   margin:20px;
   font-size:21px;
 }
+
 .back .ion-ios-arrow-back{
   font-size: 1.6em;
 }
@@ -200,8 +217,11 @@ span.day-number.with-events{
 #calendar-date-events-list{
   -webkit-transition: all 0.3s linear;
   transition: all 0.3s linear;
-  position: absolute;
-  top: 350px
+  position: fixed;
+  top: calc(50% + 20px);
+  display: block;
+  overflow: scroll;
+  height: calc(50% - 70px);
 }
 .picker-calendar.picker-modal-inline{
   position: fixed;
@@ -274,13 +294,17 @@ span.day-number.with-events{
   height: 25px;
   width: 25px;
   margin-left: 10px;
-  background-color: #ccc;
+  border: 1px solid #ccc;
   vertical-align: top;
   border-radius: 1000px;
   text-align: center;
   line-height: 25px;
   font-size: 11px;
   margin-top: 5px;
+}
+
+.event-item.favorite{
+  border-right: 5px solid #E33D74 !important;
 }
 
 .event-item .item-link{
@@ -298,15 +322,16 @@ span.day-number.with-events{
 
 .event-item .item-subtitle{
   font-size: 14px !important;
-  bottom: -12px !important;
-  line-height: 15px !important;
+  line-height: 14px !important;
+  bottom: 3px;
+  position: absolute;
 }
 
-.content-block-inner.without-top-border::before{
+.without-top-border::before{
   background-color: transparent !important;
 }
 
-.content-block-inner.without-top-border::after{
+.without-bottom-border::after{
   background-color: transparent !important;
 }
 
@@ -350,7 +375,7 @@ span.day-number.with-events{
 .diagonal-block {
   position: relative;
   left: 0;
-  height: 80px;
+  height: 90px;
   margin: 0 -15px;
 }
 
@@ -359,7 +384,7 @@ span.day-number.with-events{
   position: absolute;
   left: 0;
   width: 154%;
-  height: 100px;
+  height: 110px;
   background-color: #fff;
   transform: rotate(-12deg);
   transform-origin: bottom;
@@ -406,4 +431,155 @@ span.day-number.with-events{
 .event-menu-items .item-title{
   font-size: 15px;
   color: #4C4B4B;
+}
+
+.timeline-day-title{
+  text-align: center!important;
+  color: #000000!important;
+  padding-top: 10px!important;
+  background-color: #ffffff!important;
+  border-bottom: 1px solid #ccc!important;
+}
+
+.img-cirle-wrapper{
+  border-radius: 999px;
+  box-sizing: border-box;
+}
+
+.img-cirle-wrapper.width-40{
+  width: 40px;
+  height: 40px;
+}
+
+.img-cirle-wrapper.width-40 img{
+  width: 30px;
+  height: 30px;
+  margin-top: 5px;
+  margin-left: 5px;
+}
+
+.border-blue{
+  border: 1px solid #7387C5;
+}
+
+.pull-left{
+  float: left;
+}
+
+.event-organization-name{
+  display: inline-block;
+  line-height: 40px;
+  padding-left: 10px;
+}
+
+.inline-block{
+  display: inline-block !important;
+}
+.favorite-action{
+  background: #E33D74 !important;
+}
+
+.organization-logo-td{
+  width: 50px;
+}
+
+.calendar-event-cover{
+  width: 70px !important;
+  height: 70px !important;
+  background-size: cover !important;
+  background-position-x: 100% !important;
+  background-position-y: 100% !important;
+  background-repeat: no-repeat !important;
+}
+
+.event-small-item .item-title{
+  font-size: 14px !important;
+  font-weight: 700 !important;
+  max-height: 40px !important;
+  text-overflow: ellipsis !important;
+}
+.event-small-item .item-inner{
+  padding-top: 10px !important;
+}
+
+#calendar-date-events-list .list-block{
+  margin: 0 0;
+}
+
+.event-small-item .item-title{
+  font-size: 15px !important;
+  font-weight: 700 !important;
+}
+
+.liked-users.text-right{
+  text-align: right;
+}
+
+.friends-page-header-shadow{
+  height: 200px;
+  position: absolute;
+  background-color: #444141;
+  width: 100%;
+  z-index: 2;
+  top: 44px;
+  opacity: 0.7;
+}
+
+.friends-page-header-text{
+  margin-top: 100px;
+  color: #fff;
+  font-weight: 600;
+  font-size: 17px;
+  opacity: 1;
+  z-index: 5;
+  position: absolute;
+  top: 30px;
+  width: 100%;
+}
+
+.friends-page-header-text img{
+  width: 35px;
+  height: 35px;
+  margin-left: 7px;
+  margin-top: 7px;
+}
+
+.friends-page-header-text .img-cirle-wrapper{
+  width: 50px;
+  height: 50px;
+  background-color: #fff;
+  border-radius: 999px;
+  float: left;
+  margin-right: 15px;
+  margin-left: 15px;
+}
+
+.friends-page-header{
+  height: 200px;
+  background-size: 100%;
+}
+
+.list-block.no-margin{
+  margin-top: 0!important;
+}
+
+.friend-image{
+  width: 50px !important;
+  height: 50px !important;
+  border-radius: 999px;
+}
+
+.text-gray{
+  color: #807F7F !important;
+}
+
+.feed-card .user-avatar{
+  width: 40px;
+  height: 40px;
+  border-radius: 999px;
+  margin-right: 10px;
+}
+
+.feed-card .action-name{
+  font-size: 10px;
 }

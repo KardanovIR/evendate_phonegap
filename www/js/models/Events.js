@@ -1,4 +1,7 @@
 function Events(){
+
+	var NAVBAR_HEIGHT = 44;
+
 	function insert(event, cb){
 		var q_ins = '',
 			placeholders = [],
@@ -60,8 +63,7 @@ function Events(){
 					});
 				});
 				event.favorite_friends.forEach(function(user){
-					__api.users.post(user, function(user_res){
-					});
+					__api.users.post(user, function(user_res){});
 				});
 				cb(res);
 			},function(tx, err){
@@ -116,8 +118,9 @@ function Events(){
 					callbackObjects['eventPageBeforeAnimation'].remove();
 				}
 				callbackObjects['eventPageBeforeAnimation'] = fw7App.onPageBeforeAnimation('event', function(page){
-
 					var $$container = $$(page.container),
+						$$event_wrapper = $$container.find('.event-wrapper'),
+						$bcg_img_wrapper = $$container.find('.background-img-wrapper'),
 						$$page = $$container.parents('.page.event');
 					if ($$container.data('opened') == true){
 						var $scope = angular.element($$container[0]).scope();
@@ -136,7 +139,13 @@ function Events(){
 							}]);
 						});
 					}
-
+					//
+					// PARRALAX EFFECT (BUGS)
+					// $$container.off('touchmove').on('touchmove', function(){
+					//	console.log('touchmove', $$event_wrapper.scrollTop());
+					//	$bcg_img_wrapper.css('top', ($$event_wrapper.scrollTop() / -2 + NAVBAR_HEIGHT) + 'px');
+					//});
+					//
 				});
 				fw7App.getCurrentView().router.loadPage({
 					url: 'pages/event.html',
@@ -154,7 +163,7 @@ function Events(){
 				});
 			};
 
-			event.toggleFavorite = function(){
+			event.toggleFavorite = function($event){
 				var opts = {
 					type: 'POST',
 					url: CONTRACT.URLS.API_FULL_PATH + CONTRACT.URLS.EVENTS_PATH + CONTRACT.URLS.FAVORITES_PART,
@@ -180,13 +189,73 @@ function Events(){
 					fw7App.alert(CONTRACT.ALERTS.NO_INTERNET);
 				}
 
-				event.is_favorite = !value.is_favorite;
-				event.updateFavoriteText();
+				event.is_favorite = !event.is_favorite;
+				event.updateFavoriteTexts();
+
+				if ($event){
+					fw7App.swipeoutClose($$($event.target).parents('.swipeout')[0])
+				}
+
 			};
 
-			event.updateFavoriteText = function(){
-
+			event.openOrganization = function(){
+				__api.organizations.get([
+					{id: event.organization_id}
+				], function(res){
+					res[0].open();
+				});
 			};
+
+			event.openLikedFriends = function(){
+
+				var _event = this;
+				if (callbackObjects['likedFriendsPageBeforeAnimation']){
+					callbackObjects['likedFriendsPageBeforeAnimation'].remove();
+				}
+				callbackObjects['likedFriendsPageBeforeAnimation'] = fw7App.onPageBeforeAnimation('friends_liked', function(page){
+
+					var $$container = $$(page.container);
+					if ($$container.data('opened') == true){
+						var $scope = angular.element($$container[0]).scope();
+						console.log(_event);
+						$scope.setInfo({
+							background_img_url: _event.image_horizontal_url,
+							logo_url: null,
+							name: _event.title,
+							friends: _event.favorite_friends
+						});
+					}else{
+						var rootElement = angular.element(document);
+						rootElement.ready(function(){
+							rootElement.injector().invoke([ "$compile", function($compile) {
+								var scope = angular.element(page.container).scope();
+								$compile(page.container)(scope);
+								var $scope = angular.element($$container[0]).scope();
+								console.log(_event);
+								$scope.setInfo({
+									background_img_url: _event.image_horizontal_url,
+									logo_url: null,
+									name: _event.title,
+									friends: _event.favorite_friends
+								});
+								$$container.data('opened', true);
+							}]);
+						});
+					}
+				});
+				fw7App.getCurrentView().router.loadPage({
+					url: 'pages/friends_liked.html',
+					query: {id: _event.id},
+					pushState: true,
+					animatePages: true
+				});
+			};
+
+			event.updateFavoriteTexts = function(){
+				event.favorite_text = event.is_favorite ? 'Убрать из избранного' : 'В избранное';
+				event.favorite_short_text = event.is_favorite ? 'В избранном' : 'В избранное';
+			};
+			event.updateFavoriteTexts();
 
 			_items.push(event);
 		});
@@ -208,10 +277,16 @@ function Events(){
 		'get': function(filters, cb){
 			var _f = prepareFilterQuery(filters),
 				_post = this.post,
-				_r;
+				_r,
+				url = CONTRACT.URLS.API_FULL_PATH + CONTRACT.URLS.EVENTS_PATH;
+			if (_f.data.hasOwnProperty('timeline') && _f.data.timeline == true){
+				url += '/' + CONTRACT.URLS.MY_PART
+			}else if (_f.data.hasOwnProperty('favorites') && _f.data.favorites == true){
+				url += '/' + CONTRACT.URLS.FAVORITES_PART
+			}
 			if (isOnline()){
 				$$.ajax({
-					url: CONTRACT.URLS.API_FULL_PATH + CONTRACT.URLS.EVENTS_PATH,
+					url: url,
 					data: _f.data,
 					success: function(res){
 						_r = normalize(res.data);
@@ -221,7 +296,6 @@ function Events(){
 						}else{
 							_post(res.data, function(){});
 						}
-
 					},
 					error: function(err){
 						L.log(err);
