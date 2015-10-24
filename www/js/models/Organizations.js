@@ -144,7 +144,6 @@ function Organizations(){
 					var $$container = $$(page.container);
 					if ($$container.data('opened') == true){
 						var $scope = angular.element($$container[0]).scope();
-						console.log(_organization);
 						$scope.setInfo({
 							background_img_url: _organization.background_img_url,
 							logo_url: _organization.img_url,
@@ -158,7 +157,6 @@ function Organizations(){
 								var scope = angular.element(page.container).scope();
 								$compile(page.container)(scope);
 								var $scope = angular.element($$container[0]).scope();
-								console.log(_organization);
 								$scope.setInfo({
 									background_img_url: _organization.background_img_url,
 									logo_url: _organization.img_url,
@@ -217,7 +215,6 @@ function Organizations(){
 				data.push(item);
 			}
 		});
-		console.log(data);
 		return data;
 	}
 

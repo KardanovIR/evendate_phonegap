@@ -283,6 +283,8 @@ function Events(){
 				url += '/' + CONTRACT.URLS.MY_PART
 			}else if (_f.data.hasOwnProperty('favorites') && _f.data.favorites == true){
 				url += '/' + CONTRACT.URLS.FAVORITES_PART
+			}else if (_f.data.hasOwnProperty('id')){
+				url += '/' + _f.data.id;
 			}
 			if (isOnline()){
 				$$.ajax({

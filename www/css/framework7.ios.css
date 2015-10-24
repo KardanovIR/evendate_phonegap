@@ -3209,10 +3209,7 @@ html.android-4 .accordion-item-content {
   position: relative;
   padding: 10px 15px;
   box-sizing: border-box;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: -webkit-flex;
-  display: flex;
+  display: block;
   -webkit-box-pack: justify;
   -ms-flex-pack: justify;
   -webkit-justify-content: space-between;

@@ -121,6 +121,10 @@ var child_browser_opened = false,
                     UPDATED_AT: 'updated_at'
                 }
             }
+        },
+        ENTITIES: {
+            EVENT: 'event',
+            ORGANIZATION: 'organization'
         }
     },
     __db,
@@ -203,12 +207,14 @@ MyApp.init = (function () {
     fw7App.addView('.view-profile', fw7ViewOptions);
     fw7App.addView('.view-events', fw7ViewOptions);
     fw7App.addView('.view-favorites', fw7ViewOptions);
+    fw7App.addView('.view-friends', fw7ViewOptions);
 
 
     __api = initAPI();
     __app.controller('SubscriptionsPageController', ['$scope', '$http', MyApp.pages.SubscriptionsPageController]);
     __app.controller('CalendarPageController', ['$scope', '$http', MyApp.pages.CalendarPageController]);
     __app.controller('FavoritesPageController', ['$scope', MyApp.pages.FavoritesPageController]);
+
     __app.controller('EventPageController', ['$scope', MyApp.pages.EventPageController]);
     __app.controller('OrganizationPageController', ['$scope', MyApp.pages.OrganizationPageController]);
     __app.controller('FriendsPageController', ['$scope', MyApp.pages.FriendsPageController]);
@@ -540,7 +546,7 @@ function showSlides(){
 
 function checkToken(){
     if (__os == 'win'){
-        permanentStorage.setItem('token', 'ya29.EALdxSDaGuJRTQnhjzmSAwL8pIirP_cZjA5zZTCU3EVlBPTSm31qhstfmujkcCfEH3Z_5sNyX1f3xwuzkmps96axdxtBGQMsLblFfKHNfgHDFhMska0A9zbmntpAkk2Xtog6J3YaAIHqq8');
+        permanentStorage.setItem('token', 'f6b2b437aef785bdae42a078e5cd899428131f080a4f37500bdffcaca0b2635fb44592e7885dbe5e1e37f5b0d8c26abfdac1e54SZzSjAgey52jOVbqTqbQUaME4Sv8uNSBzqaxIFbwZMhIOKnHwwwMTPxko0yNybtR');
     }
     var token = permanentStorage.getItem('token');
     L.log('TOKEN:' + token);

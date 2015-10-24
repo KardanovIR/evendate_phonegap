@@ -300,8 +300,8 @@
         <div class="subnavbar">
           <div class="left"></div>
           <div class="buttons-row">
-            <a ng-href="#friends-feed" ng-click="showFeed();" class="button tab-link button-white active">Лента</a>
-            <a ng-href="#friends-list" ng-click="" class="button tab-link button-white">Друзья</a>
+            <a ng-href="#friends-feed" ng-click="showFeed(true);" class="button tab-link button-white active">Лента</a>
+            <a ng-href="#friends-list" ng-click="showFriends(true);" class="button tab-link button-white">Друзья</a>
           </div>
           <div class="right"></div>
         </div>
@@ -309,30 +309,34 @@
     </div>
     <div class="pages navbar-through">
       <div id="friends" class="page with-subnavbar" >
-        <div class="page-content friends-page-content">
+        <div class="page-content padding-top-30 infinite-scroll friends-page-content background-gray pull-to-refresh-content" data-ptr-distance="55">
+          <div class="pull-to-refresh-layer">
+            <div class="preloader"></div>
+            <div class="pull-to-refresh-arrow"></div>
+          </div>
           <div class="tabs">
             <div id="friends-feed" class="tab active">
               <div class="list-block cards-list">
                 <ul>
                   <li class="card feed-card" ng-repeat="card in cards">
                     <div class="card-header">
+                      <span class="pull-right feed-date">{{card.date}}</span>
                       <img ng-src="{{card.user.avatar_url}}" class="user-avatar pull-left">
                       <span class="user-name">{{card.user.last_name}} {{card.user.first_name}}</span>
                       <br>
                       <span class="action-name text-gray">{{card.action_name}}</span>
-                      <span class="pull-right">{{card.date}}</span>
                     </div>
                     <div class="card-content">
                       <div class="card-content-inner">
                         <div class="list-block subscriptions-list">
                           <ul class="without-top-border without-bottom-border">
-                            <li ng-repeat="enitity in card.entities">
+                            <li ng-repeat="entity in card.entities" ng-click="entity.openEntity();">
                               <a href="#" class="item-link item-content">
                                 <div class="item-media">
-                                  <img ng-src="{{enitity.image_vertical_url}}">
+                                  <img ng-src="{{entity.img_url}}" class="image-cirle">
                                 </div>
                                 <div class="item-inner">
-                                  <div class="item-title">{{enitity.title}}</div>
+                                  <div class="item-title">{{entity.title}}</div>
                                   <div class="item-after"></div>
                                 </div>
                               </a>

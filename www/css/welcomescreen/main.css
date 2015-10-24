@@ -583,3 +583,33 @@ span.day-number.with-events{
 .feed-card .action-name{
   font-size: 10px;
 }
+
+.background-gray{
+  background-color: #EFEFF4;
+}
+
+.padding-top-30{
+  padding-top: 30px !important;
+}
+
+.feed-date{
+  font-size: 12px;
+  color: #807676;
+}
+
+.feed-card .list-block ul {
+  padding-left: 25px !important;
+}
+
+.feed-card .item-content{
+  padding-left: 0 !important;
+}
+.feed-card .item-title{
+  font-size: 12px;
+  max-height: 30px;
+  text-overflow: ellipsis;
+}
+
+.image-cirle{
+  border-radius: 999px;
+}
