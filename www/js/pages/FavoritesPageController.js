@@ -49,7 +49,7 @@ MyApp.pages.FavoritesPageController = function ($scope, $http) {
 				moment_today = moment(today_timestamp);
 			L.log('FAVORITES_VARS_ENABLED');
 
-			data.forEach(function(item){
+			data.forEach(function(item, index){
 				item.moment_dates_range = [];
 				L.log('FAVORITES_dates_range');
 				item.dates_range.forEach(function(date){
@@ -60,6 +60,7 @@ MyApp.pages.FavoritesPageController = function ($scope, $http) {
 						L.log('FAVORITES_push');
 					}
 				});
+				data[index] = item;
 			});
 			L.log('FAVORITES_DATES_DONE');
 
@@ -90,6 +91,7 @@ MyApp.pages.FavoritesPageController = function ($scope, $http) {
 					events_by_days[first_date]['_' + item.id] = item;
 				}
 				L.log('FAVORITES_HAS_SECOND_LOOP_DONE');
+				data[i] = item;
 			}
 
 			$scope.favorites_days = [];
