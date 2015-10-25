@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='utf-8'?>
 <widget id="ru.evendate.phonegap"
-        version="1.0.1"
+        version="1.0.2"
         xmlns="http://www.w3.org/ns/widgets"
         xmlns:gap="http://phonegap.com/ns/1.0"
         versionCode = "1">
@@ -84,7 +84,6 @@
     <icon platform="ios" height="144" src="res/icon/ios/icon-72-2x.png" width="144" />
 
 
-    <preference name="SplashScreenDelay" value="2000" />
     <!-- Optional splash screen image, e.g.: -->
     <gap:splash src="res/screen/ios/screen-iphone-landscape.png" gap:platform="ios" width="480" height="320" />
     <gap:splash src="res/screen/ios/screen-iphone-portrait.png" gap:platform="ios" width="320" height="480" />
