@@ -294,7 +294,7 @@ function Events(){
 						_r = normalize(res.data);
 						cb(_r);
 						if (_f.data.hasOwnProperty('type') && _f.data.type == 'short'){
-							//TODO: save short events?
+							//DON'T SAVE SHORT EVENTS
 						}else{
 							try{
 								_post(res.data, function(){});

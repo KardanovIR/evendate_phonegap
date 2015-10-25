@@ -75,6 +75,10 @@ MyApp.pages.FavoritesPageController = function ($scope, $http) {
 				L.log('FAVORITES_SECOND_71');
 				var item = data[i];
 				L.log('FAVORITES_SECOND_72');
+				if (item.moment_dates_range.length == 0){
+					L.log(item.moment_dates_range.length);
+					continue;
+				}
 				L.log(item.moment_dates_range.length);
 				L.log(item.moment_dates_range);
 				L.log(item.moment_dates_range[0]);
