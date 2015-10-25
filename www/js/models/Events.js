@@ -296,7 +296,12 @@ function Events(){
 						if (_f.data.hasOwnProperty('type') && _f.data.type == 'short'){
 							//TODO: save short events?
 						}else{
-							_post(res.data, function(){});
+							try{
+								_post(res.data, function(){});
+							}catch(e){
+								fw7App.alert('Error');
+							}
+
 						}
 					},
 					error: function(err){
