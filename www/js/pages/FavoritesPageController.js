@@ -68,12 +68,18 @@ MyApp.pages.FavoritesPageController = function ($scope, $http) {
 
 			var data_length = data.length;
 
+			L.log(data_length);
+			L.log('FAVORITES_SECOND_70');
 			for (var i = 0; i < data_length; i++){
+				L.log('FAVORITES_SECOND_71');
 				var item = data[i];
+				L.log('FAVORITES_SECOND_72');
 				var first_date = item.moment_dates_range[0].format('DD MMMM');
 				L.log('FAVORITES_FORMATED');
 				if (!events_by_days.hasOwnProperty(first_date)){
+					L.log('FAVORITES_SECOND_73');
 					events_by_days[first_date] = {};
+					L.log('FAVORITES_SECOND_74');
 				}
 				L.log('FAVORITES_HAS_CHECKED');
 				if (!events_by_days[first_date].hasOwnProperty('_' + item.id)){
