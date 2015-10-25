@@ -37,6 +37,7 @@ MyApp.pages.CalendarPageController = function ($scope, $http) {
 		], function(data){
 			var today_timestamp = new Date(moment().format('YYYY/MM/DD 00:00:00')).getTime();
 
+
 			data.forEach(function(item, index){
 				item.moment_dates_range = [];
 				item.dates_range.forEach(function(date){
@@ -49,11 +50,14 @@ MyApp.pages.CalendarPageController = function ($scope, $http) {
 				data[index] = item;
 			});
 
-
 			events_by_days = first_page ? {} : events_by_days;
-			data.forEach(function(item){
+
+			var data_length = data.length;
+
+			for (var i = 0; i < data_length; i++){
+				var item = data[i];
 				if (item.moment_dates_range.length == 0){
-					return true;
+					continue;
 				}
 				var first_date = item.moment_dates_range[0].format('DD MMMM');
 				if (!events_by_days.hasOwnProperty(first_date)){
@@ -62,7 +66,8 @@ MyApp.pages.CalendarPageController = function ($scope, $http) {
 				if (!events_by_days[first_date].hasOwnProperty('_' + item.id)){
 					events_by_days[first_date]['_' + item.id] = item;
 				}
-			});
+				data[i] = item;
+			}
 
 			$scope.timeline_days = [];
 
