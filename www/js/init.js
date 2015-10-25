@@ -29,7 +29,7 @@ var child_browser_opened = false,
         },
         DB:{
             NAME: 'evendate.db',
-            VERSION: -1,
+            VERSION: 1,
             TABLES: {
                 USERS: 'users',
                 ORGANIZATIONS: 'organizations',
@@ -539,7 +539,7 @@ function showSlides(){
         paginationHide: false,
         paginationClickable: true,
         nextButton: '.swiper-button-next',
-        prevButton: '.swiper-button-prev',
+        prevButton: '.swiper-button-prev'
     });
 
     $$('.vk-btn, .facebook-btn, .google-btn')
@@ -561,6 +561,7 @@ function showSlides(){
                 saveTokenInLocalStorage(url);
                 window.plugins.ChildBrowser.close();
             }
+            L.log(url);
         };
     });
 }
