@@ -57,7 +57,6 @@ MyApp.pages.FriendsTabController = function ($scope, $http) {
 						__api.events.get([
 							{id: ent.id}
 						], function(res){
-							debugger;
 							res[0].open();
 						});
 					};
@@ -69,7 +68,6 @@ MyApp.pages.FriendsTabController = function ($scope, $http) {
 						__api.organizations.get([
 							{id: ent.id}
 						], function(res){
-							debugger;
 							res[0].open();
 						});
 					};

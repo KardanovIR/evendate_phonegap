@@ -255,8 +255,8 @@ function Events(){
 				event.favorite_text = event.is_favorite ? 'Убрать из избранного' : 'В избранное';
 				event.favorite_short_text = event.is_favorite ? 'В избранном' : 'В избранное';
 			};
-			event.updateFavoriteTexts();
 
+			event.updateFavoriteTexts();
 			_items.push(event);
 		});
 		return _items;
