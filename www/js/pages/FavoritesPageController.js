@@ -45,6 +45,7 @@ MyApp.pages.FavoritesPageController = function ($scope, $http) {
 			data.forEach(function(item, index){
 				item.moment_dates_range = [];
 				item.dates_range.forEach(function(date){
+					date = date.replace(/-/igm, '/');
 					var m_date = new Date(date);
 					L.log(m_date.getTime() + ' : ' + today_timestamp);
 					if (m_date.getTime() >= today_timestamp){
