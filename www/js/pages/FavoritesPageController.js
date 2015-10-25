@@ -47,7 +47,6 @@ MyApp.pages.FavoritesPageController = function ($scope, $http) {
 				item.dates_range.forEach(function(date){
 					date = date.replace(/-/igm, '/');
 					var m_date = new Date(date);
-					L.log(m_date.getTime() + ' : ' + today_timestamp);
 					if (m_date.getTime() >= today_timestamp){
 						item.moment_dates_range.push(moment(m_date));
 					}
@@ -61,9 +60,7 @@ MyApp.pages.FavoritesPageController = function ($scope, $http) {
 
 			for (var i = 0; i < data_length; i++){
 				var item = data[i];
-				L.log('FAVORITES_SECOND_72');
 				if (item.moment_dates_range.length == 0){
-					L.log(item.moment_dates_range.length);
 					continue;
 				}
 				var first_date = item.moment_dates_range[0].format('DD MMMM');

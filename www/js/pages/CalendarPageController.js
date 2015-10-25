@@ -35,22 +35,26 @@ MyApp.pages.CalendarPageController = function ($scope, $http) {
 			{page: $scope.page_counter++},
 			{length: 10}
 		], function(data){
-			var today_timestamp = new Date(moment().format('YYYY-MM-DD 00:00:00')),
-				moment_today = moment(today_timestamp);
+			var today_timestamp = new Date(moment().format('YYYY/MM/DD 00:00:00')).getTime();
 
-			data.forEach(function(item){
+			data.forEach(function(item, index){
 				item.moment_dates_range = [];
 				item.dates_range.forEach(function(date){
-					var m_date = moment(date);
-					if (m_date.unix() >= moment_today.unix()){
-						item.moment_dates_range.push(m_date);
+					date = date.replace(/-/igm, '/');
+					var m_date = new Date(date);
+					if (m_date.getTime() >= today_timestamp){
+						item.moment_dates_range.push(moment(m_date));
 					}
 				});
+				data[index] = item;
 			});
 
 
 			events_by_days = first_page ? {} : events_by_days;
 			data.forEach(function(item){
+				if (item.moment_dates_range.length == 0){
+					return true;
+				}
 				var first_date = item.moment_dates_range[0].format('DD MMMM');
 				if (!events_by_days.hasOwnProperty(first_date)){
 					events_by_days[first_date] = {};
