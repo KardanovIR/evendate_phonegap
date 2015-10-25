@@ -15,7 +15,13 @@ var child_browser_opened = false,
             TAGS_PATH: '/tags',
             MY_PART: '/my',
             FAVORITES_PART: '/favorites',
-            FEED_PART: '/feed'
+            FEED_PART: '/feed',
+            FRIENDS_PART: '/friends'
+        },
+        FRIEND_TYPE_NAMES:{
+            vk: 'ВКонтакте',
+            google: 'Google +',
+            fb: 'Facebook'
         },
         ALERTS: {
             NO_INTERNET: 'Отсутствует соединение с сервером',
@@ -561,7 +567,7 @@ function showSlides(){
 
 function checkToken(){
     if (__os == 'win'){
-        //permanentStorage.setItem('token', 'f6b2b437aef785bdae42a078e5cd899428131f080a4f37500bdffcaca0b2635fb44592e7885dbe5e1e37f5b0d8c26abfdac1e54SZzSjAgey52jOVbqTqbQUaME4Sv8uNSBzqaxIFbwZMhIOKnHwwwMTPxko0yNybtR');
+        permanentStorage.setItem('token', 'f6b2b437aef785bdae42a078e5cd899428131f080a4f37500bdffcaca0b2635fb44592e7885dbe5e1e37f5b0d8c26abfdac1e54SZzSjAgey52jOVbqTqbQUaME4Sv8uNSBzqaxIFbwZMhIOKnHwwwMTPxko0yNybtR');
     }
     var token = permanentStorage.getItem('token');
     L.log('TOKEN:' + token);

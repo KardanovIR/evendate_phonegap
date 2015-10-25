@@ -39,9 +39,21 @@
                 <table width="100%" height="100%" border="0">
                   <tr>
                     <td align="center" valign="center">
+                      <img src="img/welcomeslides/2.png" class="enot-img">
+                      <div class="enot-description">
+                        Не пропусти важное событие
+                      </div>
+                    </td>
+                  </tr>
+                </table>
+              </div>
+              <div class="swiper-slide">
+                <table width="100%" height="100%" border="0">
+                  <tr>
+                    <td align="center" valign="center">
                       <img src="img/welcomeslides/0.png" class="enot-img">
-                      <div>
-                        Будь в курсе событий
+                      <div class="enot-description">
+                        Узнай, что интересно твоим друзьям
                       </div>
                     </td>
                   </tr>
@@ -52,32 +64,8 @@
                   <tr>
                     <td align="center" valign="center">
                       <img src="img/welcomeslides/1.png" class="enot-img">
-                      <div>
-                        Будь в курсе событий
-                      </div>
-                    </td>
-                  </tr>
-                </table>
-              </div>
-              <div class="swiper-slide">
-                <table width="100%" height="100%" border="0">
-                  <tr>
-                    <td align="center" valign="center">
-                      <img src="img/welcomeslides/2.png" class="enot-img">
-                      <div>
-                        Будь в курсе событий
-                      </div>
-                    </td>
-                  </tr>
-                </table>
-              </div>
-              <div class="swiper-slide">
-                <table width="100%" height="100%" border="0">
-                  <tr>
-                    <td align="center" valign="center">
-                      <img src="img/welcomeslides/3.png" class="enot-img">
-                      <div>
-                        Будь в курсе событий
+                      <div class="enot-description">
+                        Делись событиями с друзьями
                       </div>
                     </td>
                   </tr>
@@ -88,8 +76,20 @@
                   <tr>
                     <td align="center" valign="center">
                       <img src="img/welcomeslides/4.png" class="enot-img">
-                      <div>
-                        Будь в курсе событий
+                      <div class="enot-description">
+                        Управляй уведомлениями
+                      </div>
+                    </td>
+                  </tr>
+                </table>
+              </div>
+              <div class="swiper-slide">
+                <table width="100%" height="100%" border="0">
+                  <tr>
+                    <td align="center" valign="center">
+                      <img src="img/welcomeslides/3.png" class="enot-img">
+                      <div class="enot-description">
+                        Синхронизируйся со всеми устройствами
                       </div>
                     </td>
                   </tr>
@@ -145,8 +145,7 @@
                     <div class="user-name-text">{{info.first_name}} {{info.last_name}}</div>
                     <div class="user-is-editor" ng-hide="{{info.is_editor === false}}"> Редактор</div>
                     <div>
-                      <a href="#" ng-hide="{{info.is_editor === false}}" class="button button-round btn-black-blue">Создать
-                        мероприятие</a>
+                      <a href="#" ng-hide="{{info.is_editor === false}}" class="button button-round btn-black-blue">Создать мероприятие</a>
                     </div>
                   </div>
                 </div>
@@ -156,9 +155,9 @@
                 <ul class="without-top-border without-bottom-border">
                   <li class="swipeout" ng-repeat="subscription in subscriptions">
                     <a href="#" class="item-link swipeout-content item-content"
-                       ng-click="openOrganization(subscription)">
+                       ng-click="subscription.open()">
                       <div class="item-media">
-                        <img ng-src="{{subscription.img_medium_url}}">
+                        <img ng-src="{{subscription.img_small_url}}">
                       </div>
                       <div class="item-inner">
                         <div class="item-title">{{subscription.short_name}}</div>
@@ -174,15 +173,40 @@
               </div>
             </div>
             <div id="organizations" class="tab">
-              <div class="content-block-title organizations-list-title">Подпишитесь на организации</div>
+              <div class="content-block">
+                <div class="list-group list-block organizations-list media-list" ng-repeat="category in organization_categories">
+                  <ul>
+                    <li class="list-group-title text-center text-bold">{{category.name}}</li>
+                    <li class="organization" ng-repeat="organization in category.organizations" ng-click="organization.open();">
+                      <a href="#" class="item-link item-content disable-active-state organization-item">
+                        <div class="item-media ">
+                          <img ng-src="{{organization.img_small_url}}" width="80">
+                        </div>
+                        <div class="item-inner row">
+                          <div class="col-50">
+                            <div class="item-title">{{organization.short_name}}</div>
+                            <div class="item-subtitle">{{organization.subscribed_count}} подписчиков</div>
+                          </div>
+                          <div class="col-50">
+                            <button type="button" class="button pull-right" ng-click="organization.toggleSubscriptionStatus($event);"  ng-class="{'button-pink':organization.is_subscribed}">
+                              {{organization.subscription_text}}
+                            </button>
+                          </div>
+                        </div>
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+
               <div class="content-block">
                 <div class="list-block organizations-list media-list">
                   <ul>
                     <li ng-repeat="organization in organizations" class="organization"
-                        ng-click="openOrganization(organization)">
+                        ng-click="organization.open()">
                       <a href="#" class="item-link item-content disable-active-state organization-item">
                         <div class="item-media ">
-                          <img ng-src="{{organization.img_medium_url}}" width="80">
+                          <img ng-src="{{organization.img_small_url}}" width="80">
                         </div>
                         <div class="item-inner row">
                           <div class="col-50">
@@ -287,6 +311,10 @@
                   </ul>
                 </div>
               </div>
+
+              <div class="infinite-scroll-preloader">
+                <div class="preloader"></div>
+              </div>
             </div>
           </div>
         </div>
@@ -309,7 +337,11 @@
     <div class="pages navbar-through">
       <div data-page="index" class="page navbar-fixed toolbar-fixed">
           <!-- /End of Top Navbar-->
-          <div class="page-content favorites-page-content infinite-scroll" id="favorites">
+          <div class="page-content favorites-page-content infinite-scroll pull-to-refresh-content" id="favorites" data-distance="100">
+            <div class="pull-to-refresh-layer">
+              <div class="preloader"></div>
+              <div class="pull-to-refresh-arrow"></div>
+            </div>
             <div class="list-block media-list no-margin">
             <div class="list-group" ng-repeat="day in favorites_days">
               <ul>
@@ -366,8 +398,8 @@
       </div>
     </div>
     <div class="pages navbar-through">
-      <div id="friends" class="page with-subnavbar" >
-        <div class="page-content padding-top-30 infinite-scroll friends-page-content background-gray pull-to-refresh-content" data-ptr-distance="55">
+      <div id="friends" class="page with-subnavbar background-gray" >
+        <div class="page-content padding-top-30 infinite-scroll friends-page-content background-gray pull-to-refresh-content" data-ptr-distance="100" data-distance="100">
           <div class="tabs">
             <div id="friends-feed" class="tab active">
               <div class="pull-to-refresh-layer">
@@ -406,33 +438,39 @@
                     <!--<div class="card-footer">Card footer</div>-->
                   </li>
                 </ul>
+                <div class="infinite-scroll-preloader">
+                  <div class="preloader"></div>
+                </div>
               </div>
             </div>
+
             <div id="friends-list" class="tab">
-              <div class="content-block-title organizations-list-title">Подпишитесь на организации</div>
+              <div class="pull-to-refresh-layer">
+                <div class="preloader"></div>
+                <div class="pull-to-refresh-arrow"></div>
+              </div>
               <div class="content-block">
-                <div class="list-block organizations-list media-list">
+                <div class="list-block no-margin media-list">
                   <ul>
-                    <li ng-repeat="organization in organizations" class="organization"
-                        ng-click="openOrganization(organization)">
-                      <a href="#" class="item-link item-content disable-active-state organization-item">
-                        <div class="item-media ">
-                          <img ng-src="{{organization.img_medium_url}}" width="80">
+                    <li ng-repeat="friend in friends">
+                      <a href="#" class="item-link item-content">
+                        <div class="item-media">
+                          <img ng-src="{{friend.avatar_url}}" class="friend-image">
                         </div>
-                        <div class="item-inner row">
-                          <div class="col-50">
-                            <div class="item-title">{{organization.short_name}}</div>
-                            <div class="item-subtitle">{{organization.subscribed_count}} подписчиков</div>
+                        <div class="item-inner">
+                          <div class="item-title-row">
+                            <div class="item-title">{{friend.last_name}} {{friend.first_name}}</div>
                           </div>
-                          <div class="col-50">
-                            <button type="button" class="button pull-right" ng-click="organization.toggleSubscriptionStatus($event);"  ng-class="{'button-pink':organization.is_subscribed}">
-                              {{organization.subscription_text}}
-                            </button>
+                          <div class="item-subtitle text-gray">
+                            {{friend.type_name}}
                           </div>
                         </div>
                       </a>
                     </li>
                   </ul>
+                </div>
+                <div class="infinite-scroll-preloader">
+                  <div class="preloader"></div>
                 </div>
               </div>
             </div>

@@ -229,15 +229,11 @@ span.day-number.with-events{
 }
 
 .organizations-list{
-  margin: 15px 0;
+  margin: 0;
 }
 
 .organizations-list ul::before, .organizations-list ul::after, {
   background-color: transparent;
-}
-
-.organizations-list-title{
-  padding-top: 20px;
 }
 
 .organization-item .item-inner{
@@ -616,4 +612,30 @@ span.day-number.with-events{
 
 .enot-img{
   max-width: 80%;
+}
+
+.enot-description{
+  color: #7a7a7a;
+  font-size: 2em;
+}
+
+.event-item .item-title{
+  font-size: 14px !important;
+  line-height: 16px !important;
+  height: 32px !important;
+  font-weight: 600 !important;
+}
+
+.timeline-day-title{
+  font-weight: 700 !important;
+}
+
+.infinite-scroll-preloader {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  text-align: center;
+}
+.infinite-scroll-preloader .preloader {
+  width:34px;
+  height:34px;
 }

@@ -8,7 +8,8 @@ MyApp.ns('MyApp.pages');
 MyApp.pages.CalendarPageController = function ($scope, $http) {
 	'use strict';
 
-	var events_by_days = {};
+	var events_by_days = {},
+		is_downloading = false;
 
 	$scope.year = 0;
 	$scope.month = '';
@@ -18,12 +19,16 @@ MyApp.pages.CalendarPageController = function ($scope, $http) {
 	$scope.binded = false;
 
 	$scope.getMyTimeline = function(first_page){
+		if (is_downloading) return;
 		if (first_page == true){
 			$scope.page_counter = 0;
 			$$('.profile-page-content').on('infinite', function (){
 				$scope.getMyTimeline(false);
 			});
 		}
+
+		is_downloading = true;
+
 		__api.events.get([
 			{timeline: true},
 			{type: 'future'},
@@ -72,7 +77,7 @@ MyApp.pages.CalendarPageController = function ($scope, $http) {
 				}
 			}
 			$scope.$apply();
-
+			is_downloading = false;
 		});
 	};
 

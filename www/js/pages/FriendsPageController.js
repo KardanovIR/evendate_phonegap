@@ -8,15 +8,10 @@ MyApp.pages.FriendsPageController = function ($scope, $http) {
 
 	$scope.info= {};
 
-	var type_names = {
-		vk: 'ВКонтакте',
-		google: 'Google +',
-		fb: 'Facebook'
-	};
 
 	$scope.setInfo = function(info){
 		info.friends.forEach(function(value, index){
-			info.friends[index].type_name = type_names[value.type];
+			info.friends[index].type_name = CONTRACT.FRIEND_TYPE_NAMES[value.type];
 		});
 		$scope.info = info;
 		$scope.$digest();

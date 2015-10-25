@@ -8,6 +8,7 @@ MyApp.pages.SubscriptionsPageController = function ($scope, $http) {
 
   $scope.subscriptions = null;
   $scope.selected_organization = null;
+  $scope.organization_categories = [];
 
   $scope.setUser = function(){
     console.log(__user);
@@ -24,9 +25,35 @@ MyApp.pages.SubscriptionsPageController = function ($scope, $http) {
   };
 
   $scope.getOrganizationsCatalog = function(){
+
+    fw7App.showPreloader();
+
     __api.organizations.get(null, function(data){
-      $scope.organizations = data;
+
+      var categories_array = [],
+          orgs_by_categories = {};
+
+      data.forEach(function(org){
+        var key = '_' + org.type_id;
+        if (!orgs_by_categories.hasOwnProperty(key)){
+          orgs_by_categories[key] = {
+            name: org.type_name,
+            organizations: []
+          };
+        }
+        orgs_by_categories[key].organizations.push(org);
+      });
+
+      for(var key in orgs_by_categories){
+        if (orgs_by_categories.hasOwnProperty(key)){
+          categories_array.push(orgs_by_categories[key]);
+        }
+      }
+
+      $scope.organization_categories = categories_array;
       $scope.$apply();
+
+
       $$('.organizations-list button')
           .on('touchend', function(){
             $$(this).parents('.item-link').removeClass('disable-active-state');
@@ -42,14 +69,8 @@ MyApp.pages.SubscriptionsPageController = function ($scope, $http) {
           $$(this).removeClass('disable-active-state');
         }
       });
+      fw7App.hidePreloader();
     });
-  };
-
-  $scope.openOrganization = function(subscription){
-
-    subscription.open();
-
-
   };
 
   $$('#profile').on('refresh', function(){

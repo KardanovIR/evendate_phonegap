@@ -44,6 +44,10 @@ function Users(){
 
 	function normalize(items){
 
+		items.forEach(function(item, index){
+			items[index].type_name = CONTRACT.FRIEND_TYPE_NAMES[item.type];
+		});
+
 		return items;
 	}
 
@@ -68,6 +72,9 @@ function Users(){
 			if (_f.data.hasOwnProperty('feed') && _f.data.feed == true){
 				url += '/' + CONTRACT.URLS.FEED_PART;
 				is_feed = true;
+			}else if (_f.data.hasOwnProperty('friends') && _f.data.friends == true){
+				url += '/' + CONTRACT.URLS.FRIENDS_PART;
+				is_feed = true;
 			}
 
 			if (isOnline()){
@@ -78,7 +85,7 @@ function Users(){
 						_r = normalize(res.data);
 						cb(_r);
 						if (is_feed == false){
-							_post(res.data, function(){});
+							_post(_r, function(){});
 						}
 					},
 					error: function(err){
