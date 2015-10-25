@@ -40,7 +40,7 @@ MyApp.pages.FavoritesPageController = function ($scope, $http) {
 			{page: $scope.page_counter++},
 			{length: 10}
 		], function(data){
-			var today_timestamp = new Date(moment().format('YYYY-MM-DD 00:00:00')).getTime();
+			var today_timestamp = new Date(moment().format('YYYY/MM/DD 00:00:00')).getTime();
 
 			data.forEach(function(item, index){
 				item.moment_dates_range = [];
