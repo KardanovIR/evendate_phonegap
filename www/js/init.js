@@ -568,7 +568,7 @@ function showSlides(){
 
 function checkToken(){
     if (__os == 'win'){
-        permanentStorage.setItem('token', 'f6b2b437aef785bdae42a078e5cd899428131f080a4f37500bdffcaca0b2635fb44592e7885dbe5e1e37f5b0d8c26abfdac1e54SZzSjAgey52jOVbqTqbQUaME4Sv8uNSBzqaxIFbwZMhIOKnHwwwMTPxko0yNybtR');
+        //permanentStorage.setItem('token', 'f6b2b437aef785bdae42a078e5cd899428131f080a4f37500bdffcaca0b2635fb44592e7885dbe5e1e37f5b0d8c26abfdac1e54SZzSjAgey52jOVbqTqbQUaME4Sv8uNSBzqaxIFbwZMhIOKnHwwwMTPxko0yNybtR');
     }
     var token = permanentStorage.getItem('token');
     L.log('TOKEN:' + token);

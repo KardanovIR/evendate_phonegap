@@ -13,26 +13,26 @@
   background-color: #f87796;
 }
 
-.vk-btn{
-  background-color: #48729e;
-  color: white;
-  border: none;
-  box-sizing: inherit;
-}
+/*.vk-btn{*/
+  /*background-color: #48729e;*/
+  /*color: white;*/
+  /*border: none;*/
+  /*box-sizing: inherit;*/
+/*}*/
 
-.facebook-btn{
-  background-color: #3F5C9A;
-  color: white;
-  border: none;
-  box-sizing: inherit;
-}
+/*.facebook-btn{*/
+  /*background-color: #3F5C9A;*/
+  /*color: white;*/
+  /*border: none;*/
+  /*box-sizing: inherit;*/
+/*}*/
 
-.google-btn{
-  background-color: #DD4B39;
-  color: white;
-  border: none;
-  box-sizing: inherit;
-}
+/*.google-btn{*/
+  /*background-color: #DD4B39;*/
+  /*color: white;*/
+  /*border: none;*/
+  /*box-sizing: inherit;*/
+/*}*/
 
 .hidden{
   display: none;
@@ -638,4 +638,21 @@ span.day-number.with-events{
 .infinite-scroll-preloader .preloader {
   width:34px;
   height:34px;
+}
+
+.gradient-background{
+  background-image: linear-gradient(-161deg, #5F89CE 0%, #355386 97%);
+}
+
+.text-wight{
+  color: #ffffff !important;
+}
+
+.auth-btn{
+  background-color: #3A5584 !important;
+  color: white !important;
+  border: 1px solid #fff !important;
+  box-sizing: inherit !important;
+  width: 70% !important;
+  display: inline-table !important;
 }

@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='utf-8'?>
 <widget id="ru.evendate.phonegap"
-        version="1.0.2"
+        version="1.0.3"
         xmlns="http://www.w3.org/ns/widgets"
         xmlns:gap="http://phonegap.com/ns/1.0"
         versionCode = "1">
@@ -68,6 +68,8 @@
     <gap:plugin name="com.brodysoft.sqliteplugin" version="1.0.6" />
     <gap:plugin name="org.apache.cordova.statusbar" version="0.1.4" />
     <gap:plugin name="uk.co.workingedge.phonegap.plugin.launchnavigator" source="npm" />
+    <gap:plugin name="com.analytics.google" version="1.2.2" />
+    <gap:plugin name="org.apache.cordova.inappbrowser" version="0.5.2" />
 
 
     <icon src="www/res/icon/ios/icon.png" />

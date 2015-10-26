@@ -156,11 +156,12 @@ function Events(){
 			};
 
 			event.openDetailInfoUrl = function(){
-				window.plugins.ChildBrowser.showWebPage(event.detail_info_url, {
-					showLocationBar: true,
-					showAddress: true,
-					showNavigationBar: true
-				});
+				window.open(event.detail_info_url, '_blank', 'location=yes');
+				//window.plugins.ChildBrowser.showWebPage(, {
+				//	showLocationBar: true,
+				//	showAddress: true,
+				//	showNavigationBar: true
+				//});
 			};
 
 			event.toggleFavorite = function($event){
