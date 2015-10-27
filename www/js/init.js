@@ -131,7 +131,8 @@ var child_browser_opened = false,
         ENTITIES: {
             EVENT: 'event',
             ORGANIZATION: 'organization'
-        }
+        },
+        DEMO_TOKEN: '1b2f4977fdbc59bbcc8053795cb2a027f4a67cdb52e9387a5c5e23a681567577b85f074057c20b0f721bbc5d0deba417a9c1bdelC8BqCBzrba9ksH8sbw5ynESYabHsttMTaaDZihY3e8CqM1AIZrs0IwH9FmFf0Fb',
     },
     __db,
     __os = navigator.platform == 'Win32' ? 'win': 'hz',
@@ -536,8 +537,8 @@ function showSlides(){
         speed: 400,
         spaceBetween: 0,
         pagination: '.swiper-pagination',
-        paginationHide: false,
-        paginationClickable: true,
+        paginationHide: true,
+        paginationClickable: false,
         nextButton: '.swiper-button-next',
         prevButton: '.swiper-button-prev'
     });
@@ -568,7 +569,7 @@ function showSlides(){
 
 function checkToken(){
     if (__os == 'win'){
-        //permanentStorage.setItem('token', 'f6b2b437aef785bdae42a078e5cd899428131f080a4f37500bdffcaca0b2635fb44592e7885dbe5e1e37f5b0d8c26abfdac1e54SZzSjAgey52jOVbqTqbQUaME4Sv8uNSBzqaxIFbwZMhIOKnHwwwMTPxko0yNybtR');
+        permanentStorage.setItem('token', CONTRACT.DEMO_TOKEN);
     }
     var token = permanentStorage.getItem('token');
     L.log('TOKEN:' + token);

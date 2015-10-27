@@ -197,12 +197,17 @@ a.button-white.active {
 }
 
 span.day-number.with-events{
-  border-bottom: 2px solid #F82969;
+  border-bottom: 2px solid #9AA6CC;
   background-color: transparent;
   border-radius: 0;
   width: 20px;
   height: 22px;
 }
+
+span.day-number.with-events.with-favorites{
+  border-color: #F82969 !important;
+}
+
 .disable-active-state{
   -webkit-transition-duration: 0ms !important;
   transition-duration: 0ms !important;
@@ -222,6 +227,7 @@ span.day-number.with-events{
   display: block;
   overflow: scroll;
   height: calc(50% - 70px);
+  width: 100%;
 }
 .picker-calendar.picker-modal-inline{
   position: fixed;
@@ -648,11 +654,31 @@ span.day-number.with-events{
   color: #ffffff !important;
 }
 
+.auth-btn .ion-ios-arrow-right{
+  float: right;
+  font-size: 23px;
+}
 .auth-btn{
-  background-color: #3A5584 !important;
-  color: white !important;
-  border: 1px solid #fff !important;
-  box-sizing: inherit !important;
+  background: rgba(0,0,0,0.20) !important;
+  border: 1px solid rgba(255,255,255,0.50) !important;
+  border-radius: 11px;
   width: 70% !important;
   display: inline-table !important;
+  color: #ffffff !important;
+  font-size: 15px !important;
+  text-align: left !important;
+}
+.auth-btn.active-state{
+  background: rgba(255,255,255,0.20) !important;
+  border: 1px solid rgba(255,255,255,0.50) !important;
+  border-radius: 11px !important;
+}
+
+.demo-arrow{
+  font-size: 16px !important;
+  padding-left: 10px !important;
+}
+
+.calendar-loader{
+  display: none;
 }

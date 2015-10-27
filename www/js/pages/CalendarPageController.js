@@ -96,9 +96,15 @@ MyApp.pages.CalendarPageController = function ($scope, $http) {
 				var m_date = moment(date),
 					year = m_date.format('YYYY'),
 					month = m_date.format('M') - 1,
-					day = m_date.format('D');
-				$$('.picker-calendar-day[data-date="' + [year, month,day].join('-') + '"] .day-number')
-					.addClass('with-events');
+					day = m_date.format('D'),
+					$$day = $$('.picker-calendar-day[data-date="' + [year, month,day].join('-') + '"] .day-number');
+
+				$$day.addClass('with-events');
+
+				if (event.is_favorite){
+					$$day.addClass('with-favorites');
+				}
+
 			});
 		});
 	}
@@ -169,10 +175,14 @@ MyApp.pages.CalendarPageController = function ($scope, $http) {
 				}
 			},
 			onDayClick: function(p, dayContainer, year, month, day){
+				$$('.calendar-loader').show();
+				$$('.calendar-list').hide();
 				__api.events.get([
 					{date: moment([year, parseInt(month) + 1, day].join('-'), 'YYYY-M-D').format(CONTRACT.DATE_FORMAT)},
 					{my: true}
 				], function(events){
+					$$('.calendar-loader').hide();
+					$$('.calendar-list').show();
 					$scope.day_events = events;
 					$scope.$apply();
 				});
