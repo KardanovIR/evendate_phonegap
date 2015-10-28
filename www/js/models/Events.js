@@ -156,7 +156,7 @@ function Events(){
 			};
 
 			event.openDetailInfoUrl = function(){
-				window.open(event.detail_info_url, '_blank', 'location=yes');
+				window.open(event.detail_info_url, '_system', 'location=yes');
 				//window.plugins.ChildBrowser.showWebPage(, {
 				//	showLocationBar: true,
 				//	showAddress: true,

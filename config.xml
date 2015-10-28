@@ -67,7 +67,6 @@
     <gap:plugin name="com.phonegap.plugins.pushplugin"/>
     <gap:plugin name="com.brodysoft.sqliteplugin" version="1.0.6" />
     <gap:plugin name="org.apache.cordova.statusbar" version="0.1.4" />
-    <gap:plugin name="uk.co.workingedge.phonegap.plugin.launchnavigator" source="npm" />
     <gap:plugin name="com.analytics.google" version="1.2.2" />
     <gap:plugin name="org.apache.cordova.inappbrowser" version="0.5.2" />
 
@@ -121,11 +120,22 @@
     <allow-intent href="tel:*" />
     <allow-intent href="sms:*" />
     <allow-intent href="mailto:*" />
+    <allow-intent href="map:*" />
+    <allow-intent href="maps:*" />
     <allow-intent href="geo:*" launch-external="yes"/>
 
     <platform name="ios">
         <access origin="*" />
         <access origin="geo:*" launch-external="yes"/>
+        <allow-intent href="http://*/*" />
+        <allow-intent href="https://*/*" />
+        <allow-intent href="tel:*" />
+        <allow-intent href="sms:*" />
+        <allow-intent href="mailto:*" />
+        <allow-intent href="map:*" />
+        <allow-intent href="maps:*" />
+
+
         <allow-intent href="itms:*" />
         <allow-intent href="itms-apps:*" />
         <plugin name="InAppBrowser" value="CDVInAppBrowser" />

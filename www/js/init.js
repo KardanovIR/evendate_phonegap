@@ -271,6 +271,10 @@ function registerPushService(){
     checkToken();
 }
 
+function startDemo(){
+    permanentStorage.setItem('token', CONTRACT.DEMO_TOKEN);
+}
+
 function onDeviceReady(){
 
     moment.locale("ru");
@@ -294,6 +298,11 @@ function onDeviceReady(){
         }else{
             registerPushService();
         }
+
+
+        document.addEventListener("volumedownbutton", function(){
+
+        }, false);
     }
 }
 
@@ -565,12 +574,12 @@ function showSlides(){
             L.log(url);
         };
     });
+
+
 }
 
 function checkToken(){
-    if (__os == 'win'){
-        permanentStorage.setItem('token', CONTRACT.DEMO_TOKEN);
-    }
+
     var token = permanentStorage.getItem('token');
     L.log('TOKEN:' + token);
     if (token != null){
