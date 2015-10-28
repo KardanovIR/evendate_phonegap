@@ -164,6 +164,16 @@ function Events(){
 				//});
 			};
 
+			event.openMap= function(){
+				var url = 'maps://?q=' + event.latitude + ' , ' + event.longitude;
+				window.open(url, '_system', 'location=no');
+				//window.plugins.ChildBrowser.showWebPage(, {
+				//	showLocationBar: true,
+				//	showAddress: true,
+				//	showNavigationBar: true
+				//});
+			};
+
 			event.toggleFavorite = function($event){
 				var opts = {
 					type: 'POST',
