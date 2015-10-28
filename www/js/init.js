@@ -271,8 +271,14 @@ function registerPushService(){
     checkToken();
 }
 
-function startDemo(){
+function setDemoAccount(){
     permanentStorage.setItem('token', CONTRACT.DEMO_TOKEN);
+    permanentStorage.setItem('demo', true);
+}
+
+function resetDemoAccount(){
+    permanentStorage.setItem('token', null);
+    permanentStorage.setItem('demo', null);
 }
 
 function onDeviceReady(){
@@ -299,9 +305,10 @@ function onDeviceReady(){
             registerPushService();
         }
 
-
-        document.addEventListener("volumedownbutton", function(){
-
+        document.addEventListener("pause", function(){
+            if (permanentStorage.getItem('demo') == true){
+                resetDemoAccount();
+            }
         }, false);
     }
 }
@@ -575,11 +582,15 @@ function showSlides(){
         };
     });
 
+    $$('.start-demo-button').on('click', function(){
+        setDemoAccount();
+        checkToken();
+    })
 
 }
 
 function checkToken(){
-
+    fw7App.showPreloader();
     var token = permanentStorage.getItem('token');
     L.log('TOKEN:' + token);
     if (token != null){
@@ -597,6 +608,7 @@ function checkToken(){
             success: function(res){
                 var json_res = JSON.parse(res);
                 L.log(json_res);
+                fw7App.hidePreloader();
                 if (json_res.status == false){
                     showSlides();
                 }else{
@@ -614,6 +626,7 @@ function checkToken(){
             }
         });
     }else{
+        fw7App.hidePreloader();
         showSlides();
     }
 }
