@@ -24,7 +24,16 @@ function Events(){
 				CONTRACT.DB.FIELDS.EVENTS.ORGANIZATION_ID,
 				CONTRACT.DB.FIELDS.EVENTS.START_DATE,
 				CONTRACT.DB.FIELDS.EVENTS.TITLE,
-				CONTRACT.DB.FIELDS.EVENTS.UPDATED_AT];
+				CONTRACT.DB.FIELDS.EVENTS.UPDATED_AT],
+			q_ins_dates = '',
+			dates_fields = [
+				CONTRACT.DB.FIELDS.EVENTS_DATES._ID,
+				CONTRACT.DB.FIELDS.EVENTS_DATES.EVENT_ID,
+				CONTRACT.DB.FIELDS.EVENTS_DATES.EVENT_DATE,
+				CONTRACT.DB.FIELDS.EVENTS_DATES.STATUS,
+				CONTRACT.DB.FIELDS.EVENTS_DATES.CREATED_AT,
+				CONTRACT.DB.FIELDS.EVENTS_DATES.UPDATED_AT
+			];
 		_fields.forEach(function(){
 			placeholders.push('?');
 		});
@@ -85,34 +94,83 @@ function Events(){
 				event.tags_array.push(tag.name);
 			});
 
-			var st_date = moment(event.event_start_date),
+			debugger;
+
+			var st_date = event.event_start_date == null ? moment(event.dates_range[0]) : moment(event.event_start_date),
 				end_date = moment(event.event_end_date);
 
-			event.date =  moment(event.event_start_date).format(CONTRACT.DATE_FORMAT);
-			event.begin_time = moment(event.begin_time, 'HH:mm:ss').format('HH:mm');
-			event.end_time = moment(event.end_time, 'HH:mm:ss').format('HH:mm');
-			event.time = event.begin_time == '00:00' && event.end_time == '00:00' ? ' Весь день': event.begin_time + ' - ' + event.end_time;
-			event.dates = end_date.format('DD MMMM') ;
-			event.short_dates = end_date.format('DD/MM') ;
-			event.day_name = end_date.format('dddd');
-			try{
-				event.location_object = JSON.parse(event.location_object);
-			}catch(e){}
+			event.date =  event.event_start_date != null
+				? moment(event.event_start_date).format(CONTRACT.DATE_FORMAT)
+				: moment(event.dates_range[0]).format(CONTRACT.DATE_FORMAT);
 
-			if (end_date.format(CONTRACT.DATE_FORMAT) != st_date.format(CONTRACT.DATE_FORMAT)){
-				event.one_day = false;
-				if (end_date.format('MM') == st_date.format('MM')){
-					event.dates = st_date.format('DD') + ' - ' + end_date.format('DD MMMM');
-				}else{
-					event.dates = st_date.format('DD MMMM') + ' - ' + end_date.format('DD MMMM')
-				}
-				event.short_dates = st_date.format('DD/MM') + ' - ' + end_date.format('DD/MM')
+			event.begin_time = moment(event.begin_time, 'HH:mm:ss').format('HH:mm');
+
+			if (event.end_time == null){
+				event.time = event.begin_time;
 			}else{
-				event.one_day = true;
+				event.end_time = moment(event.end_time, 'HH:mm:ss').format('HH:mm');
+				if (event.begin_time == '00:00' && event.end_time == '00:00'){
+					event.time = ' Весь день';
+				}else{
+					event.time = event.begin_time + ' - ' + event.end_time;
+				}
 			}
+
+
+
+			event.begin_time_for_timeline = event.begin_time == '00:00' && event.end_time == '00:00' ? '': event.begin_time;
+			if (event.event_start_date == null || event.event_end_date == null){
+				event.one_day = event.dates_range.length == 1;
+				event.dates = st_date.format('DD MMMM') ;
+				event.short_dates = [];
+				event.dates = [];
+				event.dates_range.forEach(function(val){
+					event.dates.push(moment(val).format('DD/MM'));
+					event.short_dates.push(moment(val).format('DD/MM'));
+				});
+				event.dates = event.dates.join(', ') ;
+				event.short_dates = event.short_dates.join(', ') ;
+				event.day_name = st_date.format('dddd');
+			}else{
+				event.dates = end_date.format('DD MMMM') ;
+				event.short_dates = end_date.format('DD/MM') ;
+				event.day_name = end_date.format('dddd');
+				if (end_date.format(CONTRACT.DATE_FORMAT) != st_date.format(CONTRACT.DATE_FORMAT)){
+					event.one_day = false;
+					if (end_date.format('MM') == st_date.format('MM')){
+						event.dates = st_date.format('DD') + ' - ' + end_date.format('DD MMMM');
+					}else{
+						event.dates = st_date.format('DD MMMM') + ' - ' + end_date.format('DD MMMM')
+					}
+					event.short_dates = st_date.format('DD/MM') + ' - ' + end_date.format('DD/MM')
+				}else{
+					event.one_day = true;
+				}
+			}
+
+
+
+			var _a = document.createElement('a'),
+				_url = event.detail_info_url,
+				params_array = ['utm_source=Evendate', 'utm_campaign='+encodeURIComponent(event.title), 'utm_medium=affilate'];
+
+			_a.href = event.detail_info_url;
+
+			if (_a.search != ''){
+				_url += '&' + params_array.join('&')
+			}else{
+				_url += '?' + params_array.join('&')
+			}
+
+			event.detail_info_url = _url;
+
+
+
+
 			event.tags_text = event.tags_array.join(', ');
 
 			event.open = function(){
+				fw7App.showIndicator();
 				var _event = this;
 				if (callbackObjects['eventPageBeforeAnimation']){
 					callbackObjects['eventPageBeforeAnimation'].remove();
@@ -139,13 +197,7 @@ function Events(){
 							}]);
 						});
 					}
-					//
-					// PARRALAX EFFECT (BUGS)
-					// $$container.off('touchmove').on('touchmove', function(){
-					//	console.log('touchmove', $$event_wrapper.scrollTop());
-					//	$bcg_img_wrapper.css('top', ($$event_wrapper.scrollTop() / -2 + NAVBAR_HEIGHT) + 'px');
-					//});
-					//
+					fw7App.hideIndicator();
 				});
 				fw7App.getCurrentView().router.loadPage({
 					url: 'pages/event.html',
@@ -165,8 +217,15 @@ function Events(){
 			};
 
 			event.openMap= function(){
-				var url = 'maps://?q=' + event.latitude + ' , ' + event.longitude;
-				window.open(url, '_system', 'location=no');
+				var url;
+
+				if (event.latitude == 0 || event.longitude){
+					url = 'maps://?q=' + event.location;
+				}else{
+					url = 'maps://?q=' + event.latitude + ' , ' + event.longitude;
+				}
+
+				window.open(url, '_system', 'location=yes');
 				//window.plugins.ChildBrowser.showWebPage(, {
 				//	showLocationBar: true,
 				//	showAddress: true,
@@ -210,10 +269,14 @@ function Events(){
 			};
 
 			event.openOrganization = function(){
+
+				fw7App.showIndicator();
 				__api.organizations.get([
 					{id: event.organization_id}
 				], function(res){
 					res[0].open();
+
+					fw7App.hideIndicator();
 				});
 			};
 

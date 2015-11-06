@@ -45,7 +45,12 @@
         </div>
       </div>
 
-      <div class="list-block media-list">
+
+      <div class="infinite-scroll-preloader organization-events-loader">
+        <div class="preloader"></div>
+      </div>
+
+      <div class="list-block media-list organization-events">
         <ul>
           <li ng-repeat="event in organization.events" class="event-item swipeout" ng-class="{'favorite':event.is_favorite}">
             <a href="#" class="item-link swipeout-content item-content" ng-click="event.open()">

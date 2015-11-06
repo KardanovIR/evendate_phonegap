@@ -72,6 +72,14 @@ var child_browser_opened = false,
                     CREATED_AT: 'created_at',
                     UPDATED_AT: 'updated_at'
                 },
+                EVENTS_DATES:{
+                    _ID: 'id',
+                    EVENT_ID: 'event_id',
+                    EVENT_DATE: 'event_date',
+                    STATUS: 'status',
+                    CREATED_AT: 'created_at',
+                    UPDATED_AT: 'updated_at'
+                },
                 FAVORITE_EVENTS: {
                     _ID: 'id',
                     EVENT_ID: 'event_id',
@@ -218,14 +226,17 @@ MyApp.init = (function () {
 
 
     __api = initAPI();
-    __app.controller('SubscriptionsPageController', ['$scope', '$http', MyApp.pages.SubscriptionsPageController]);
     __app.controller('CalendarPageController', ['$scope', '$http', MyApp.pages.CalendarPageController]);
+
+    __app.controller('SubscriptionsPageController', ['$scope', '$http', MyApp.pages.SubscriptionsPageController]);
     __app.controller('FavoritesPageController', ['$scope', MyApp.pages.FavoritesPageController]);
+    __app.controller('FriendsTabController', ['$scope', MyApp.pages.FriendsTabController]);
+
 
     __app.controller('EventPageController', ['$scope', MyApp.pages.EventPageController]);
     __app.controller('OrganizationPageController', ['$scope', MyApp.pages.OrganizationPageController]);
     __app.controller('FriendsPageController', ['$scope', MyApp.pages.FriendsPageController]);
-    __app.controller('FriendsTabController', ['$scope', MyApp.pages.FriendsTabController]);
+
 }());
 
 document.addEventListener("deviceready", onDeviceReady, false);
@@ -279,6 +290,7 @@ function setDemoAccount(){
 function resetDemoAccount(){
     permanentStorage.setItem('token', null);
     permanentStorage.setItem('demo', null);
+    checkToken();
 }
 
 function onDeviceReady(){
@@ -548,15 +560,12 @@ window.onerror = function sendCrashReport(message, url , linenumber, column, err
 };
 
 function showSlides(){
+    $$('.splash-icon').addClass('hidden');
+    $$('.swiper-container').removeClass('hidden');
+
 
     var mySwiper = fw7App.swiper('.swiper-container', {
-        speed: 400,
-        spaceBetween: 0,
-        pagination: '.swiper-pagination',
-        paginationHide: true,
-        paginationClickable: false,
-        nextButton: '.swiper-button-next',
-        prevButton: '.swiper-button-prev'
+        pagination: '.swiper-pagination'
     });
 
     $$('.vk-btn, .facebook-btn, .google-btn')
@@ -566,7 +575,7 @@ function showSlides(){
         if (child_browser_opened) return false;
         child_browser_opened = true;
         window.plugins.ChildBrowser.showWebPage(URLs[type], {
-            showLocationBar: false,
+            showLocationBar: true,
             showAddress: true,
             showNavigationBar: true
         });
@@ -590,6 +599,7 @@ function showSlides(){
 }
 
 function checkToken(){
+    debugger;
     fw7App.showPreloader();
     var token = permanentStorage.getItem('token');
     L.log('TOKEN:' + token);
@@ -606,7 +616,14 @@ function checkToken(){
             type: 'PUT',
             dataType: 'JSON',
             success: function(res){
-                var json_res = JSON.parse(res);
+                try{
+                    var json_res = JSON.parse(res);
+                }catch(e){
+                    fw7App.hidePreloader();
+                    showSlides();
+                    return;
+                }
+
                 L.log(json_res);
                 fw7App.hidePreloader();
                 if (json_res.status == false){

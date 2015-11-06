@@ -102,6 +102,7 @@ function Organizations(){
 			};
 
 			value.open = function(){
+				fw7App.showIndicator();
 				var _organization = this;
 				if (callbackObjects['organizationPageBeforeAnimation']){
 					callbackObjects['organizationPageBeforeAnimation'].remove();
@@ -125,6 +126,9 @@ function Organizations(){
 							}]);
 						});
 					}
+
+
+					fw7App.hideIndicator();
 				});
 				fw7App.getCurrentView().router.loadPage({
 					url: 'pages/organization.html',

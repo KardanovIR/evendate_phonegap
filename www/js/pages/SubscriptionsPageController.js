@@ -73,14 +73,8 @@ MyApp.pages.SubscriptionsPageController = function ($scope, $http) {
     });
   };
 
-  $$('#profile').on('refresh', function(){
-    $scope.getSubscriptionsList();
-    fw7App.pullToRefreshDone();
-  });
-
-  $$('#organizations').on('refresh', function(){
-    $scope.getOrganizationsCatalog();
-    fw7App.pullToRefreshDone();
+  $$('.logout-btn').on('click', function(){
+    resetDemoAccount();
   });
 
 };

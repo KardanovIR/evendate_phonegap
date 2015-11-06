@@ -84,9 +84,11 @@ MyApp.pages.FriendsTabController = function ($scope, $http) {
 					ent.img_url = ent.image_vertical_url;
 
 					ent.openEntity = function(){
+						fw7App.showIndicator();
 						__api.events.get([
 							{id: ent.id}
 						], function(res){
+							fw7App.hideIndicator();
 							res[0].open();
 						});
 					};

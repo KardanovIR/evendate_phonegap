@@ -68,14 +68,11 @@ a.button-white.active {
 }
 
 .content-block-inner.user-info{
-  height: 140px;
+  height: 110px;
 }
 
 .user-info .user-image{
-  padding-top: 25px;
-  padding-bottom: 26px;
-  padding-right: 25px;
-  padding-left: 10px;
+  padding: 25px 25px 26px 10px;
   display: inline-block;
   float: left;
 }
@@ -681,4 +678,33 @@ span.day-number.with-events.with-favorites{
 
 .calendar-loader{
   display: none;
+}
+
+.calendar-custom-toolbar{
+  height: 35px;
+}
+
+.picker-calendar-row{
+  border: 0 !important;
+}
+.picker-calendar-day{
+  border: 0 !important;
+}
+
+.organization-events{
+  display: none;
+}
+
+.exit-block .item-title{
+  width: 100%;
+  color: red;
+}
+.exit-block{
+  height: 100px;
+  padding-top: 1px;
+  padding-bottom: 19px;
+}
+
+.img-50{
+  width: 50%;
 }
