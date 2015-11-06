@@ -68,7 +68,7 @@
     <gap:plugin name="com.brodysoft.sqliteplugin" version="1.0.6" />
     <gap:plugin name="org.apache.cordova.statusbar" version="0.1.4" />
     <gap:plugin name="com.analytics.google" version="1.2.2" />
-    <gap:plugin name="org.apache.cordova.inappbrowser" version="0.5.2" />
+    <gap:plugin name="org.apache.cordova.inappbrowser" version="0.6.0" />
 
 
     <icon src="www/res/icon/ios/icon.png" />
