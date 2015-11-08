@@ -243,7 +243,6 @@ MyApp.init = (function () {
     __app.controller('EventPageController', ['$scope', MyApp.pages.EventPageController]);
     __app.controller('OrganizationPageController', ['$scope', MyApp.pages.OrganizationPageController]);
     __app.controller('FriendsPageController', ['$scope', MyApp.pages.FriendsPageController]);
-
 }());
 
 document.addEventListener("deviceready", onDeviceReady, false);
@@ -273,7 +272,10 @@ function onNotificationAPN (data) {
 
     cordova.plugins.notification.local.on("click", function(notification) {
 
+
+
         var openNotification = function(){
+            console.log(notification);
             try{
                 var _data = JSON.parse(notification.data);
                 L.log(_data);
@@ -286,6 +288,10 @@ function onNotificationAPN (data) {
                 res[0].open();
             });
         };
+
+        L.log('IS_READY', __is_ready);
+
+        setTimeout(openNotification, 15000);
 
         if (!__is_ready){
             __run_after_init = openNotification;
@@ -488,7 +494,7 @@ function createTables(){ // create new schema
                             tx.executeSql(q_create_events_users, [], function(tx){
                                 tx.executeSql(q_create_favorite_events, [], function(tx){
                                     tx.executeSql(q_create_organizations_users, [], function(){
-                                        fillWithInitialData();
+                                        registerPushService();
                                     });
                                 });
                             });
@@ -567,7 +573,6 @@ function openApplication(){
     friends_scope.$apply(function(){
         friends_scope.showFeed(true);
     });
-    __is_ready = true;
 }
 
 window.onerror = function sendCrashReport(message, url , linenumber, column, errorObj){
@@ -599,7 +604,8 @@ function showSlides(){
     var mySwiper = fw7App.swiper('.swiper-container', {
         pagination: '.swiper-pagination',
         preloadImages: true,
-        parallax: true
+        parallax: true,
+        paginationHide: false
     });
 
     $$('.vk-btn, .facebook-btn, .google-btn')
