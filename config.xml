@@ -69,7 +69,7 @@
     <gap:plugin name="org.apache.cordova.statusbar" version="0.1.4" />
     <gap:plugin name="com.analytics.google" version="1.2.2" />
     <gap:plugin name="org.apache.cordova.inappbrowser" version="0.6.0" />
-    <gap:plugin name="de.appplant.cordova.plugin.local-notification" version="0.8.2" />
+    <gap:plugin name="de.appplant.cordova.plugin.local-notification-ios9-fix" version="0.8.2" />
 
     <icon src="www/res/icon/ios/icon.png" />
     <icon gap:platform="ios" height="57" src="res/icon/ios/icon-57.png" width="57" />
