@@ -273,7 +273,7 @@ function onNotificationAPN (data) {
     cordova.plugins.notification.local.on("click", function(notification) {
         L.log(notification);
         __api.events.get([{
-            id: notification.event_id
+            id: notification.data.event_id
         }], function(res){
             res[0].open();
         });
@@ -318,7 +318,7 @@ function onDeviceReady(){
     var db_version = window.localStorage.getItem('db_version');
     if (__os == 'win'){
         __db = window.openDatabase(CONTRACT.DB.NAME + '-' + makeid(), CONTRACT.DB.NAME, CONTRACT.DB.NAME, 5000, function(){
-            if (db_version != CONTRACT.DB.VERSION || CONTRACT.DB.VERSION == -1){
+            if (db_version != CONTRACT.DB.VERSION){
                 window.localStorage.setItem('db_version', CONTRACT.DB.VERSION);
                 updateDBScheme();
             }else{
@@ -328,7 +328,7 @@ function onDeviceReady(){
     }else{
         StatusBar.styleBlackTranslucent();
         __db = window.sqlitePlugin.openDatabase({name: CONTRACT.DB.NAME, location: 2});
-        if (db_version != CONTRACT.DB.VERSION || CONTRACT.DB.VERSION == -1){ // schema updated
+        if (db_version != CONTRACT.DB.VERSION){ // schema updated
             window.localStorage.setItem('db_version', CONTRACT.DB.VERSION);
             updateDBScheme();
         }else{
