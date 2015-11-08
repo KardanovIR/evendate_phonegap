@@ -11,9 +11,10 @@ MyApp.pages.SubscriptionsPageController = function ($scope, $http) {
   $scope.organization_categories = [];
 
   $scope.setUser = function(){
-    console.log(__user);
     $scope.info = __user;
     $scope.getSubscriptionsList();
+    L.log('RUNNING');
+    __run_after_init();
   };
 
 

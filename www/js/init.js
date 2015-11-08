@@ -273,7 +273,7 @@ function onNotificationAPN (data) {
 
     cordova.plugins.notification.local.on("click", function(notification) {
 
-        var openNotifiction = function(){
+        var openNotification = function(){
             try{
                 var _data = JSON.parse(notification.data);
                 L.log(_data);
@@ -288,9 +288,9 @@ function onNotificationAPN (data) {
         };
 
         if (!__is_ready){
-            __run_after_init = openNotifiction;
+            __run_after_init = openNotification;
         }else{
-            openNotifiction();
+            openNotification();
         }
     });
 }
@@ -348,25 +348,17 @@ function onDeviceReady(){
         }else{
             registerPushService();
         }
-
-        document.addEventListener("pause", function(){
-            if (permanentStorage.getItem('demo') == true){
-                resetDemoAccount();
-            }
-        }, false);
     }
 }
 
 function dropTables(table_names, callback){
 
-    L.log('DROP TABLES');
     if (table_names == null || table_names.length == 0) return true;
 
     var tables_dropped = 0;
     function dropDone(){
         tables_dropped++;
         if (tables_dropped == table_names.length){
-            L.log('TABLES DROPPED');
             if (callback instanceof Function){
                 callback();
             }
@@ -557,26 +549,25 @@ function openApplication(){
     $$('.view-main').addClass('tab');
 
     var scope = angular.element($$('#profile')).scope();
-    scope.$apply(function () {
+    scope.$apply(function(){
         scope.setUser();
     });
 
     var calendar_scope = angular.element($$('#calendar')).scope();
-    calendar_scope.$apply(function () {
+    calendar_scope.$apply(function(){
         calendar_scope.startBinding();
     });
 
     var favorites_scope = angular.element($$('#favorites')).scope();
-    favorites_scope.$apply(function () {
+    favorites_scope.$apply(function(){
         favorites_scope.startBinding();
     });
 
     var friends_scope = angular.element($$('#friends')).scope();
-    friends_scope.$apply(function () {
+    friends_scope.$apply(function(){
         friends_scope.showFeed(true);
     });
-
-    __run_after_init();
+    __is_ready = true;
 }
 
 window.onerror = function sendCrashReport(message, url , linenumber, column, errorObj){
