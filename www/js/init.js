@@ -263,9 +263,9 @@ if (__os == 'win'){
 
 function onNotificationAPN (data) {
     //L.log(data);
-    //if (data.alert){
-    //    navigator.notification.alert(data.alert);
-    //}
+    if (data.alert){
+        navigator.notification.alert(data.alert);
+    }
     switch(data.payload.type){
         case 'event_notification':{
             __api.events.get([{
