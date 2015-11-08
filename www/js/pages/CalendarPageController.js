@@ -93,16 +93,13 @@ MyApp.pages.CalendarPageController = function ($scope, $http) {
 	function addClassesToDatesWithEvents(events){
 		events.forEach(function(event){
 			event.dates_range.forEach(function(date){
-				var m_date = moment(date),
-					year = m_date.format('YYYY'),
-					month = m_date.format('M') - 1,
-					day = m_date.format('D'),
-					$$day = $$('.picker-calendar-day[data-date="' + [year, month,day].join('-') + '"] .day-number');
-
-				$$day.addClass('with-events');
-
 				if (event.is_favorite){
-					$$day.addClass('with-favorites');
+					var m_date = moment(date),
+						year = m_date.format('YYYY'),
+						month = m_date.format('M') - 1,
+						day = m_date.format('D'),
+						$$day = $$('.d-' + [year, month,day].join('-'));
+					$$day.addClass('with-events with-favorites');
 				}
 
 			});
@@ -114,7 +111,7 @@ MyApp.pages.CalendarPageController = function ($scope, $http) {
 		__api.events.get([{
 			since_date: moment($scope.year + '-' +$scope.month, 'YYYY-MM').startOf('month').format(CONTRACT.DATE_FORMAT)},
 			{till_date: moment($scope.year + '-' +$scope.month, 'YYYY-MM').endOf('month').format(CONTRACT.DATE_FORMAT)},
-			{type: 'short'},
+			{type: 'favorites'},
 			{page: 0},
 			{length: 500}
 

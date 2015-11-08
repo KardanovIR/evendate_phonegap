@@ -8,10 +8,10 @@ MyApp.pages.FriendsTabController = function ($scope, $http) {
 
 	var cards_by_users = {},
 		action_names = {
-			fave:           ['Добавила в избранное', 'Добавил в избранное'],
-			unfave:         ['Удалила из избранного', 'Удалил из избранного'],
-			subscribe:      ['Подписалась на организаторов', 'Подписался на организаторов'],
-			unsubscribe:    ['Отписалась от организаторов', 'Отписался от организаторов'],
+			fave:           ['Добавил(а) в избранное'],
+			unfave:         ['Удалил(а) из избранного'],
+			subscribe:      ['Добавил(а) подписки'],
+			unsubscribe:    ['Удалил(а) подписки'],
 		},
 		is_downloading = false,
 		friends_downloading = false,

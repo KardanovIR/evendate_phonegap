@@ -76,7 +76,6 @@ function Events(){
 				});
 				cb(res);
 			},function(tx, err){
-				L.log(tx, err);
 				cb(null);
 			})
 		})
@@ -93,8 +92,6 @@ function Events(){
 			event.tags.forEach(function(tag){
 				event.tags_array.push(tag.name);
 			});
-
-			debugger;
 
 			var st_date = event.event_start_date == null ? moment(event.dates_range[0]) : moment(event.event_start_date),
 				end_date = moment(event.event_end_date);
@@ -379,7 +376,6 @@ function Events(){
 						}
 					},
 					error: function(err){
-						L.log(err);
 						getOffline(filters, cb);
 					}
 				});

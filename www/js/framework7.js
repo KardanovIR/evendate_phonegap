@@ -9186,7 +9186,8 @@
                         dayDate = new Date(dayDate);
                         var dayYear = dayDate.getFullYear();
                         var dayMonth = dayDate.getMonth();
-                        rowHTML += '<div data-year="' + dayYear + '" data-month="' + dayMonth + '" data-day="' + dayNumber + '" class="picker-calendar-day' + (addClass) + '" data-date="' + (dayYear + '-' + dayMonth + '-' + dayNumber) + '"><span><span class="day-number">'+dayNumber+'</span></span></div>';
+                        var fullDate = (dayYear + '-' + dayMonth + '-' + dayNumber);
+                        rowHTML += '<div data-year="' + dayYear + '" data-month="' + dayMonth + '" data-day="' + dayNumber + '" class="picker-calendar-day' + (addClass) + '" data-date="' + fullDate + '"><span><span class="day-number ' + ' d-' + (fullDate) + '">'+dayNumber+'</span></span></div>';
                     }
                     monthHTML += '<div class="picker-calendar-row">' + rowHTML + '</div>';
                 }

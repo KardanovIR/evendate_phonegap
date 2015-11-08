@@ -159,11 +159,16 @@ var child_browser_opened = false,
     fw7App,
     callbackObjects = {};
 
-
-window.socket = io.connect('http://evendate.ru:443');
+if (io){
+    window.socket = io.connect('http://evendate.ru:443');
+}
 window.L = {
     log: function(data){
-        socket.emit('log', data);
+        if (socket){
+            socket.emit('log', data);
+        }else{
+            console.log(data)
+        }
     }
 };
 String.prototype.capitalize = function() {
@@ -256,9 +261,15 @@ if (__os == 'win'){
     })();
 }
 
-function onNotificationAPN (event) {
-    if (event.alert){
-        navigator.notification.alert(event.alert);
+function onNotificationAPN (data) {
+    L.log(data);
+    if (data.alert){
+        navigator.notification.alert(data.alert);
+    }
+    switch(data.payload.type){
+        case 'event_notification':{
+            navigator.notification.alert(data.payload.event.title);
+        }
     }
 }
 
@@ -465,14 +476,14 @@ function createTables(){ // create new schema
                                 tx.executeSql(q_create_favorite_events, [], function(tx){
                                     tx.executeSql(q_create_organizations_users, [], function(){
                                         fillWithInitialData();
-                                    }, L.log);
-                                }, L.log);
-                            }, L.log);
-                        }, L.log);
-                    }, L.log);
-                }, L.log);
-            }, L.log)
-        }, L.log);
+                                    });
+                                });
+                            });
+                        });
+                    });
+                });
+            })
+        });
     });
 }
 
@@ -563,9 +574,18 @@ function showSlides(){
     $$('.splash-icon').addClass('hidden');
     $$('.swiper-container').removeClass('hidden');
 
+    $$('.main-tabbar').addClass('hidden');
+    var viewsElement = $$('.view-events')[0],
+        viewInstance = viewsElement.f7View;
+    viewInstance.hideNavbar();
+    viewInstance.hideToolbar();
+    $$('.view').addClass('active');
+    $$(viewsElement).removeClass('active');
 
     var mySwiper = fw7App.swiper('.swiper-container', {
-        pagination: '.swiper-pagination'
+        pagination: '.swiper-pagination',
+        preloadImages: true,
+        parallax: true
     });
 
     $$('.vk-btn, .facebook-btn, .google-btn')
@@ -587,14 +607,13 @@ function showSlides(){
                 saveTokenInLocalStorage(url);
                 window.plugins.ChildBrowser.close();
             }
-            L.log(url);
         };
     });
 
     $$('.start-demo-button').on('click', function(){
         setDemoAccount();
         checkToken();
-    })
+    });
 
 }
 
@@ -621,10 +640,10 @@ function checkToken(){
                 }catch(e){
                     fw7App.hidePreloader();
                     showSlides();
+                    L.log(res);
                     return;
                 }
 
-                L.log(json_res);
                 fw7App.hidePreloader();
                 if (json_res.status == false){
                     showSlides();
@@ -654,6 +673,7 @@ function initAPI(){
         organizations: new Organizations(),
         events: new Events(),
         event_tags: new EventTags(),
+        event_dates: new EventDates(),
         subscriptions: new Subscriptions(),
         favorite_events: new FavoriteEvents(),
         tags: new Tags(),

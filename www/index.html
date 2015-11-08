@@ -40,7 +40,7 @@
               </td>
             </tr>
           </table>
-          <div class="swiper-container gradient-background hidden">
+          <div class="swiper-container pattern-background-img hidden">
             <!-- Slides wrapper -->
             <div class="swiper-wrapper">
               <!-- Slides -->
@@ -50,7 +50,7 @@
                   <tr>
                     <td align="center" valign="center">
                       <img src="img/welcomeslides/2.png" class="enot-img">
-                      <div class="enot-description">
+                      <div class="enot-description" data-swiper-parallax="-300" data-swiper-parallax-duration="600">
                         Не пропусти важное событие
                       </div>
                     </td>
@@ -62,7 +62,7 @@
                   <tr>
                     <td align="center" valign="center">
                       <img src="img/welcomeslides/0.png" class="enot-img">
-                      <div class="enot-description">
+                      <div class="enot-description" data-swiper-parallax="-300" data-swiper-parallax-duration="600">
                         Узнай, что интересно твоим друзьям
                       </div>
                     </td>
@@ -74,7 +74,7 @@
                   <tr>
                     <td align="center" valign="center">
                       <img src="img/welcomeslides/1.png" class="enot-img">
-                      <div class="enot-description">
+                      <div class="enot-description" data-swiper-parallax="-300" data-swiper-parallax-duration="600">
                         Делись событиями с друзьями
                       </div>
                     </td>
@@ -86,7 +86,7 @@
                   <tr>
                     <td align="center" valign="center">
                       <img src="img/welcomeslides/4.png" class="enot-img">
-                      <div class="enot-description">
+                      <div class="enot-description" data-swiper-parallax="-300" data-swiper-parallax-duration="600">
                         Управляй уведомлениями
                       </div>
                     </td>
@@ -98,7 +98,7 @@
                   <tr>
                     <td align="center" valign="center">
                       <img src="img/welcomeslides/3.png" class="enot-img">
-                      <div class="enot-description">
+                      <div class="enot-description" data-swiper-parallax="-300" data-swiper-parallax-duration="600">
                         Синхронизируйся со всеми устройствами
                       </div>
                     </td>
@@ -131,6 +131,7 @@
             <div class="swiper-pagination"></div>
 
           </div>
+
         </div>
       </div>
     </div>
@@ -164,9 +165,6 @@
                   <div class="user-name">
                     <div class="user-name-text">{{info.first_name}} {{info.last_name}}</div>
                     <div class="user-is-editor" ng-hide="{{info.is_editor === false}}"> Редактор</div>
-                    <!--<div>-->
-                      <!--<a href="#" ng-hide="{{info.is_editor === false}}" class="button button-round btn-black-blue">Создать мероприятие</a>-->
-                    <!--</div>-->
                   </div>
                 </div>
               </div>
@@ -185,8 +183,7 @@
                       </div>
                     </a>
                     <div class="swipeout-actions-right">
-                      <!-- We add data-confirm and data-confirm-title attributes -->
-                      <a href="#" class="swipeout-delete" ng-click="subscription.toggleSubscriptionStatus();" >Отписаться</a>
+                      <a href="#" class="swipeout-delete" ng-click="subscription.toggleSubscriptionStatus();">Отписаться</a>
                     </div>
                   </li>
                 </ul>
@@ -229,32 +226,6 @@
                   </ul>
                 </div>
               </div>
-
-              <!--<div class="content-block">-->
-                <!--<div class="list-block organizations-list media-list">-->
-                  <!--<ul>-->
-                    <!--<li ng-repeat="organization in organizations" class="organization"-->
-                        <!--ng-click="organization.open()">-->
-                      <!--<a href="#" class="item-link item-content disable-active-state organization-item">-->
-                        <!--<div class="item-media ">-->
-                          <!--<img ng-src="{{organization.img_small_url}}" width="80">-->
-                        <!--</div>-->
-                        <!--<div class="item-inner row">-->
-                          <!--<div class="col-50">-->
-                            <!--<div class="item-title">{{organization.short_name}}</div>-->
-                            <!--<div class="item-subtitle">{{organization.subscribed_count}} подписчиков</div>-->
-                          <!--</div>-->
-                          <!--<div class="col-50">-->
-                            <!--<button type="button" class="button pull-right" ng-click="organization.toggleSubscriptionStatus($event);"  ng-class="{'button-pink':organization.is_subscribed}">-->
-                              <!--{{organization.subscription_text}}-->
-                            <!--</button>-->
-                          <!--</div>-->
-                        <!--</div>-->
-                      <!--</a>-->
-                    <!--</li>-->
-                  <!--</ul>-->
-                <!--</div>-->
-              <!--</div>-->
             </div>
           </div>
         </div>
@@ -342,14 +313,12 @@
                         </div>
                       </a>
                       <div class="swipeout-actions-right">
-                        <!-- We add data-confirm and data-confirm-title attributes -->
                         <a href="#" class="action1 favorite-action" ng-click="event.toggleFavorite($event);" >{{event.favorite_text}}</a>
                       </div>
                     </li>
                   </ul>
                 </div>
               </div>
-
               <div class="infinite-scroll-preloader">
                 <div class="preloader"></div>
               </div>
@@ -361,7 +330,6 @@
   </div>
 
   <div id="view-favorites" class="view view-favorites tab" ng-controller="FavoritesPageController">
-
     <!-- Top Navbar-->
     <div class="navbar">
       <div class="navbar-inner">
@@ -408,7 +376,6 @@
                     </div>
                   </a>
                   <div class="swipeout-actions-right">
-                    <!-- We add data-confirm and data-confirm-title attributes -->
                     <a href="#" class="action1 favorite-action" ng-click="event.toggleFavorite($event);" >{{event.favorite_text}}</a>
                   </div>
                 </li>
@@ -473,7 +440,6 @@
                         </div>
                       </div>
                     </div>
-                    <!--<div class="card-footer">Card footer</div>-->
                   </li>
                 </ul>
                 <div class="infinite-scroll-preloader">
@@ -528,34 +494,36 @@
   </div>
 
 </div>
-<script type="text/javascript" src="js/models/Organizations.js"></script>
-<script type="text/javascript" src="js/models/Subscriptions.js"></script>
-<script type="text/javascript" src="js/models/Events.js"></script>
-<script type="text/javascript" src="js/models/Tags.js"></script>
-<script type="text/javascript" src="js/models/EventTags.js"></script>
-<script type="text/javascript" src="js/models/Users.js"></script>
-<script type="text/javascript" src="js/models/FavoriteEvents.js"></script>
-<script type="text/javascript" src="js/models/OrganizationsUsers.js"></script>
+
+  <script type="text/javascript" src="js/models/Organizations.js"></script>
+  <script type="text/javascript" src="js/models/Subscriptions.js"></script>
+  <script type="text/javascript" src="js/models/Events.js"></script>
+  <script type="text/javascript" src="js/models/Tags.js"></script>
+  <script type="text/javascript" src="js/models/EventTags.js"></script>
+  <script type="text/javascript" src="js/models/EventDates.js"></script>
+  <script type="text/javascript" src="js/models/Users.js"></script>
+  <script type="text/javascript" src="js/models/FavoriteEvents.js"></script>
+  <script type="text/javascript" src="js/models/OrganizationsUsers.js"></script>
 
 
-<script type="text/javascript" src="js/angular.min.js"></script>
-<script type="text/javascript" src="js/framework7.js"></script>
-<script type="text/javascript" src="js/ns.js"></script>
-<script type="text/javascript" src="js/moment-with-locales.js"></script>
-<script type="text/javascript" src="js/pages/SubscriptionsPageController.js"></script>
-<script type="text/javascript" src="js/pages/CalendarPageController.js"></script>
-<script type="text/javascript" src="js/pages/OrganizationPageController.js"></script>
-<script type="text/javascript" src="js/pages/EventPageController.js"></script>
-<script type="text/javascript" src="js/pages/FriendsPageController.js"></script>
-<script type="text/javascript" src="js/pages/FavoritesPageController.js"></script>
-<script type="text/javascript" src="js/pages/FriendsTabController.js"></script>
-<script type="text/javascript" src="js/imgcache.js"></script>
-<script type="text/javascript" src="http://evendate.ru:443/socket.io/socket.io.js"></script>
-<script type="text/javascript" src="phonegap.js"></script>
-<script type="text/javascript" src="childbrowser.js"></script>
-<script type="text/javascript" src="SQLitePlugin.js"></script>
-<script type="text/javascript" src="PushNotification.js"></script>
-<script type="text/javascript" src="js/init.js"></script>
+  <script type="text/javascript" src="js/angular.min.js"></script>
+  <script type="text/javascript" src="js/framework7.js"></script>
+  <script type="text/javascript" src="js/ns.js"></script>
+  <script type="text/javascript" src="js/moment-with-locales.js"></script>
+  <script type="text/javascript" src="js/pages/SubscriptionsPageController.js"></script>
+  <script type="text/javascript" src="js/pages/CalendarPageController.js"></script>
+  <script type="text/javascript" src="js/pages/OrganizationPageController.js"></script>
+  <script type="text/javascript" src="js/pages/EventPageController.js"></script>
+  <script type="text/javascript" src="js/pages/FriendsPageController.js"></script>
+  <script type="text/javascript" src="js/pages/FavoritesPageController.js"></script>
+  <script type="text/javascript" src="js/pages/FriendsTabController.js"></script>
+  <script type="text/javascript" src="js/imgcache.js"></script>
+  <script type="text/javascript" src="http://evendate.ru:443/socket.io/socket.io.js"></script>
+  <script type="text/javascript" src="phonegap.js"></script>
+  <script type="text/javascript" src="childbrowser.js"></script>
+  <script type="text/javascript" src="SQLitePlugin.js"></script>
+  <script type="text/javascript" src="PushNotification.js"></script>
+  <script type="text/javascript" src="js/init.js"></script>
 
 </body>
 
