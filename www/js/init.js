@@ -279,7 +279,7 @@ function onNotificationAPN (data) {
             L.log(e);
         }
         __api.events.get([{
-            id: notification.id
+            id: _data.event_id
         }], function(res){
             res[0].open();
         });
