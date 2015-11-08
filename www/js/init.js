@@ -262,15 +262,15 @@ if (__os == 'win'){
 }
 
 function onNotificationAPN (data) {
-    //L.log(data);
-    if (data.alert){
+    L.log(data);
+    if (data.alert && navigator.notification && navigator.notification.alert){
         navigator.notification.alert(data.alert);
     }
     switch(data.payload.type){
         case 'event_notification':{
             __api.events.get([{
                 id: data.payload.event_id
-            }],function(res){
+            }], function(res){
                 res[0].open();
             })
         }
