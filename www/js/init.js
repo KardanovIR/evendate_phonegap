@@ -262,13 +262,17 @@ if (__os == 'win'){
 }
 
 function onNotificationAPN (data) {
-    L.log(data);
-    if (data.alert){
-        navigator.notification.alert(data.alert);
-    }
+    //L.log(data);
+    //if (data.alert){
+    //    navigator.notification.alert(data.alert);
+    //}
     switch(data.payload.type){
         case 'event_notification':{
-            navigator.notification.alert(data.payload.event.title);
+            __api.events.get([{
+                id: data.payload.event_id
+            }],function(res){
+                res[0].open();
+            })
         }
     }
 }
