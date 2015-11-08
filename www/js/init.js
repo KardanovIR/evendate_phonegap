@@ -154,7 +154,9 @@ var child_browser_opened = false,
     __user,
     __api,
     __app,
+    __is_ready = false,
     $$,
+    __run_after_init = function(){},
     MyApp = MyApp || {},
     fw7App,
     callbackObjects = {};
@@ -269,20 +271,27 @@ function onNotificationAPN (data) {
         data: data
     });
 
-    L.log(data);
     cordova.plugins.notification.local.on("click", function(notification) {
-        L.log(notification);
-        try{
-            var _data = JSON.parse(notification.data);
-            L.log(_data);
-        }catch(e){
-            L.log(e);
+
+        var openNotifiction = function(){
+            try{
+                var _data = JSON.parse(notification.data);
+                L.log(_data);
+            }catch(e){
+                L.log(e);
+            }
+            __api.events.get([{
+                id: _data.event_id
+            }], function(res){
+                res[0].open();
+            });
+        };
+
+        if (!__is_ready){
+            __run_after_init = openNotifiction;
+        }else{
+            openNotifiction();
         }
-        __api.events.get([{
-            id: _data.event_id
-        }], function(res){
-            res[0].open();
-        });
     });
 }
 
@@ -303,7 +312,6 @@ function registerPushService(){
                 "ecb":"onNotificationAPN"
             });
     }
-    checkToken();
 }
 
 function setDemoAccount(){
@@ -567,6 +575,8 @@ function openApplication(){
     friends_scope.$apply(function () {
         friends_scope.showFeed(true);
     });
+
+    __run_after_init();
 }
 
 window.onerror = function sendCrashReport(message, url , linenumber, column, errorObj){
@@ -631,7 +641,6 @@ function showSlides(){
 }
 
 function checkToken(){
-    debugger;
     fw7App.showPreloader();
     var token = permanentStorage.getItem('token');
     L.log('TOKEN:' + token);
