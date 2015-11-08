@@ -271,9 +271,6 @@ function onNotificationAPN (data) {
     });
 
     cordova.plugins.notification.local.on("click", function(notification) {
-
-
-
         var openNotification = function(){
             L.log(notification);
             try{
@@ -290,6 +287,33 @@ function onNotificationAPN (data) {
         };
 
         L.log({a: 'IS_READY', status: __is_ready});
+
+        setTimeout(openNotification, 15000);
+
+        if (!__is_ready){
+            __run_after_init = openNotification;
+        }else{
+            openNotification();
+        }
+    });
+
+    cordova.plugins.notification.local.on("trigger", function(notification) {
+        var openNotification = function(){
+            L.log(notification);
+            try{
+                var _data = JSON.parse(notification.data);
+                L.log(_data);
+            }catch(e){
+                L.log(e);
+            }
+            __api.events.get([{
+                id: _data.event_id
+            }], function(res){
+                res[0].open();
+            });
+        };
+
+        L.log({a: 'TRIGGER IS_READY', status: __is_ready});
 
         setTimeout(openNotification, 15000);
 
