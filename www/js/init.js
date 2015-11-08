@@ -266,10 +266,10 @@ function onNotificationAPN (data) {
     if (data.alert && navigator.notification && navigator.notification.alert){
         //navigator.notification.alert(data.alert);
     }
-    switch(data.payload.type){
+    switch(data.type){
         case 'event_notification':{
             __api.events.get([{
-                id: data.payload.event_id
+                id: data.event_id
             }], function(res){
                 res[0].open();
             })
