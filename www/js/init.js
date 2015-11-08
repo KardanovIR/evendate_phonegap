@@ -264,7 +264,7 @@ if (__os == 'win'){
 function onNotificationAPN (data) {
     L.log(data);
     cordova.plugins.notification.local.schedule({
-        id: 1,
+        id: data.event_id,
         text: data.alert,
         data: data
     });
@@ -272,8 +272,14 @@ function onNotificationAPN (data) {
     L.log(data);
     cordova.plugins.notification.local.on("click", function(notification) {
         L.log(notification);
+        try{
+            var _data = JSON.parse(notification.data);
+            L.log(_data);
+        }catch(e){
+            L.log(e);
+        }
         __api.events.get([{
-            id: notification.data.event_id
+            id: notification.id
         }], function(res){
             res[0].open();
         });
