@@ -148,7 +148,7 @@ var child_browser_opened = false,
     URLs = {
         VK: 'https://oauth.vk.com/authorize?client_id=5029623&scope=friends,email,offline,nohttps&redirect_uri=http://evendate.ru/vkOauthDone.php?mobile=true&response_type=code',
         FACEBOOK: 'https://www.facebook.com/dialog/oauth?client_id=1692270867652630&response_type=code&scope=public_profile,email,user_friends&display=popup&redirect_uri=http://evendate.ru/fbOauthDone.php?mobile=true',
-        GOOGLE: 'https://accounts.google.com/o/oauth2/auth?scope=email profile https://www.googleapis.com/auth/plus.login &redirect_uri=http://evendate.ru/googleOauthDone.php?mobile=true&response_type=token&client_id=403640417782-lfkpm73j5gqqnq4d3d97vkgfjcoebucv.apps.googleusercontent.com'
+        GOOGLE: 'https://accounts.google.com/o/oauth2/auth?scope=email%20profile%20https://www.googleapis.com/auth/plus.login%20&redirect_uri=http://evendate.ru/googleOauthDone.php?mobile=true&response_type=token&client_id=403640417782-lfkpm73j5gqqnq4d3d97vkgfjcoebucv.apps.googleusercontent.com'
     },
     __device_id,
     __user,
@@ -264,7 +264,7 @@ if (__os == 'win'){
 function onNotificationAPN (data) {
     L.log(data);
     if (data.alert && navigator.notification && navigator.notification.alert){
-        navigator.notification.alert(data.alert);
+        //navigator.notification.alert(data.alert);
     }
     switch(data.payload.type){
         case 'event_notification':{

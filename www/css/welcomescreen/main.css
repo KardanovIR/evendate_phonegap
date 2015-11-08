@@ -711,3 +711,7 @@ span.day-number.with-events.with-favorites{
 .pattern-background-img{
   background-image: url("../../img/port_pattern_big.png");
 }
+
+.swiper-slide p{
+  border-radius: 11px;
+}
