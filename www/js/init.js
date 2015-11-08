@@ -275,7 +275,7 @@ function onNotificationAPN (data) {
 
 
         var openNotification = function(){
-            console.log(notification);
+            L.log(notification);
             try{
                 var _data = JSON.parse(notification.data);
                 L.log(_data);
@@ -289,7 +289,7 @@ function onNotificationAPN (data) {
             });
         };
 
-        L.log('IS_READY', __is_ready);
+        L.log({a: 'IS_READY', status: __is_ready});
 
         setTimeout(openNotification, 15000);
 
