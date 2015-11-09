@@ -263,59 +263,30 @@ if (__os == 'win'){
 }
 
 function onNotificationAPN (data) {
-    L.log(data);
     cordova.plugins.notification.local.schedule({
         id: data.event_id,
+        title: data.title,
         text: data.alert,
         data: data
     });
 
-    cordova.plugins.notification.local.on("click", function(notification) {
-        var openNotification = function(){
-            L.log(notification);
-            try{
-                var _data = JSON.parse(notification.data);
-                L.log(_data);
-            }catch(e){
-                L.log(e);
-            }
-            __api.events.get([{
-                id: _data.event_id
-            }], function(res){
-                res[0].open();
-            });
-        };
-
-        L.log({a: 'IS_READY', status: __is_ready});
-
-        setTimeout(openNotification, 15000);
-
-        if (!__is_ready){
-            __run_after_init = openNotification;
-        }else{
-            openNotification();
-        }
-    });
-
     cordova.plugins.notification.local.on("trigger", function(notification) {
         var openNotification = function(){
-            L.log(notification);
             try{
                 var _data = JSON.parse(notification.data);
-                L.log(_data);
             }catch(e){
-                L.log(e);
+                return false;
             }
-            __api.events.get([{
-                id: _data.event_id
-            }], function(res){
-                res[0].open();
-            });
+            if (_data.eval != ''){
+                eval(_data.eval);
+            }else{
+                __api.events.get([{
+                    id: _data.event_id
+                }], function(res){
+                    res[0].open();
+                });
+            }
         };
-
-        L.log({a: 'TRIGGER IS_READY', status: __is_ready});
-
-        setTimeout(openNotification, 15000);
 
         if (!__is_ready){
             __run_after_init = openNotification;
@@ -622,8 +593,8 @@ function showSlides(){
         viewInstance = viewsElement.f7View;
     viewInstance.hideNavbar();
     viewInstance.hideToolbar();
-    $$('.view').addClass('active');
-    $$(viewsElement).removeClass('active');
+    $$('.view').removeClass('active');
+    $$('.view-main').removeClass('active');
 
     var mySwiper = fw7App.swiper('.swiper-container', {
         pagination: '.swiper-pagination',
