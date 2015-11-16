@@ -266,7 +266,7 @@
                   <ul>
                     <li ng-repeat="event in day_events" class="event-item event-small-item swipeout"  ng-class="{'favorite':event.is_favorite}">
                       <a href="#" class="item-link item-content swipeout-content" ng-click="event.open()" >
-                        <div class="item-media calendar-event-cover" ng-style="{'background': 'url({{event.image_vertical_url}})'}">
+                        <div class="item-media calendar-event-cover" ng-style="{'background': 'url({{event.image_square_url}})'}">
                         </div>
                         <div class="item-inner">
                           <div class="item-title-row">
@@ -275,6 +275,10 @@
                           <div class="item-subtitle">{{event.short_dates}} | {{event.time}}</div>
                         </div>
                       </a>
+                      <div class="swipeout-actions-left">
+                        <!-- We add data-confirm and data-confirm-title attributes -->
+                        <a href="#" class="action1 swipeout-delete" ng-click="event.toggleHidden($event);" >{{event.hide_text}}</a>
+                      </div>
                       <div class="swipeout-actions-right">
                         <!-- We add data-confirm and data-confirm-title attributes -->
                         <a href="#" class="action1 favorite-action" ng-click="event.toggleFavorite($event);" >{{event.favorite_text}}</a>
@@ -312,6 +316,11 @@
                           </div>
                         </div>
                       </a>
+
+                      <div class="swipeout-actions-left">
+                        <!-- We add data-confirm and data-confirm-title attributes -->
+                        <a href="#" class="action1 swipeout-delete" ng-click="event.toggleHidden($event);" >{{event.hide_text}}</a>
+                      </div>
                       <div class="swipeout-actions-right">
                         <a href="#" class="action1 favorite-action" ng-click="event.toggleFavorite($event);" >{{event.favorite_text}}</a>
                       </div>
@@ -375,6 +384,11 @@
                       </div>
                     </div>
                   </a>
+
+                  <div class="swipeout-actions-left">
+                    <!-- We add data-confirm and data-confirm-title attributes -->
+                    <a href="#" class="action1 swipeout-delete" ng-click="event.toggleHidden($event);" >{{event.hide_text}}</a>
+                  </div>
                   <div class="swipeout-actions-right">
                     <a href="#" class="action1 favorite-action" ng-click="event.toggleFavorite($event);" >{{event.favorite_text}}</a>
                   </div>

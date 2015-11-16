@@ -161,10 +161,19 @@ function Events(){
 
 			event.detail_info_url = _url;
 
-
-
-
 			event.tags_text = event.tags_array.join(', ');
+
+			event.hide_text = 'Не показывать';
+
+			event.toggleHidden = function(){
+				$$.ajax({
+					url: CONTRACT.URLS.API_FULL_PATH + CONTRACT.URLS.EVENTS_PATH  + '/' + event.id + '/status',
+					data: {
+						hidden: 1
+					},
+					type: 'PUT'
+				})
+			};
 
 			event.open = function(){
 				fw7App.showIndicator();
@@ -362,6 +371,7 @@ function Events(){
 					url: url,
 					data: _f.data,
 					success: function(res){
+						res.data = [res.data];
 						_r = normalize(res.data);
 						cb(_r);
 						if (_f.data.hasOwnProperty('type') && _f.data.type == 'short'){

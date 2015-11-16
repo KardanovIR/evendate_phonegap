@@ -3205,7 +3205,7 @@ html.android-4 .accordion-item-content {
 }
 .card-header,
 .card-footer {
-  min-height: 44px;
+  min-height: 55px;
   position: relative;
   padding: 10px 15px;
   box-sizing: border-box;

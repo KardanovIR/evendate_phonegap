@@ -75,13 +75,13 @@ MyApp.pages.FriendsTabController = function ($scope, $http) {
 						user: stat.user,
 						type_code: stat.type_code,
 						date: date.format('DD.MM'),
-						action_name: action_names[stat.type_code][1],
+						action_name: action_names[stat.type_code][0],
 						entities: []
 					};
 				}
 
 				if (stat.entity == CONTRACT.ENTITIES.EVENT){
-					ent.img_url = ent.image_vertical_url;
+					ent.img_url = ent.image_square_url;
 
 					ent.openEntity = function(){
 						fw7App.showIndicator();
