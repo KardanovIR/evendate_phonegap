@@ -60,14 +60,14 @@
 
 
     <gap:plugin name="com.sharinglabs.cordova.plugin.datepicker" />
-    <gap:plugin name="com.phonegap.plugins.childbrowser" version="5.0.0" />
+    <gap:plugin name="com.phonegap.plugins.childbrowser"/>
     <gap:plugin name="org.apache.cordova.console"/>
     <gap:plugin name="org.apache.cordova.dialogs"/>
     <gap:plugin name="com.phonegap.plugins.pushplugin"/>
-    <gap:plugin name="com.brodysoft.sqliteplugin" version="1.0.6" />
-    <gap:plugin name="org.apache.cordova.statusbar" version="0.1.4" />
-    <gap:plugin name="com.analytics.google" version="1.2.2" />
-    <gap:plugin name="org.apache.cordova.inappbrowser" version="0.6.0" />
+    <gap:plugin name="com.brodysoft.sqliteplugin"/>
+    <gap:plugin name="org.apache.cordova.statusbar"/>
+    <gap:plugin name="com.analytics.google"/>
+    <gap:plugin name="org.apache.cordova.inappbrowser" />
     <gap:plugin name="de.appplant.cordova.plugin.local-notification-ios9-fix" version="0.8.2" />
 
     <icon src="www/res/icon/ios/icon.png" />
