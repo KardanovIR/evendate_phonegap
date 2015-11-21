@@ -13,6 +13,7 @@ MyApp.pages.CalendarPageController = function ($scope, $http) {
 	var events_by_days = {},
 		is_downloading = false;
 
+
 	$scope.year = 0;
 	$scope.month = '';
 	$scope.timeline_days = [];

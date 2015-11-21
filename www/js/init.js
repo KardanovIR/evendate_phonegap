@@ -362,7 +362,7 @@ function resetDemoAccount(){
 function onDeviceReady(){
 
     moment.locale("ru");
-
+    //window.open = cordova.InAppBrowser.open;
     var db_version = window.localStorage.getItem('db_version');
     if (__os == 'win'){
         __db = window.openDatabase(CONTRACT.DB.NAME + '-' + makeid(), CONTRACT.DB.NAME, CONTRACT.DB.NAME, 5000, function(){
