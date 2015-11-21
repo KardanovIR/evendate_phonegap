@@ -140,6 +140,18 @@ var child_browser_opened = false,
             EVENT: 'event',
             ORGANIZATION: 'organization'
         },
+        TEXTS: {
+            EVENTS: {
+                NOM: ' событие',
+                GEN: ' события',
+                PLU: ' событий'
+            },
+            FAVORITES: {
+                NOM: ' избранное',
+                GEN: ' избранных',
+                PLU: ' избранных'
+            },
+        },
         DEMO_TOKEN: '1b2f4977fdbc59bbcc8053795cb2a027f4a67cdb52e9387a5c5e23a681567577b85f074057c20b0f721bbc5d0deba417a9c1bdelC8BqCBzrba9ksH8sbw5ynESYabHsttMTaaDZihY3e8CqM1AIZrs0IwH9FmFf0Fb',
     },
     __db,
@@ -177,6 +189,26 @@ String.prototype.capitalize = function() {
     return this.charAt(0).toUpperCase() + this.slice(1);
 };
 
+
+function getUnitsText(num, cases) {
+    num = Math.abs(num);
+
+    var word = '';
+
+    if (num.toString().indexOf('.') > -1) {
+        word = cases.GEN;
+    } else {
+        word = (
+            num % 10 == 1 && num % 100 != 11
+                ? cases.NOM
+                : num % 10 >= 2 && num % 10 <= 4 && (num % 100 < 10 || num % 100 >= 20)
+                ? cases.GEN
+                : cases.PLU
+        );
+    }
+
+    return word;
+}
 
 MyApp.init = (function () {
     'use strict';
@@ -233,9 +265,9 @@ MyApp.init = (function () {
 
 
     __api = initAPI();
-    __app.controller('CalendarPageController', ['$scope', '$http', MyApp.pages.CalendarPageController]);
+    __app.controller('CalendarPageController', ['$scope', MyApp.pages.CalendarPageController]);
 
-    __app.controller('SubscriptionsPageController', ['$scope', '$http', MyApp.pages.SubscriptionsPageController]);
+    __app.controller('SubscriptionsPageController', ['$scope', MyApp.pages.SubscriptionsPageController]);
     __app.controller('FavoritesPageController', ['$scope', MyApp.pages.FavoritesPageController]);
     __app.controller('FriendsTabController', ['$scope', MyApp.pages.FriendsTabController]);
 
@@ -243,6 +275,7 @@ MyApp.init = (function () {
     __app.controller('EventPageController', ['$scope', MyApp.pages.EventPageController]);
     __app.controller('OrganizationPageController', ['$scope', MyApp.pages.OrganizationPageController]);
     __app.controller('FriendsPageController', ['$scope', MyApp.pages.FriendsPageController]);
+    __app.controller('EventsInDayController', ['$scope', '$element',  MyApp.pages.EventsInDayController]);
 }());
 
 document.addEventListener("deviceready", onDeviceReady, false);
@@ -568,6 +601,19 @@ function openApplication(){
     friends_scope.$apply(function(){
         friends_scope.showFeed(true);
     });
+
+
+    $$('.main-tabbar .toolbar-inner a').on('click', function(){
+        var $toolbar = $$('.main-tabbar .toolbar-inner'),
+            $$this = $$(this);
+
+        $toolbar.removeClass('toolbar-item-0 toolbar-item-1 toolbar-item-2 toolbar-item-3');
+
+        $toolbar.addClass('animated');
+        $toolbar.addClass('toolbar-item-' + $$this.data('number'));
+    });
+
+    setTimeout(function(){$$('.main-tabbar .toolbar-inner').removeClass('rubberBand animated')},1500);
 }
 
 window.onerror = function sendCrashReport(message, url , linenumber, column, errorObj){

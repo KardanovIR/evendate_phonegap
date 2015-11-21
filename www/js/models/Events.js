@@ -371,7 +371,7 @@ function Events(){
 					url: url,
 					data: _f.data,
 					success: function(res){
-						res.data = [res.data];
+						res.data = [].concat(res.data);
 						_r = normalize(res.data);
 						cb(_r);
 						if (_f.data.hasOwnProperty('type') && _f.data.type == 'short'){

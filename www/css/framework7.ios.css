@@ -22,7 +22,7 @@ body {
   overflow-x: hidden;
 }
 body {
-  font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+  font-family: sfns_displayregular, Helvetica Neue, Helvetica, Arial, sans-serif;
   margin: 0;
   padding: 0;
   color: #000;
@@ -1086,7 +1086,7 @@ html.pixel-ratio-3 .navbar:after {
   left: 0;
   top: 100%;
   margin-top: -1px;
-  background: #7387C5;
+  background: #5379B8;
   z-index: 20;
   box-sizing: border-box;
   padding: 0 8px;
@@ -1207,7 +1207,7 @@ html.pixel-ratio-3 .toolbar:before {
   color: #929292;
 }
 .tabbar a.active {
-  color: #6A80BC;
+  color: #5379B8;
 }
 .tabbar a.link {
   line-height: 1.4;
@@ -2278,8 +2278,8 @@ html.pixel-ratio-3 .list-block .item-inner:after {
   position: relative;
 }
 .list-block .item-link {
-  -webkit-transition-duration: 300ms;
-  transition-duration: 300ms;
+  /*-webkit-transition-duration: 300ms;*/
+  /*transition-duration: 300ms;*/
   display: block;
   color: inherit;
 }
@@ -2448,6 +2448,7 @@ html.pixel-ratio-3 .list-block .item-link.list-button:after {
   white-space: nowrap;
   max-width: 100%;
   text-overflow: ellipsis;
+  color: rgba(0,0,0,0.6);
 }
 .list-block .item-text {
   font-size: 15px;
@@ -5475,6 +5476,11 @@ html.pixel-ratio-3 .picker-calendar-week-days:after {
   width: calc(100% / 7);
   line-height: 30px;
   text-align: center;
+  font-size: 10px;
+  font-size: 11px;
+  color: rgba(0,0,0,0.35);
+  letter-spacing: 1.09px;
+  font-weight: 800;
 }
 .picker-calendar-week-days + .picker-calendar-months {
   height: -webkit-calc(100% - 18px);

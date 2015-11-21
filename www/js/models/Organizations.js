@@ -99,6 +99,7 @@ function Organizations(){
 
 			value.updateSubscriptionText = function(){
 				value.subscription_text = value.is_subscribed ? 'Отписаться' : 'Подписаться';
+				value.subscription_short_text = value.is_subscribed ? '-' : '+';
 			};
 
 			value.open = function(){

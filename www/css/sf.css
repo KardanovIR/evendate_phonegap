@@ -1,0 +1,15 @@
+
+
+
+@font-face {
+  font-family: 'sfns_displayregular';
+  src: url('../fonts/sf/system_san_francisco_display_regular-webfont.eot');
+  src: url('../fonts/sf/system_san_francisco_display_regular-webfont.eot?#iefix') format('embedded-opentype'),
+  url('../fonts/sf/system_san_francisco_display_regular-webfont.woff2') format('woff2'),
+  url('../fonts/sf/system_san_francisco_display_regular-webfont.woff') format('woff'),
+  url('../fonts/sf/system_san_francisco_display_regular-webfont.ttf') format('truetype'),
+  url('../fonts/sf/system_san_francisco_display_regular-webfont.svg#sfns_displayregular') format('svg');
+  font-weight: normal;
+  font-style: normal;
+
+}
