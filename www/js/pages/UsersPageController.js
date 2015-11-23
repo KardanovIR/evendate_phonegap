@@ -1,9 +1,6 @@
-/*jslint browser: true*/
-/*global console, Dom7, $, angular, angularApp*/
-
 MyApp.ns('MyApp.pages');
 
-MyApp.pages.FriendsPageController = function ($scope, $http) {
+MyApp.pages.UsersPageController = function ($scope, $http) {
 	'use strict';
 
 	$scope.info= {};

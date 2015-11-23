@@ -12,16 +12,10 @@
 <div class="pages">
   <div data-page="events_in_day" class="page events_in_day" ng-controller="EventsInDayController">
     <div class="page-content">
-      <div class="picker-modal picker-calendar picker-modal-inline">
-        <div class="toolbar calendar-custom-toolbar toolbar-hiding large">
-          <div class="toolbar-inner">
-            <div class="left"><a href="#" class="link icon-only calendar"><i class="ion-ios-arrow-thin-left"></i></a>
-            </div>
-            <div class="center calendar-month-name">{{date_text}}</div>
-            <div class="right"><a href="#" class="link icon-only calendar"><i class="ion-ios-arrow-thin-right"></i></a>
-            </div>
-          </div>
-        </div>
+      <div class="day-title">
+          <div class="left"><a href="#" class="link icon-only calendar"><i class="ion-ios-arrow-thin-left"></i></a></div>
+          <div class="center">{{date_text}}</div>
+          <div class="right"><a href="#" class="link icon-only calendar"><i class="ion-ios-arrow-thin-right"></i></a></div>
       </div>
 
       <div class="text-center calendar-loader">
@@ -29,7 +23,7 @@
           <div class="preloader"></div>
         </div>
       </div>
-      <div class="no-events-text">
+      <div class="no-events-text ng-hide" ng-hide="no_events" >
         Нет событий
       </div>
       <div class="list-block media-list calendar-list" ng-class="{hidden: day_events.length == 0}">
@@ -56,9 +50,6 @@
           </li>
         </ul>
       </div>
-
-
-
     </div>
   </div>
 </div>

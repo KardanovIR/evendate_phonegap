@@ -9,18 +9,20 @@ MyApp.pages.SubscriptionsPageController = function ($scope, $http) {
   $scope.subscriptions = null;
   $scope.selected_organization = null;
   $scope.organization_categories = [];
+  $scope.no_subscriptions = true;
 
   $scope.setUser = function(){
     $scope.info = __user;
     $scope.getSubscriptionsList();
-    L.log('RUNNING');
     __run_after_init();
   };
 
 
   $scope.getSubscriptionsList = function(){
+    $scope.no_subscriptions = true;
     __api.subscriptions.get(null, function(data){
       $scope.subscriptions = data;
+      $scope.no_subscriptions = $scope.subscriptions.length != 0;
       $scope.$apply();
     });
   };

@@ -72,6 +72,12 @@ function Organizations(){
 					data: {organization_id: value.id},
 					error: function(){
 						fw7App.alert(CONTRACT.ALERTS.NO_INTERNET);
+					},
+					complete: function(){
+						var calendar_scope = angular.element($$('#calendar')).scope();
+						calendar_scope.$apply(function(){
+							calendar_scope.startBinding();
+						});
 					}
 				};
 				if (value.is_subscribed){
@@ -81,6 +87,12 @@ function Organizations(){
 						data: {subscription_id: value.subscription_id},
 						error: function(){
 							fw7App.alert(CONTRACT.ALERTS.NO_INTERNET);
+						},
+						complete: function(){
+							var calendar_scope = angular.element($$('#calendar')).scope();
+							calendar_scope.$apply(function(){
+								calendar_scope.startBinding();
+							});
 						}
 					};
 				}
@@ -99,7 +111,6 @@ function Organizations(){
 
 			value.updateSubscriptionText = function(){
 				value.subscription_text = value.is_subscribed ? 'Отписаться' : 'Подписаться';
-				value.subscription_short_text = value.is_subscribed ? '-' : '+';
 			};
 
 			value.open = function(){
@@ -182,6 +193,9 @@ function Organizations(){
 			};
 
 			value.updateSubscriptionText();
+
+			value.subscribed_count_text = getUnitsText(value.subscribed_count, CONTRACT.TEXTS.SUBSCRIBED);
+
 			_ret.push(value);
 		});
 
@@ -282,6 +296,7 @@ function Organizations(){
 					});
 				});
 			}
-		}
+		},
+		normalize: normalize
 	}
 }

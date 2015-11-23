@@ -16,7 +16,9 @@ var child_browser_opened = false,
             MY_PART: '/my',
             FAVORITES_PART: '/favorites',
             FEED_PART: '/feed',
-            FRIENDS_PART: '/friends'
+            FRIENDS_PART: '/friends',
+            ACTIONS_PART: '/actions',
+            SUBSCRIPTIONS_PART: '/subscriptions'
         },
         FRIEND_TYPE_NAMES:{
             vk: 'ВКонтакте',
@@ -151,6 +153,11 @@ var child_browser_opened = false,
                 GEN: ' избранных',
                 PLU: ' избранных'
             },
+            SUBSCRIBED: {
+                NOM: ' подписчик',
+                GEN: ' подписчика',
+                PLU: ' подписчиков'
+            }
         },
         DEMO_TOKEN: '1b2f4977fdbc59bbcc8053795cb2a027f4a67cdb52e9387a5c5e23a681567577b85f074057c20b0f721bbc5d0deba417a9c1bdelC8BqCBzrba9ksH8sbw5ynESYabHsttMTaaDZihY3e8CqM1AIZrs0IwH9FmFf0Fb',
     },
@@ -173,12 +180,12 @@ var child_browser_opened = false,
     fw7App,
     callbackObjects = {};
 
-if (io){
+if (window.hasOwnProperty('io')){
     window.socket = io.connect('http://evendate.ru:443');
 }
 window.L = {
     log: function(data){
-        if (socket){
+        if (window.hasOwnProperty('socket')){
             socket.emit('log', data);
         }else{
             console.log(data)
@@ -274,8 +281,9 @@ MyApp.init = (function () {
 
     __app.controller('EventPageController', ['$scope', MyApp.pages.EventPageController]);
     __app.controller('OrganizationPageController', ['$scope', MyApp.pages.OrganizationPageController]);
-    __app.controller('FriendsPageController', ['$scope', MyApp.pages.FriendsPageController]);
+    __app.controller('FriendPageController', ['$scope', MyApp.pages.FriendPageController]);
     __app.controller('EventsInDayController', ['$scope', '$element',  MyApp.pages.EventsInDayController]);
+    __app.controller('UsersPageController', ['$scope', '$element',  MyApp.pages.UsersPageController]);
 }());
 
 document.addEventListener("deviceready", onDeviceReady, false);
@@ -331,9 +339,13 @@ function onNotificationAPN (data) {
 
 function registerPushService(){
     if (__os == 'win'){
-        socket.on('connect', function(){
-            registerSuccessHandler(socket.id);
-        });
+        if (window.hasOwnProperty('socket')){
+            socket.on('connect', function(){
+                registerSuccessHandler(socket.id);
+            });
+        }else{
+            registerSuccessHandler(null);
+        }
     }else{
         var pushNotification = window.plugins.pushNotification;
         pushNotification.register(
@@ -633,6 +645,10 @@ window.onerror = function sendCrashReport(message, url , linenumber, column, err
 function showSlides(){
     $$('.splash-icon').addClass('hidden');
     $$('.swiper-container').removeClass('hidden');
+    $$('.view-main').removeClass('tab');
+    $$('.main-tabbar .tab-link').removeClass('active');
+    $$('#view-events-tab-link').addClass('active');
+    $$('.main-tabbar .toolbar-inner').removeClass('toolbar-item-0').addClass('toolbar-item-1');
 
     $$('.main-tabbar').addClass('hidden');
     var viewsElement = $$('.view-events')[0],
@@ -646,7 +662,10 @@ function showSlides(){
         pagination: '.swiper-pagination',
         preloadImages: true,
         parallax: true,
-        paginationHide: false
+        paginationHide: false,
+        onReachEnd: function(swiper){
+            $$('.swiper-pagination').hide();
+        }
     });
 
     $$('.vk-btn, .facebook-btn, .google-btn')

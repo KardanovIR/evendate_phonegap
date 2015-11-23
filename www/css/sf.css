@@ -5,11 +5,50 @@
   font-family: 'sfns_displayregular';
   src: url('../fonts/sf/system_san_francisco_display_regular-webfont.eot');
   src: url('../fonts/sf/system_san_francisco_display_regular-webfont.eot?#iefix') format('embedded-opentype'),
-  url('../fonts/sf/system_san_francisco_display_regular-webfont.woff2') format('woff2'),
   url('../fonts/sf/system_san_francisco_display_regular-webfont.woff') format('woff'),
   url('../fonts/sf/system_san_francisco_display_regular-webfont.ttf') format('truetype'),
   url('../fonts/sf/system_san_francisco_display_regular-webfont.svg#sfns_displayregular') format('svg');
   font-weight: normal;
   font-style: normal;
+}
 
+@font-face {
+  font-family: "sfns_display_thin";
+  src: url("../fonts/sf/System_San_Francisco_Display_Thin.ttf") format("truetype");
+}
+@font-face {
+  font-family: "sfns_display_bold";
+  src: url("../fonts/sf/System_San_Francisco_Display_Bold.ttf") format("truetype");
+}
+@font-face {
+  font-family: "sfns_display_regular";
+  src: url("../fonts/sf/System_San_Francisco_Display_Regular.ttf") format("truetype");
+}
+@font-face {
+  font-family: "sfns_display_ultralight";
+  src: url("../fonts/sf/System_San_Francisco_Display_Ultralight.ttf") format("truetype");
+}
+@font-face {
+  font-family: "sfns_text_medium";
+  src: url("../fonts/sf/System_San_Francisco_Text_Medium.ttf") format("truetype");
+}
+@font-face {
+  font-family: "sfui_display_bold";
+  src: url("../fonts/sf/SFUIDisplay-Bold.ttf") format("truetype");
+}
+@font-face {
+  font-family: "sfui_display_heavy";
+  src: url("../fonts/sf/SFUIDisplay-Heavy.ttf") format("truetype");
+}
+@font-face {
+  font-family: "sfui_display_medium";
+  src: url("../fonts/sf/SFUIDisplay-Medium.ttf") format("truetype");
+}
+@font-face {
+  font-family: "sfui_display_ultralight";
+  src: url("../fonts/sf/SFUIDisplay-Bold.ttf") format("truetype");
+}
+@font-face {
+  font-family: "sfui_display_light";
+  src: url("../fonts/sf/SFUIDisplay-Light.ttf") format("truetype");
 }

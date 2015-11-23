@@ -111,9 +111,12 @@ MyApp.pages.CalendarPageController = function ($scope, $http) {
 				}
 			});
 		});
+
 	}
 
 	$scope.startBinding = function(){
+		$$('.picker-calendar-day-today').click();
+
 		$scope.binded = true;
 		__api.events.get([{
 			since_date: moment($scope.year + '-' +$scope.month, 'YYYY-MM').startOf('month').format(CONTRACT.DATE_FORMAT)},
@@ -195,14 +198,12 @@ MyApp.pages.CalendarPageController = function ($scope, $http) {
 			onOpen: function(p){
 				$scope.year = p.currentYear;
 				$scope.month = p.currentMonth + 1;
-
 				$$('.calendar-custom-toolbar .left .link').on('click', function () {
 					calendarInline.prevMonth();
 				});
 				$$('.calendar-custom-toolbar .right .link').on('click', function () {
 					calendarInline.nextMonth();
 				});
-
 				$$('.picker-calendar-day-selected').removeClass('picker-calendar-day-selected');
 			},
 			onMonthYearChangeEnd: function (p) {
@@ -220,17 +221,19 @@ MyApp.pages.CalendarPageController = function ($scope, $http) {
 					], addClassesToDatesWithEvents);
 				}
 			},
-			onDayClick: function(p, dayContainer, year, month, day){
+			onDayClick: function (p, dayContainer, year, month, day){
+				$scope.no_events = true;
+				$scope.$apply();
 				var _date = moment([year, parseInt(month) + 1, day].join('-'), 'YYYY-M-D');
 				$scope.selected_day = _date;
 				if (window.innerHeight == IPHONE_4_HEIGHT){
 					$$('.calendar-loader').show();
 
 					__api.events.get([
-							{date: _date.format(CONTRACT.DATE_FORMAT)},
-							{type: 'short'},
-							{my: true}
-						], function(data){
+						{date: _date.format(CONTRACT.DATE_FORMAT)},
+						{type: 'short'},
+						{my: true}
+					], function(data){
 						var events_count = 0,
 							favorites_count = 0;
 
@@ -261,6 +264,7 @@ MyApp.pages.CalendarPageController = function ($scope, $http) {
 						$$('.calendar-loader').hide();
 						$$('.calendar-list').show();
 						$scope.day_events = events;
+						$scope.no_events = $scope.day_events.length != 0;
 						$scope.$apply();
 					});
 				}

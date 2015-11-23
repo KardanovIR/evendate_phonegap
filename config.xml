@@ -33,17 +33,14 @@
 
 
     <preference name="StatusBarOverlaysWebView" value="true"/>
-    <preference name="StatusBarBackgroundColor" value="#000000"/>
+    <preference name="StatusBarBackgroundColor" value="#5379B8"/>
     <preference name="StatusBarStyle" value="lightcontent" />
     <preference name="DisallowOverscroll" value="true" />
     <preference name="UIWebViewBounce" value="false" />
     <preference name="webviewbounce" value="false" />
 
-    <gap:plugin name="org.apache.cordova.battery-status" />
-    <gap:plugin name="org.apache.cordova.camera" />
     <gap:plugin name="org.apache.cordova.media-capture" />
     <gap:plugin name="org.apache.cordova.console" />
-    <gap:plugin name="org.apache.cordova.contacts" />
     <gap:plugin name="org.apache.cordova.device" />
     <gap:plugin name="org.apache.cordova.device-motion" />
     <gap:plugin name="org.apache.cordova.device-orientation" />
@@ -69,6 +66,8 @@
     <gap:plugin name="com.analytics.google"/>
     <gap:plugin name="org.apache.cordova.inappbrowser" />
     <gap:plugin name="de.appplant.cordova.plugin.local-notification-ios9-fix" version="0.8.2" />
+
+    <!--<gap:plugin name="cordova-plugin-inappbrowser" source="npm" version="~1" />-->
 
     <icon src="www/res/icon/ios/icon.png" />
     <icon gap:platform="ios" height="57" src="res/icon/ios/icon-57.png" width="57" />
@@ -137,7 +136,6 @@
 
         <allow-intent href="itms:*" />
         <allow-intent href="itms-apps:*" />
-        <!--<plugin name="InAppBrowser" value="CDVInAppBrowser" />-->
 
         <!-- iOS 8.0+ -->
         <!-- iPhone 6 Plus  -->

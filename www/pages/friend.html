@@ -1,84 +1,75 @@
 <div class="navbar">
-  <div class="navbar-inner organization-page-navbar">
+  <div class="navbar-inner friend-page-navbar">
     <div class="left sliding">
       <a href="#" class="link back">
-        <i class="ion-ios-arrow-back"></i><span>Назад</span></a>
+        <i class="ion-ios-arrow-back"></i></a>
     </div>
-    <div class="center sliding heading-name">Организатор</div>
+    <div class="buttons-row">
+      <a href="#" data-page="friend-actions" onclick="showFriendEvents(this);" class="friend-actions button button-white active">События</a>
+      <a href="#" data-page="friend-subscriptions" onclick="showFriendSubscriptions(this);" class="friend-subscriptions button button-white">Подписки</a>
+    </div>
+    <div class="right"></div>
   </div>
 </div>
 <div class="pages">
-  <div class="page organization" data-page="organization" ng-controller="OrganizationPageController">
+  <div class="page friend" data-page="friend" ng-controller="FriendPageController">
     <div class="page-content">
-      <div class="background-img-wrapper">
-        <img ng-src="{{organization.background_medium_img_url}}" class="background-img">
-      </div>
-      <div class="organization-img-wrapper">
-        <div class="organization-page-img-wrapper">
-          <img ng-src="{{organization.img_medium_url}}" class="organization-page-img">
+      <div class="friend-profile-fixed-part">
+        <div class="profile-background-image">
+          <img ng-src="{{user.blurred_image_url}}">
+          <div class="user-background-opacity"></div>
+        </div>
+        <div class="user-info">
+          <img class="avatar" ng-src="{{user.avatar_url}}">
+        </div>
+        <div class="user-name sfui_display_light">
+          {{user.last_name}} {{user.first_name}}
+        </div>
+        <div class="social-type">
+          {{user.type}}
         </div>
       </div>
-      <div class="organization-name">
-        {{organization.name}}
-      </div>
-      <div class="content-block">
-        <div class="content-block-inner without-top-border without-bottom-border">
-          <div>
-            <div class="row">
-              <div class="col-50 text-center">
-                <div class="liked-users" ng-click="organization.openSubscribedFriends()">
-                  <img class="user-avatar" ng-repeat="user in organization.subscribed_friends | limitTo: 5" ng-src="{{user.avatar_url}}">
-                  <div class="organization-subscribed-count">+{{organization.subscribed_count}}</div>
-                </div>
-                <div class="subscribed-friends-count text-center">
-                  {{organization.subscribed_friends.length}} друзей подписано
-                </div>
-              </div>
-              <div class="col-50">
-                <button type="button" ng-click="organization.toggleSubscriptionStatus($event);" class="button pull-right" ng-class="{'button-pink':organization.is_subscribed}">
-                  {{organization.subscription_text}}
-                </button>
-              </div>
-            </div>
-            {{organization.description}}
+
+      <div class="tabs friend-tabs">
+        <div class="friend-actions tab">
+          <div class="friend-page-content list-block">
+            <ul class="without-top-border without-bottom-border">
+              <li ng-repeat="event in events">
+                <a href="#" class="item-link item-content"
+                   ng-click="subscription.open()">
+                  <div class="item-media">
+                    <img ng-src="{{subscription.img_small_url}}">
+                  </div>
+                  <div class="item-inner">
+                    <div class="item-title">{{subscription.short_name}}</div>
+                    <div class="item-after"></div>
+                  </div>
+                </a>
+              </li>
+            </ul>
           </div>
         </div>
-      </div>
-
-
-      <div class="infinite-scroll-preloader organization-events-loader">
-        <div class="preloader"></div>
-      </div>
-
-      <div class="list-block media-list organization-events">
-        <ul>
-          <li ng-repeat="event in organization.events" class="event-item swipeout" ng-class="{'favorite':event.is_favorite}">
-            <a href="#" class="item-link swipeout-content item-content" ng-click="event.open()">
-              <div class="item-media">
-                <img ng-src="{{event.image_vertical_url}}" class="event-vertical">
-              </div>
-              <div class="item-inner">
-                <div class="item-title-row">
-                  <div class="item-title">{{event.title}}</div>
-                  <div class="item-after"></div>
-                </div>
-                <div class="item-text">
-                  <div class="liked-users">
-                    <img class="user-avatar" ng-repeat="user in event.favorite_friends | limitTo: 5" ng-src="{{user.avatar_url}}">
-                    <div class="organization-subscribed-count">+{{event.liked_users_count}}</div>
-                  </div>
-                </div>
-                <div class="item-subtitle event-datetime">
-                  {{event.short_dates}} | {{event.time}}
-                </div>
-              </div>
-            </a>
-            <div class="swipeout-actions-right">
-              <!-- We add data-confirm and data-confirm-title attributes -->
-              <a href="#" class="action1 favorite-action" ng-click="event.toggleFavorite($event);" >{{event.favorite_text}}</a>
+        <div class="friend-subscriptionstab active">
+          <div class="friend-page-content list-block">
+            <div class="no-subscriptions-text ng-hide" ng-hide="no_subscriptions">
+              Нет подписок
             </div>
-          </li>
-        </ul>
+            <ul class="without-top-border without-bottom-border">
+              <li ng-repeat="subscription in subscriptions">
+                <a href="#" class="item-link item-content"
+                   ng-click="subscription.open()">
+                  <div class="item-media">
+                    <img ng-src="{{subscription.img_small_url}}">
+                  </div>
+                  <div class="item-inner">
+                    <div class="item-title">{{subscription.short_name}}</div>
+                    <div class="item-after"></div>
+                  </div>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
       </div>
     </div>
   </div>

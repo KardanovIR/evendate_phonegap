@@ -122,15 +122,15 @@ function Events(){
 				event.short_dates = [];
 				event.dates = [];
 				event.dates_range.forEach(function(val){
-					event.dates.push(moment(val).format('DD/MM'));
-					event.short_dates.push(moment(val).format('DD/MM'));
+					event.dates.push(moment(val).format('DD.MM'));
+					event.short_dates.push(moment(val).format('DD.MM'));
 				});
 				event.dates = event.dates.join(', ') ;
 				event.short_dates = event.short_dates.join(', ') ;
 				event.day_name = st_date.format('dddd');
 			}else{
 				event.dates = end_date.format('DD MMMM') ;
-				event.short_dates = end_date.format('DD/MM') ;
+				event.short_dates = end_date.format('DD.MM') ;
 				event.day_name = end_date.format('dddd');
 				if (end_date.format(CONTRACT.DATE_FORMAT) != st_date.format(CONTRACT.DATE_FORMAT)){
 					event.one_day = false;
@@ -139,7 +139,7 @@ function Events(){
 					}else{
 						event.dates = st_date.format('DD MMMM') + ' - ' + end_date.format('DD MMMM')
 					}
-					event.short_dates = st_date.format('DD/MM') + ' - ' + end_date.format('DD/MM')
+					event.short_dates = st_date.format('DD.MM') + ' - ' + end_date.format('DD.MM')
 				}else{
 					event.one_day = true;
 				}
@@ -149,7 +149,7 @@ function Events(){
 
 			var _a = document.createElement('a'),
 				_url = event.detail_info_url,
-				params_array = ['utm_source=Evendate', 'utm_campaign='+encodeURIComponent(event.title), 'utm_medium=affilate'];
+				params_array = ['utm_source=Evendate', 'utm_campaign=' + encodeURIComponent(event.title), 'utm_medium=affiliated'];
 
 			_a.href = event.detail_info_url;
 
@@ -246,6 +246,12 @@ function Events(){
 					data: {event_id: event.id},
 					error: function(){
 						fw7App.alert(CONTRACT.ALERTS.NO_INTERNET);
+					},
+					complete: function(){
+						var favorites_scope = angular.element($$('#favorites')).scope();
+						favorites_scope.$apply(function(){
+							favorites_scope.startBinding();
+						});
 					}
 				};
 				if (event.is_favorite){
@@ -256,6 +262,12 @@ function Events(){
 						data: {event_id: event.id},
 						error: function(){
 							fw7App.alert(CONTRACT.ALERTS.NO_INTERNET);
+						},
+						complete: function(){
+							var favorites_scope = angular.element($$('#favorites')).scope();
+							favorites_scope.$apply(function(){
+								favorites_scope.startBinding();
+							});
 						}
 					};
 				}

@@ -10,6 +10,7 @@ MyApp.pages.FavoritesPageController = function ($scope, $http) {
 
 	var events_by_days = {};
 
+	$scope.no_events = false;
 	$scope.favorites_days = [];
 
 	$scope.page_counter = 0;
@@ -88,6 +89,10 @@ MyApp.pages.FavoritesPageController = function ($scope, $http) {
 					});
 				}
 			}
+
+
+			$scope.no_events = $scope.favorites_days.length != 0;
+
 			$scope.$apply();
 
 			if (cb){

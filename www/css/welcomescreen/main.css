@@ -39,14 +39,14 @@
 }
 
 .navbar-inner{
-  background: #7387C5 !important;
+  background: #5379B8 !important;
 }
 
 .navbar-inner, .toolbar-inner {
   height: auto;
 }
 
-.subnavbar>.buttons-row{
+.friend-page-navbar>.buttons-row, .subnavbar>.buttons-row{
   width: 75%;
   min-width: 200px;;
 }
@@ -210,11 +210,11 @@ span.day-number.with-events.with-favorites{
   padding-right: 0;
 }
 
-/*.disable-active-state{*/
-  /*-webkit-transition-duration: 0ms !important;*/
-  /*transition-duration: 0ms !important;*/
-  /*background-color: transparent !important;*/
-/*}*/
+.disable-active-state{
+  -webkit-transition-duration: 0ms !important;
+  transition-duration: 0ms !important;
+  background-color: transparent !important;
+}
 
 .picker-calendar-row{
   /*-webkit-transition: all 0.5s linear;*/
@@ -327,8 +327,9 @@ span.day-number.with-events.with-favorites{
 .event-item .item-subtitle{
   font-size: 14px !important;
   line-height: 14px !important;
-  bottom: 3px;
-  position: absolute;
+  /* bottom: 3px; */
+  margin-top: 8px;
+  /* position: absolute; */
 }
 
 .without-top-border::before{
@@ -439,10 +440,15 @@ span.day-number.with-events.with-favorites{
 
 .timeline-day-title{
   text-align: center!important;
-  color: #000000!important;
   padding-top: 10px!important;
   background-color: #ffffff!important;
   border-bottom: 1px solid #ccc!important;
+
+  font-size: 20px!important;
+  color: #4A4A4A !important;
+  letter-spacing: 2px!important;
+  line-height: 24px!important;
+  border-bottom: 1px solid rgba(0,0,0,0.05)!important;s
 }
 
 .img-cirle-wrapper{
@@ -585,14 +591,14 @@ span.day-number.with-events.with-favorites{
 }
 
 .feed-card .user-avatar{
-  width: 40px;
-  height: 40px;
+  width: 47px;
+  height: 47px;
   border-radius: 999px;
   margin-right: 10px;
 }
 
 .feed-card .action-name{
-  font-size: 10px;
+  font-size: 14px;
 }
 
 .background-gray{
@@ -609,6 +615,9 @@ span.day-number.with-events.with-favorites{
 }
 
 .feed-card .list-block ul {
+  padding-left: 0 !important;
+}
+.feed-card .list-block li a{
   padding-left: 25px !important;
 }
 
@@ -639,10 +648,6 @@ span.day-number.with-events.with-favorites{
   line-height: 16px !important;
   height: 32px !important;
   font-weight: 600 !important;
-}
-
-.timeline-day-title{
-  font-weight: 700 !important;
 }
 
 .infinite-scroll-preloader {
@@ -1106,24 +1111,189 @@ and (-webkit-min-device-pixel-ratio: 3) {
   left: 150px;
 }
 
-.events_in_day .picker-calendar{
+.events_in_day .day-title{
   top: 38px;
   height: 56px;
+  width: 100%;
+  position: fixed;
+  left: 0;
+  /* top: 0; */
+  width: 100%;
+  /* height: 100%; */
+  padding: 0 8px;
+  box-sizing: border-box;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  -webkit-justify-content: space-between;
+  justify-content: space-between;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  -webkit-align-items: center;
+  align-items: center;
+  background-color: #ffffff;
+  font-size: 20px;
+  color: #4A4A4A ;
+  letter-spacing: 2px;
+  line-height: 24px;
+  border-bottom: 1px solid rgba(0,0,0,0.05);
+  z-index: 999;
 }
 .events_in_day .link.calendar{
   padding-top: 7px;
+  color: #827C7C !important;
+  font-size: 30px;
+}
+.events_in_day .calendar-loader{
+  margin-top: 60px;
 }
 .events_in_day .list-block{
-  margin: 49px 0;
+  margin: 50px 0;
 }
 
 .no-events-text{
   font-size: 24px;
   color: rgba(0,0,0,0.60);
-  letter-spacing: 0.48px;
   line-height: 29px;
   position: relative;
   top: 33%;
   text-align: center;
+  font-family: sfns_display_thin, sans-serif !important;
+  letter-spacing: 0.48px;
+}
+
+.no-subscriptions-text{
+  font-size: 24px;
+  color: rgba(0,0,0,0.60);
+  line-height: 29px;
+  position: relative;
+  top: 33%;
+  text-align: center;
+  font-family: sfns_display_thin, sans-serif !important;
+  letter-spacing: 0.48px;
+  margin-top: 25%;
+}
+
+.sfns_display_thin{
+  font-family: sfns_display_thin, sans-serif !important;
+  letter-spacing: 0.48px;
+}
+.sfns_display_bold{
+  font-family: sfns_display_bold, sans-serif !important;
+  letter-spacing: 0.48px;
+}
+.sfns_display_regular{
+  font-family: sfns_display_regular, sans-serif !important;
+  letter-spacing: 0.48px;
+}
+.sfns_display_ultralight{
+  font-family: sfns_display_ultralight, sans-serif !important;
+  letter-spacing: 0.48px;
+}
+.sfns_text_medium{
+  font-family: sfns_text_medium, sans-serif !important;
+  letter-spacing: 0.48px;
+}
+.sfui_display_bold{
+  font-family: sfui_display_bold, sans-serif !important;
+  letter-spacing: 0.48px;
+}
+.sfui_display_heavy{
+  font-family: sfui_display_heavy, sans-serif !important;
+  letter-spacing: 0.48px;
+}
+.sfui_display_medium{
+  font-family: sfui_display_medium, sans-serif !important;
+  letter-spacing: 0.48px;
+}
+.sfui_display_ultralight{
+  font-family: sfui_display_ultralight, sans-serif !important;
+  letter-spacing: 0.48px;
+}
+.sfui_display_light{
+  font-family: sfui_display_light, sans-serif !important;
+  letter-spacing: 0.48px;
+}
+
+.friend-profile-fixed-part{
+  position: fixed;
+  height: 130px;
+}
+.profile-background-image img{
+  position: relative;
+  top: calc(100% - 50px);
+  width: 100%;
+  height: auto;
+  left: 0;
+  margin-top: -25%;
+}
+
+.friend-page-content{
+  position: absolute;
+  top: 150px;
+  width: 100%;
+  background: #fff;
+  min-height: 100%;
+  margin-bottom: 50px;
+  font-size: 17px;
+  margin-top: 0;
 
 }
+
+.friend-page-content .list-block{
+  height: 100%;
+}
+
+.user-background-opacity{
+  width: 100%;
+  height: 400px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: #fff;
+  opacity: 0.5;
+}
+.friend-profile-fixed-part .avatar{
+  height: 50px;
+  width: 50px;
+  margin-left: 24px;
+  border-radius: 999px;
+  border: 2px solid #fff;
+}
+.friend-profile-fixed-part .user-info{
+  position: absolute;
+  top: 25px;
+}
+
+.friend-profile-fixed-part .user-name{
+  position: absolute;
+  top: 28px;
+  left: 87px;
+  color: #000;
+  font-size: 20px;
+  font-weight: 600;
+}
+.friend-profile-fixed-part .social-type{
+  position: absolute;
+  top: 50px;
+  left: 90px;
+  color: rgba(0,0,0,0.5);
+  font-size: 14px;
+}
+
+.friend-page-navbar .left{
+  margin-left: -5px;
+  text-align: center;
+  padding-left: 15px;
+}
+
+/**/
+
+.page.friend{
+  -webkit-transform: none !important;
+  transform: none !important;
+}
+

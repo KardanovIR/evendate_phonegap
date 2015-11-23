@@ -46,6 +46,47 @@ function Users(){
 
 		items.forEach(function(item, index){
 			items[index].type_name = CONTRACT.FRIEND_TYPE_NAMES[item.type];
+
+			items[index].blurred_image_url = CONTRACT.URLS.BASE_NAME
+				+ '/user_images/blurred/'
+				+ items[index].id
+				+ '.jpg';
+
+			items[index].open = function(){
+				fw7App.showIndicator();
+
+				var _user = this;
+				if (callbackObjects['userPageBeforeAnimation']){
+					callbackObjects['userPageBeforeAnimation'].remove();
+				}
+
+				callbackObjects['userPageBeforeAnimation'] = fw7App.onPageBeforeAnimation('friend', function(page){
+					var $$container = $$(page.container);
+					if ($$container.data('opened') == true){
+						var $scope = angular.element($$container[0]).scope();
+						$scope.setUser(_user);
+					}else{
+						var rootElement = angular.element(document);
+						rootElement.ready(function(){
+							rootElement.injector().invoke([ "$compile", function($compile) {
+								var scope = angular.element(page.container).scope();
+								$compile(page.container)(scope);
+								var $scope = angular.element($$container[0]).scope();
+								$scope.setUser(_user);
+								$$container.data('opened', true);
+							}]);
+						});
+					}
+					fw7App.hideIndicator();
+				});
+				fw7App.getCurrentView().router.loadPage({
+					url: 'pages/friend.html',
+					query: {id: _user.id},
+					pushState: true,
+					animatePages: true
+				});
+
+			}
 		});
 
 		return items;
@@ -70,10 +111,13 @@ function Users(){
 				url = CONTRACT.URLS.API_FULL_PATH + CONTRACT.URLS.USERS_PATH;
 
 			if (_f.data.hasOwnProperty('feed') && _f.data.feed == true){
-				url += '/' + CONTRACT.URLS.FEED_PART;
+				url += CONTRACT.URLS.FEED_PART;
 				is_feed = true;
 			}else if (_f.data.hasOwnProperty('friends') && _f.data.friends == true){
-				url += '/' + CONTRACT.URLS.FRIENDS_PART;
+				url += CONTRACT.URLS.FRIENDS_PART;
+				is_feed = true;
+			}else if (_f.data.hasOwnProperty('friend_id')){
+				url += CONTRACT.URLS.FRIENDS_PART;
 				is_feed = true;
 			}
 

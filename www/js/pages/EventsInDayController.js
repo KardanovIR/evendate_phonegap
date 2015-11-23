@@ -10,11 +10,14 @@ MyApp.pages.EventsInDayController = function ($scope, $element) {
 
 	$scope.day_events = [];
 	$scope.date = null;
+	$scope.no_events = false;
 
 	function changeDate(direction){
+		$scope.no_events = true;
+		$scope.$apply();
 
 		var $$loader = $$element.find('.calendar-loader').show();
-		$scope.setEvents([]);
+		$scope.day_events = [];
 		$scope.setDate($scope.date.add(direction, 'days'));
 		__api.events.get([
 			{'date': $scope.date.format(CONTRACT.DATE_FORMAT)},
@@ -28,6 +31,7 @@ MyApp.pages.EventsInDayController = function ($scope, $element) {
 	$scope.setEvents = function(data){
 
 		$scope.day_events = data;
+		$scope.no_events = data.length != 0;
 		$scope.$digest();
 	};
 

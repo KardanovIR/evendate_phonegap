@@ -71,11 +71,22 @@ MyApp.pages.FriendsTabController = function ($scope, $http) {
 					ent = stat[stat.entity],
 					key = [stat.entity, stat.stat_type_id, stat.user.id, $scope.page_counter, date.format('DD.MM')].join('-');
 				if (cards_by_users.hasOwnProperty(key) == false){
+					var _user_id = stat.user.id;
 					cards_by_users[key] = {
 						user: stat.user,
 						type_code: stat.type_code,
 						date: date.format('DD.MM'),
 						action_name: action_names[stat.type_code][0],
+						open: function(){
+							fw7App.showIndicator();
+							__api.users.get([
+								{friend_id: _user_id},
+								{friends: true}
+							], function(data){
+								fw7App.hideIndicator();
+								data[0].open();
+							})
+						},
 						entities: []
 					};
 				}
@@ -95,7 +106,7 @@ MyApp.pages.FriendsTabController = function ($scope, $http) {
 
 				}else if (stat.entity == CONTRACT.ENTITIES.ORGANIZATION){
 					ent.img_url = ent.img_medium_url;
-					ent.title = ent.name;
+					ent.title = ent.short_name;
 					ent.openEntity = function(){
 						__api.organizations.get([
 							{id: ent.id}
@@ -123,7 +134,6 @@ MyApp.pages.FriendsTabController = function ($scope, $http) {
 			}
 		});
 	};
-
 
 	$scope.showFriends = function(first_page, cb){
 		feed_is_active = false;
