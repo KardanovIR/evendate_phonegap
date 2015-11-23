@@ -10,6 +10,7 @@ MyApp.pages.SubscriptionsPageController = function ($scope, $http) {
   $scope.selected_organization = null;
   $scope.organization_categories = [];
   $scope.no_subscriptions = true;
+  $scope.data_loaded = false;
 
   $scope.setUser = function(){
     $scope.info = __user;
@@ -19,10 +20,12 @@ MyApp.pages.SubscriptionsPageController = function ($scope, $http) {
 
 
   $scope.getSubscriptionsList = function(){
+    $scope.data_loaded = false;
     $scope.no_subscriptions = true;
     __api.subscriptions.get(null, function(data){
       $scope.subscriptions = data;
       $scope.no_subscriptions = $scope.subscriptions.length != 0;
+      $scope.data_loaded = true;
       $scope.$apply();
     });
   };

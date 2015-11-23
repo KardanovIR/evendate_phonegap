@@ -14,7 +14,7 @@
 <div class="pages">
   <div class="page friend" data-page="friend" ng-controller="FriendPageController">
     <div class="page-content">
-      <div class="friend-profile-fixed-part">
+      <div class="friend-profile-fixed-part" ng-click="user.openProfile();">
         <div class="profile-background-image">
           <img ng-src="{{user.blurred_image_url}}">
           <div class="user-background-opacity"></div>

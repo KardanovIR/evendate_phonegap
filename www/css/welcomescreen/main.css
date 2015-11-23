@@ -1220,7 +1220,7 @@ and (-webkit-min-device-pixel-ratio: 3) {
 
 .friend-profile-fixed-part{
   position: fixed;
-  height: 130px;
+  height: 150px;
 }
 .profile-background-image img{
   position: relative;
@@ -1274,7 +1274,6 @@ and (-webkit-min-device-pixel-ratio: 3) {
   left: 87px;
   color: #000;
   font-size: 20px;
-  font-weight: 600;
 }
 .friend-profile-fixed-part .social-type{
   position: absolute;

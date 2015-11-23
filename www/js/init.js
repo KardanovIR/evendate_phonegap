@@ -159,6 +159,11 @@ var child_browser_opened = false,
                 PLU: ' подписчиков'
             }
         },
+        SOCIAL_LINK_TYPES: {
+            VK: 'vk',
+            FACEBOOK: 'facebook',
+            GOOGLE: 'vk'
+        },
         DEMO_TOKEN: '1b2f4977fdbc59bbcc8053795cb2a027f4a67cdb52e9387a5c5e23a681567577b85f074057c20b0f721bbc5d0deba417a9c1bdelC8BqCBzrba9ksH8sbw5ynESYabHsttMTaaDZihY3e8CqM1AIZrs0IwH9FmFf0Fb',
     },
     __db,
@@ -301,6 +306,16 @@ if (__os == 'win'){
     (function() {
         onDeviceReady();
     })();
+}
+
+function openLink(prefix, link, http_link){
+    CanOpen(prefix + '://', function(isInstalled) {
+        if(isInstalled){
+            window.open(link, '_system');
+        } else {
+            window.open(http_link, '_system');
+        }
+    });
 }
 
 function onNotificationAPN (data) {
@@ -582,8 +597,6 @@ function saveTokenInLocalStorage(url){
     permanentStorage.setItem('token', search_object['token']);
     checkToken();
 }
-
-
 
 function openApplication(){
     __app = angular.module('Evendate', []);

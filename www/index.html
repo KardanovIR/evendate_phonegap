@@ -172,6 +172,11 @@
                 <div class="no-subscriptions-text ng-hide" ng-hide="no_subscriptions">
                   Нет подписок
                 </div>
+                <div class="text-center subscriptions-loader ng-hide" ng-hide="data_loaded">
+                  <div class="infinite-scroll-preloader">
+                    <div class="preloader"></div>
+                  </div>
+                </div>
                 <ul class="without-top-border without-bottom-border">
                   <li class="swipeout" ng-repeat="subscription in subscriptions">
                     <a href="#" class="item-link swipeout-content item-content"
@@ -556,11 +561,12 @@
   <script type="text/javascript" src="js/pages/EventsInDayController.js"></script>
   <script type="text/javascript" src="js/pages/UsersPageController.js"></script>
   <script type="text/javascript" src="js/imgcache.js"></script>
-  <!--<script type="text/javascript" src="http://evendate.ru:443/socket.io/socket.io.js"></script>-->
+  <script type="text/javascript" src="http://evendate.ru:443/socket.io/socket.io.js"></script>
   <script type="text/javascript" src="phonegap.js"></script>
   <script type="text/javascript" src="childbrowser.js"></script>
   <script type="text/javascript" src="SQLitePlugin.js"></script>
   <script type="text/javascript" src="PushNotification.js"></script>
+  <script type="text/javascript" src="canOpen.js"></script>
   <script type="text/javascript" src="js/init.js"></script>
 
 </body>

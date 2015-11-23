@@ -87,6 +87,31 @@ function Users(){
 				});
 
 			}
+
+			items[index].openProfile = function(){
+				var _link = '',
+					type = '';
+				switch(item.type){
+					case CONTRACT.SOCIAL_LINK_TYPES.VK:{
+						type = 'vk';
+						_link = 'vk://vk.com/' + item.friend_uid;
+						break;
+					}
+					case CONTRACT.SOCIAL_LINK_TYPES.FACEBOOK:{
+						type = 'fb';
+						_link = 'fb://profile/' + item.friend_uid;
+						break;
+					}
+					case CONTRACT.SOCIAL_LINK_TYPES.GOOGLE:{
+						type = 'gplus';
+						_link = 'gplus://plus.google.com/u/0/' + item.friend_uid;
+						break;
+					}
+
+				}
+
+				openLink(type, _link, item.link);
+			}
 		});
 
 		return items;
