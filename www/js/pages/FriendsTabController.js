@@ -7,17 +7,13 @@ MyApp.pages.FriendsTabController = function ($scope, $http) {
 	'use strict';
 
 	var cards_by_users = {},
-		action_names = {
-			fave:           ['Добавил(а) в избранное'],
-			unfave:         ['Удалил(а) из избранного'],
-			subscribe:      ['Добавил(а) подписки'],
-			unsubscribe:    ['Удалил(а) подписки'],
-		},
+		action_names = CONTRACT.ACTION_NAMES,
 		is_downloading = false,
 		friends_downloading = false,
 		downloaded_friends_page = 0;
 	$scope.cards = [];
 	$scope.page_counter = 0;
+	$scope.no_actions = true;
 
 	$scope.friends = [];
 	var $$pull_to_refresh = $$('.friends-page-content'),
@@ -66,6 +62,10 @@ MyApp.pages.FriendsTabController = function ($scope, $http) {
 			{page: $scope.page_counter++},
 			{length: 10}
 		], function(data){
+
+			if (first_page && data.length == 0){
+				$scope.no_actions = false;
+			}
 			data.forEach(function(stat){
 				var date = moment(stat.created_at),
 					ent = stat[stat.entity],
@@ -74,6 +74,7 @@ MyApp.pages.FriendsTabController = function ($scope, $http) {
 					var _user_id = stat.user.id;
 					cards_by_users[key] = {
 						user: stat.user,
+						entity: stat.entity,
 						type_code: stat.type_code,
 						date: date.format('DD.MM'),
 						action_name: action_names[stat.type_code][0],

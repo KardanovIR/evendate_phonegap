@@ -7,11 +7,10 @@ MyApp.ns('MyApp.pages');
 
 var IPHONE_4_HEIGHT = 480;
 
-MyApp.pages.CalendarPageController = function ($scope, $http) {
+MyApp.pages.CalendarPageController = function ($scope) {
 	'use strict';
 
-	var events_by_days = {},
-		is_downloading = false;
+	var events_by_days = {};
 
 
 	$scope.year = 0;
@@ -24,9 +23,10 @@ MyApp.pages.CalendarPageController = function ($scope, $http) {
 
 	$scope.events_text = '';
 	$scope.date_text = '';
+	$scope.is_downloading = false;
 
 	$scope.getMyTimeline = function(first_page){
-		if (is_downloading) return;
+		if ($scope.is_downloading) return;
 		if (first_page == true){
 			$scope.page_counter = 0;
 			$$('.profile-page-content').on('infinite', function (){
@@ -34,7 +34,9 @@ MyApp.pages.CalendarPageController = function ($scope, $http) {
 			});
 		}
 
-		is_downloading = true;
+		$scope.is_downloading = true;
+
+		$scope.$apply();
 
 		__api.events.get([
 			{timeline: true},
@@ -43,7 +45,6 @@ MyApp.pages.CalendarPageController = function ($scope, $http) {
 			{length: 10}
 		], function(data){
 			var today_timestamp = new Date(moment().format('YYYY/MM/DD 00:00:00')).getTime();
-
 
 			data.forEach(function(item, index){
 				item.moment_dates_range = [];
@@ -92,8 +93,8 @@ MyApp.pages.CalendarPageController = function ($scope, $http) {
 					});
 				}
 			}
+			$scope.is_downloading = false;
 			$scope.$apply();
-			is_downloading = false;
 		});
 	};
 
@@ -121,7 +122,7 @@ MyApp.pages.CalendarPageController = function ($scope, $http) {
 		__api.events.get([{
 			since_date: moment($scope.year + '-' +$scope.month, 'YYYY-MM').startOf('month').format(CONTRACT.DATE_FORMAT)},
 			{till_date: moment($scope.year + '-' +$scope.month, 'YYYY-MM').endOf('month').format(CONTRACT.DATE_FORMAT)},
-			{type: 'short'},
+			{type: 'favorites'},
 			{page: 0},
 			{length: 500}
 

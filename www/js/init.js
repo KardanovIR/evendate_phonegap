@@ -5,7 +5,13 @@
 var child_browser_opened = false,
     CONTRACT = {
         DATE_FORMAT: 'YYYY-MM-DD',
-        URLS:{
+        ACTION_NAMES: {
+            fave:           ['добавил(а) в избранное'],
+            unfave:         ['удалил(а) из избранного'],
+            subscribe:      ['добавил(а) подписки'],
+            unsubscribe:    ['удалил(а) подписки']
+        },
+        URLS: {
             BASE_NAME: 'http://evendate.ru',
             API_FULL_PATH: 'http://evendate.ru/api',
             USERS_PATH: '/users',
@@ -183,6 +189,7 @@ var child_browser_opened = false,
     __run_after_init = function(){},
     MyApp = MyApp || {},
     fw7App,
+    subscriptions_updated = false,
     callbackObjects = {};
 
 if (window.hasOwnProperty('io')){
@@ -638,7 +645,25 @@ function openApplication(){
         $toolbar.addClass('toolbar-item-' + $$this.data('number'));
     });
 
-    setTimeout(function(){$$('.main-tabbar .toolbar-inner').removeClass('rubberBand animated')},1500);
+    $$('#view-events-tab-link').addClass('active')
+        .on('click', function(){
+            if (subscriptions_updated){
+                var calendar_scope = angular.element($$('#calendar')).scope();
+                subscriptions_updated = false;
+                calendar_scope.$apply(function(){
+                    calendar_scope.startBinding();
+                });
+            }
+        });
+
+    $$('.main-tabbar .tab-link').on('click', function(e){
+        if ($$(this).hasClass('active')){
+            while(fw7App.getCurrentView().history.length > 1){
+                fw7App.getCurrentView().back();
+            }
+        }
+    });
+
 }
 
 window.onerror = function sendCrashReport(message, url , linenumber, column, errorObj){
@@ -660,7 +685,6 @@ function showSlides(){
     $$('.swiper-container').removeClass('hidden');
     $$('.view-main').removeClass('tab');
     $$('.main-tabbar .tab-link').removeClass('active');
-    $$('#view-events-tab-link').addClass('active');
     $$('.main-tabbar .toolbar-inner').removeClass('toolbar-item-0').addClass('toolbar-item-1');
 
     $$('.main-tabbar').addClass('hidden');
@@ -702,6 +726,8 @@ function showSlides(){
             }
         };
     });
+
+
 
     $$('.start-demo-button').on('click', function(){
         setDemoAccount();

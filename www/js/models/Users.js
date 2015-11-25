@@ -60,6 +60,13 @@ function Users(){
 					callbackObjects['userPageBeforeAnimation'].remove();
 				}
 
+				if (callbackObjects['userPageAfterAnimation']){
+					callbackObjects['userPageAfterAnimation'].remove();
+				}
+
+				callbackObjects['userPageAfterAnimation'] = fw7App.onPageAfterAnimation('friend', function(page){
+					$$(fw7App.getCurrentView().container).find('a.friend-actions').click();
+				});
 				callbackObjects['userPageBeforeAnimation'] = fw7App.onPageBeforeAnimation('friend', function(page){
 					var $$container = $$(page.container);
 					if ($$container.data('opened') == true){
@@ -85,8 +92,7 @@ function Users(){
 					pushState: true,
 					animatePages: true
 				});
-
-			}
+			};
 
 			items[index].openProfile = function(){
 				var _link = '',
@@ -182,6 +188,7 @@ function Users(){
 					});
 				});
 			}
-		}
+		},
+		normalize: normalize
 	}
 }

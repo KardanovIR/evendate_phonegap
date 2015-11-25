@@ -74,10 +74,7 @@ function Organizations(){
 						fw7App.alert(CONTRACT.ALERTS.NO_INTERNET);
 					},
 					complete: function(){
-						var calendar_scope = angular.element($$('#calendar')).scope();
-						calendar_scope.$apply(function(){
-							calendar_scope.startBinding();
-						});
+						subscriptions_updated = true;
 					}
 				};
 				if (value.is_subscribed){
@@ -89,10 +86,7 @@ function Organizations(){
 							fw7App.alert(CONTRACT.ALERTS.NO_INTERNET);
 						},
 						complete: function(){
-							var calendar_scope = angular.element($$('#calendar')).scope();
-							calendar_scope.$apply(function(){
-								calendar_scope.startBinding();
-							});
+							subscriptions_updated = true;
 						}
 					};
 				}
@@ -151,6 +145,7 @@ function Organizations(){
 			};
 
 			value.openSubscribedFriends = function(){
+				fw7App.showIndicator();
 				var _organization = this;
 				if (callbackObjects['subscribedFriendsPageBeforeAnimation']){
 					callbackObjects['subscribedFriendsPageBeforeAnimation'].remove();
@@ -183,7 +178,9 @@ function Organizations(){
 							}]);
 						});
 					}
+					fw7App.hideIndicator();
 				});
+
 				fw7App.getCurrentView().router.loadPage({
 					url: 'pages/friends_subscribed.html',
 					query: {id: value.id},

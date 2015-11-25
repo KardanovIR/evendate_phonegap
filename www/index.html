@@ -260,17 +260,14 @@
             <div id="calendar" class="tab active">
               <div id="calendar-inline-container"></div>
               <div id="calendar-date-events-list">
-
                 <div class="no-events-text ng-hide" ng-hide="no_events">
                   Нет событий
                 </div>
-
                 <div class="text-center calendar-loader">
                   <div class="infinite-scroll-preloader">
                     <div class="preloader"></div>
                   </div>
                 </div>
-
                 <div class="list-block media-list calendar-list">
                   <ul>
                     <li ng-repeat="event in day_events" class="event-item event-small-item swipeout" ng-class="{'favorite':event.is_favorite}">
@@ -353,7 +350,7 @@
                   </ul>
                 </div>
               </div>
-              <div class="infinite-scroll-preloader">
+              <div class="infinite-scroll-preloader ng-hide" ng-hide="!is_downloading">
                 <div class="preloader"></div>
               </div>
             </div>
@@ -389,7 +386,7 @@
             <div class="list-group" ng-repeat="day in favorites_days">
               <ul>
                 <li class="list-group-title timeline-day-title">{{day.name}}</li>
-                <li ng-repeat="event in day.events" class="event-item swipeout" ng-class="{'favorite':event.is_favorite}">
+                <li ng-repeat="event in day.events" class="event-item swipeout" ng-class="{'favorite': event.is_favorite}">
                   <a href="#" class="item-link item-content swipeout-content" ng-click="event.open()">
                     <div class="item-media">
                       <img ng-src="{{event.image_vertical_url}}" class="event-vertical">
@@ -400,9 +397,6 @@
                         <div class="item-after"></div>
                       </div>
                       <div class="item-text inline-block">
-                        <div class="img-cirle-wrapper border-blue width-40 pull-left">
-                          <img ng-src="{{event.organization_img_url}}">
-                        </div>
                         <div class="event-organization-name">
                           {{event.organization_short_name}}
                         </div>
@@ -453,9 +447,12 @@
                 <div class="preloader"></div>
                 <div class="pull-to-refresh-arrow"></div>
               </div>
+              <div class="no-events-text ng-hide" ng-hide="no_actions">
+                Нет событий
+              </div>
               <div class="list-block cards-list">
                 <ul>
-                  <li class="card feed-card" ng-repeat="card in cards" ng-class="{events: card.type == '', organizations: cart.type == ''}">
+                  <li class="card feed-card {{card.entity}}" ng-repeat="card in cards">
                     <div class="card-header" ng-click="card.open();">
                       <span class="pull-right feed-date">{{card.date}}</span>
                       <img ng-src="{{card.user.avatar_url}}" class="user-avatar pull-left">

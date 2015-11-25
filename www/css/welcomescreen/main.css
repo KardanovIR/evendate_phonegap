@@ -617,8 +617,18 @@ span.day-number.with-events.with-favorites{
 .feed-card .list-block ul {
   padding-left: 0 !important;
 }
-.feed-card .list-block li a{
-  padding-left: 25px !important;
+
+.feed-card.event .item-media img{
+  height: 50px;
+  width: 50px;
+  border-radius: 0;
+}
+.feed-card.event .item-media{
+  padding: 0;
+}
+
+.feed-card.event .list-block li a{
+  padding-left: 0 !important;
 }
 
 .feed-card .item-content{
@@ -655,6 +665,7 @@ span.day-number.with-events.with-favorites{
   margin-bottom: 10px;
   text-align: center;
 }
+
 .infinite-scroll-preloader .preloader {
   width:34px;
   height:34px;
@@ -672,6 +683,7 @@ span.day-number.with-events.with-favorites{
   float: right;
   font-size: 23px;
 }
+
 .auth-btn{
   background: rgba(0,0,0,0.20) !important;
   border: 1px solid rgba(255,255,255,0.50) !important;
@@ -682,6 +694,7 @@ span.day-number.with-events.with-favorites{
   font-size: 15px !important;
   text-align: left !important;
 }
+
 .auth-btn.active-state{
   background: rgba(255,255,255,0.20) !important;
   border: 1px solid rgba(255,255,255,0.50) !important;
@@ -711,6 +724,7 @@ span.day-number.with-events.with-favorites{
 .picker-calendar-row{
   border: 0 !important;
 }
+
 .picker-calendar-day{
   border: 0 !important;
   outline: 0 !important;
@@ -725,6 +739,7 @@ span.day-number.with-events.with-favorites{
   width: 100%;
   color: red;
 }
+
 .exit-block{
   height: 100px;
   padding-top: 1px;
@@ -826,6 +841,7 @@ li.organization .item-media img {
   height: 40px;
   width: 40px;
 }
+
 li.organization{
   padding-left: 7px;
 }
@@ -836,6 +852,54 @@ li.organization{
 @media only screen
 and (max-device-height : 480px)
 and (orientation : portrait) {
+
+  .button-circle{
+    border-radius: 999px;
+    width: 43px;
+    font-size: 33px;
+    height: 43px;
+  }
+
+  .button-circle:after{
+    top: 20px;
+    left: 13px;
+  }
+
+  .button-circle:before{
+    top: 13px;
+    left: 20px;
+  }
+
+  .button-filled-blue:before {
+    top: 19px;
+    left: 17px;
+  }
+
+  .button-filled-blue:after {
+    top: 22px;
+    left: 12px;
+  }
+
+  .event-item .liked-users{
+    display: none;
+  }
+
+  .event-item .item-media{
+    min-width: 84px;
+  }
+
+  .event-item .item-text{
+    height: 24px;
+  }
+  .event-item .item-subtitle{
+    margin-top: 4px;
+  }
+
+  .event-item .item-inner{
+    padding-top: 5px !important;
+    padding-bottom: 0 !important;
+  }
+
   .picker-calendar{
     height: 75%;
   }
@@ -865,6 +929,7 @@ and (orientation : portrait) {
     padding-top: 7px;
     color: #F82969;
   }
+
   #calendar-date-events-button .day-name{
     font-size: 20px;
     color: #F11069;
@@ -874,6 +939,10 @@ and (orientation : portrait) {
 
 /* iPhone 5 */
 @media screen and (device-aspect-ratio: 40/71) {
+
+  .event-item .item-media {
+    max-width: 91px;
+  }
 
   .calendar-head-year{
     display: none;
@@ -963,6 +1032,11 @@ and (-webkit-min-device-pixel-ratio: 2) {
 and (min-device-width: 414px)
 and (max-device-width: 736px)
 and (-webkit-min-device-pixel-ratio: 3) {
+
+  .event-item .item-media {
+    max-width: 100px;
+  }
+
   .picker-calendar-day span{
     font-size: 16px;
   }
@@ -995,9 +1069,6 @@ and (-webkit-min-device-pixel-ratio: 3) {
     height: calc(100% / 6);
   }
 }
-
-
-/*-*/
 
 .main-tabbar .toolbar-inner:after {
   position: absolute;
@@ -1033,51 +1104,6 @@ and (-webkit-min-device-pixel-ratio: 3) {
   -webkit-animation-duration: .5s;
   animation-duration: .5s
 }
-
-
-/*.rubberBand:after {*/
-  /*-webkit-animation-name: rubberBand;*/
-  /*animation-name: rubberBand*/
-/*}*/
-
-/*@-webkit-keyframes rubberBand {*/
-  /*0% {*/
-    /*-webkit-transform: scale3d(1,1,1);*/
-    /*transform: scale3d(1,1,1)*/
-  /*}*/
-
-  /*30% {*/
-    /*-webkit-transform: scale3d(1.15,.75,1);*/
-    /*transform: scale3d(1.15,.75,1)*/
-  /*}*/
-
-  /*40% {*/
-    /*-webkit-transform: scale3d(1.25,1.25,1);*/
-    /*transform: scale3d(1.25,1.25,1)*/
-  /*}*/
-
-  /*50% {*/
-    /*-webkit-transform: scale3d(1.35,.85,1);*/
-    /*transform: scale3d(1.35,.85,1)*/
-  /*}*/
-
-  /*65% {*/
-    /*-webkit-transform: scale3d(1.25,1.05,1);*/
-    /*transform: scale3d(1.25,1.05,1)*/
-  /*}*/
-
-  /*70% {*/
-    /*-webkit-transform: scale3d(1.15,.95,1);*/
-    /*transform: scale3d(1.15,.95,1)*/
-  /*}*/
-
-  /*100% {*/
-    /*-webkit-transform: scale3d(1,1,1);*/
-    /*transform: scale3d(1,1,1)*/
-  /*}*/
-/*}*/
-
-
 
 .toolbar-item-0:after{
   left: 0 !important;
@@ -1142,14 +1168,17 @@ and (-webkit-min-device-pixel-ratio: 3) {
   border-bottom: 1px solid rgba(0,0,0,0.05);
   z-index: 999;
 }
+
 .events_in_day .link.calendar{
   padding-top: 7px;
   color: #827C7C !important;
   font-size: 30px;
 }
+
 .events_in_day .calendar-loader{
   margin-top: 60px;
 }
+
 .events_in_day .list-block{
   margin: 50px 0;
 }
@@ -1181,38 +1210,47 @@ and (-webkit-min-device-pixel-ratio: 3) {
   font-family: sfns_display_thin, sans-serif !important;
   letter-spacing: 0.48px;
 }
+
 .sfns_display_bold{
   font-family: sfns_display_bold, sans-serif !important;
   letter-spacing: 0.48px;
 }
+
 .sfns_display_regular{
   font-family: sfns_display_regular, sans-serif !important;
   letter-spacing: 0.48px;
 }
+
 .sfns_display_ultralight{
   font-family: sfns_display_ultralight, sans-serif !important;
   letter-spacing: 0.48px;
 }
+
 .sfns_text_medium{
   font-family: sfns_text_medium, sans-serif !important;
   letter-spacing: 0.48px;
 }
+
 .sfui_display_bold{
   font-family: sfui_display_bold, sans-serif !important;
   letter-spacing: 0.48px;
 }
+
 .sfui_display_heavy{
   font-family: sfui_display_heavy, sans-serif !important;
   letter-spacing: 0.48px;
 }
+
 .sfui_display_medium{
   font-family: sfui_display_medium, sans-serif !important;
   letter-spacing: 0.48px;
 }
+
 .sfui_display_ultralight{
   font-family: sfui_display_ultralight, sans-serif !important;
   letter-spacing: 0.48px;
 }
+
 .sfui_display_light{
   font-family: sfui_display_light, sans-serif !important;
   letter-spacing: 0.48px;
@@ -1222,6 +1260,7 @@ and (-webkit-min-device-pixel-ratio: 3) {
   position: fixed;
   height: 150px;
 }
+
 .profile-background-image img{
   position: relative;
   top: calc(100% - 50px);
@@ -1256,6 +1295,7 @@ and (-webkit-min-device-pixel-ratio: 3) {
   background-color: #fff;
   opacity: 0.5;
 }
+
 .friend-profile-fixed-part .avatar{
   height: 50px;
   width: 50px;
@@ -1263,6 +1303,7 @@ and (-webkit-min-device-pixel-ratio: 3) {
   border-radius: 999px;
   border: 2px solid #fff;
 }
+
 .friend-profile-fixed-part .user-info{
   position: absolute;
   top: 25px;
@@ -1275,6 +1316,7 @@ and (-webkit-min-device-pixel-ratio: 3) {
   color: #000;
   font-size: 20px;
 }
+
 .friend-profile-fixed-part .social-type{
   position: absolute;
   top: 50px;
@@ -1289,10 +1331,26 @@ and (-webkit-min-device-pixel-ratio: 3) {
   padding-left: 15px;
 }
 
-/**/
-
 .page.friend{
   -webkit-transform: none !important;
   transform: none !important;
 }
 
+.friend-page-content .cards-list .user-name{
+  color: rgba(0,0,0,0.7);
+}
+.friend-page-content .cards-list .action-name{
+  font-size: 15px;
+  color: #000000;
+}
+.friend-page-content .cards-list .card-header{
+  font-size: 13px;
+}
+
+.friend-page-content .cards-list{
+  margin-top: 0;
+}
+.friend-page-content .feed-card .user-avatar{
+  width: 35px;
+  height: 35px;
+}

@@ -113,8 +113,6 @@ function Events(){
 				}
 			}
 
-
-
 			event.begin_time_for_timeline = event.begin_time == '00:00' && event.end_time == '00:00' ? '': event.begin_time;
 			if (event.event_start_date == null || event.event_end_date == null){
 				event.one_day = event.dates_range.length == 1;
@@ -347,6 +345,11 @@ function Events(){
 				event.favorite_text = event.is_favorite ? 'Убрать из избранного' : 'В избранное';
 				event.favorite_short_text = event.is_favorite ? 'В избранном' : 'В избранное';
 			};
+
+			//КОСТЫЛЬ для iPhone 4
+			if (window.innerHeight == IPHONE_4_HEIGHT){
+				event.image_vertical_url = event.image_square_url;
+			}
 
 			event.updateFavoriteTexts();
 			_items.push(event);

@@ -16,7 +16,6 @@ MyApp.pages.FavoritesPageController = function ($scope, $http) {
 	$scope.page_counter = 0;
 
 	$scope.startBinding = function(){
-		L.log('FAVORITES_START_BINDING');
 		$scope.getMyFavorites(true);
 	};
 
