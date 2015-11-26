@@ -22,6 +22,7 @@ MyApp.pages.FriendPageController = function ($scope) {
 
 	$scope.setUser = function(user){
 		$scope.user = user;
+		console.log(user);
 		$scope.$apply();
 	};
 

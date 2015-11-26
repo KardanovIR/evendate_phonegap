@@ -13,14 +13,12 @@
 <div class="pages">
   <div data-page="friends_liked" class="page friends_liked" ng-controller="UsersPageController">
     <div class="page-content">
-      <div class="friends-page-header" style="background-image: url({{info.background_img_url}})">
-      </div>
-      <div class="friends-page-header-shadow">
-        <div class="friends-page-header-text text-center">
-          <div class="img-cirle-wrapper" ng-hide="info.logo_url == null">
-            <img ng-src="{{info.logo_url}}">
+      <div class="friends-page-header">
+        <img src="img/event_bg.png" class="background-img" ng-src="{{info.background_img_url}}">
+        <div class="friends-page-header-shadow">
+          <div class="friends-page-header-text">
+            {{info.name}}
           </div>
-          <span class="margin-left-10">{{info.name}}</span>
         </div>
       </div>
       <div class="list-block no-margin media-list">

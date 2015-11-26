@@ -13,14 +13,15 @@
 <div class="pages">
   <div data-page="friends_subscribed" class="page friends_subscribed" ng-controller="UsersPageController">
     <div class="page-content">
-      <div class="friends-page-header" style="background-image: url({{info.background_img_url}})">
-      </div>
-      <div class="friends-page-header-shadow">
-        <div class="friends-page-header-text">
-          <div class="img-cirle-wrapper">
-            <img ng-src="{{info.logo_url}}">
+      <div class="friends-page-header">
+        <img src="img/organization_bg.png" class="background-img" ng-src="{{info.background_img_url}}">
+        <div class="friends-page-header-shadow">
+          <div class="friends-page-header-text">
+            <div class="img-cirle-wrapper">
+              <img ng-src="{{info.logo_url}}">
+            </div>
+            {{info.name}}
           </div>
-          {{info.name}}
         </div>
       </div>
       <div class="list-block no-margin media-list">

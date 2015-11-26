@@ -174,7 +174,9 @@ a.button-white.active {
 }
 
 .swiper-slide {
-  background:#fff;
+  /*background:#fff;*/
+  background-image: linear-gradient(-180deg, #6EACE6  0%, #1A335B  100%);
+
 }
 
 .swiper-slide span {
@@ -195,19 +197,27 @@ a.button-white.active {
   width: auto;
 }
 
-span.day-number.with-events{
-  border-bottom: 2px solid #9AA6CC;
-  background-color: transparent;
-  border-radius: 0;
-  width: 20px;
-  height: 22px;
-}
+/*span.day-number.with-events{*/
+  /*border-bottom: 2px solid #9AA6CC;*/
+  /*background-color: transparent;*/
+  /*border-radius: 0;*/
+  /*width: 20px;*/
+  /*height: 22px;*/
+/*}*/
 
-span.day-number.with-events.with-favorites{
-  border-color: #FD6EA6 !important;
-  padding-bottom: 2px;
-  padding-left: 0;
-  padding-right: 0;
+span.day-number.with-favorites::after{
+  content: '';
+  background-color: #FD6EA6 !important;
+  width: 5px;
+  height: 5px;
+  border-radius: 999px;
+  /* position: absolute; */
+  top: -14px;
+  margin-left: calc(50% - 5px / 2);
+  display: block;
+  margin-top: -9px;
+  z-index: 999999;
+  text-align: center;
 }
 
 .disable-active-state{
@@ -572,8 +582,6 @@ span.day-number.with-events.with-favorites{
 
 .friends-page-header{
   width: 100%;
-  background-size: 100%;
-  height: 35.5%;
 }
 
 .list-block.no-margin{
@@ -648,9 +656,16 @@ span.day-number.with-events.with-favorites{
   max-width: 80%;
 }
 
+.enot-description.loading{
+  color: #000;
+  font-size: 45px;
+}
 .enot-description{
-  color: #7a7a7a;
-  font-size: 2em;
+  color: #FFFFFF;
+  font-size: 24px;
+  font-family: sfui_display_light, sans-serif !important;
+  letter-spacing: 0.48px;
+  margin-top: 35px;
 }
 
 .event-item .item-title{
@@ -685,20 +700,20 @@ span.day-number.with-events.with-favorites{
 }
 
 .auth-btn{
-  background: rgba(0,0,0,0.20) !important;
+  /*background: rgba(0,0,0,0.20) !important;*/
   border: 1px solid rgba(255,255,255,0.50) !important;
-  border-radius: 11px;
+  border-radius: 8px;
   width: 70% !important;
   display: inline-table !important;
   color: #ffffff !important;
-  font-size: 15px !important;
+  font-size: 20px !important;
   text-align: left !important;
 }
 
 .auth-btn.active-state{
   background: rgba(255,255,255,0.20) !important;
   border: 1px solid rgba(255,255,255,0.50) !important;
-  border-radius: 11px !important;
+  border-radius: 8px !important;
 }
 
 .demo-arrow{
@@ -756,6 +771,7 @@ span.day-number.with-events.with-favorites{
 
 .swiper-slide p{
   border-radius: 11px;
+  margin-top: 27px;
 }
 
 #calendar-date-events-button{
@@ -846,8 +862,6 @@ li.organization{
   padding-left: 7px;
 }
 
-
-
 /* iPhone 4 */
 @media only screen
 and (max-device-height : 480px)
@@ -935,6 +949,37 @@ and (orientation : portrait) {
     color: #F11069;
     line-height: 24px;
   }
+
+  .auth-slide .content-block{
+    padding-top: 5%;
+    font-size: 20px;
+    font-family: sfui_display_ultralight, Helvetica;
+  }
+
+  .button.button-big {
+    height: 46px;
+    line-height: 45px;
+  }
+
+  .auth-btn {
+    font-size: 18px !important;
+  }
+
+  .logo-img{
+    width: 150px;
+  }
+
+  .swiper-slide p {
+    margin-top: -3px;
+  }
+
+  .friends_subscribed .friends-page-header-shadow{
+    height: 180px;
+  }
+
+  .friends_liked .friends-page-header-shadow{
+    height: 290px;
+  }
 }
 
 /* iPhone 5 */
@@ -981,6 +1026,38 @@ and (orientation : portrait) {
     font-size: 13px;
     font-weight: 700;
   }
+
+
+  .auth-slide .content-block{
+    padding-top: 5%;
+    font-size: 20px;
+    font-family: sfui_display_ultralight, Helvetica;
+  }
+
+  .button.button-big {
+    height: 46px;
+    line-height: 45px;
+  }
+
+  .auth-btn {
+    font-size: 18px !important;
+  }
+
+  .logo-img{
+    width: 150px;
+  }
+
+  .swiper-slide p {
+    margin-top: 22px;
+  }
+
+  .friends_subscribed .friends-page-header-shadow{
+    height: 180px;
+  }
+
+  .friends_liked .friends-page-header-shadow{
+    height: 224px;
+  }
 }
 
 /* iPhone 6 */
@@ -1025,6 +1102,39 @@ and (-webkit-min-device-pixel-ratio: 2) {
   .picker-calendar-month{
     padding-top: 6px;
   }
+
+  .auth-slide .content-block{
+    padding-top: 5%;
+    font-size: 22px;
+    font-family: sfui_display_ultralight, Helvetica;
+  }
+
+  .button.button-big {
+    font-size: 17px;
+    height: 50px;
+    line-height: 48px;
+  }
+
+  .auth-btn {
+    font-size: 18px !important;
+  }
+
+  .logo-img{
+    width: 180px;
+  }
+
+  .swiper-slide p {
+    margin-top: 24px;
+  }
+
+
+  .friends_subscribed .friends-page-header-shadow{
+    height: 211px;
+  }
+
+  .friends_liked .friends-page-header-shadow{
+    height: 224px;
+  }
 }
 
 /* iPhone 6 plus */
@@ -1067,6 +1177,23 @@ and (-webkit-min-device-pixel-ratio: 3) {
     height: -webkit-calc(100% / 6);
     height: -moz-calc(100% / 6);
     height: calc(100% / 6);
+  }
+
+  .auth-slide .content-block{
+    padding-top: 5%;
+    font-size: 24px;
+    font-family: sfui_display_ultralight, Helvetica;
+  }
+
+  .logo-img{
+    width: 200px;
+  }
+
+  .friends_subscribed .friends-page-header-shadow{
+    height: 233px;
+  }
+  .friends_liked .friends-page-header-shadow{
+    height: 290px;
   }
 }
 
@@ -1259,15 +1386,11 @@ and (-webkit-min-device-pixel-ratio: 3) {
 .friend-profile-fixed-part{
   position: fixed;
   height: 150px;
+  width: 100%;
 }
 
-.profile-background-image img{
-  position: relative;
-  top: calc(100% - 50px);
+.profile-background-image{
   width: 100%;
-  height: auto;
-  left: 0;
-  margin-top: -25%;
 }
 
 .friend-page-content{
@@ -1290,10 +1413,12 @@ and (-webkit-min-device-pixel-ratio: 3) {
   width: 100%;
   height: 400px;
   position: absolute;
-  top: 0;
+  /* top: 0; */
   left: 0;
-  background-color: #fff;
   opacity: 0.5;
+  background-image: url("img/transparent.png");
+  background-size: 100%;
+  margin-top: -25%;
 }
 
 .friend-profile-fixed-part .avatar{
@@ -1353,4 +1478,8 @@ and (-webkit-min-device-pixel-ratio: 3) {
 .friend-page-content .feed-card .user-avatar{
   width: 35px;
   height: 35px;
+}
+
+.friends-page-header .background-img{
+  width: 100%;
 }

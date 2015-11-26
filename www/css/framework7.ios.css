@@ -2872,8 +2872,8 @@ html:not(.watch-active-state) .button:active,
 }
 .button.button-big {
   font-size: 17px;
-  height: 44px;
-  line-height: 42px;
+  height: 53px;
+  line-height: 50px;
 }
 .button.button-fill {
   color: #fff;
@@ -4755,7 +4755,7 @@ html.with-statusbar-overlay body .panel {
 }
 .swiper-pagination-bullet-active {
   opacity: 1;
-  background: #007aff;
+  background: #fff;
 }
 .swiper-container-vertical > .swiper-pagination {
   right: 10px;

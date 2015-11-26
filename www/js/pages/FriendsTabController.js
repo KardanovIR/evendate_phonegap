@@ -10,7 +10,8 @@ MyApp.pages.FriendsTabController = function ($scope, $http) {
 		action_names = CONTRACT.ACTION_NAMES,
 		is_downloading = false,
 		friends_downloading = false,
-		downloaded_friends_page = 0;
+		downloaded_friends_page = 0,
+		all_downloaded = false;
 	$scope.cards = [];
 	$scope.page_counter = 0;
 	$scope.no_actions = true;
@@ -36,6 +37,7 @@ MyApp.pages.FriendsTabController = function ($scope, $http) {
 		if (feed_is_active){
 			$scope.showFeed(false);
 		}else{
+			if (all_downloaded) return;
 			$scope.showFriends(false);
 		}
 	});
@@ -162,6 +164,10 @@ MyApp.pages.FriendsTabController = function ($scope, $http) {
 				$scope.friends = data;
 			}else{
 				$scope.friends = $scope.friends.concat(data);
+			}
+
+			if (data.length == 0){
+				all_downloaded = true;
 			}
 
 			$scope.$apply();

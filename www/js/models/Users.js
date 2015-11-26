@@ -38,7 +38,7 @@ function Users(){
 				L.log(tx, err);
 				cb(null);
 			})
-		})
+		});
 
 	}
 
