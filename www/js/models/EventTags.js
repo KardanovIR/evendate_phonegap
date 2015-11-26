@@ -24,7 +24,7 @@ function EventTags(){
 			], function(tx, res){
 				cb(res);
 			},function(tx, err){
-				L.log(tx, err);
+				//L.log(tx, err);
 				cb(null);
 			})
 		})

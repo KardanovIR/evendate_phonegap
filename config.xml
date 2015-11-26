@@ -120,6 +120,9 @@
     <allow-intent href="mailto:*" />
     <allow-intent href="map:*" />
     <allow-intent href="maps:*" />
+    <allow-intent href="fb:*"/>
+    <allow-intent href="vk:*"/>
+    <allow-intent href="gplus:*"/>
     <allow-intent href="geo:*" launch-external="yes"/>
 
     <platform name="ios">
@@ -132,6 +135,9 @@
         <allow-intent href="mailto:*" />
         <allow-intent href="map:*" />
         <allow-intent href="maps:*" />
+        <allow-intent href="fb:*"/>
+        <allow-intent href="vk:*"/>
+        <allow-intent href="gplus:*"/>
 
 
         <allow-intent href="itms:*" />

@@ -54,7 +54,7 @@ function Organizations(){
 					});
 				}
 			},function(tx, err){
-				L.log(tx, err);
+				//L.log(tx, err);
 				cb(null);
 			})
 		})
@@ -142,6 +142,10 @@ function Organizations(){
 					pushState: true,
 					animatePages: true
 				});
+			};
+
+			value.openSite = function(){
+				window.open(value.site_url, '_system');
 			};
 
 			value.openSubscribedFriends = function(){
@@ -269,7 +273,7 @@ function Organizations(){
 						_post(res.data, function(){});
 					},
 					error: function(err){
-						L.log(err);
+						//L.log(err);
 						getOffline(filters, cb);
 					}
 				});

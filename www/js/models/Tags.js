@@ -24,7 +24,7 @@ function Tags(){
 			], function(tx, res){
 				cb(res);
 			},function(tx, err){
-				L.log(tx, err);
+				//L.log(tx, err);
 				cb(null);
 			})
 		});
@@ -56,7 +56,7 @@ function Tags(){
 						_post(res.data, function(){});
 					},
 					error: function(err){
-						L.log(err);
+						//L.log(err);
 						getOffline(filters, cb);
 					}
 				});

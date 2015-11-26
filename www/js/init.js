@@ -37,7 +37,7 @@ var child_browser_opened = false,
         },
         DB:{
             NAME: 'evendate.db',
-            VERSION: 1,
+            VERSION: 2,
             TABLES: {
                 USERS: 'users',
                 ORGANIZATIONS: 'organizations',
@@ -175,6 +175,7 @@ var child_browser_opened = false,
     __db,
     __os = navigator.platform == 'Win32' ? 'win': 'hz',
     permanentStorage = window.localStorage,
+    tempStorage = window.sessionStorage,
     URLs = {
         VK: 'https://oauth.vk.com/authorize?client_id=5029623&scope=friends,email,offline,nohttps&redirect_uri=http://evendate.ru/vkOauthDone.php?mobile=true&response_type=code',
         FACEBOOK: 'https://www.facebook.com/dialog/oauth?client_id=1692270867652630&response_type=code&scope=public_profile,email,user_friends&display=popup&redirect_uri=http://evendate.ru/fbOauthDone.php?mobile=true',
@@ -387,10 +388,10 @@ function setDemoAccount(){
     permanentStorage.setItem('demo', true);
 }
 
-function resetDemoAccount(){
-    permanentStorage.setItem('token', null);
-    permanentStorage.setItem('demo', null);
-    checkToken();
+function resetAccount(){
+    //permanentStorage.setItem('token', null);
+    //permanentStorage.setItem('demo', null);
+    checkToken(true);
 }
 
 function onDeviceReady(){
@@ -736,10 +737,15 @@ function showSlides(){
 
 }
 
-function checkToken(){
+function checkToken(to_reset){
     fw7App.showPreloader();
-    var token = permanentStorage.getItem('token');
-    L.log('TOKEN:' + token);
+    if (to_reset){
+        permanentStorage.clear();
+        token = null;
+    }else{
+        var token = permanentStorage.getItem('token');
+        L.log('TOKEN:' + token);
+    }
     if (token != null){
         $$.ajax({
             url: CONTRACT.URLS.API_FULL_PATH + CONTRACT.URLS.USERS_PATH + '/device',

@@ -5,33 +5,18 @@
         <i class="ion-ios-arrow-back"></i></a>
     </div>
     <div class="buttons-row">
-      <a href="#" data-page="friend-actions" onclick="showFriendEvents(this);" class="friend-actions button button-white active">События</a>
-      <a href="#" data-page="friend-subscriptions" onclick="showFriendSubscriptions(this);" class="friend-subscriptions button button-white">Подписки</a>
+      <a href="#" data-page="friend-subscriptions" onclick="showFriendSubscriptions(this);" class="friend-subscriptions friend-buttons button button-white">Подписки</a>
+      <a href="#" data-page="friend-actions" onclick="showFriendEvents(this);" class="friend-actions button friend-buttons button-white">События</a>
     </div>
     <div class="right"></div>
   </div>
 </div>
 <div class="pages">
   <div class="page friend" data-page="friend" ng-controller="FriendPageController">
-    <div class="page-content infinite-scroll" data-ptr-distance="100" data-distance="100">
+    <div class="page-content infinite-scroll" data-ptr-distance="140" data-distance="140">
       <div class="tabs friend-tabs">
-        <div class="friend-profile-fixed-part" ng-click="user.openProfile();">
-          <div class="profile-background-image">
-            <div class="user-background-opacity" ng-style="{'background-image': 'url(' + user.blurred_image_url + ')'}"></div>
-          </div>
-          <div class="user-info">
-            <img class="avatar" ng-src="{{user.avatar_url}}" >
-          </div>
-          <div class="user-name sfui_display_light">
-            {{user.last_name}} {{user.first_name}}
-          </div>
-          <div class="social-type">
-            {{user.type}}
-          </div>
-        </div>
-
-        <div class="friend-actions active tab">
-          <div class="friend-page-content">
+        <div class="friend-actions tab">
+          <div>
             <div class="no-events-text ng-hide" ng-hide="no_actions">
               Нет событий
             </div>
@@ -72,7 +57,21 @@
             </div>
           </div>
         </div>
-        <div class="friend-subscriptions tab">
+        <div class="friend-subscriptions tab active">
+          <div class="friend-profile-fixed-part" ng-click="user.openProfile();">
+            <div class="profile-background-image">
+              <div class="user-background-opacity" ng-style="{'background-image': 'url(' + user.blurred_image_url + ')'}"></div>
+            </div>
+            <div class="user-info">
+              <img class="avatar" ng-src="{{user.avatar_url}}" >
+            </div>
+            <div class="user-name sfui_display_light">
+              {{user.last_name}} {{user.first_name}}
+            </div>
+            <div class="social-type">
+              {{user.type}}
+            </div>
+          </div>
           <div class="friend-page-content list-block">
             <div class="no-subscriptions-text ng-hide" ng-hide="no_subscriptions">
               Нет подписок

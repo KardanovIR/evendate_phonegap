@@ -987,7 +987,7 @@ html:not(.watch-active-state) .subnavbar a.link:active,
 .navbar {
   left: 0;
   top: 0;
-  background: #f7f7f8;
+  background: #5379B8 !important;
 }
 .navbar:after {
   content: '';

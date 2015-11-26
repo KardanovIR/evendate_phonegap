@@ -26,6 +26,48 @@ MyApp.pages.SubscriptionsPageController = function ($scope, $http) {
       $scope.subscriptions = data;
       $scope.no_subscriptions = $scope.subscriptions.length != 0;
       $scope.data_loaded = true;
+
+      // INTRO
+      if (data.length == 0 && !tempStorage.getItem('intro_done')){
+        var intro = introJs().start(),
+            show_back_to_calendar = false,
+            $$page = $$('.profile-page-content');
+
+        $$page.on('infinite', function (){
+          if ($$('#organizations').hasClass('active') && show_back_to_calendar == false && $$page.find('.button-filled-blue').length > 0){
+            show_back_to_calendar = true;
+            $$page.off('infinite');
+            setTimeout(function(){
+              if (intro){
+                intro.nextStep();
+              }else{
+                intro = introJs().start().goToStep(3);
+              }
+
+              $$('#view-events-tab-link').on('click', function(){
+                if (intro){
+                  intro.exit();
+                  intro = null;
+                }
+              });
+            }, 2000);
+          }
+        });
+
+        $$('.view-profile.tab-link').on('click', function(){
+          tempStorage.setItem('intro_done', true);
+          $$(this).off('click');
+          setTimeout(function(){
+            $$('.organizations.tab-link').on('click', function(){
+              intro.exit();
+              intro = null;
+            });
+            if (intro){
+              intro.nextStep();
+            }
+          }, 500)
+        });
+      }
       $scope.$apply();
     });
   };
@@ -79,8 +121,6 @@ MyApp.pages.SubscriptionsPageController = function ($scope, $http) {
     });
   };
 
-  $$('.logout-btn').on('click', function(){
-    resetDemoAccount();
-  });
+  $$('.logout-btn').on('click', resetAccount);
 
 };

@@ -307,7 +307,7 @@ function Events(){
 					var $$container = $$(page.container);
 					if ($$container.data('opened') == true){
 						var $scope = angular.element($$container[0]).scope();
-						console.log(_event);
+						//console.log(_event);
 						$scope.setInfo({
 							background_img_url: _event.image_horizontal_url,
 							logo_url: null,
@@ -321,7 +321,7 @@ function Events(){
 								var scope = angular.element(page.container).scope();
 								$compile(page.container)(scope);
 								var $scope = angular.element($$container[0]).scope();
-								console.log(_event);
+								//console.log(_event);
 								$scope.setInfo({
 									background_img_url: _event.image_horizontal_url,
 									logo_url: null,

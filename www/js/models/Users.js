@@ -65,7 +65,9 @@ function Users(){
 				}
 
 				callbackObjects['userPageAfterAnimation'] = fw7App.onPageAfterAnimation('friend', function(page){
-					$$(fw7App.getCurrentView().container).find('a.friend-actions').click();
+					if($$(fw7App.getCurrentView().container).find('.friend-buttons.active').length == 0){
+						$$(fw7App.getCurrentView().container).find('a.friend-subscriptions').click();
+					}
 				});
 				callbackObjects['userPageBeforeAnimation'] = fw7App.onPageBeforeAnimation('friend', function(page){
 					var $$container = $$(page.container);
