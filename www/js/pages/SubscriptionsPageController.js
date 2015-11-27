@@ -13,7 +13,7 @@ MyApp.pages.SubscriptionsPageController = function ($scope, $http) {
   $scope.data_loaded = false;
 
   $scope.setUser = function(){
-    $scope.info = __user;
+    $scope.info = __api.users.normalize([__user])[0];
     $scope.getSubscriptionsList();
     __run_after_init();
   };

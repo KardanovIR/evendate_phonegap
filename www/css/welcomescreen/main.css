@@ -69,6 +69,8 @@ a.button-white.active {
 
 .content-block-inner.user-info{
   height: 110px;
+  background-size: 100%;
+  background-position-y: 50%;
 }
 
 .user-info .user-image{

@@ -351,6 +351,7 @@ function onNotificationAPN (data) {
                 });
             }
         };
+        L.log('Device ready status: ' + __is_ready);
 
         if (!__is_ready){
             __run_after_init = openNotification;
