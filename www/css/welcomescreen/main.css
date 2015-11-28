@@ -1585,12 +1585,6 @@ and (-webkit-min-device-pixel-ratio: 3) {
   display: none;
 }
 
-.subnavbar.introjs-fixParent a.button-white{
-  border: 1px solid #5379B8;
-  color: #5379B8;
-}
-
-
 #profile .friend-profile-fixed-part .user-name{
   top: 80px;
   left: 100px;
@@ -1604,6 +1598,9 @@ and (-webkit-min-device-pixel-ratio: 3) {
 }
 
 .toolbar.introjs-fixParent{
+  z-index: 9999999 !important;
+}
+.subnavbar.introjs-fixParent{
   z-index: 9999999 !important;
 }
 

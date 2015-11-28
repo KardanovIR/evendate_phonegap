@@ -32,9 +32,8 @@ MyApp.pages.SubscriptionsPageController = function ($scope, $http) {
         var intro = introJs().start(),
             show_back_to_calendar = false,
             $$page = $$('.profile-page-content');
-        $$('.introjs-overlay, .introjs-helperLayer').hide();
-        $$('.views.introjs-fixParent').removeClass('introjs-fixParent').addClass('patch-fixParent');
-        $$('.main-tabbar').removeClass('introjs-fixParent').addClass('patch-fixParent');
+        $$('.introjs-helperLayer').hide();
+        //$$('.views.introjs-fixParent').removeClass('introjs-fixParent').addClass('patch-fixParent');
 
         $$page.on('infinite', function (){
           if ($$('#organizations').hasClass('active') && show_back_to_calendar == false && $$page.find('.button-filled-blue').length > 0){
@@ -46,7 +45,7 @@ MyApp.pages.SubscriptionsPageController = function ($scope, $http) {
                 $$('.introjs-overlay, .introjs-helperLayer').hide();
               }else{
                 intro = introJs().start().goToStep(3);
-                $$('.introjs-overlay, .introjs-helperLayer').hide();
+                $$('.introjs-helperLayer').hide();
               }
 
               $$('#view-events-tab-link').on('click', function(){
