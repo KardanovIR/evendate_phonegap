@@ -34,6 +34,7 @@ MyApp.pages.SubscriptionsPageController = function ($scope, $http) {
             $$page = $$('.profile-page-content');
         $$('.introjs-overlay, .introjs-helperLayer').hide();
         $$('.views.introjs-fixParent').removeClass('introjs-fixParent').addClass('patch-fixParent');
+        $$('.main-tabbar').removeClass('introjs-fixParent').addClass('patch-fixParent');
 
         $$page.on('infinite', function (){
           if ($$('#organizations').hasClass('active') && show_back_to_calendar == false && $$page.find('.button-filled-blue').length > 0){

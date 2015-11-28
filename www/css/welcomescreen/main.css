@@ -1600,9 +1600,13 @@ and (-webkit-min-device-pixel-ratio: 3) {
 }
 
 .patch-fixParent{
-  z-index: auto !important;
+  z-index: 9999999;
 }
 
 .toolbar.introjs-fixParent{
   z-index: 9999999 !important;
+}
+
+.views.toolbar{
+  z-index: 9999999999 !important;
 }
