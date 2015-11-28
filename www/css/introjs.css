@@ -28,7 +28,7 @@
       -ms-transform: none !important;
        -o-transform: none !important;
           transform: none !important;
-  -webkit-overflow-scrolling: auto !important; /* this is the line we added */
+  /*-webkit-overflow-scrolling: auto !important; /!* this is the line we added *!/*/
 }
 
 .introjs-showElement,
