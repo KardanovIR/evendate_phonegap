@@ -142,6 +142,8 @@ tr.introjs-showElement > th {
   border-right-color:transparent;
   border-bottom-color:transparent;
   border-left-color:transparent;
+  left: 26px;
+
 }
 .introjs-arrow.left {
   left: -10px;

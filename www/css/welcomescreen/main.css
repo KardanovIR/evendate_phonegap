@@ -880,6 +880,10 @@ li.organization{
 and (max-device-height : 480px)
 and (orientation : portrait) {
 
+  .introjs-arrow.bottom {
+    left: 26px !important;
+  }
+
   .button-circle{
     border-radius: 999px;
     width: 43px;
@@ -998,6 +1002,10 @@ and (orientation : portrait) {
 /* iPhone 5 */
 @media screen and (device-aspect-ratio: 40/71) {
 
+  .introjs-arrow.bottom {
+    left: 26px !important;
+  }
+
   .event-item .item-media {
     max-width: 91px;
   }
@@ -1078,6 +1086,11 @@ and (orientation : portrait) {
 and (min-device-width: 375px)
 and (max-device-width: 667px)
 and (-webkit-min-device-pixel-ratio: 2) {
+
+  .introjs-arrow.bottom {
+    left: 32px !important;
+  }
+
   .calendar-head-year{
     display: none;
   }
@@ -1159,6 +1172,10 @@ and (-webkit-min-device-pixel-ratio: 2) {
 and (min-device-width: 414px)
 and (max-device-width: 736px)
 and (-webkit-min-device-pixel-ratio: 3) {
+
+  .introjs-arrow.bottom {
+    left: 36px !important;
+  }
 
   .event-item .item-media {
     max-width: 100px;
@@ -1584,4 +1601,8 @@ and (-webkit-min-device-pixel-ratio: 3) {
 
 .patch-fixParent{
   z-index: auto !important;
+}
+
+.toolbar.introjs-fixParent{
+  z-index: 9999999 !important;
 }

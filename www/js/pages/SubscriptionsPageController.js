@@ -32,6 +32,7 @@ MyApp.pages.SubscriptionsPageController = function ($scope, $http) {
         var intro = introJs().start(),
             show_back_to_calendar = false,
             $$page = $$('.profile-page-content');
+        $$('.introjs-overlay, .introjs-helperLayer').hide();
         $$('.views.introjs-fixParent').removeClass('introjs-fixParent').addClass('patch-fixParent');
 
         $$page.on('infinite', function (){
@@ -41,8 +42,10 @@ MyApp.pages.SubscriptionsPageController = function ($scope, $http) {
             setTimeout(function(){
               if (intro){
                 intro.nextStep();
+                $$('.introjs-overlay, .introjs-helperLayer').hide();
               }else{
                 intro = introJs().start().goToStep(3);
+                $$('.introjs-overlay, .introjs-helperLayer').hide();
               }
 
               $$('#view-events-tab-link').on('click', function(){
