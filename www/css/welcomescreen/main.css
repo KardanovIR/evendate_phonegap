@@ -1581,3 +1581,7 @@ and (-webkit-min-device-pixel-ratio: 3) {
 #profile .user-background-opacity{
   max-height: 200px;
 }
+
+.patch-fixParent{
+  z-index: auto !important;
+}
