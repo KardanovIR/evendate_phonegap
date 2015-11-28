@@ -1599,12 +1599,11 @@ and (-webkit-min-device-pixel-ratio: 3) {
 }
 
 .toolbar.introjs-fixParent{
-  z-index: 9999999 !important;
+  z-index: 10000000 !important;
 }
 .subnavbar.introjs-fixParent{
-  z-index: 9999999 !important;
+  z-index: 10000000 !important;
 }
-
 .views.toolbar{
   z-index: 9999999999 !important;
 }

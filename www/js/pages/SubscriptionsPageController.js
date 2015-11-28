@@ -11,6 +11,7 @@ MyApp.pages.SubscriptionsPageController = function ($scope, $http) {
   $scope.organization_categories = [];
   $scope.no_subscriptions = true;
   $scope.data_loaded = false;
+  var dont_show_intro = false;
 
   $scope.setUser = function(){
     $scope.info = __api.users.normalize([__user])[0];
@@ -18,6 +19,17 @@ MyApp.pages.SubscriptionsPageController = function ($scope, $http) {
     __run_after_init();
   };
 
+
+
+  function toggleModalOverlay(cb){
+    $$('.modal-overlay').off('click').addClass('modal-overlay-visible').on('click', function(){
+      $$(this).off('click').removeClass('modal-overlay-visible');
+      dont_show_intro = true;
+      if (cb){
+        cb();
+      }
+    })
+  }
 
   $scope.getSubscriptionsList = function(){
     $scope.data_loaded = false;
@@ -32,10 +44,12 @@ MyApp.pages.SubscriptionsPageController = function ($scope, $http) {
         var intro = introJs().start(),
             show_back_to_calendar = false,
             $$page = $$('.profile-page-content');
-        $$('.views.introjs-fixParent, .main-tabbar').removeClass('introjs-fixParent').addClass('patch-fixParent');
+        toggleModalOverlay(function(){
+          intro.exit();
+        });
 
         $$page.on('infinite', function (){
-          if ($$('#organizations').hasClass('active') && show_back_to_calendar == false && $$page.find('.button-filled-blue').length > 0){
+          if ($$('#organizations').hasClass('active') && !dont_show_intro && show_back_to_calendar == false && $$page.find('.button-filled-blue').length > 0){
             show_back_to_calendar = true;
             $$page.off('infinite');
             setTimeout(function(){
@@ -44,11 +58,16 @@ MyApp.pages.SubscriptionsPageController = function ($scope, $http) {
               }else{
                 intro = introJs().start().goToStep(3);
               }
-
+              toggleModalOverlay(function(){
+                intro.exit();
+              });
               $$('#view-events-tab-link').on('click', function(){
                 if (intro){
                   intro.exit();
                   intro = null;
+                  toggleModalOverlay(function(){
+                    intro.exit();
+                  });
                 }
               });
             }, 2000);
@@ -63,8 +82,11 @@ MyApp.pages.SubscriptionsPageController = function ($scope, $http) {
               intro.exit();
               intro = null;
             });
-            if (intro){
+            if (intro && !dont_show_intro){
               intro.nextStep();
+              toggleModalOverlay(function(){
+                intro.exit();
+              });
             }
           }, 500)
         });

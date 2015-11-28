@@ -3377,6 +3377,7 @@ html.pixel-ratio-3 .card-footer:before {
 .popup-overlay.modal-overlay-visible {
   visibility: visible;
   opacity: 1;
+  z-index: 9999999;
 }
 .popup-overlay {
   z-index: 10200;
@@ -3408,6 +3409,7 @@ html.pixel-ratio-3 .card-footer:before {
   transition-duration: 400ms;
   -webkit-transform: translate3d(0, 0, 0) scale(1);
   transform: translate3d(0, 0, 0) scale(1);
+  z-index: 10000000 !important;
 }
 .modal.modal-out {
   opacity: 0;
