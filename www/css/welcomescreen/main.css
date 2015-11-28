@@ -1572,6 +1572,7 @@ and (-webkit-min-device-pixel-ratio: 3) {
 .friend-page-content .cards-list{
   margin-top: 0;
 }
+
 .friend-page-content .feed-card .user-avatar{
   width: 35px;
   height: 35px;
