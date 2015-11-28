@@ -680,14 +680,9 @@
       }
 
       //set new position to helper layer
-      var height_fix = 0;
-      if (this._introItems[this._currentStep].position == 'top'){
-        height_fix = -30;
-      }
-
       helperLayer.setAttribute('style', 'width: ' + (elementPosition.width  + widthHeightPadding)  + 'px; ' +
                                         'height:' + (elementPosition.height + widthHeightPadding)  + 'px; ' +
-                                        'top:'    + (elementPosition.top    - 5 + height_fix)   + 'px;' +
+                                        'top:'    + (elementPosition.top    - 5)   + 'px;' +
                                         'left: '  + (elementPosition.left   - 5)   + 'px;');
 
     }
