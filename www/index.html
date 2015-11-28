@@ -149,13 +149,24 @@
           <div class="tabs">
             <div id="profile" class="tab active">
               <div class="content-block">
-                <div class="content-block-inner user-info" ng-style="{'background-image': 'url(' + info.blurred_image_url + ')'}">
-                  <div class="user-image">
-                    <img ng-src="{{info.avatar_url}}" class="img">
+                <!--<div class="content-block-inner user-info" ng-style="{'background-image': 'url(' + info.blurred_image_url + ')'}">-->
+                  <!--<div class="user-image">-->
+                    <!--<img ng-src="{{info.avatar_url}}" class="img">-->
+                  <!--</div>-->
+                  <!--<div class="user-name">-->
+                    <!--<div class="user-name-text sfui_display_light">{{info.first_name}} {{info.last_name}}</div>-->
+                    <!--<div class="user-is-editor" ng-hide="{{info.is_editor === false}}"> Редактор</div>-->
+                  <!--</div>-->
+                <!--</div>-->
+                <div class="friend-profile-fixed-part">
+                  <div class="profile-background-image">
+                    <div class="user-background-opacity" ng-style="{'background-image': 'url(' + info.blurred_image_url + ')'}"></div>
                   </div>
-                  <div class="user-name">
-                    <div class="user-name-text sfui_display_light">{{info.first_name}} {{info.last_name}}</div>
-                    <div class="user-is-editor" ng-hide="{{info.is_editor === false}}"> Редактор</div>
+                  <div class="user-info">
+                    <img class="avatar" ng-src="{{info.avatar_url}}" >
+                  </div>
+                  <div class="user-name sfui_display_light">
+                    {{info.last_name}} {{info.first_name}}
                   </div>
                 </div>
               </div>
@@ -518,7 +529,7 @@
 
   <div class="toolbar tabbar tabbar-labels main-tabbar hidden">
     <div class="toolbar-inner animated">
-      <a href="#view-profile" data-step="1" data-position="top" data-intro="Подпишитесь на организации" data-number="0" class="tab-link view-profile"> <i class="icon ion-ios-person-outline"></i><span class="tabbar-label">Профиль</span></a>
+      <a href="#view-profile" data-step="1" data-position="top" data-intro="Подпишитесь на организации" data-number="0" class="tab-link view-profile"><i class="icon ion-ios-person-outline"></i><span class="tabbar-label">Профиль</span></a>
       <a href="#view-events" data-number="1" data-position="top" data-intro="Календарь и лента к Вашим услугам" id="view-events-tab-link" class="tab-link active"><i class="icon ion-ios-calendar-outline"></i><span class="tabbar-label">Мероприятия</span></a>
       <a href="#view-favorites" data-number="2" class="tab-link"> <i class="lnr lnr-pushpin"></i><span class="tabbar-label">Избранное</span></a>
       <a href="#view-friends" data-number="3" class="tab-link"> <i class="icon ion-ios-paper-outline"></i><span class="tabbar-label">Друзья</span></a>

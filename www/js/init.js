@@ -392,6 +392,7 @@ function setDemoAccount(){
 function resetAccount(){
     //permanentStorage.setItem('token', null);
     //permanentStorage.setItem('demo', null);
+    tempStorage.clear();
     checkToken(true);
 }
 

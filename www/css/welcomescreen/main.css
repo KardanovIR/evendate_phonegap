@@ -1573,3 +1573,11 @@ and (-webkit-min-device-pixel-ratio: 3) {
   color: #5379B8;
 }
 
+
+#profile .friend-profile-fixed-part .user-name{
+  top: 80px;
+  left: 100px;
+}
+#profile .user-background-opacity{
+  max-height: 200px;
+}
