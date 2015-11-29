@@ -66,7 +66,7 @@
     <gap:plugin name="org.apache.cordova.statusbar"/>
     <gap:plugin name="com.analytics.google"/>
     <gap:plugin name="org.apache.cordova.inappbrowser" />
-    <!--<gap:plugin name="de.appplant.cordova.plugin.local-notification-ios9-fix" version="0.8.2" />-->
+    <gap:plugin name="de.appplant.cordova.plugin.local-notification-ios9-fix" version="0.8.2" />
     <plugin name="com.philmerrell.cordova.canopen" spec="0.1" source="pgb" />
     <!--<gap:plugin name="cordova-plugin-inappbrowser" source="npm" version="~1" />-->
 
