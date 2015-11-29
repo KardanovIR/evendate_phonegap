@@ -3599,6 +3599,7 @@
             if (!isLoginScreen && !isPickerModal) {
                 if ($('.modal-overlay').length === 0 && !isPopup) {
                     $('body').append('<div class="modal-overlay"></div>');
+                    //$('.views').prepend('<div class="modal-overlay modal-overlay-top"></div>');
                 }
                 if ($('.popup-overlay').length === 0 && isPopup) {
                     $('body').append('<div class="popup-overlay"></div>');

@@ -1006,6 +1006,33 @@ and (orientation : portrait) {
     left: 26px !important;
   }
 
+  .button-circle{
+    border-radius: 999px;
+    width: 43px;
+    font-size: 33px;
+    height: 43px;
+  }
+
+  .button-circle:after{
+    top: 20px;
+    left: 13px;
+  }
+
+  .button-circle:before{
+    top: 13px;
+    left: 20px;
+  }
+
+  .button-filled-blue:before {
+    top: 19px;
+    left: 17px;
+  }
+
+  .button-filled-blue:after {
+    top: 22px;
+    left: 13px;
+  }
+
   .event-item .item-media {
     max-width: 91px;
   }

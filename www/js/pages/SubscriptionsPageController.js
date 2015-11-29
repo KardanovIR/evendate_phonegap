@@ -19,16 +19,59 @@ MyApp.pages.SubscriptionsPageController = function ($scope, $http) {
     __run_after_init();
   };
 
+  function showIntroMessage(message_number){
+    var $$current = $$('[data-step="' + message_number + '"]'),
+        $$message_el = $$('.introjs-tooltipReferenceLayer'),
+        $$message_text = $$message_el.find('.introjs-tooltiptext');
 
-
-  function toggleModalOverlay(cb){
-    $$('.modal-overlay').off('click').addClass('modal-overlay-visible').on('click', function(){
-      $$(this).off('click').removeClass('modal-overlay-visible');
-      dont_show_intro = true;
-      if (cb){
-        cb();
+    if (message_number == null){
+      $$message_el.hide();
+      $$('.modal-overlay-navbar').removeClass('modal-overlay-visible');
+      $$('.modal-overlay-tabbar').removeClass('modal-overlay-visible');
+    }else{
+      var _text = $$current.data('intro'),
+          _step = $$current.data('step'),
+          _position = $$current.data('position');
+      $$message_text.text(_text);
+      var _height = 70;//$$message_el.height();
+      if (_position == 'bottom'){
+        $$message_el.css({
+          'top': $$current.height() + 30 + 'px',
+          left: window.innerWidth / 2 + $$current.width() / 2 - $$message_el.find('.introjs-tooltip').width()/2 + 'px'
+        });
+      }else{
+        $$message_el.css({
+          'top': $$current.offset().top - _height + 'px',
+          left: $$current.offset().left + $$current.width() / 2 - 35 + 'px'
+        });
       }
-    })
+
+      //different logic for different steps
+      var $$overlay;
+      if (_step == 1 || _step == 3){
+        $$('.modal-overlay-navbar').removeClass('modal-overlay-visible');
+        $$overlay = $$('.modal-overlay-tabbar');
+        $$('.main-tabbar').addClass('introjs-fixParent');
+        $$('.profile-navbar').removeClass('introjs-fixParent');
+        $$message_el.find('.introjs-arrow').removeClass('top').addClass('bottom');
+      }else{
+        $$('.modal-overlay-tabbar').removeClass('modal-overlay-visible');
+        $$overlay = $$('.modal-overlay-navbar');
+        $$('.main-tabbar').removeClass('introjs-fixParent');
+        $$('.profile-navbar').addClass('introjs-fixParent');
+        $$message_el.find('.introjs-arrow').removeClass('bottom').addClass('top');
+      }
+
+      $$overlay.off('click').addClass('modal-overlay-visible').on('click', function(){
+        $$(this).off('click').removeClass('modal-overlay-visible');
+        showIntroMessage(null);
+        dont_show_intro = true;
+      });
+
+      $$message_el.show();
+    }
+
+
   }
 
   $scope.getSubscriptionsList = function(){
@@ -41,54 +84,32 @@ MyApp.pages.SubscriptionsPageController = function ($scope, $http) {
 
       // INTRO
       if (data.length == 0 && !tempStorage.getItem('intro_done')){
-        var intro = introJs().start(),
-            show_back_to_calendar = false,
+        var show_back_to_calendar = false,
             $$page = $$('.profile-page-content');
-        toggleModalOverlay(function(){
-          intro.exit();
-        });
+        showIntroMessage(1);
 
         $$page.on('infinite', function (){
           if ($$('#organizations').hasClass('active') && !dont_show_intro && show_back_to_calendar == false && $$page.find('.button-filled-blue').length > 0){
             show_back_to_calendar = true;
             $$page.off('infinite');
             setTimeout(function(){
-              if (intro){
-                intro.nextStep();
-              }else{
-                intro = introJs().start().goToStep(3);
-              }
-              toggleModalOverlay(function(){
-                intro.exit();
-              });
+              showIntroMessage(3);
               $$('#view-events-tab-link').on('click', function(){
-                if (intro){
-                  intro.exit();
-                  intro = null;
-                  toggleModalOverlay(function(){
-                    intro.exit();
-                  });
-                }
+                showIntroMessage(null);
               });
             }, 2000);
           }
         });
 
         $$('.view-profile.tab-link').on('click', function(){
+          if (tempStorage.getItem('intro_done') || dont_show_intro) return;
           tempStorage.setItem('intro_done', true);
           $$(this).off('click');
-          setTimeout(function(){
-            $$('.organizations.tab-link').on('click', function(){
-              intro.exit();
-              intro = null;
-            });
-            if (intro && !dont_show_intro){
-              intro.nextStep();
-              toggleModalOverlay(function(){
-                intro.exit();
-              });
-            }
-          }, 500)
+          showIntroMessage(2);
+          $$('.tab-link.organizations').on('click', function(){
+            showIntroMessage(null);
+            $$(this).off('click');
+          });
         });
       }
       $scope.$apply();

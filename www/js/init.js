@@ -312,6 +312,7 @@ function makeid(){
 
 if (__os == 'win'){
     (function() {
+        tempStorage.clear();
         onDeviceReady();
     })();
 }
