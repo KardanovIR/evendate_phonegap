@@ -185,35 +185,9 @@ var child_browser_opened = false,
     __user,
     __api,
     __app,
-    __notification = null,
+    __notification,
     __is_ready = false,
     $$,
-    openNotification = function(){
-        __notification = permanentStorage.getItem('__notification');
-        L.log(__notification);
-        L.log('Bool' + permanentStorage.getItem('openNotification'));
-        if (__notification == null || !permanentStorage.getItem('openNotification')){
-            permanentStorage.setItem('openNotification', false);
-            return;
-        }
-        __notification = JSON.parse(__notification);
-        L.log('OpenNotification');
-        L.log(__notification);
-        try{
-            var _data = JSON.parse(__notification.data);
-        }catch(e){
-            L.log(e);
-            return;
-        }
-        L.log(_data);
-        __api.events.get([{
-            id: _data.event_id
-        }], function(res){
-            L.log(res);
-            res[0].open();
-        });
-        permanentStorage.setItem('__notification', null);
-    },
     MyApp = MyApp || {},
     fw7App,
     subscriptions_updated = false,
@@ -326,6 +300,12 @@ MyApp.init = (function () {
 }());
 
 document.addEventListener("deviceready", onDeviceReady, false);
+document.addEventListener("resume", onResume, false);
+function onResume() {
+    setTimeout(function() {
+        // TODO: do your thing!
+    }, 0);
+}
 
 function makeid(){
     var text = "";
@@ -370,22 +350,36 @@ function onNotificationAPN (data) {
         L.log('Click');
         L.log(notification);
 
-        permanentStorage.setItem('__notification', JSON.stringify(notification));
-        permanentStorage.setItem('openNotification', true);
+        __notification = notification;
+        if (!__is_ready){
+            __run_after_init = openNotification;
+        }else{
+            openNotification();
+        }
     });
 
-    //cordova.plugins.notification.local.on("trigger", function(notification) {
-    //    L.log('Device ready status: ' + __is_ready);
-    //    L.log('Trigger');
-    //    L.log(notification);
-    //
-    //    __notification = notification;
-    //    if (!__is_ready){
-    //        __run_after_init = openNotification;
-    //    }else{
-    //        openNotification();
-    //    }
-    //});
+    cordova.plugins.notification.local.on("click", function(notification) {
+        L.log('Device ready status: ' + __is_ready);
+        L.log('Trigger');
+        L.log(notification);
+
+        setTimeout(function(){
+            try{
+                var _data = __notification.data;
+            }catch(e){
+                L.log(e);
+                return;
+            }
+            L.log(_data);
+            __api.events.get([{
+                id: _data.event_id
+            }], function(res){
+                L.log(res);
+                res[0].open();
+            });
+        }, 7000);
+
+    });
 }
 
 function registerPushService(){
@@ -697,8 +691,6 @@ function openApplication(){
         }
     });
 
-
-    openNotification();
 }
 
 window.onerror = function sendCrashReport(message, url , linenumber, column, errorObj){
