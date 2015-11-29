@@ -176,6 +176,7 @@ var child_browser_opened = false,
     __os = navigator.platform == 'Win32' ? 'win': 'hz',
     permanentStorage = window.localStorage,
     tempStorage = window.sessionStorage,
+    pushNotification,
     URLs = {
         VK: 'https://oauth.vk.com/authorize?client_id=5029623&scope=friends,email,offline,nohttps&redirect_uri=http://evendate.ru/vkOauthDone.php?mobile=true&response_type=code',
         FACEBOOK: 'https://www.facebook.com/dialog/oauth?client_id=1692270867652630&response_type=code&scope=public_profile,email,user_friends&display=popup&redirect_uri=http://evendate.ru/fbOauthDone.php?mobile=true',
@@ -416,18 +417,9 @@ function registerPushService(){
             registerSuccessHandler(null);
         }
     }else{
-        //var pushNotification = window.plugins.pushNotification;
-        //pushNotification.register(
-        //    registerSuccessHandler,
-        //    registerErrorHandler,
-        //    {
-        //        "badge":"false",
-        //        "sound":"false",
-        //        "alert":"true",
-        //        "ecb":"onNotificationAPN"
-        //    });
+
         function initPushwoosh() {
-            var pushNotification = cordova.require("com.pushwoosh.plugins.pushwoosh.PushNotification");
+            pushNotification = cordova.require("com.pushwoosh.plugins.pushwoosh.PushNotification");
 
             //set push notification callback before we initialize the plugin
             document.addEventListener('push-notification', function(event) {
@@ -745,7 +737,7 @@ function openApplication(){
         }
     });
 
-    __run_after_init();
+    L.log(pushNotification.getLaunchNotification());
 }
 
 window.onerror = function sendCrashReport(message, url , linenumber, column, errorObj){
@@ -862,7 +854,7 @@ function checkToken(to_reset){
                         dataType: "json",
                         contentType: 'application/x-www-form-urlencoded'
                     });
-                    __is_ready = true;
+
                     openApplication();
                 }
             }
