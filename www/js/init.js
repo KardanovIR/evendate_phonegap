@@ -344,7 +344,7 @@ function onNotificationAPN (data) {
         L.log(notification);
 
         try{
-            var _data = notification.data;
+            var _data = JSON.parse(notification.data);
         }catch(e){
             L.log(e);
             return;
