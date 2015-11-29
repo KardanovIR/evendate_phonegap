@@ -57,7 +57,7 @@
     <plugin name="org.apache.cordova.vibration" />
 
 
-    <plugin name="com.sharinglabs.cordova.plugin.datepicker" />
+    <!--<plugin name="com.sharinglabs.cordova.plugin.datepicker" />-->
     <plugin name="com.phonegap.plugins.childbrowser"/>
     <plugin name="org.apache.cordova.console"/>
     <plugin name="org.apache.cordova.dialogs"/>
@@ -69,7 +69,7 @@
     <plugin name="de.appplant.cordova.plugin.local-notification-ios9-fix" spec="0.8.2" source="pgb" />
     <!--<plugin name="com.philmerrell.cordova.canopen" spec="0.1" source="pgb" />-->
     <plugin name="com.ohh2ahh.plugins.appavailability" source="npm" />
-    <!--<gap:plugin name="cordova-plugin-inappbrowser" source="npm" version="~1" />-->
+    <plugin name="cordova-plugin-inappbrowser" source="npm" version="~1" />
 
     <icon src="www/res/icon/ios/icon.png" />
     <icon gap:platform="ios" height="57" src="res/icon/ios/icon-57.png" width="57" />
