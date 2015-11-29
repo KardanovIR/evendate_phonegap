@@ -300,6 +300,11 @@ MyApp.init = (function () {
 
 document.addEventListener("deviceready", onDeviceReady, false);
 document.addEventListener("resume", __run_after_init, false);
+document.addEventListener('push-notification', function(event) {
+    var notification = event.notification;
+    L.log(notification);
+    //alert(notification.aps.alert);
+});
 
 function makeid(){
     var text = "";
@@ -421,24 +426,35 @@ function registerPushService(){
         //        "alert":"true",
         //        "ecb":"onNotificationAPN"
         //    });
+        function initPushwoosh() {
+            var pushNotification = cordova.require("com.pushwoosh.plugins.pushwoosh.PushNotification");
 
-        var push = PushNotification.init({
-            ios: {
-                alert: "true",
-                badge: "false",
-                sound: "true"
-            }
-        });
-        push.on('registration', function(data) {
-            L.log(data);
-            registerSuccessHandler(data.registrationId);
-        });
-        push.on('notification', function(data) {
-            L.log(data);
-        });
-        push.on('error', function(e) {
-            L.log(e);
-        });
+            //set push notification callback before we initialize the plugin
+            document.addEventListener('push-notification', function(event) {
+                //get the notification payload
+                var notification = event.notification;
+
+                //display alert to the user for example
+                L.log(notification);
+            });
+
+            //initialize the plugin
+            pushNotification.onDeviceReady({pw_appid: "3874F-0C5E5"});
+
+            //register for pushes
+            pushNotification.registerDevice(
+                function(status) {
+                    var deviceToken = status['deviceToken'];
+                    L.log('registerDevice: ' + deviceToken);
+                    registerSuccessHandler(deviceToken);
+                },
+                function(status) {
+                    L.log('failed to register : ' + JSON.stringify(status));
+                    L.log(JSON.stringify(['failed to register ', status]));
+                }
+            );
+        }
+        initPushwoosh();
 
     }
 }
