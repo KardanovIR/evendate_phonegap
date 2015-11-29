@@ -284,7 +284,6 @@ MyApp.init = (function () {
     fw7App.addView('.view-friends', fw7ViewOptions);
 
 
-    __api = initAPI();
     __app.controller('CalendarPageController', ['$scope', MyApp.pages.CalendarPageController]);
 
     __app.controller('SubscriptionsPageController', ['$scope', MyApp.pages.SubscriptionsPageController]);
@@ -402,6 +401,7 @@ function resetAccount(){
 }
 
 function onDeviceReady(){
+    __api = initAPI();
     __is_ready = true;
     moment.locale("ru");
     //window.open = cordova.InAppBrowser.open;
