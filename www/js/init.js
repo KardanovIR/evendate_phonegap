@@ -185,19 +185,19 @@ var child_browser_opened = false,
     __user,
     __api,
     __app,
+    __notification,
     __is_ready = false,
     $$,
     __run_after_init= function(){
     },
-    openNotification = function(notification){
-        if (!notification) return;
+    openNotification = function(){
+        if (!__notification) return;
         L.log('OpenNotification');
-        L.log(notification);
+        L.log(__notification);
         try{
-            var _data = JSON.parse(notification.data);
+            var _data = JSON.parse(__notification.data);
         }catch(e){
             L.log(e);
-            L.log(notification);
             return;
         }
         L.log(_data);
@@ -210,7 +210,7 @@ var child_browser_opened = false,
 
         L.log('Device ready status: ' + __is_ready);
 
-        L.log(notification);
+        L.log(__notification);
     },
     MyApp = MyApp || {},
     fw7App,
@@ -364,9 +364,8 @@ function onNotificationAPN (data) {
 
     cordova.plugins.notification.local.on("click", function(notification) {
         if (!__is_ready){
-            __run_after_init = function(notification){
-                openNotification(notification);
-            };
+            __notification = notification;
+            __run_after_init = openNotification;
         }else{
             openNotification();
         }
