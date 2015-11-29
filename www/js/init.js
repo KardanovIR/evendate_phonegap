@@ -176,7 +176,6 @@ var child_browser_opened = false,
     __os = navigator.platform == 'Win32' ? 'win': 'hz',
     permanentStorage = window.localStorage,
     tempStorage = window.sessionStorage,
-    pushNotification,
     URLs = {
         VK: 'https://oauth.vk.com/authorize?client_id=5029623&scope=friends,email,offline,nohttps&redirect_uri=http://evendate.ru/vkOauthDone.php?mobile=true&response_type=code',
         FACEBOOK: 'https://www.facebook.com/dialog/oauth?client_id=1692270867652630&response_type=code&scope=public_profile,email,user_friends&display=popup&redirect_uri=http://evendate.ru/fbOauthDone.php?mobile=true',
@@ -300,12 +299,6 @@ MyApp.init = (function () {
 }());
 
 document.addEventListener("deviceready", onDeviceReady, false);
-document.addEventListener("resume", __run_after_init, false);
-document.addEventListener('push-notification', function(event) {
-    var notification = event.notification;
-    L.log(notification);
-    //alert(notification.aps.alert);
-});
 
 function makeid(){
     var text = "";
@@ -419,7 +412,7 @@ function registerPushService(){
     }else{
 
         function initPushwoosh() {
-            pushNotification = cordova.require("com.pushwoosh.plugins.pushwoosh.PushNotification");
+           var pushNotification = cordova.require("com.pushwoosh.plugins.pushwoosh.PushNotification");
 
             //set push notification callback before we initialize the plugin
             document.addEventListener('push-notification', function(event) {
@@ -428,8 +421,10 @@ function registerPushService(){
                 //display alert to the user for example
                 L.log(notification);
                 if (notification.onStart == false){
-                    myApp.addNotification({
+                    fw7App.addNotification({
                         title: notification.aps.alert,
+                        hold: 3500,
+                        closeIcon: true,
                         subtitle: '',
                         message: notification.userdata.body,
                         media: '<img width="44" height="44" style="border-radius:100%" src="' + notification.userdata.icon + '">',
@@ -443,6 +438,22 @@ function registerPushService(){
                         }
                     });
                 }
+            });
+
+
+            pushNotification.getLaunchNotification(function(notification){
+                L.log("launchedNotification");
+                L.log(notification);
+                if (notification != null && notification.hasOwnProperty('userdata')){
+                    L.log(notification.userdata);
+                    __api.events.get([
+                        {id: notification.userdata.event_id}
+                    ], function(res){
+                        L.log(res);
+                        res[0].open();
+                    })
+                }
+
             });
 
             //initialize the plugin
@@ -752,18 +763,6 @@ function openApplication(){
         }
     });
 
-    var launchedNotification = pushNotification.getLaunchNotification();
-    L.log("launchedNotification");
-    L.log(launchedNotification);
-    if (launchedNotification != null && launchedNotification.hasOwnProperty('userdata')){
-        L.log(launchedNotification.userdata);
-        __api.events.get([
-            {id: launchedNotification.userdata.event_id}
-        ], function(res){
-            L.log(res);
-            res[0].open();
-        })
-    }
 }
 
 window.onerror = function sendCrashReport(message, url , linenumber, column, errorObj){
