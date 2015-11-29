@@ -432,6 +432,7 @@ function registerPushService(){
 
             pushNotification.getLaunchNotification(function(payload){
                 __to_open_event = payload;
+                openNotification();
             });
 
             //initialize the plugin
@@ -680,6 +681,20 @@ function saveTokenInLocalStorage(url){
     checkToken();
 }
 
+function openNotification(){
+    if (__to_open_event != null && __is_ready){
+        L.log("launchedNotification");
+        L.log(__to_open_event);
+        if (__to_open_event && __to_open_event.onStart){
+            __api.events.get([
+                {id: __to_open_event.userdata.event_id}
+            ], function(res){
+                res[0].open();
+            })
+        }
+    }
+}
+
 function openApplication(){
     __app = angular.module('Evendate', []);
     $$('.main-tabbar').removeClass('hidden');
@@ -738,18 +753,8 @@ function openApplication(){
             }
         }
     });
-
-    if (__to_open_event != null){
-        L.log("launchedNotification");
-        L.log(__to_open_event);
-        if (__to_open_event && __to_open_event.onStart){
-            __api.events.get([
-                {id: __to_open_event.userdata.event_id}
-            ], function(res){
-                res[0].open();
-            })
-        }
-    }
+    __is_ready = true;
+    openApplication();
 
 }
 
