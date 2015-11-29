@@ -1066,6 +1066,7 @@ html.pixel-ratio-3 .navbar:after {
 }
 .navbar .left {
   margin-right: 10px;
+  margin-left: 4px;
 }
 .navbar .right {
   margin-left: 10px;

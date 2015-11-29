@@ -337,6 +337,8 @@ function onNotificationAPN (data) {
 
     cordova.plugins.notification.local.on("trigger", function(notification) {
         var openNotification = function(){
+            L.log('OpenNotification');
+            L.log(notification);
             try{
                 var _data = JSON.parse(notification.data);
             }catch(e){
@@ -354,6 +356,7 @@ function onNotificationAPN (data) {
         };
         L.log('Device ready status: ' + __is_ready);
 
+        L.log(notification);
         if (!__is_ready){
             __run_after_init = openNotification;
         }else{

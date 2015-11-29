@@ -190,6 +190,8 @@ a.button-white.active {
 
 .back .ion-ios-arrow-back{
   font-size: 1.6em;
+
+  padding-top: 3px;
 }
 
 .list-block .item-media img.event-vertical{
