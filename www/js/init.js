@@ -425,11 +425,24 @@ function registerPushService(){
             document.addEventListener('push-notification', function(event) {
                 //get the notification payload
                 var notification = event.notification;
-
-                navigator.notification.alert(notification.aps.alert);
-
                 //display alert to the user for example
                 L.log(notification);
+                if (notification.onStart == false){
+                    myApp.addNotification({
+                        title: notification.aps.alert,
+                        subtitle: '',
+                        message: notification.userdata.body,
+                        media: '<img width="44" height="44" style="border-radius:100%" src="' + notification.userdata.icon + '">',
+                        onClick: function(){
+                            __api.events.get([
+                                {id: notification.userdata.event_id}
+                            ], function(res){
+                                L.log(res);
+                                res[0].open();
+                            })
+                        }
+                    });
+                }
             });
 
             //initialize the plugin
@@ -739,7 +752,18 @@ function openApplication(){
         }
     });
 
-    L.log(pushNotification.getLaunchNotification());
+    var launchedNotification = pushNotification.getLaunchNotification();
+    L.log("launchedNotification");
+    L.log(launchedNotification);
+    if (launchedNotification != null && launchedNotification.hasOwnProperty('userdata')){
+        L.log(launchedNotification.userdata);
+        __api.events.get([
+            {id: launchedNotification.userdata.event_id}
+        ], function(res){
+            L.log(res);
+            res[0].open();
+        })
+    }
 }
 
 window.onerror = function sendCrashReport(message, url , linenumber, column, errorObj){
