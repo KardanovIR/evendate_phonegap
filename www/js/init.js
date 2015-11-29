@@ -426,6 +426,8 @@ function registerPushService(){
                 //get the notification payload
                 var notification = event.notification;
 
+                navigator.notification.alert(notification.aps.alert);
+
                 //display alert to the user for example
                 L.log(notification);
             });
