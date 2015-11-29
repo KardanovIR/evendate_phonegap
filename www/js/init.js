@@ -185,7 +185,7 @@ var child_browser_opened = false,
     __user,
     __api,
     __app,
-    __notification,
+    __run_after_init = function(){},
     __is_ready = false,
     $$,
     MyApp = MyApp || {},
@@ -299,12 +299,7 @@ MyApp.init = (function () {
 }());
 
 document.addEventListener("deviceready", onDeviceReady, false);
-document.addEventListener("resume", onResume, false);
-function onResume() {
-    setTimeout(function() {
-        // TODO: do your thing!
-    }, 0);
-}
+document.addEventListener("resume", __run_after_init, false);
 
 function makeid(){
     var text = "";
@@ -355,12 +350,26 @@ function onNotificationAPN (data) {
             return;
         }
         L.log(_data);
-        __api.events.get([{
-            id: _data.event_id
-        }], function(res){
-            L.log(res);
-            res[0].open();
-        });
+
+        if (__is_ready){
+            __api.events.get([{
+                id: _data.event_id
+            }], function(res){
+                L.log(res);
+                res[0].open();
+            });
+        }else{
+            __run_after_init = function(){
+                __api.events.get([{
+                    id: _data.event_id
+                }], function(res){
+                    L.log(res);
+                    res[0].open();
+                });
+                __run_after_init = function(){};
+            }
+        }
+
 
     }, this);
 }
@@ -402,7 +411,6 @@ function resetAccount(){
 
 function onDeviceReady(){
     __api = initAPI();
-    __is_ready = true;
     moment.locale("ru");
     //window.open = cordova.InAppBrowser.open;
     if (window.analytics){
@@ -791,6 +799,7 @@ function checkToken(to_reset){
                         dataType: "json",
                         contentType: 'application/x-www-form-urlencoded'
                     });
+                    __is_ready = true;
                     openApplication();
                 }
             }
