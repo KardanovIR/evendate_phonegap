@@ -366,6 +366,7 @@ function onNotificationAPN (data) {
         L.log(notification);
 
         permanentStorage.setItem('__notification', JSON.stringify(notification));
+        permanentStorage.setItem('openNotification', true);
     });
 
     //cordova.plugins.notification.local.on("trigger", function(notification) {
