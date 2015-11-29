@@ -58,18 +58,18 @@
 
 
     <!--<plugin name="com.sharinglabs.cordova.plugin.datepicker" />-->
-    <plugin name="com.phonegap.plugins.childbrowser"/>
-    <plugin name="org.apache.cordova.console"/>
-    <plugin name="org.apache.cordova.dialogs"/>
-    <plugin name="com.phonegap.plugins.pushplugin"/>
-    <plugin name="com.brodysoft.sqliteplugin"/>
-    <plugin name="org.apache.cordova.statusbar"/>
-    <plugin name="com.analytics.google"/>
-    <plugin name="org.apache.cordova.inappbrowser" />
-    <plugin name="de.appplant.cordova.plugin.local-notification-ios9-fix" spec="0.8.2" source="pgb" />
+    <gap:plugin name="com.phonegap.plugins.childbrowser"/>
+    <gap:plugin name="org.apache.cordova.console"/>
+    <gap:plugin name="org.apache.cordova.dialogs"/>
+    <gap:plugin name="com.phonegap.plugins.pushplugin"/>
+    <gap:plugin name="com.brodysoft.sqliteplugin"/>
+    <gap:plugin name="org.apache.cordova.statusbar"/>
+    <gap:plugin name="com.analytics.google"/>
+    <gap:plugin name="org.apache.cordova.inappbrowser" />
+    <gap:plugin name="de.appplant.cordova.plugin.local-notification-ios9-fix" spec="0.8.2" source="pgb" />
     <!--<plugin name="com.philmerrell.cordova.canopen" spec="0.1" source="pgb" />-->
-    <plugin name="com.ohh2ahh.plugins.appavailability" source="npm" />
-    <plugin name="cordova-plugin-inappbrowser" source="npm" version="~1" />
+    <gap:plugin name="com.ohh2ahh.plugins.appavailability" source="npm" />
+    <gap:plugin name="cordova-plugin-inappbrowser" source="npm" version="~1" />
 
     <icon src="www/res/icon/ios/icon.png" />
     <icon gap:platform="ios" height="57" src="res/icon/ios/icon-57.png" width="57" />
