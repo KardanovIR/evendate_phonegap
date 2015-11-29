@@ -419,7 +419,6 @@ function registerPushService(){
                 //get the notification payload
                 var notification = event.notification;
                 //display alert to the user for example
-                L.log(notification);
                 if (notification.onStart == false){
                     fw7App.addNotification({
                         title: notification.aps.alert,
@@ -427,12 +426,11 @@ function registerPushService(){
                         closeIcon: true,
                         subtitle: '',
                         message: notification.userdata.body,
-                        media: '<img width="44" height="44" style="border-radius:100%" src="' + notification.userdata.icon + '">',
+                        media: '<img width="44" height="44" src="' + notification.userdata.icon + '">',
                         onClick: function(){
                             __api.events.get([
                                 {id: notification.userdata.event_id}
                             ], function(res){
-                                L.log(res);
                                 res[0].open();
                             })
                         }
@@ -445,11 +443,9 @@ function registerPushService(){
                 L.log("launchedNotification");
                 L.log(notification);
                 if (notification != null && notification.hasOwnProperty('userdata')){
-                    L.log(notification.userdata);
                     __api.events.get([
                         {id: notification.userdata.event_id}
                     ], function(res){
-                        L.log(res);
                         res[0].open();
                     })
                 }
@@ -674,7 +670,6 @@ function updateDBScheme() { // drop all existing tables\
 }
 
 function registerSuccessHandler(result){
-    L.log('device token = ' + result);
     __device_id = result;
     checkToken();
 }
@@ -688,7 +683,6 @@ function isOnline() {
 }
 
 function registerErrorHandler(result){
-    L.log('device token = ' + result);
 }
 
 function getSearchAsObject(search) {
@@ -842,7 +836,6 @@ function checkToken(to_reset){
         token = null;
     }else{
         var token = permanentStorage.getItem('token');
-        L.log('TOKEN:' + token);
     }
     if (token != null){
         $$.ajax({
