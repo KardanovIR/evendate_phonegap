@@ -318,13 +318,16 @@ if (__os == 'win'){
 }
 
 function openLink(prefix, link, http_link){
-    CanOpen(prefix + '://', function(isInstalled) {
-        if(isInstalled){
+    appAvailability.check(
+        prefix + '://',
+        function(){
             window.open(link, '_system');
-        } else {
+        },
+        function(){
             window.open(http_link, '_system');
+
         }
-    });
+    );
 }
 
 function onNotificationAPN (data) {
