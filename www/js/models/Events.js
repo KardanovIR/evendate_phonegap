@@ -1,7 +1,7 @@
 function Events(){
 
-	var NAVBAR_HEIGHT = 44;
-
+	var NAVBAR_HEIGHT = 44,
+		is_opening = false;
 	function insert(event, cb){
 		var q_ins = '',
 			placeholders = [],
@@ -174,10 +174,15 @@ function Events(){
 			};
 
 			event.open = function(){
+				if (is_opening) return;
+				is_opening = true;
 				fw7App.showIndicator();
 				var _event = this;
 				if (callbackObjects['eventPageBeforeAnimation']){
 					callbackObjects['eventPageBeforeAnimation'].remove();
+				}
+				if (callbackObjects['eventPageAfterAnimation']){
+					callbackObjects['eventPageAfterAnimation'].remove();
 				}
 				callbackObjects['eventPageBeforeAnimation'] = fw7App.onPageBeforeAnimation('event', function(page){
 					var $$container = $$(page.container),
@@ -203,6 +208,11 @@ function Events(){
 					}
 					fw7App.hideIndicator();
 				});
+
+				callbackObjects['eventPageAfterAnimation'] = fw7App.onPageAfterAnimation('event', function(page){
+					is_opening = false;
+				});
+
 				fw7App.getCurrentView().router.loadPage({
 					url: 'pages/event.html',
 					query: {id: event.id},

@@ -1,4 +1,7 @@
 function Users(){
+
+	var is_opening;
+
 	function insert(user, cb){
 		var q_ins = '',
 			placeholders = [],
@@ -53,6 +56,8 @@ function Users(){
 				+ '.jpg';
 
 			items[index].open = function(){
+				if (is_opening) return;
+				is_opening = true;
 				fw7App.showIndicator();
 
 				var _user = this;
@@ -68,6 +73,7 @@ function Users(){
 					if($$(fw7App.getCurrentView().container).find('.friend-buttons.active').length == 0){
 						$$(fw7App.getCurrentView().container).find('a.friend-subscriptions').click();
 					}
+					is_opening = false;
 				});
 				callbackObjects['userPageBeforeAnimation'] = fw7App.onPageBeforeAnimation('friend', function(page){
 					var $$container = $$(page.container);

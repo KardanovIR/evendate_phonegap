@@ -1,4 +1,5 @@
 function OrganizationsUsers(){
+
 	function insert(data, cb){
 		var q_ins = '',
 			placeholders = [],

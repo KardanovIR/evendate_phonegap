@@ -1,6 +1,9 @@
 
 
 function Organizations(){
+
+	var is_opening;
+
 	function insert(organization, cb){
 		var q_ins = '',
 			_fields = [
@@ -108,10 +111,15 @@ function Organizations(){
 			};
 
 			value.open = function(){
+				if (is_opening) return;
+				is_opening = true;
 				fw7App.showIndicator();
 				var _organization = this;
 				if (callbackObjects['organizationPageBeforeAnimation']){
 					callbackObjects['organizationPageBeforeAnimation'].remove();
+				}
+				if (callbackObjects['organizationPageAfterAnimation']){
+					callbackObjects['organizationPageAfterAnimation'].remove();
 				}
 				callbackObjects['organizationPageBeforeAnimation'] = fw7App.onPageBeforeAnimation('organization', function(page){
 
@@ -136,6 +144,11 @@ function Organizations(){
 
 					fw7App.hideIndicator();
 				});
+
+				callbackObjects['organizationPageAfterAnimation'] = fw7App.onPageAfterAnimation('organization', function(page) {
+					is_opening = false;
+				});
+
 				fw7App.getCurrentView().router.loadPage({
 					url: 'pages/organization.html',
 					query: {id: value.id},
@@ -149,13 +162,17 @@ function Organizations(){
 			};
 
 			value.openSubscribedFriends = function(){
+				if (is_opening) return;
+				is_opening = true;
 				fw7App.showIndicator();
 				var _organization = this;
 				if (callbackObjects['subscribedFriendsPageBeforeAnimation']){
 					callbackObjects['subscribedFriendsPageBeforeAnimation'].remove();
 				}
+				if (callbackObjects['subscribedFriendsPageAfterAnimation']){
+					callbackObjects['subscribedFriendsPageAfterAnimation'].remove();
+				}
 				callbackObjects['subscribedFriendsPageBeforeAnimation'] = fw7App.onPageBeforeAnimation('friends_subscribed', function(page){
-
 					var $$container = $$(page.container);
 					if ($$container.data('opened') == true){
 						var $scope = angular.element($$container[0]).scope();
@@ -183,6 +200,11 @@ function Organizations(){
 						});
 					}
 					fw7App.hideIndicator();
+				});
+
+
+				callbackObjects['subscribedFriendsPageAfterAnimation'] = fw7App.onPageAfterAnimation('friends_subscribed', function(page){
+					is_opening = false;
 				});
 
 				fw7App.getCurrentView().router.loadPage({

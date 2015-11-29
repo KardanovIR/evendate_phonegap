@@ -370,6 +370,7 @@ function onNotificationAPN (data) {
     }, this);
 
     cordova.plugins.notification.local.on("trigger", function(notification) {
+
         try{
             var _data = JSON.parse(notification.data);
         }catch(e){
