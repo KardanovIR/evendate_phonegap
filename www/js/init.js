@@ -370,7 +370,6 @@ function onNotificationAPN (data) {
     }, this);
 
     cordova.plugins.notification.local.on("trigger", function(notification) {
-
         try{
             var _data = JSON.parse(notification.data);
         }catch(e){
@@ -412,16 +411,34 @@ function registerPushService(){
             registerSuccessHandler(null);
         }
     }else{
-        var pushNotification = window.plugins.pushNotification;
-        pushNotification.register(
-            registerSuccessHandler,
-            registerErrorHandler,
-            {
-                "badge":"false",
-                "sound":"false",
-                "alert":"true",
-                "ecb":"onNotificationAPN"
-            });
+        //var pushNotification = window.plugins.pushNotification;
+        //pushNotification.register(
+        //    registerSuccessHandler,
+        //    registerErrorHandler,
+        //    {
+        //        "badge":"false",
+        //        "sound":"false",
+        //        "alert":"true",
+        //        "ecb":"onNotificationAPN"
+        //    });
+
+        var push = PushNotification.init({
+            ios: {
+                alert: "true",
+                badge: "false",
+                sound: "true"
+            }
+        });
+        push.on('registration', function(data) {
+            registerSuccessHandler(data.registrationId);
+        });
+        push.on('notification', function(data) {
+            L.log(data);
+        });
+        push.on('error', function(e) {
+            L.log(e);
+        });
+
     }
 }
 
