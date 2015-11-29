@@ -187,7 +187,31 @@ var child_browser_opened = false,
     __app,
     __is_ready = false,
     $$,
-    __run_after_init = function(){},
+    __run_after_init= function(){
+    },
+    openNotification = function(notification){
+        if (!notification) return;
+        L.log('OpenNotification');
+        L.log(notification);
+        try{
+            var _data = JSON.parse(notification.data);
+        }catch(e){
+            L.log(e);
+            L.log(notification);
+            return;
+        }
+        L.log(_data);
+        __api.events.get([{
+            id: _data.event_id
+        }], function(res){
+            L.log(res);
+            res[0].open();
+        });
+
+        L.log('Device ready status: ' + __is_ready);
+
+        L.log(notification);
+    },
     MyApp = MyApp || {},
     fw7App,
     subscriptions_updated = false,
@@ -339,32 +363,10 @@ function onNotificationAPN (data) {
     });
 
     cordova.plugins.notification.local.on("click", function(notification) {
-        var openNotification = function(){
-        };
-
-
-        L.log('OpenNotification');
-        L.log(notification);
-        try{
-            var _data = JSON.parse(notification.data);
-        }catch(e){
-            L.log(e);
-            L.log(notification);
-            return;
-        }
-        L.log(_data);
-        __api.events.get([{
-            id: _data.event_id
-        }], function(res){
-            L.log(res);
-            res[0].open();
-        });
-
-        L.log('Device ready status: ' + __is_ready);
-
-        L.log(notification);
         if (!__is_ready){
-            __run_after_init = openNotification;
+            __run_after_init = function(notification){
+                openNotification(notification);
+            };
         }else{
             openNotification();
         }
