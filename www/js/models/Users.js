@@ -43,7 +43,7 @@ function Users(){
 	}
 
 	function normalize(items){
-
+		if (!items) return;
 		items.forEach(function(item, index){
 			items[index].type_name = CONTRACT.FRIEND_TYPE_NAMES[item.type];
 

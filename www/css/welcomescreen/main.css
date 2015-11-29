@@ -997,7 +997,11 @@ and (orientation : portrait) {
   }
 
   .friends_liked .friends-page-header-shadow{
-    height: 290px;
+    height: 224px;
+  }
+
+  .event-organization-name{
+    line-height: 33px;
   }
 }
 

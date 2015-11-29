@@ -3,7 +3,7 @@
 
 MyApp.ns('MyApp.pages');
 
-MyApp.pages.FriendsTabController = function ($scope, $http) {
+MyApp.pages.FriendsTabController = function ($scope) {
 	'use strict';
 
 	var cards_by_users = {},
