@@ -753,8 +753,10 @@ function openApplication(){
             }
         }
     });
+
+
     __is_ready = true;
-    openApplication();
+    openNotification();
 
 }
 
