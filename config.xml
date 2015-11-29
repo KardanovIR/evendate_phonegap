@@ -39,6 +39,8 @@
     <preference name="DisallowOverscroll" value="true" />
     <preference name="UIWebViewBounce" value="false" />
     <preference name="webviewbounce" value="false" />
+    <preference name="android-build-tool" value="gradle" />
+
 
     <plugin name="org.apache.cordova.media-capture" />
     <plugin name="org.apache.cordova.console" />
