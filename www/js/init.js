@@ -340,14 +340,19 @@ function onNotificationAPN (data) {
             try{
                 var _data = JSON.parse(notification.data);
             }catch(e){
-                return false;
+                L.log(e);
+                L.log(notification);
+                return;
             }
             if (_data.eval != ''){
+                L.log('eval');
                 eval(_data.eval);
             }else{
+                L.log(_data);
                 __api.events.get([{
                     id: _data.event_id
                 }], function(res){
+                    L.log(res);
                     res[0].open();
                 });
             }
