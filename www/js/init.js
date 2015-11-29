@@ -365,7 +365,7 @@ function onNotificationAPN (data) {
             });
         }, 7000);
 
-    });
+    }, this);
 }
 
 function registerPushService(){
