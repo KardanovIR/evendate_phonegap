@@ -70,7 +70,6 @@
     <!--<plugin name="com.philmerrell.cordova.canopen" spec="0.1" source="pgb" />-->
     <gap:plugin name="com.ohh2ahh.plugins.appavailability" source="npm" />
     <gap:plugin name="cordova-plugin-inappbrowser" source="npm" version="~1" />
-    <gap:plugin name="phonegap-plugin-push" spec="2.5.0" source="pgb" />
 
     <icon src="www/res/icon/ios/icon.png" />
     <icon gap:platform="ios" height="57" src="res/icon/ios/icon-57.png" width="57" />
