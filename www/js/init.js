@@ -363,8 +363,17 @@ function onNotificationAPN (data) {
     });
 
     cordova.plugins.notification.local.on("click", function(notification) {
+        __notification = notification;
         if (!__is_ready){
-            __notification = notification;
+            __run_after_init = openNotification;
+        }else{
+            openNotification();
+        }
+    });
+
+    cordova.plugins.notification.local.on("trigger", function(notification) {
+        __notification = notification;
+        if (!__is_ready){
             __run_after_init = openNotification;
         }else{
             openNotification();
