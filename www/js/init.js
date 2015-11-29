@@ -190,7 +190,12 @@ var child_browser_opened = false,
     $$,
     openNotification = function(){
         __notification = permanentStorage.getItem('__notification');
-        if (__notification == null || !permanentStorage.getItem('openNotification')) return;
+        L.log(__notification);
+        L.log('Bool' + permanentStorage.getItem('openNotification'));
+        if (__notification == null || !permanentStorage.getItem('openNotification')){
+            permanentStorage.setItem('openNotification', false);
+            return;
+        }
         __notification = JSON.parse(__notification);
         L.log('OpenNotification');
         L.log(__notification);
