@@ -439,12 +439,12 @@ function registerPushService(){
             });
 
 
-            pushNotification.getLaunchNotification(function(notification){
+            pushNotification.getLaunchNotification(function(payload){
                 L.log("launchedNotification");
-                L.log(notification);
-                if (notification != null && notification.hasOwnProperty('userdata')){
+                L.log(payload);
+                if (payload && payload.onStart){
                     __api.events.get([
-                        {id: notification.userdata.event_id}
+                        {id: payload.userdata.event_id}
                     ], function(res){
                         res[0].open();
                     })
