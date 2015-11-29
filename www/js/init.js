@@ -335,7 +335,7 @@ function onNotificationAPN (data) {
         data: data
     });
 
-    cordova.plugins.notification.local.on("trigger", function(notification) {
+    cordova.plugins.notification.local.on("click", function(notification) {
         var openNotification = function(){
             L.log('OpenNotification');
             L.log(notification);
