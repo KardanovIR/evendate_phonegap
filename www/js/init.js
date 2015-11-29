@@ -436,23 +436,6 @@ function onDeviceReady(){
             registerPushService();
         }
     }
-    cordova.exec(
-        // Register the callback handler - this is what is called when happens succesfully
-        function callback(data) {
-            L.log(data);
-        },
-        // Register the errorHandler - happens when error detected in exec cordova call
-        function errorHandler(err) {
-            L.log(err);
-            L.log('Error');
-        },
-        // Define what class to route messages to
-        'LocalNotification',
-        // Execute this method on the above class
-        'deviceready',
-        // An array if you want to pass data for some reason.
-        []
-    );
 }
 
 function dropTables(table_names, callback){
