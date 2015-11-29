@@ -339,10 +339,37 @@ function onNotificationAPN (data) {
     });
 
     cordova.plugins.notification.local.on("click", function(notification) {
-        L.log('Device ready status: ' + __is_ready);
-        L.log('click');
-        L.log(notification);
+        try{
+            var _data = JSON.parse(notification.data);
+        }catch(e){
+            L.log(e);
+            return;
+        }
+        L.log(_data);
 
+        if (__is_ready){
+            __api.events.get([{
+                id: _data.event_id
+            }], function(res){
+                L.log(res);
+                res[0].open();
+            });
+        }else{
+            __run_after_init = function(){
+                __api.events.get([{
+                    id: _data.event_id
+                }], function(res){
+                    L.log(res);
+                    res[0].open();
+                });
+                __run_after_init = function(){};
+            }
+        }
+
+
+    }, this);
+
+    cordova.plugins.notification.local.on("trigger", function(notification) {
         try{
             var _data = JSON.parse(notification.data);
         }catch(e){
