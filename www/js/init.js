@@ -344,15 +344,13 @@ function onNotificationAPN (data) {
                 L.log(notification);
                 return;
             }
-            if (_data.eval != ''){
-                L.log('eval');
+            if (_data.hasOwnProperty('eval') && _data.eval && _data.eval != ''){
                 eval(_data.eval);
             }else{
                 L.log(_data);
                 __api.events.get([{
                     id: _data.event_id
                 }], function(res){
-                    L.log(res);
                     res[0].open();
                 });
             }
