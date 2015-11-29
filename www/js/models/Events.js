@@ -382,6 +382,10 @@ function Events(){
 				url += '/' + _f.data.id;
 			}
 			if (isOnline()){
+				L.log(url);
+				L.log(_f.data);
+				L.log('');
+
 				$$.ajax({
 					url: url,
 					data: _f.data,
