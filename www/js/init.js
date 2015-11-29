@@ -337,23 +337,25 @@ function onNotificationAPN (data) {
 
     cordova.plugins.notification.local.on("click", function(notification) {
         var openNotification = function(){
-            L.log('OpenNotification');
-            L.log(notification);
-            try{
-                var _data = JSON.parse(notification.data);
-            }catch(e){
-                L.log(e);
-                L.log(notification);
-                return;
-            }
-            L.log(_data);
-            __api.events.get([{
-                id: _data.event_id
-            }], function(res){
-                L.log(res);
-                res[0].open();
-            });
         };
+
+
+        L.log('OpenNotification');
+        L.log(notification);
+        try{
+            var _data = JSON.parse(notification.data);
+        }catch(e){
+            L.log(e);
+            L.log(notification);
+            return;
+        }
+        L.log(_data);
+        __api.events.get([{
+            id: _data.event_id
+        }], function(res){
+            L.log(res);
+            res[0].open();
+        });
 
         L.log('Device ready status: ' + __is_ready);
 
