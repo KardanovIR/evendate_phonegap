@@ -185,12 +185,14 @@ var child_browser_opened = false,
     __user,
     __api,
     __app,
-    __notification,
+    __notification = null,
     __is_ready = false,
     $$,
-    __run_after_init= function(){
+    __run_after_init = function(){
     },
     openNotification = function(){
+        if (__notification == null) return;
+        __notification = null;
         L.log('OpenNotification');
         L.log(__notification);
         try{
@@ -319,6 +321,14 @@ MyApp.init = (function () {
 }());
 
 document.addEventListener("deviceready", onDeviceReady, false);
+document.addEventListener("resume", onResume, false);
+
+
+function onResume() {
+    setTimeout(function() {
+        openNotification();
+    }, 0);
+}
 
 function makeid(){
     var text = "";

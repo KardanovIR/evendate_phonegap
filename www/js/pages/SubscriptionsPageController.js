@@ -112,8 +112,6 @@ MyApp.pages.SubscriptionsPageController = function ($scope, $http) {
         });
       }
       $scope.$apply();
-
-      __run_after_init();
     });
   };
 
