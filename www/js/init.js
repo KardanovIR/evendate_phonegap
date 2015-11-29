@@ -349,21 +349,19 @@ function onNotificationAPN (data) {
         L.log('click');
         L.log(notification);
 
-        setTimeout(function(){
-            try{
-                var _data = __notification.data;
-            }catch(e){
-                L.log(e);
-                return;
-            }
-            L.log(_data);
-            __api.events.get([{
-                id: _data.event_id
-            }], function(res){
-                L.log(res);
-                res[0].open();
-            });
-        }, 7000);
+        try{
+            var _data = notification.data;
+        }catch(e){
+            L.log(e);
+            return;
+        }
+        L.log(_data);
+        __api.events.get([{
+            id: _data.event_id
+        }], function(res){
+            L.log(res);
+            res[0].open();
+        });
 
     }, this);
 }
