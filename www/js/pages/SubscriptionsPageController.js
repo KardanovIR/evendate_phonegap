@@ -16,7 +16,6 @@ MyApp.pages.SubscriptionsPageController = function ($scope, $http) {
   $scope.setUser = function(){
     $scope.info = __api.users.normalize([__user])[0];
     $scope.getSubscriptionsList();
-    __run_after_init();
   };
 
   function showIntroMessage(message_number){
