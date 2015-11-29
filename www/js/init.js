@@ -404,7 +404,7 @@ function resetAccount(){
 }
 
 function onDeviceReady(){
-
+    __is_ready = true;
     moment.locale("ru");
     //window.open = cordova.InAppBrowser.open;
     if (window.analytics){
