@@ -430,6 +430,7 @@ function registerPushService(){
             }
         });
         push.on('registration', function(data) {
+            L.log(data);
             registerSuccessHandler(data.registrationId);
         });
         push.on('notification', function(data) {
