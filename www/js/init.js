@@ -185,7 +185,7 @@ var child_browser_opened = false,
     __user,
     __api,
     __app,
-    __run_after_init = function(){},
+    __to_open_event,
     __is_ready = false,
     $$,
     MyApp = MyApp || {},
@@ -354,15 +354,6 @@ function onNotificationAPN (data) {
                 res[0].open();
             });
         }else{
-            __run_after_init = function(){
-                __api.events.get([{
-                    id: _data.event_id
-                }], function(res){
-                    L.log(res);
-                    res[0].open();
-                });
-                __run_after_init = function(){};
-            }
         }
 
 
@@ -440,16 +431,7 @@ function registerPushService(){
 
 
             pushNotification.getLaunchNotification(function(payload){
-                L.log("launchedNotification");
-                L.log(payload);
-                if (payload && payload.onStart){
-                    __api.events.get([
-                        {id: payload.userdata.event_id}
-                    ], function(res){
-                        res[0].open();
-                    })
-                }
-
+                __to_open_event = payload;
             });
 
             //initialize the plugin
@@ -756,6 +738,18 @@ function openApplication(){
             }
         }
     });
+
+    if (__to_open_event != null){
+        L.log("launchedNotification");
+        L.log(__to_open_event);
+        if (__to_open_event && __to_open_event.onStart){
+            __api.events.get([
+                {id: __to_open_event.userdata.event_id}
+            ], function(res){
+                res[0].open();
+            })
+        }
+    }
 
 }
 
