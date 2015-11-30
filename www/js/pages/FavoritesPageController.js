@@ -8,7 +8,8 @@ MyApp.ns('MyApp.pages');
 MyApp.pages.FavoritesPageController = function ($scope, $http) {
 	'use strict';
 
-	var events_by_days = {};
+	var events_by_days = {},
+		is_refreshing;
 
 	$scope.no_events = false;
 	$scope.favorites_days = [];
@@ -22,8 +23,10 @@ MyApp.pages.FavoritesPageController = function ($scope, $http) {
 	var $$pull_to_refresh = $$('.favorites-page-content');
 
 	$$pull_to_refresh.on('refresh', function(){
+		if (is_refreshing) return true;
 		$scope.getMyFavorites(true, function(){
 			fw7App.pullToRefreshDone();
+			is_refreshing = false;
 		});
 	});
 

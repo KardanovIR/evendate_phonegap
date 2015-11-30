@@ -76,6 +76,7 @@ function Users(){
 					is_opening = false;
 				});
 				callbackObjects['userPageBeforeAnimation'] = fw7App.onPageBeforeAnimation('friend', function(page){
+					if ($$(page.container).hasClass('page-on-left')) return;
 					var $$container = $$(page.container);
 					if ($$container.data('opened') == true){
 						var $scope = angular.element($$container[0]).scope();

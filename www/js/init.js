@@ -244,6 +244,7 @@ MyApp.init = (function () {
         animateNavBackIcon: true,
         swipeBackPage: true,
         dynamicNavbar: true,
+        scrollTopOnStatusbarClick: true,
         onAjaxStart: function () {
             fw7App.showIndicator();
         },
@@ -462,8 +463,6 @@ function setDemoAccount(){
 }
 
 function resetAccount(){
-    //permanentStorage.setItem('token', null);
-    //permanentStorage.setItem('demo', null);
     tempStorage.clear();
     checkToken(true);
 }
@@ -633,9 +632,7 @@ function createTables(){ // create new schema
                         tx.executeSql(q_create_events_tags, [], function(tx){
                             tx.executeSql(q_create_events_users, [], function(tx){
                                 tx.executeSql(q_create_favorite_events, [], function(tx){
-                                    tx.executeSql(q_create_organizations_users, [], function(){
-                                        registerPushService();
-                                    });
+                                    tx.executeSql(q_create_organizations_users, [], function(){});
                                 });
                             });
                         });
@@ -644,6 +641,7 @@ function createTables(){ // create new schema
             })
         });
     });
+    registerPushService();
 }
 
 function updateDBScheme() { // drop all existing tables\
@@ -663,16 +661,6 @@ function isOnline() {
     }
     var networkState = navigator.connection.type;
      return networkState != Connection.NONE;
-}
-
-function registerErrorHandler(result){
-}
-
-function getSearchAsObject(search) {
-    if (search == null) return null;
-    return search.replace(/(^\?)/, '').split("&").map(function(n) {
-        return n = n.split("="), this[n[0]] = n[1], this
-    }.bind({}))[0];
 }
 
 function saveTokenInLocalStorage(url){
@@ -712,6 +700,7 @@ function openApplication(){
     var calendar_scope = angular.element($$('#calendar')).scope();
     calendar_scope.$apply(function(){
         calendar_scope.startBinding();
+        calendar_scope.getMyTimeline(true);
     });
 
     var favorites_scope = angular.element($$('#favorites')).scope();
@@ -761,7 +750,7 @@ function openApplication(){
 }
 
 window.onerror = function sendCrashReport(message, url , linenumber, column, errorObj){
-    var stack = "";
+    var stack = '';
     if(errorObj !== undefined) //so it won’t blow up in the rest of the browsers
         stack = errorObj.stack;
     L.log({

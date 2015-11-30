@@ -26,7 +26,18 @@ MyApp.pages.CalendarPageController = function ($scope) {
 	$scope.is_downloading = false;
 	$scope.no_timeline_events = true;
 
-	$scope.getMyTimeline = function(first_page){
+
+	var $$my_timeline = $$('.my-timeline');
+
+	$$my_timeline.on('refresh', function(){
+		$scope.getMyTimeline(true, function(){
+			fw7App.pullToRefreshDone($$my_timeline);
+		});
+	});
+
+	$scope.getMyTimeline = function(first_page, cb){
+
+		if (first_page == 'BUTTON') return;
 		if ($scope.is_downloading) return;
 		if (first_page == true){
 			$scope.page_counter = 0;
@@ -101,6 +112,9 @@ MyApp.pages.CalendarPageController = function ($scope) {
 			}
 			$scope.is_downloading = false;
 			$scope.$apply();
+			if (cb){
+				cb();
+			}
 		});
 	};
 
@@ -257,6 +271,12 @@ MyApp.pages.CalendarPageController = function ($scope) {
 						}
 
 						$scope.date_text = _date.format('DD MMMM');
+						var __today = moment();
+						if (__today.format(CONTRACT.DATE_FORMAT) == _date.format(CONTRACT.DATE_FORMAT)){
+							$scope.date_text = 'Сегодня';
+						}else if (__today.add('days', 1).format(CONTRACT.DATE_FORMAT) == _date.format(CONTRACT.DATE_FORMAT)){
+							$scope.date_text = 'Завтра';
+						}
 						$scope.$apply();
 
 						$$('.calendar-loader').hide();

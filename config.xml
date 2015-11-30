@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='utf-8'?>
 <widget id="ru.evendate.phonegap"
-        version="1.0.8"
+        version="1.0.9"
         xmlns="http://www.w3.org/ns/widgets"
         xmlns:gap="http://phonegap.com/ns/1.0"
         versionCode = "1">
@@ -14,7 +14,7 @@
     </author>
 
     <gap:config-file platform="iOS" parent="CFBundleVersion">
-        <string>1.0.8</string>
+        <string>1.0.9</string>
     </gap:config-file>
 
     <content src="index.html" />
