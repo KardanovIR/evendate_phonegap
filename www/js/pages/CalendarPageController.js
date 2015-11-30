@@ -41,7 +41,7 @@ MyApp.pages.CalendarPageController = function ($scope) {
 		if ($scope.is_downloading) return;
 		if (first_page == true){
 			$scope.page_counter = 0;
-			$$('.profile-page-content').on('infinite', function (){
+			$$('.my-timeline').on('infinite', function (){
 				$scope.getMyTimeline(false);
 			});
 		}

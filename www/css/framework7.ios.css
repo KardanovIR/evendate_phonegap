@@ -3985,9 +3985,12 @@ html.with-statusbar-overlay .popup.tablet-fullscreen {
   padding: 8px;
   margin-left: -25px;
   margin-top: -25px;
-  background: rgba(0, 0, 0, 0.8);
   z-index: 11000;
-  border-radius: 5px;
+  width: 40px;
+  height: 40px;
+  border-radius: 999px;
+  background: #FFFFFF;
+  box-shadow: 0px 0px 20px 0px rgb(255, 82, 149);
 }
 .preloader-indicator-modal .preloader {
   display: block;

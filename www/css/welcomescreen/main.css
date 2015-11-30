@@ -1,3 +1,69 @@
+/*LOADER*/
+
+
+.loader,
+.loader:before,
+.loader:after {
+  background: #ff5295;
+  -webkit-animation: load1 1s infinite ease-in-out;
+  animation: load1 1s infinite ease-in-out;
+  width: 1em;
+  height: 4em;
+}
+.loader:before,
+.loader:after {
+  position: absolute;
+  top: 0;
+  content: '';
+}
+.loader:before {
+  left: -1.5em;
+  -webkit-animation-delay: -0.32s;
+  animation-delay: -0.32s;
+}
+.loader {
+  text-indent: -9999em;
+  margin: 0px auto;
+  position: absolute;
+  font-size: 4px;
+  -webkit-transform: translateZ(0);
+  -ms-transform: translateZ(0);
+  transform: translateZ(0);
+  -webkit-animation-delay: -0.16s;
+  animation-delay: -0.16s;
+  top: 20px;
+  left: 26px;
+}
+.loader:after {
+  left: 1.5em;
+}
+@-webkit-keyframes load1 {
+  0%,
+  80%,
+  100% {
+    box-shadow: 0 0 #ff5295;
+    height: 4em;
+  }
+  40% {
+    box-shadow: 0 -2em #ff5295;
+    height: 5em;
+  }
+}
+@keyframes load1 {
+  0%,
+  80%,
+  100% {
+    box-shadow: 0 0 #ff5295;
+    height: 4em;
+  }
+  40% {
+    box-shadow: 0 -2em #ff5295;
+    height: 5em;
+  }
+}
+
+/*LOADER END*/
+
 
 .button-pink{
   border-color: #F82969;
@@ -1639,4 +1705,8 @@ and (-webkit-min-device-pixel-ratio: 3) {
 }
 .views.toolbar{
   z-index: 9999999999 !important;
+}
+.preloader-indicator-modal.with-top{
+  top: 82% !important;
+  border: none;
 }

@@ -820,7 +820,8 @@ function showSlides(){
 }
 
 function checkToken(to_reset){
-    fw7App.showPreloader();
+    fw7App.showIndicator();
+    $$('.preloader-indicator-modal').addClass('with-top');
     if (to_reset){
         permanentStorage.clear();
         token = null;
@@ -843,13 +844,15 @@ function checkToken(to_reset){
                 try{
                     var json_res = JSON.parse(res);
                 }catch(e){
-                    fw7App.hidePreloader();
+                    fw7App.hideIndicator();
+                    $$('.preloader-indicator-modal').removeClass('with-top');
                     showSlides();
                     L.log(res);
                     return;
                 }
 
-                fw7App.hidePreloader();
+                fw7App.hideIndicator();
+                $$('.preloader-indicator-modal').removeClass('with-top');
                 if (json_res.status == false){
                     showSlides();
                 }else{
@@ -868,7 +871,8 @@ function checkToken(to_reset){
             }
         });
     }else{
-        fw7App.hidePreloader();
+        fw7App.hideIndicator();
+        $$('.preloader-indicator-modal').removeClass('with-top');
         showSlides();
     }
 }

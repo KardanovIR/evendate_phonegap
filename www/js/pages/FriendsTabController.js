@@ -43,8 +43,8 @@ MyApp.pages.FriendsTabController = function ($scope) {
 	});
 
 	$scope.showFeed = function(first_page, cb){
-		if (first_page == 'BUTTON') return;
 		feed_is_active = true;
+		if (first_page == 'BUTTON') return;
 		if (is_downloading == true){
 			if (cb){
 				cb();
