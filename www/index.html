@@ -190,7 +190,7 @@
                 <div class="no-subscriptions-text ng-hide" ng-hide="no_subscriptions">
                   Нет подписок
                 </div>
-                <div class="text-center subscriptions-loader ng-hide" ng-hide="data_loaded">
+                <div class="infinite-scroll-preloader text-center subscriptions-loader ng-hide" ng-hide="data_loaded">
                   <div class="loader"></div>
                 </div>
                 <ul class="without-top-border without-bottom-border">
@@ -319,10 +319,8 @@
               </div>
             </div>
             <a id="calendar-date-events-button" href="#" ng-click="showEventsInSelectedDay();">
-              <div class="text-center calendar-loader loader-absolute">
-                <div class="infinite-scroll-preloader">
-                  <div class="loader"></div>
-                </div>
+              <div class="infinite-scroll-preloader loader-absolute calendar-loader">
+                <div class="loader"></div>
               </div>
               <div class="iphone-4-events-btn">
                 <div class="right-arrow" ng-hide="date_text == ''">
@@ -382,7 +380,7 @@
               </div>
             </div>
             <div class="infinite-scroll-preloader ng-hide" ng-hide="!is_downloading">
-              <div class="preloader"></div>
+              <div class="loader"></div>
             </div>
           </div >
         </div>
@@ -451,7 +449,6 @@
             </div>
           </div>
         </div>
-
       </div>
     </div>
   </div>
@@ -476,11 +473,11 @@
         <div class="tabs">
           <div id="friends-feed" class="tab page-content padding-top-30 infinite-scroll friends-page-content background-gray pull-to-refresh-content active" data-ptr-distance="50" data-distance="100">
             <div class="pull-to-refresh-layer">
-              <div class="preloader"></div>
+              <div class="loader"></div>
               <div class="pull-to-refresh-arrow"></div>
             </div>
             <div class="no-events-text ng-hide" ng-hide="no_actions">
-              Нет событий
+              Нет активности
             </div>
             <div class="list-block cards-list">
               <ul>
@@ -513,9 +510,10 @@
                   </div>
                 </li>
               </ul>
-              <div class="infinite-scroll-preloader">
-                <div class="loader"></div>
-              </div>
+            </div>
+
+            <div class="infinite-scroll-preloader" ng-show="feed_is_loading">
+              <div class="loader"></div>
             </div>
           </div>
 
@@ -524,29 +522,27 @@
               <div class="loader"></div>
               <div class="pull-to-refresh-arrow"></div>
             </div>
-            <div class="content-block">
-              <div class="list-block no-margin media-list">
-                <ul>
-                  <li ng-repeat="friend in friends">
-                    <a href="#" class="item-link item-content" ng-click="friend.open();">
-                      <div class="item-media">
-                        <img ng-src="{{friend.avatar_url}}" class="friend-image">
+            <div class="list-block no-margin media-list">
+              <ul>
+                <li ng-repeat="friend in friends">
+                  <a href="#" class="item-link item-content" ng-click="friend.open();">
+                    <div class="item-media">
+                      <img ng-src="{{friend.avatar_url}}" class="friend-image">
+                    </div>
+                    <div class="item-inner">
+                      <div class="item-title-row">
+                        <div class="item-title">{{friend.last_name}} {{friend.first_name}}</div>
                       </div>
-                      <div class="item-inner">
-                        <div class="item-title-row">
-                          <div class="item-title">{{friend.last_name}} {{friend.first_name}}</div>
-                        </div>
-                        <div class="item-subtitle text-gray">
-                          {{friend.type_name}}
-                        </div>
+                      <div class="item-subtitle text-gray">
+                        {{friend.type_name}}
                       </div>
-                    </a>
-                  </li>
-                </ul>
-              </div>
-              <div class="infinite-scroll-preloader">
-                <div class="loader"></div>
-              </div>
+                    </div>
+                  </a>
+                </li>
+              </ul>
+            </div>
+            <div class="infinite-scroll-preloader" ng-show="friends_downloading">
+              <div class="loader"></div>
             </div>
           </div>
         </div>

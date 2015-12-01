@@ -229,7 +229,7 @@ MyApp.pages.CalendarPageController = function ($scope) {
 				$$('.picker-calendar-day-selected').removeClass('picker-calendar-day-selected');
 			},
 			onMonthYearChangeEnd: function (p) {
-				$scope.year = p.currentYear;
+				$scope.yexar = p.currentYear;
 				$scope.month = p.currentMonth + 1;
 				$scope.$digest();
 
@@ -272,7 +272,7 @@ MyApp.pages.CalendarPageController = function ($scope) {
 							$scope.events_text += ', ' + favorites_count + getUnitsText(favorites_count, CONTRACT.TEXTS.FAVORITES);
 						}
 
-						$scope.date_text = _date.format('DD MMMM');
+						$scope.date_text = _date.format('D MMMM');
 						var __today = moment();
 						if (__today.format(CONTRACT.DATE_FORMAT) == _date.format(CONTRACT.DATE_FORMAT)){
 							$scope.date_text = 'Сегодня';
@@ -300,9 +300,6 @@ MyApp.pages.CalendarPageController = function ($scope) {
 				}
 			}
 		});
-
-	calendarInline.setYearMonth(_date.format('YYYY'), parseInt(_date.format('MM')) - 1, 0);
-
 
 	$scope.$watch('year', function(val){
 		$$('.calendar-head-year').text(val);

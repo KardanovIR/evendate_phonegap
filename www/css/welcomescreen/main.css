@@ -1,5 +1,19 @@
 /*LOADER*/
 
+.infinite-scroll-preloader .loader{
+  position: inherit;
+  left: 0;
+}
+
+.pull-to-refresh-layer .loader{
+  display: none;
+  position: inherit;
+  left: 0;
+}
+
+.refreshing .pull-to-refresh-layer .loader{
+  display: block;
+}
 
 .loader,
 .loader:before,
@@ -1023,9 +1037,9 @@ li.organization{
 }
 
 .loader-absolute{
-  position: absolute;
-  top: 0;
-  left: 132px;
+  position: absolute!important;
+  top: 0 !important;
+  left: 160px !important
 }
 
 .events_in_day .day-title{
@@ -1298,6 +1312,14 @@ li.organization{
 @media only screen
 and (max-device-height : 480px)
 and (orientation : portrait) {
+
+  .calendar-head-year{
+    display: none;
+  }
+
+  .picker-calendar-month {
+    padding-top: 6px;
+  }
 
 
   #profile .friend-profile-fixed-part .user-name {
@@ -1892,4 +1914,18 @@ and (-webkit-min-device-pixel-ratio: 3) {
   span.day-number.with-favorites::after{
     margin-top: -6px;
   }
+}
+
+.subscriptions-loader{
+  height: 70px !important;
+}
+
+a.link.back{
+  padding-left: 10px;
+  font-size: 15px;
+  padding-right: 44px;
+}
+
+.organization-heading-name{
+  font-size: 14px !important;
 }

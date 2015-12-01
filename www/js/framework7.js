@@ -8828,7 +8828,7 @@
                     '<div class="picker-footer">' +
                         '<a href="#" class="button close-picker">{{closeText}}</a>' +
                     '</div>',
-                
+
                 /* Callbacks
                 onMonthAdd
                 onChange
