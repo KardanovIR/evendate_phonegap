@@ -13,13 +13,13 @@
 </div>
 <div class="pages">
   <div class="page friend" data-page="friend" ng-controller="FriendPageController">
-    <div class="page-content infinite-scroll" data-ptr-distance="140" data-distance="140">
+    <div class="page-content infinite-scroll" data-ptr-distance="40" data-distance="100">
+      <div class="no-events-text ng-hide" ng-hide="no_actions">
+        Нет активности
+      </div>
       <div class="tabs friend-tabs">
         <div class="friend-actions tab">
           <div>
-            <div class="no-events-text ng-hide" ng-hide="no_actions">
-              Нет событий
-            </div>
             <div class="list-block cards-list">
               <ul>
                 <li class="card feed-card {{card.entity}}" ng-repeat="card in cards">

@@ -194,7 +194,8 @@ MyApp.pages.CalendarPageController = function ($scope) {
 
 	};
 
-	var monthNames = ['', 'Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'],
+	var _date = moment(),
+		monthNames = ['', 'Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'],
 		calendarInline = fw7App.calendar({
 			monthNamesShort: ['Янв', 'Фев', 'Мар', 'Апр', 'Май', 'Июн', 'Июл', 'Авг', 'Сен', 'Окт', 'Ноя', 'Дек'],
 			dayNames: ['Воскресенье', 'Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота'],
@@ -249,6 +250,7 @@ MyApp.pages.CalendarPageController = function ($scope) {
 				$scope.selected_day = _date;
 				if (window.innerHeight == IPHONE_4_HEIGHT){
 					$$('.calendar-loader').show();
+					$$('.iphone-4-events-btn').hide();
 
 					__api.events.get([
 						{date: _date.format(CONTRACT.DATE_FORMAT)},
@@ -280,6 +282,7 @@ MyApp.pages.CalendarPageController = function ($scope) {
 						$scope.$apply();
 
 						$$('.calendar-loader').hide();
+						$$('.iphone-4-events-btn').show();
 					});
 				}else{
 					$$('.calendar-loader').show();
@@ -297,6 +300,8 @@ MyApp.pages.CalendarPageController = function ($scope) {
 				}
 			}
 		});
+
+	calendarInline.setYearMonth(_date.format('YYYY'), parseInt(_date.format('MM')) - 1, 0);
 
 
 	$scope.$watch('year', function(val){

@@ -70,8 +70,8 @@ function Users(){
 				}
 
 				callbackObjects['userPageAfterAnimation'] = fw7App.onPageAfterAnimation('friend', function(page){
-					if($$(fw7App.getCurrentView().container).find('.friend-buttons.active').length == 0){
-						$$(fw7App.getCurrentView().container).find('a.friend-subscriptions').click();
+					if($$(page.navbarInnerContainer).find('.friend-buttons.active').length == 0){
+						$$(page.navbarInnerContainer).find('a.friend-subscriptions').click();
 					}
 					is_opening = false;
 				});

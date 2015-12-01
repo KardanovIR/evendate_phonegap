@@ -170,7 +170,7 @@ var child_browser_opened = false,
             FACEBOOK: 'facebook',
             GOOGLE: 'vk'
         },
-        DEMO_TOKEN: '1b2f4977fdbc59bbcc8053795cb2a027f4a67cdb52e9387a5c5e23a681567577b85f074057c20b0f721bbc5d0deba417a9c1bdelC8BqCBzrba9ksH8sbw5ynESYabHsttMTaaDZihY3e8CqM1AIZrs0IwH9FmFf0Fb',
+        DEMO_TOKEN: 'ya29.PAJ7pMBnNhvLGvrTQXzOmUQl_n3WpXyBYFj8R42zTCN97RUfhryEQrR921NqobUR02__ALqlcRMmTQo6aFftS8bM7MZLBXeQpRAtClABTvhmJN7szd2gJVwg0FLsc0889waOrXJMZFKeyx',
     },
     __db,
     __os = navigator.platform == 'Win32' ? 'win': 'hz',
@@ -408,13 +408,14 @@ function registerPushService(){
 
             //set push notification callback before we initialize the plugin
             document.addEventListener('push-notification', function(event) {
+                L.log(notification);
                 //get the notification payload
                 var notification = event.notification;
                 //display alert to the user for example
                 if (notification.onStart == false){
                     fw7App.addNotification({
                         title: notification.aps.alert,
-                        hold: 3500,
+                        hold: 5000,
                         closeIcon: true,
                         subtitle: '',
                         message: notification.userdata.body,
@@ -427,6 +428,12 @@ function registerPushService(){
                             })
                         }
                     });
+                }else{
+                    __api.events.get([
+                        {id: notification.userdata.event_id}
+                    ], function(res){
+                        res[0].open();
+                    })
                 }
             });
 
@@ -715,10 +722,30 @@ function openApplication(){
 
 
     $$('.main-tabbar .toolbar-inner a').on('click', function(){
+
         var $toolbar = $$('.main-tabbar .toolbar-inner'),
-            $$this = $$(this);
+            $$this = $$(this),
+            $$i = $$this.find('i');
+
+        if ($$this.hasClass('active')){
+            var max_pages_count = 0;
+            while(fw7App.getCurrentView().history[0] != fw7App.getCurrentView().activePage.url && max_pages_count++ < 500){
+                fw7App.getCurrentView().back({animatePages: fw7App.getCurrentView().history.length == 2});
+            }
+        }
 
         $toolbar.removeClass('toolbar-item-0 toolbar-item-1 toolbar-item-2 toolbar-item-3');
+
+        $toolbar.find('i').each(function(){
+            var $$this_i = $$(this);
+            $$this_i
+                .removeClass($$this_i.data('active-icon'))
+                .addClass($$this_i.data('icon'));
+        });
+
+        $$i
+            .removeClass($$i.data('icon'))
+            .addClass($$i.data('active-icon'));
 
         $toolbar.addClass('animated');
         $toolbar.addClass('toolbar-item-' + $$this.data('number'));
@@ -734,15 +761,6 @@ function openApplication(){
                 });
             }
         });
-
-    $$('.main-tabbar .tab-link').on('click', function(e){
-        if ($$(this).hasClass('active')){
-            while(fw7App.getCurrentView().history.length > 1){
-                fw7App.getCurrentView().back();
-            }
-        }
-    });
-
 
     __is_ready = true;
     openNotification();

@@ -159,9 +159,9 @@
     </div>
     <div class="modal-overlay modal-overlay-navbar"></div>
     <div class="pages navbar-through">
-      <div id="subscriptions" class="page with-subnavbar tabs-animated-wrap">
+      <div id="subscriptions" data-page="profile" class="page with-subnavbar tabs-animated-wrap">
         <div class="tabs">
-          <div id="profile" class="tab infinite-scroll active page-content profile-page-content" data-ptr-distance="40" data-distance="40">
+          <div id="profile" class="tab infinite-scroll active page-content profile-page-content" data-ptr-distance="40" data-distance="100">
             <div class="content-block">
                 <!--<div class="content-block-inner user-info" ng-style="{'background-image': 'url(' + info.blurred_image_url + ')'}">-->
                 <!--<div class="user-image">-->
@@ -191,9 +191,7 @@
                   Нет подписок
                 </div>
                 <div class="text-center subscriptions-loader ng-hide" ng-hide="data_loaded">
-                  <div class="infinite-scroll-preloader">
-                    <div class="loader"></div>
-                  </div>
+                  <div class="loader"></div>
                 </div>
                 <ul class="without-top-border without-bottom-border">
                   <li class="swipeout" ng-repeat="subscription in subscriptions">
@@ -227,7 +225,7 @@
                 </div>
               </div>
           </div>
-          <div id="organizations" class="tab profile-page-content page-content infinite-scroll"  data-ptr-distance="40" data-distance="40">
+          <div id="organizations" class="tab profile-page-content page-content infinite-scroll"  data-ptr-distance="40" data-distance="100">
 
             <div class="list-block media-list">
               <div class="list-group organizations-list" ng-repeat="category in organization_categories">
@@ -279,9 +277,9 @@
       </div>
     </div>
     <div class="pages navbar-through">
-      <div data-page="calendar" class="page with-subnavbar tabs-animated-wrap">
+      <div data-page="calendar" class="page tabs-animated-wrap">
         <div class="tabs">
-          <div data-distance="140" data-ptr-distance="140" id="calendar" class="tab page-content profile-page-content active">
+          <div id="calendar" class="tab profile-page-content active">
             <div id="calendar-inline-container"></div>
             <div id="calendar-date-events-list">
               <div class="no-events-text ng-hide" ng-hide="no_events">
@@ -326,23 +324,21 @@
                   <div class="loader"></div>
                 </div>
               </div>
-              <div class="right-arrow" ng-hide="date_text == ''">
-                <i class="ion-ios-arrow-right"></i>
-              </div>
-              <div class="day-name">
-                {{date_text}}
-              </div>
-              <div>
-                {{events_text}}
+              <div class="iphone-4-events-btn">
+                <div class="right-arrow" ng-hide="date_text == ''">
+                  <i class="ion-ios-arrow-right"></i>
+                </div>
+                <div class="day-name">
+                  {{date_text}}
+                </div>
+                <div>
+                  {{events_text}}
+                </div>
               </div>
             </a>
           </div>
-          <div data-distance="140" data-ptr-distance="140" id="timeline" class="tab page-content profile-page-content my-timeline infinite-scroll pull-to-refresh-content">
-            <div class="list-block media-list">
-              <div class="pull-to-refresh-layer">
-                <div class="loader"></div>
-                <div class="pull-to-refresh-arrow"></div>
-              </div>
+          <div id="timeline" class="tab page-content my-timeline infinite-scroll" data-distance="100" data-ptr-distance="50" >
+            <div class="list-block no-margin media-list">
               <div class="no-events-text ng-hide" ng-hide="no_timeline_events">
                 Нет событий
               </div>
@@ -386,9 +382,9 @@
               </div>
             </div>
             <div class="infinite-scroll-preloader ng-hide" ng-hide="!is_downloading">
-              <div class="loader"></div>
+              <div class="preloader"></div>
             </div>
-          </div>
+          </div >
         </div>
       </div>
     </div>
@@ -406,18 +402,18 @@
       </div>
     </div>
     <div class="pages navbar-through">
-      <div data-page="index" class="page navbar-fixed toolbar-fixed">
+      <div data-page="favorites" class="page navbar-fixed toolbar-fixed">
         <!-- /End of Top Navbar-->
         <div class="page-content favorites-page-content infinite-scroll pull-to-refresh-content" id="favorites"
-             data-distance="140" data-ptr-distance="140">
+             data-distance="100" data-ptr-distance="50">
+          <div class="pull-to-refresh-layer">
+            <div class="loader"></div>
+            <div class="pull-to-refresh-arrow"></div>
+          </div>
           <div class="no-events-text ng-hide" ng-hide="no_events">
             Нет событий
           </div>
           <div class="list-block media-list no-margin">
-            <div class="pull-to-refresh-layer">
-              <div class="loader"></div>
-              <div class="pull-to-refresh-arrow"></div>
-            </div>
             <div class="list-group" ng-repeat="day in favorites_days">
               <ul>
                 <li class="list-group-title timeline-day-title">{{day.name}}</li>
@@ -476,11 +472,11 @@
       </div>
     </div>
     <div class="pages navbar-through">
-      <div id="friends" class="page with-subnavbar tabs-animated-wrap background-gray">
+      <div id="friends" data-page="friends" class="page with-subnavbar tabs-animated-wrap background-gray">
         <div class="tabs">
-          <div id="friends-feed" class="tab page-content padding-top-30 infinite-scroll friends-page-content background-gray pull-to-refresh-content active" data-ptr-distance="140" data-distance="140">
+          <div id="friends-feed" class="tab page-content padding-top-30 infinite-scroll friends-page-content background-gray pull-to-refresh-content active" data-ptr-distance="50" data-distance="100">
             <div class="pull-to-refresh-layer">
-              <div class="loader"></div>
+              <div class="preloader"></div>
               <div class="pull-to-refresh-arrow"></div>
             </div>
             <div class="no-events-text ng-hide" ng-hide="no_actions">
@@ -523,7 +519,7 @@
             </div>
           </div>
 
-          <div id="friends-list" data-ptr-distance="140" data-distance="140" class="tab page-content padding-top-30 infinite-scroll friends-page-content background-gray pull-to-refresh-content">
+          <div id="friends-list" data-ptr-distance="50" data-distance="100" class="tab page-content padding-top-30 infinite-scroll friends-page-content background-gray pull-to-refresh-content">
             <div class="pull-to-refresh-layer">
               <div class="loader"></div>
               <div class="pull-to-refresh-arrow"></div>
@@ -561,14 +557,14 @@
   <div class="toolbar tabbar tabbar-labels main-tabbar hidden">
     <div class="toolbar-inner animated">
       <a href="#view-profile" data-step="1" data-position="top" data-intro="Подпишитесь на организации" data-number="0"
-         class="tab-link view-profile"><i class="icon ion-ios-person-outline"></i><span
+         class="tab-link view-profile"><i data-active-icon="icon ion-ios-person" data-icon="icon ion-ios-person-outline" class="icon ion-ios-person-outline"></i><span
               class="tabbar-label">Профиль</span></a>
       <a href="#view-events" data-step="3" data-number="1" data-position="top" data-intro="Календарь и лента к Вашим услугам"
-         id="view-events-tab-link" class="tab-link active"><i class="icon ion-ios-calendar-outline"></i><span
+         id="view-events-tab-link" class="tab-link active"><i data-active-icon="icon ion-ios-calendar" data-icon="icon ion-ios-calendar-outline" class="icon ion-ios-calendar"></i><span
               class="tabbar-label">Мероприятия</span></a>
-      <a href="#view-favorites" data-number="2" class="tab-link"> <i class="lnr lnr-pushpin"></i><span
+      <a href="#view-favorites" data-number="2" class="tab-link"><i data-active-icon="lnr icon-pin_full" data-icon="lnr icon-lnr-pushpin" class="lnr icon-lnr-pushpin"></i><span
               class="tabbar-label">Избранное</span></a>
-      <a href="#view-friends" data-number="3" class="tab-link"> <i class="icon ion-ios-paper-outline"></i><span
+      <a href="#view-friends" data-number="3" class="tab-link"><i data-active-icon="icon ion-ios-paper" data-icon="icon ion-ios-paper-outline"  class="icon ion-ios-paper-outline"></i><span
               class="tabbar-label">Друзья</span></a>
     </div>
   </div>

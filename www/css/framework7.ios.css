@@ -998,7 +998,7 @@ html:not(.watch-active-state) .subnavbar a.link:active,
   top: auto;
   height: 1px;
   width: 100%;
-  background-color: #c4c4c4;
+  background-color: #5379B8;
   display: block;
   z-index: 15;
   -webkit-transform-origin: 50% 100%;
@@ -1113,7 +1113,7 @@ html.pixel-ratio-3 .navbar:after {
   top: auto;
   height: 1px;
   width: 100%;
-  background-color: #c4c4c4;
+  background-color: #5379B8;
   display: block;
   z-index: 15;
   -webkit-transform-origin: 50% 100%;
@@ -1424,6 +1424,7 @@ html.pixel-ratio-3 .toolbar:before {
 .view > .toolbar,
 .views > .toolbar {
   position: absolute;
+  box-shadow: 0px -1px 4px 0px rgba(0,0,0,0.21);
 }
 .subnavbar ~ .page-content {
   padding-top: 44px;
@@ -3990,7 +3991,7 @@ html.with-statusbar-overlay .popup.tablet-fullscreen {
   height: 40px;
   border-radius: 999px;
   background: #FFFFFF;
-  box-shadow: 0px 0px 20px 0px rgb(255, 82, 149);
+  box-shadow: 0px 0px 20px 0px #5379B8;
 }
 .preloader-indicator-modal .preloader {
   display: block;

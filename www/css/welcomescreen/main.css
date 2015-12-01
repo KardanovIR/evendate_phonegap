@@ -3,25 +3,32 @@
 
 .loader,
 .loader:before,
-.loader:after {
-  background: #ff5295;
+.loader:after,
+.preloader,
+.preloader:before,
+.preloader:after {
+  background: #5379B8;
   -webkit-animation: load1 1s infinite ease-in-out;
   animation: load1 1s infinite ease-in-out;
   width: 1em;
   height: 4em;
 }
 .loader:before,
-.loader:after {
+.loader:after,
+.preloader:before,
+.preloader:after {
   position: absolute;
   top: 0;
   content: '';
 }
-.loader:before {
+.loader:before,
+.preloader:before{
   left: -1.5em;
   -webkit-animation-delay: -0.32s;
   animation-delay: -0.32s;
 }
-.loader {
+.loader,
+.preloader {
   text-indent: -9999em;
   margin: 0px auto;
   position: absolute;
@@ -34,18 +41,19 @@
   top: 20px;
   left: 26px;
 }
-.loader:after {
+.loader:after,
+.preloader:after {
   left: 1.5em;
 }
 @-webkit-keyframes load1 {
   0%,
   80%,
   100% {
-    box-shadow: 0 0 #ff5295;
+    box-shadow: 0 0 #5379B8;
     height: 4em;
   }
   40% {
-    box-shadow: 0 -2em #ff5295;
+    box-shadow: 0 -2em #5379B8;
     height: 5em;
   }
 }
@@ -53,11 +61,11 @@
   0%,
   80%,
   100% {
-    box-shadow: 0 0 #ff5295;
+    box-shadow: 0 0 #5379B8;
     height: 4em;
   }
   40% {
-    box-shadow: 0 -2em #ff5295;
+    box-shadow: 0 -2em #5379B8;
     height: 5em;
   }
 }
@@ -178,6 +186,8 @@ a.button-white.active {
 
 .navbar a.link, .toolbar a.link, .subnavbar a.link{
   color: #fff !important;
+  padding-left: 4px;
+  font-size: 15px;
 }
 
 .navbar a.link.calendar, .toolbar a.link.calendar, .subnavbar a.link.calendar{
@@ -943,456 +953,13 @@ li.organization{
 }
 
 
-/* iPhone 4 */
-@media only screen
-and (max-device-height : 480px)
-and (orientation : portrait) {
 
-  .introjs-arrow.bottom {
-    left: 26px !important;
-  }
-
-  .button-circle{
-    border-radius: 999px;
-    width: 43px;
-    font-size: 33px;
-    height: 43px;
-  }
-
-  .button-circle:after{
-    top: 20px;
-    left: 13px;
-  }
-
-  .button-circle:before{
-    top: 13px;
-    left: 20px;
-  }
-
-  .button-filled-blue:before {
-    top: 19px;
-    left: 17px;
-  }
-
-  .button-filled-blue:after {
-    top: 22px;
-    left: 13px;
-  }
-
-  .event-item .liked-users{
-    display: none;
-  }
-
-  .event-item .item-media{
-    min-width: 84px;
-  }
-
-  .event-item .item-text{
-    height: 24px;
-  }
-  .event-item .item-subtitle{
-    margin-top: 4px;
-  }
-
-  .event-item .item-inner{
-    padding-top: 5px !important;
-    padding-bottom: 0 !important;
-  }
-
-  .picker-calendar{
-    height: 75%;
-  }
-
-  #calendar-date-events-list{
-    display: none;
-  }
-
-  #calendar-date-events-button{
-    display: block;
-    /*-webkit-transition: all 0.3s linear;*/
-    /*transition: all 0.3s linear;*/
-    position: fixed;
-    top: 74%;
-    overflow: scroll;
-    height: calc(80% - 70px);
-    width: 100%;
-    padding-left: 25px;
-    border-top: 2px solid rgba(204,204,204,0.45);
-    padding-top: 10px;
-  }
-
-  #calendar-date-events-button .right-arrow{
-    float: right;
-    padding-right: 40px;
-    font-size: 24px;
-    padding-top: 7px;
-    color: #F82969;
-  }
-
-  #calendar-date-events-button .day-name{
-    font-size: 20px;
-    color: #F11069;
-    line-height: 24px;
-  }
-
-  .auth-slide .content-block{
-    padding-top: 5%;
-    font-size: 20px;
-    font-family: sfui_display_ultralight, Helvetica;
-  }
-
-  .button.button-big {
-    height: 46px;
-    line-height: 45px;
-  }
-
-  .auth-btn {
-    font-size: 18px !important;
-  }
-
-  .logo-img{
-    width: 150px;
-  }
-
-  .swiper-slide p {
-    margin-top: -3px;
-  }
-
-  .friends_subscribed .friends-page-header-shadow{
-    height: 180px;
-  }
-
-  .friends_liked .friends-page-header-shadow{
-    height: 224px;
-  }
-
-  .event-organization-name{
-    line-height: 33px;
-  }
+.feed-card .item-title {
+  font-size: 14px;
+  max-height: 35px;
+  text-overflow: ellipsis;
 }
 
-/* iPhone 5 */
-@media screen and (device-aspect-ratio: 40/71) {
-
-  .introjs-arrow.bottom {
-    left: 26px !important;
-  }
-
-  .button-circle{
-    border-radius: 999px;
-    width: 43px;
-    font-size: 33px;
-    height: 43px;
-  }
-
-  .button-circle:after{
-    top: 20px;
-    left: 13px;
-  }
-
-  .button-circle:before{
-    top: 13px;
-    left: 20px;
-  }
-
-  .button-filled-blue:before {
-    top: 19px;
-    left: 17px;
-  }
-
-  .button-filled-blue:after {
-    top: 22px;
-    left: 13px;
-  }
-
-  .event-item .item-media {
-    max-width: 91px;
-  }
-
-  .calendar-head-year{
-    display: none;
-  }
-
-  .picker-modal .toolbar + .picker-modal-inner{
-    height: 89%;
-  }
-
-  .picker-calendar-week-days{
-    width: calc(100% - 16px);
-    position: relative;
-    margin-left: 8px;
-    margin-right: 8px;
-  }
-  .picker-calendar-row{
-    width: calc(100% - 16px);
-    position: relative;
-    margin-left: 8px;
-    margin-right: 8px;
-    height: -webkit-calc(92% / 6);
-    height: -moz-calc(92% / 6);
-    height: calc(92% / 6);
-  }
-
-  #calendar-date-events-list {
-    top: calc(54% + 20px);
-    height: calc(46% - 70px);
-  }
-
-  .picker-calendar-month{
-    padding-top: 6px;
-  }
-
-  .picker-calendar-day span {
-    font-size: 13px;
-    font-weight: 700;
-  }
-
-
-  .auth-slide .content-block{
-    padding-top: 5%;
-    font-size: 20px;
-    font-family: sfui_display_ultralight, Helvetica;
-  }
-
-  .button.button-big {
-    height: 46px;
-    line-height: 45px;
-  }
-
-  .auth-btn {
-    font-size: 18px !important;
-  }
-
-  .logo-img{
-    width: 150px;
-  }
-
-  .swiper-slide p {
-    margin-top: 22px;
-  }
-
-  .friends_subscribed .friends-page-header-shadow{
-    height: 180px;
-  }
-
-  .friends_liked .friends-page-header-shadow{
-    height: 224px;
-  }
-}
-
-/* iPhone 6 */
-@media only screen
-and (min-device-width: 375px)
-and (max-device-width: 667px)
-and (-webkit-min-device-pixel-ratio: 2) {
-
-  .introjs-arrow.bottom {
-    left: 32px !important;
-  }
-
-  .calendar-head-year{
-    display: none;
-  }
-
-  .picker-modal .toolbar + .picker-modal-inner{
-    height: 88%;
-  }
-
-  .picker-calendar-week-days{
-    width: calc(100% - 16px);
-    position: relative;
-    margin-left: 8px;
-    margin-right: 8px;
-  }
-  .picker-calendar-row{
-    width: calc(100% - 16px);
-    position: relative;
-    margin-left: 8px;
-    margin-right: 8px;
-    height: -webkit-calc(97% / 6);
-    height: -moz-calc(97% / 6);
-    height: calc(97% / 6);
-  }
-
-  #calendar-date-events-list {
-    top: calc(54% + 20px);
-    height: calc(46% - 70px);
-  }
-
-  .picker-calendar-day span {
-    font-size: 14px;
-    font-weight: 800;
-  }
-
-  .picker-calendar-month{
-    padding-top: 6px;
-  }
-
-  .auth-slide .content-block{
-    padding-top: 5%;
-    font-size: 22px;
-    font-family: sfui_display_ultralight, Helvetica;
-  }
-
-  .button.button-big {
-    font-size: 17px;
-    height: 50px;
-    line-height: 48px;
-  }
-
-  .auth-btn {
-    font-size: 18px !important;
-  }
-
-  .logo-img{
-    width: 180px;
-  }
-
-  .swiper-slide p {
-    margin-top: 24px;
-  }
-
-
-  .friends_subscribed .friends-page-header-shadow{
-    height: 211px;
-  }
-
-  .friends_liked .friends-page-header-shadow{
-    height: 224px;
-  }
-
-  span.day-number.with-favorites::after{
-    margin-top: -6px;
-  }
-}
-
-/* iPhone 6 plus */
-@media only screen
-and (min-device-width: 414px)
-and (max-device-width: 736px)
-and (-webkit-min-device-pixel-ratio: 3) {
-
-  .introjs-arrow.bottom {
-    left: 36px !important;
-  }
-
-  .event-item .item-media {
-    max-width: 100px;
-  }
-
-  .picker-calendar-day span{
-    font-size: 16px;
-  }
-
-  .picker-modal .toolbar + .picker-modal-inner{
-    height: 84%;
-  }
-
-  .picker-calendar-week-days .picker-calendar-week-day{
-    font-size: 13px;
-  }
-
-  .calendar-head-year{
-    padding-top: 8px;
-    display: block;
-  }
-
-  .calendar-custom-toolbar .toolbar-inner{
-    height: 25px;
-  }
-
-  .picker-calendar-week-days + .picker-calendar-months {
-    height: calc(100% - 25px);
-  }
-
-  .picker-calendar-row {
-    height: 16.6666667%;
-    height: -webkit-calc(100% / 6);
-    height: -moz-calc(100% / 6);
-    height: calc(100% / 6);
-  }
-
-  .auth-slide .content-block{
-    padding-top: 5%;
-    font-size: 24px;
-    font-family: sfui_display_ultralight, Helvetica;
-  }
-
-  .logo-img{
-    width: 200px;
-  }
-
-  .friends_subscribed .friends-page-header-shadow{
-    height: 233px;
-  }
-  .friends_liked .friends-page-header-shadow{
-    height: 290px;
-  }
-
-  li.organization .item-inner{
-    padding-left: 14px !important;
-    padding-top: 19px !important;
-    padding-bottom: 19px !important;
-  }
-
-  .organization .item-content{
-    padding-left: 10px;
-  }
-
-  li.organization .item-media img {
-    height: 45px;
-    width: 45px;
-  }
-
-  .button-circle {
-    margin-right: 8px;
-    width: 45px;
-    height: 45px;
-  }
-  li.organization .item-title{
-    font-size: 17px;
-  }
-
-  li.organization .item-subtitle {
-    font-size: 15px;
-  }
-
-  .button-circle:after{
-    top: 21px;
-    left: 12px;
-    width: 20px;
-  }
-
-  .button-circle:before{
-    top: 12px;
-    left: 21px;
-    height: 19px;
-  }
-
-  .button-filled-blue:before {
-    top: 21px;
-    left: 16px;
-    height: 1px;
-  }
-
-  .button-filled-blue:after {
-    top: 24px;
-    left: 12px;
-    width: 8px;
-  }
-
-  .organizations-list .list-group-title {
-    padding: 12px 16px;
-    font-size: 22px;
-    color: rgba(0,0,0,0.70);
-    line-height: 20px;
-    font-family: "sfui_display_light";
-  }
-
-  span.day-number.with-favorites::after{
-    margin-top: -6px;
-  }
-}
 
 .main-tabbar .toolbar-inner:after {
   position: absolute;
@@ -1458,7 +1025,7 @@ and (-webkit-min-device-pixel-ratio: 3) {
 .loader-absolute{
   position: absolute;
   top: 0;
-  left: 150px;
+  left: 132px;
 }
 
 .events_in_day .day-title{
@@ -1709,4 +1276,620 @@ and (-webkit-min-device-pixel-ratio: 3) {
 .preloader-indicator-modal.with-top{
   top: 82% !important;
   border: none;
+}
+
+.feed-card li:last-child .item-inner:after, .list-block li:last-child li .item-inner:after{
+  display: none !important;
+}
+.lnr{
+  padding-top: 6px;
+}
+
+
+#profile .content-block-title{
+  margin: 24px 15px 2px;
+  font-size: 12px;
+}
+#profile .subscriptions-list{
+  margin-top: 3px;
+}
+
+/* iPhone 4 */
+@media only screen
+and (max-device-height : 480px)
+and (orientation : portrait) {
+
+
+  #profile .friend-profile-fixed-part .user-name {
+    top: 92px;
+    left: 92px;
+  }
+
+  .friend-profile-fixed-part .user-name {
+    font-size: 18px;
+  }
+
+  .friend-profile-fixed-part .avatar {
+    height: 60px;
+    width: 60px;
+    margin-left: 2px;
+    margin-top: 8px;
+  }
+
+  #profile .user-background-opacity {
+    max-height: 240px;
+  }
+
+  #profile .content-block{
+    margin: 5px 0;
+  }
+
+  .feed-card .item-title {
+    font-size: 14px;
+    max-height: 35px;
+    text-overflow: ellipsis;
+  }
+
+  .card-header {
+    border-radius: 0;
+    font-size: 15px;
+  }
+
+  .introjs-arrow.bottom {
+    left: 26px !important;
+  }
+
+  .button-circle{
+    border-radius: 999px;
+    width: 43px;
+    font-size: 33px;
+    height: 43px;
+  }
+
+  .button-circle:after{
+    top: 20px;
+    left: 13px;
+  }
+
+  .button-circle:before{
+    top: 13px;
+    left: 20px;
+  }
+
+  .button-filled-blue:before {
+    top: 19px;
+    left: 17px;
+  }
+
+  .button-filled-blue:after {
+    top: 22px;
+    left: 13px;
+  }
+
+  .event-item .liked-users{
+    display: none;
+  }
+
+  .event-item .item-media{
+    min-width: 84px;
+  }
+
+  .event-item .item-text{
+    height: 24px;
+  }
+  .event-item .item-subtitle{
+    margin-top: 4px;
+  }
+
+  .event-item .item-inner{
+    padding-top: 5px !important;
+    padding-bottom: 0 !important;
+  }
+
+  .picker-calendar{
+    height: 75%;
+  }
+
+  #calendar-date-events-list{
+    display: none;
+  }
+
+  #calendar-date-events-button{
+    display: block;
+    /*-webkit-transition: all 0.3s linear;*/
+    /*transition: all 0.3s linear;*/
+    position: fixed;
+    top: 74%;
+    overflow: scroll;
+    height: calc(80% - 70px);
+    width: 100%;
+    padding-left: 25px;
+    border-top: 2px solid rgba(204,204,204,0.45);
+    padding-top: 10px;
+  }
+
+  #calendar-date-events-button .right-arrow{
+    float: right;
+    padding-right: 40px;
+    font-size: 24px;
+    padding-top: 7px;
+    color: #F82969;
+  }
+
+  #calendar-date-events-button .day-name{
+    font-size: 20px;
+    color: #F11069;
+    line-height: 24px;
+  }
+
+  .auth-slide .content-block{
+    padding-top: 5%;
+    font-size: 20px;
+    font-family: sfui_display_ultralight, Helvetica;
+  }
+
+  .button.button-big {
+    height: 46px;
+    line-height: 45px;
+  }
+
+  .auth-btn {
+    font-size: 18px !important;
+  }
+
+  .logo-img{
+    width: 150px;
+  }
+
+  .swiper-slide p {
+    margin-top: -3px;
+  }
+
+  .friends_subscribed .friends-page-header-shadow{
+    height: 180px;
+  }
+
+  .friends_liked .friends-page-header-shadow{
+    height: 224px;
+  }
+
+  .event-organization-name{
+    line-height: 33px;
+  }
+}
+
+/* iPhone 5 */
+@media screen and (device-aspect-ratio: 40/71) {
+
+  #profile .friend-profile-fixed-part .user-name {
+    top: 92px;
+    left: 92px;
+  }
+
+  .friend-profile-fixed-part .user-name {
+    font-size: 18px;
+  }
+
+  .friend-profile-fixed-part .avatar {
+    height: 60px;
+    width: 60px;
+    margin-left: 2px;
+    margin-top: 8px;
+  }
+
+  #profile .user-background-opacity {
+    max-height: 240px;
+  }
+
+  #profile .content-block{
+    margin: 5px 0;
+  }
+
+
+  .introjs-arrow.bottom {
+    left: 26px !important;
+  }
+
+  .button-circle{
+    border-radius: 999px;
+    width: 43px;
+    font-size: 33px;
+    height: 43px;
+  }
+
+  .button-circle:after{
+    top: 20px;
+    left: 13px;
+  }
+
+  .button-circle:before{
+    top: 13px;
+    left: 20px;
+  }
+
+  .button-filled-blue:before {
+    top: 19px;
+    left: 17px;
+  }
+
+  .button-filled-blue:after {
+    top: 22px;
+    left: 13px;
+  }
+
+  .event-item .item-media {
+    max-width: 91px;
+  }
+
+  .calendar-head-year{
+    display: none;
+  }
+
+  .picker-modal .toolbar + .picker-modal-inner{
+    height: 89%;
+  }
+
+  .picker-calendar-week-days{
+    width: calc(100% - 16px);
+    position: relative;
+    margin-left: 8px;
+    margin-right: 8px;
+  }
+  .picker-calendar-row{
+    width: calc(100% - 16px);
+    position: relative;
+    margin-left: 8px;
+    margin-right: 8px;
+    height: -webkit-calc(92% / 6);
+    height: -moz-calc(92% / 6);
+    height: calc(92% / 6);
+  }
+
+  #calendar-date-events-list {
+    top: calc(54% + 20px);
+    height: calc(46% - 70px);
+  }
+
+  .picker-calendar-month{
+    padding-top: 6px;
+  }
+
+  .picker-calendar-day span {
+    font-size: 13px;
+    font-weight: 700;
+  }
+
+
+  .auth-slide .content-block{
+    padding-top: 5%;
+    font-size: 20px;
+    font-family: sfui_display_ultralight, Helvetica;
+  }
+
+  .button.button-big {
+    height: 46px;
+    line-height: 45px;
+  }
+
+  .auth-btn {
+    font-size: 18px !important;
+  }
+
+  .logo-img{
+    width: 150px;
+  }
+
+  .swiper-slide p {
+    margin-top: 22px;
+  }
+
+  .friends_subscribed .friends-page-header-shadow{
+    height: 180px;
+  }
+
+  .friends_liked .friends-page-header-shadow{
+    height: 224px;
+  }
+}
+
+/* iPhone 6 */
+@media only screen
+and (min-device-width: 375px)
+and (max-device-width: 667px)
+and (-webkit-min-device-pixel-ratio: 2) {
+
+
+  #profile .list-block .item-inner {
+    min-height: 52px;
+  }
+
+  .list-block .item-media img {
+    height: 36px;
+    width: 36px;
+  }
+
+  .friend-profile-fixed-part .avatar {
+    height: 70px;
+    width: 70px;
+    margin-left: 4px;
+    margin-top: 20px;
+    border-radius: 999px;
+    border: 2px solid #fff;
+  }
+
+  #profile .friend-profile-fixed-part .user-name {
+    top: 105px;
+    left: 104px;
+  }
+
+  .friend-profile-fixed-part .user-name {
+    position: absolute;
+    top: 102px;
+    left: 113px;
+    color: #000;
+    font-size: 22px;
+  }
+  .friend-profile-fixed-part .avatar {
+    height: 70px;
+    width: 70px;
+    margin-left: 4px;
+    margin-top: 20px;
+    border-radius: 999px;
+    border: 2px solid #fff;
+  }
+
+  #profile .user-background-opacity {
+    max-height: 255px;
+  }
+
+  .introjs-arrow.bottom {
+    left: 32px !important;
+  }
+
+  .calendar-head-year{
+    display: none;
+  }
+
+  .picker-modal .toolbar + .picker-modal-inner{
+    height: 88%;
+  }
+
+  .picker-calendar-week-days{
+    width: calc(100% - 16px);
+    position: relative;
+    margin-left: 8px;
+    margin-right: 8px;
+  }
+  .picker-calendar-row{
+    width: calc(100% - 16px);
+    position: relative;
+    margin-left: 8px;
+    margin-right: 8px;
+    height: -webkit-calc(97% / 6);
+    height: -moz-calc(97% / 6);
+    height: calc(97% / 6);
+  }
+
+  #calendar-date-events-list {
+    top: calc(54% + 20px);
+    height: calc(46% - 70px);
+  }
+
+  .picker-calendar-day span {
+    font-size: 14px;
+    font-weight: 800;
+  }
+
+  .picker-calendar-month{
+    padding-top: 6px;
+  }
+
+  .auth-slide .content-block{
+    padding-top: 5%;
+    font-size: 22px;
+    font-family: sfui_display_ultralight, Helvetica;
+  }
+
+  .button.button-big {
+    font-size: 17px;
+    height: 50px;
+    line-height: 48px;
+  }
+
+  .auth-btn {
+    font-size: 18px !important;
+  }
+
+  .logo-img{
+    width: 180px;
+  }
+
+  .swiper-slide p {
+    margin-top: 24px;
+  }
+
+
+  .friends_subscribed .friends-page-header-shadow{
+    height: 211px;
+  }
+
+  .friends_liked .friends-page-header-shadow{
+    height: 224px;
+  }
+
+  span.day-number.with-favorites::after{
+    margin-top: -6px;
+  }
+}
+
+/* iPhone 6 plus */
+@media only screen
+and (min-device-width: 414px)
+and (max-device-width: 736px)
+and (-webkit-min-device-pixel-ratio: 3) {
+
+  #profile .list-block .item-inner {
+    min-height: 56px;
+  }
+
+  .list-block .item-media img {
+    height: 40px;
+    width: 40px;
+  }
+
+  .friend-profile-fixed-part .avatar {
+    height: 70px;
+    width: 70px;
+    margin-left: 4px;
+    margin-top: 20px;
+    border-radius: 999px;
+    border: 2px solid #fff;
+  }
+
+  #profile .friend-profile-fixed-part .user-name {
+    top: 102px;
+    left: 113px;
+  }
+
+  .friend-profile-fixed-part .user-name {
+    position: absolute;
+    top: 102px;
+    left: 113px;
+    color: #000;
+    font-size: 26px;
+  }
+  .friend-profile-fixed-part .avatar {
+    height: 70px;
+    width: 70px;
+    margin-left: 4px;
+    margin-top: 20px;
+    border-radius: 999px;
+    border: 2px solid #fff;
+  }
+
+
+  #profile .user-background-opacity {
+    max-height: 275px;
+  }
+
+  .introjs-arrow.bottom {
+    left: 36px !important;
+  }
+
+  .event-item .item-media {
+    max-width: 100px;
+  }
+
+  .picker-calendar-day span{
+    font-size: 16px;
+  }
+
+  .picker-modal .toolbar + .picker-modal-inner{
+    height: 84%;
+  }
+
+  .picker-calendar-week-days .picker-calendar-week-day{
+    font-size: 13px;
+  }
+
+  .calendar-head-year{
+    padding-top: 8px;
+    display: block;
+  }
+
+  .calendar-custom-toolbar .toolbar-inner{
+    height: 25px;
+  }
+
+  .picker-calendar-week-days + .picker-calendar-months {
+    height: calc(100% - 25px);
+  }
+
+  .picker-calendar-row {
+    height: 16.6666667%;
+    height: -webkit-calc(100% / 6);
+    height: -moz-calc(100% / 6);
+    height: calc(100% / 6);
+  }
+
+  .auth-slide .content-block{
+    padding-top: 5%;
+    font-size: 24px;
+    font-family: sfui_display_ultralight, Helvetica;
+  }
+
+  .logo-img{
+    width: 200px;
+  }
+
+  .friends_subscribed .friends-page-header-shadow{
+    height: 233px;
+  }
+  .friends_liked .friends-page-header-shadow{
+    height: 290px;
+  }
+
+  li.organization .item-inner{
+    padding-left: 14px !important;
+    padding-top: 19px !important;
+    padding-bottom: 19px !important;
+  }
+
+  .organization .item-content{
+    padding-left: 10px;
+  }
+
+  li.organization .item-media img {
+    height: 45px;
+    width: 45px;
+  }
+
+  .button-circle {
+    margin-right: 8px;
+    width: 45px;
+    height: 45px;
+  }
+  li.organization .item-title{
+    font-size: 17px;
+  }
+
+  li.organization .item-subtitle {
+    font-size: 15px;
+  }
+
+  .button-circle:after{
+    top: 21px;
+    left: 12px;
+    width: 20px;
+  }
+
+  .button-circle:before{
+    top: 12px;
+    left: 21px;
+    height: 19px;
+  }
+
+  .button-filled-blue:before {
+    top: 21px;
+    left: 16px;
+    height: 1px;
+  }
+
+  .button-filled-blue:after {
+    top: 24px;
+    left: 12px;
+    width: 8px;
+  }
+
+  .organizations-list .list-group-title {
+    padding: 12px 16px;
+    font-size: 22px;
+    color: rgba(0,0,0,0.70);
+    line-height: 20px;
+    font-family: "sfui_display_light";
+  }
+
+  span.day-number.with-favorites::after{
+    margin-top: -6px;
+  }
 }
