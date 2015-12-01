@@ -9,7 +9,8 @@ MyApp.pages.FavoritesPageController = function ($scope, $http) {
 	'use strict';
 
 	var events_by_days = {},
-		is_refreshing;
+		is_refreshing,
+		no_more_favorites = false;
 
 	$scope.no_events = false;
 	$scope.favorites_days = [];
@@ -36,6 +37,9 @@ MyApp.pages.FavoritesPageController = function ($scope, $http) {
 			$$('.favorites-page-content').on('infinite', function (){
 				$scope.getMyFavorites(false);
 			});
+			no_more_favorites = false;
+		}else{
+			if (no_more_favorites) return;
 		}
 		__api.events.get([
 			{favorites: true},
@@ -43,6 +47,9 @@ MyApp.pages.FavoritesPageController = function ($scope, $http) {
 			{page: $scope.page_counter++},
 			{length: 10}
 		], function(data){
+			if (data.length == 0 && first_page == false){
+				no_more_favorites = true;
+			}
 			var today_timestamp = new Date(moment().format('YYYY/MM/DD 00:00:00')).getTime();
 
 			data.forEach(function(item, index){

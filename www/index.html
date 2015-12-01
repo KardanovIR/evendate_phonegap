@@ -517,7 +517,7 @@
             </div>
           </div>
 
-          <div id="friends-list" data-ptr-distance="50" data-distance="100" class="tab page-content padding-top-30 infinite-scroll friends-page-content background-gray pull-to-refresh-content">
+          <div id="friends-list"  style="background: #fff" data-ptr-distance="50" data-distance="100" class="tab page-content padding-top-30 infinite-scroll friends-page-content background-gray pull-to-refresh-content">
             <div class="pull-to-refresh-layer">
               <div class="loader"></div>
               <div class="pull-to-refresh-arrow"></div>
@@ -540,6 +540,28 @@
                   </a>
                 </li>
               </ul>
+            </div>
+            <div class="content-block" ng-show="friends.length == 0">
+              <div class="no-friends-text ng-hide" ng-hide="no_actions">
+                Ваших друзей нет<br> в Evendate
+              </div>
+              <div class="text-center no-friends-text-gray">
+                <p class="tell-to-friends sfui_display_light">Расскажите друзьям</span>
+                <div class="text-center">
+                  <button type="button" class="button button-160px button-pink button-center">
+                    Поделиться
+                  </button>
+                </div>
+              </div>
+              <div class="text-center no-friends-text-gray sfui_display_light">
+                <p class="log-in-with-another-account">Или попробуйте войти через <br> другую социальную сеть</span>
+                <div class="text-center">
+                  <button type="button" class="button button-160px button-gray button-center">
+                    Сменить аккаунт
+                  </button>
+                </div>
+              </div>
+
             </div>
             <div class="infinite-scroll-preloader" ng-show="friends_downloading">
               <div class="loader"></div>

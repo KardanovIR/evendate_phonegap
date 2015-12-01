@@ -2854,8 +2854,8 @@ html.android .label-switch input[type="checkbox"] + .checkbox:before {
   overflow: hidden;
   text-overflow: ellipsis;
   font-size: 14px;
-  font-family: inherit;
   cursor: pointer;
+  font-family: sfui_display_light, "HelveticaNeue-Light", "Helvetica Neue", Calibri, sans-serif;
 }
 input[type="submit"].button,
 input[type="button"].button {

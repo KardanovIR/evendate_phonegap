@@ -137,6 +137,7 @@ MyApp.pages.CalendarPageController = function ($scope) {
 
 	$scope.startBinding = function(){
 		$$('.picker-calendar-day-today').click();
+		$$('.picker-calendar-day-today').click();
 
 		$scope.binded = true;
 		__api.events.get([{

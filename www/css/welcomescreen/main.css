@@ -1088,7 +1088,7 @@ li.organization{
   margin: 50px 0;
 }
 
-.no-events-text{
+.no-events-text, .no-friends-text{
   font-size: 24px;
   color: rgba(0,0,0,0.60);
   line-height: 29px;
@@ -1222,7 +1222,7 @@ li.organization{
 .friend-profile-fixed-part .social-type{
   position: absolute;
   top: 90px;
-  left: 90px;
+  left: 87px;
   color: rgba(0,0,0,0.5);
   font-size: 14px;
 }
@@ -1478,7 +1478,39 @@ and (orientation : portrait) {
   .event-organization-name{
     line-height: 33px;
   }
+
+  .no-friends-text{
+    margin-top: 48px;
+  }
+
+  .no-friends-text-gray{
+    color: rgba(0,0,0,0.8);
+  }
+
+  .tell-to-friends{
+    margin-top: 37px;
+    font-size: 13px;
+    margin-bottom: 18px;
+  }
+
+  .log-in-with-another-account{
+    padding-top: 16px;
+    font-size: 13px;
+    color: rgba(0,0,0,0.6);
+    padding-bottom: 6px;
+  }
+
+  .friend-profile-fixed-part .user-info {
+    top: 51px;
+    left: 10px;
+  }
 }
+
+
+.button-160px{
+  width: 160px;;
+}
+
 
 /* iPhone 5 */
 @media screen and (device-aspect-ratio: 40/71) {
@@ -1612,6 +1644,47 @@ and (orientation : portrait) {
   .friends_liked .friends-page-header-shadow{
     height: 224px;
   }
+
+  .no-friends-text{
+    margin-top: 48px;
+  }
+
+  .no-friends-text-gray{
+    color: rgba(0,0,0,0.8);
+  }
+
+  .tell-to-friends{
+    margin-top: 37px;
+    font-size: 13px;
+    margin-bottom: 18px;
+  }
+
+  .log-in-with-another-account{
+    padding-top: 46px;
+    font-size: 13px;
+    color: rgba(0,0,0,0.6);
+    padding-bottom: 6px;
+  }
+
+
+  .friend-profile-fixed-part .user-name {
+    top: 96px;
+    left: 107px;
+  }
+
+  .friend-page-content{
+    top: 200px;
+  }
+
+  .friend-profile-fixed-part .user-info {
+    top: 80px;
+    left: 20px;
+  }
+
+  .friend-profile-fixed-part .social-type{
+    top: 119px;
+    left: 107px;
+  }
 }
 
 /* iPhone 6 */
@@ -1620,6 +1693,42 @@ and (min-device-width: 375px)
 and (max-device-width: 667px)
 and (-webkit-min-device-pixel-ratio: 2) {
 
+  .no-friends-text{
+    font-size: 32px;
+  }
+
+  .no-friends-text{
+    margin-top: 74px;
+  }
+
+  .no-friends-text-gray{
+    color: rgba(0,0,0,0.8);
+  }
+
+  .tell-to-friends{
+    margin-top: 44px;
+    font-size: 16px;
+    margin-bottom: 18px;
+  }
+
+  .log-in-with-another-account{
+    padding-top: 46px;
+    font-size: 16px;
+    color: rgba(0,0,0,0.6);
+    padding-bottom: 6px;
+  }
+
+  .button-160px{
+    width: 228px;
+    font-size: 18px;
+    height: 43px;
+  }
+
+  .button-gray{
+    width: 186px;
+    height: 35px;
+    font-size: 15px;
+  }
 
   #profile .list-block .item-inner {
     min-height: 52px;
@@ -1742,6 +1851,25 @@ and (-webkit-min-device-pixel-ratio: 2) {
   span.day-number.with-favorites::after{
     margin-top: -6px;
   }
+
+  .friend-profile-fixed-part .user-name {
+    top: 96px;
+    left: 107px;
+  }
+
+  .friend-page-content{
+    top: 200px;
+  }
+
+  .friend-profile-fixed-part .user-info {
+    left: 13px;
+  }
+
+  .friend-profile-fixed-part .social-type{
+    top: 125px;
+    left: 107px;
+  }
+
 }
 
 /* iPhone 6 plus */
@@ -1749,6 +1877,43 @@ and (-webkit-min-device-pixel-ratio: 2) {
 and (min-device-width: 414px)
 and (max-device-width: 736px)
 and (-webkit-min-device-pixel-ratio: 3) {
+
+  .no-friends-text{
+    font-size: 32px;
+  }
+
+  .no-friends-text{
+    margin-top: 84px;
+  }
+
+  .no-friends-text-gray{
+    color: rgba(0,0,0,0.8);
+  }
+
+  .tell-to-friends{
+    margin-top: 90px;
+    font-size: 16px;
+    margin-bottom: 18px;
+  }
+
+  .log-in-with-another-account{
+    padding-top: 68px;
+    font-size: 16px;
+    color: rgba(0,0,0,0.6);
+    padding-bottom: 6px;
+  }
+
+  .button-160px{
+    width: 251px;
+    font-size: 20px;
+    height: 47px;
+  }
+
+  .button-gray{
+    width: 186px;
+    height: 35px;
+    font-size: 15px;
+  }
 
   #profile .list-block .item-inner {
     min-height: 56px;
@@ -1914,6 +2079,19 @@ and (-webkit-min-device-pixel-ratio: 3) {
   span.day-number.with-favorites::after{
     margin-top: -6px;
   }
+
+  .friend-page-content{
+    top: 213px;
+  }
+
+  .friend-profile-fixed-part .user-info {
+    left: 13px;
+  }
+
+  .friend-profile-fixed-part .social-type{
+    top: 132px;
+    left: 113px;
+  }
 }
 
 .subscriptions-loader{
@@ -1928,4 +2106,18 @@ a.link.back{
 
 .organization-heading-name{
   font-size: 14px !important;
+}
+
+/*iphone 4*/
+.button-gray{
+  color: #4A4A4A;
+  border-color: #4A4A4A;
+}
+
+.button-center{
+  margin: 0 auto !important;
+}
+
+.friend-page-content .without-top-border{
+  padding-bottom: 50px;
 }
