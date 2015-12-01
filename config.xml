@@ -37,7 +37,6 @@
     <preference name="StatusBarBackgroundColor" value="#5379B8"/>
     <preference name="StatusBarStyle" value="lightcontent" />
     <preference name="DisallowOverscroll" value="true" />
-    <preference name="UIWebViewBounce" value="false" />
     <preference name="webviewbounce" value="false" />
     <preference name="android-build-tool" value="gradle" />
 

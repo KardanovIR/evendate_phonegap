@@ -301,6 +301,8 @@ MyApp.pages.CalendarPageController = function ($scope) {
 				}
 			}
 		});
+	var _now = moment();
+	calendarInline.setYearMonth(_now.format('YYYY'), _now.format('M') - 1, 0);
 
 	$scope.$watch('year', function(val){
 		$$('.calendar-head-year').text(val);

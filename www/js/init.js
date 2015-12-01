@@ -781,7 +781,7 @@ window.onerror = function sendCrashReport(message, url , linenumber, column, err
     })
 };
 
-function showSlides(){
+function showSlides(to_reset){
     $$('.splash-icon').addClass('hidden');
     $$('.swiper-container').removeClass('hidden');
     $$('.view-main').removeClass('tab');
@@ -796,7 +796,7 @@ function showSlides(){
     $$('.view').removeClass('active');
     $$('.view-main').removeClass('active');
 
-    var mySwiper = fw7App.swiper('.swiper-container', {
+   var mySwiper = fw7App.swiper('.swiper-container', {
         pagination: '.swiper-pagination',
         preloadImages: true,
         parallax: true,
@@ -805,6 +805,8 @@ function showSlides(){
             $$('.swiper-pagination').hide();
         }
     });
+
+    if (to_reset) mySwiper.slideTo(5, 0);
 
     $$('.vk-btn, .facebook-btn, .google-btn')
         .off('click')
@@ -864,7 +866,7 @@ function checkToken(to_reset){
                 }catch(e){
                     fw7App.hideIndicator();
                     $$('.preloader-indicator-modal').removeClass('with-top');
-                    showSlides();
+                    showSlides(to_reset);
                     L.log(res);
                     return;
                 }
@@ -872,7 +874,7 @@ function checkToken(to_reset){
                 fw7App.hideIndicator();
                 $$('.preloader-indicator-modal').removeClass('with-top');
                 if (json_res.status == false){
-                    showSlides();
+                    showSlides(to_reset);
                 }else{
                     permanentStorage.setItem('user', JSON.stringify(json_res.data));
                     __user = json_res.data;
@@ -891,7 +893,7 @@ function checkToken(to_reset){
     }else{
         fw7App.hideIndicator();
         $$('.preloader-indicator-modal').removeClass('with-top');
-        showSlides();
+        showSlides(to_reset);
     }
 }
 
@@ -944,4 +946,8 @@ function prepareFilterQuery(filters){
         args: args,
         data: data
     };
+}
+
+function shareInfoAboutApp(){
+    window.plugins.socialsharing.share('Message and link', null, null, 'http://evendate.ru')
 }
