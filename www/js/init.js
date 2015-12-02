@@ -170,7 +170,7 @@ var child_browser_opened = false,
             FACEBOOK: 'facebook',
             GOOGLE: 'vk'
         },
-        DEMO_TOKEN: 'ya29.PAJ7pMBnNhvLGvrTQXzOmUQl_n3WpXyBYFj8R42zTCN97RUfhryEQrR921NqobUR02__ALqlcRMmTQo6aFftS8bM7MZLBXeQpRAtClABTvhmJN7szd2gJVwg0FLsc0889waOrXJMZFKeyx',
+        DEMO_TOKEN: 'CAAYDHIPuIBYBAM26ZBTlCN1k08K7iZCKTrQ1JjFxNdWoGyFkgZAymhrmn5W92aL7XtPD6m2CYu9sSS1a30HA6TjkNyPkvChyyt1wCu7vleuMHbtpro6lJsJDNbAZBfUZCna1bXMULPv4igyZAEz9qvJxeHiUTgOghmklhlQAgAvvrjqi8sEOSWiJn5DbZAwNcUZDundefinedjrR7TyjWPIN3NjfazLy3hdtYOqnmd11tHWR1F0hoznPPpdaV1FNFlb47pfr4W26i',
     },
     __db,
     __os = navigator.platform == 'Win32' ? 'win': 'hz',

@@ -233,7 +233,6 @@ MyApp.pages.CalendarPageController = function ($scope) {
 				$$('.picker-calendar-day-selected').removeClass('picker-calendar-day-selected');
 			},
 			onMonthYearChangeEnd: function (p) {
-				debugger;
 				$scope.year = p.currentYear;
 				$scope.month = p.currentMonth + 1;
 				$scope.$digest();

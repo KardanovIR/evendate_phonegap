@@ -1609,7 +1609,7 @@ and (orientation : portrait) {
   }
 
   .picker-calendar-month{
-    padding-top: 6px;
+    padding-top: 3px;
   }
 
   .picker-calendar-day span {
@@ -2128,4 +2128,7 @@ a.link.back{
 
 .my-timeline.page-content{
   padding-bottom: 50px;
+}
+.friend-profiles.list-block{
+  margin-top: 7px !important;
 }
