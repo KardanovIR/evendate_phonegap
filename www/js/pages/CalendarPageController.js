@@ -309,7 +309,7 @@ MyApp.pages.CalendarPageController = function ($scope) {
 
 
 	$$('.my-timeline').on('infinite', function (){
-		if (is_downloading) return;
+		if ($scope.is_downloading) return;
 		$scope.getMyTimeline(false);
 	});
 };
