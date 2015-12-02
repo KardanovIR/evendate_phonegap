@@ -214,7 +214,7 @@ function Events(){
 				});
 
 				fw7App.getCurrentView().router.loadPage({
-					url: 'pages/event.html',
+					url: 'pages/event.html?id=' + event.id + '&t' + new Date().getTime(),
 					query: {id: event.id},
 					pushState: true,
 					animatePages: true
