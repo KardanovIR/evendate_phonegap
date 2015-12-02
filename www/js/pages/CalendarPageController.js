@@ -24,6 +24,7 @@ MyApp.pages.CalendarPageController = function ($scope) {
 	$scope.events_text = '';
 	$scope.date_text = '';
 	$scope.is_downloading = false;
+	$scope.first_page_downloaded = false;
 	$scope.no_timeline_events = true;
 
 
@@ -41,6 +42,7 @@ MyApp.pages.CalendarPageController = function ($scope) {
 		if ($scope.is_downloading) return;
 		if (first_page == true){
 			$scope.page_counter = 0;
+			$scope.first_page_downloaded = false;
 		}
 
 		$scope.is_downloading = true;
@@ -52,10 +54,13 @@ MyApp.pages.CalendarPageController = function ($scope) {
 			{timeline: true},
 			{type: 'future'},
 			{page: $scope.page_counter++},
-			{length: 10}
+			{length: 20}
 		], function(data){
 			if (data.length == 0 && first_page){
 				$scope.no_timeline_events = false;
+			}
+			if (first_page){
+				$scope.first_page_downloaded = true;
 			}
 			$scope.$apply();
 			var today_timestamp = new Date(moment().format('YYYY/MM/DD 00:00:00')).getTime();

@@ -1,5 +1,9 @@
 /*LOADER*/
 
+::-webkit-scrollbar {
+  display: none;
+}
+
 .infinite-scroll-preloader .loader{
   position: inherit;
   left: 0;
