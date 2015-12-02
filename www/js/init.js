@@ -949,5 +949,5 @@ function prepareFilterQuery(filters){
 }
 
 function shareInfoAboutApp(){
-    window.plugins.socialsharing.share('Message and link', null, null, 'http://evendate.ru')
+    window.plugins.socialsharing.share('Evendate помогает мне быть в курсе событий ', null, null, 'http://evendate.ru')
 }

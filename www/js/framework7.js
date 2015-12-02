@@ -9225,7 +9225,7 @@
                 p.animating = false;
                 var nextMonthHTML, prevMonthHTML, newMonthHTML;
                 p.wrapper.find('.picker-calendar-month:not(.picker-calendar-month-prev):not(.picker-calendar-month-current):not(.picker-calendar-month-next)').remove();
-                
+
                 if (typeof dir === 'undefined') {
                     dir = 'next';
                     rebuildBoth = true;

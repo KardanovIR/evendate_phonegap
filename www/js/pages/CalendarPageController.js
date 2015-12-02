@@ -84,7 +84,7 @@ MyApp.pages.CalendarPageController = function ($scope) {
 				if (item.moment_dates_range.length == 0){
 					continue;
 				}
-				var first_date = item.moment_dates_range[0].format('DD MMMM');
+				var first_date = moment(item.nearest_event_date).format('DD MMMM');
 				if (!events_by_days.hasOwnProperty(first_date)){
 					events_by_days[first_date] = {};
 				}
@@ -132,13 +132,10 @@ MyApp.pages.CalendarPageController = function ($scope) {
 				}
 			});
 		});
-
 	}
 
 	$scope.startBinding = function(){
-		$$('.picker-calendar-day-today').click();
-		$$('.picker-calendar-day-today').click();
-
+		$$('.picker-calendar-day-today:not(.picker-calendar-day-next)').click();
 		$scope.binded = true;
 		__api.events.get([{
 			since_date: moment($scope.year + '-' +$scope.month, 'YYYY-MM').startOf('month').format(CONTRACT.DATE_FORMAT)},
@@ -195,16 +192,16 @@ MyApp.pages.CalendarPageController = function ($scope) {
 
 	};
 
-	var _date = moment(),
-		monthNames = ['', 'Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'],
+	var monthNames = ['', 'Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'],
 		calendarInline = fw7App.calendar({
 			monthNamesShort: ['Янв', 'Фев', 'Мар', 'Апр', 'Май', 'Июн', 'Июл', 'Авг', 'Сен', 'Окт', 'Ноя', 'Дек'],
 			dayNames: ['Воскресенье', 'Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота'],
 			dayNamesShort: ['ВС', 'ПН', 'ВТ', 'СР', 'ЧТ', 'ПТ', 'СБ'],
 			monthNames: monthNames,
 			container: '#calendar-inline-container',
-			value: [new Date()],
 			weekHeader: true,
+			monthPicker: false,
+			yearPicker: false,
 			toolbarTemplate:
 			'<div class="calendar-head-year"></div>' +
 			'<div class="toolbar calendar-custom-toolbar">' +
@@ -230,7 +227,8 @@ MyApp.pages.CalendarPageController = function ($scope) {
 				$$('.picker-calendar-day-selected').removeClass('picker-calendar-day-selected');
 			},
 			onMonthYearChangeEnd: function (p) {
-				$scope.yexar = p.currentYear;
+				debugger;
+				$scope.year = p.currentYear;
 				$scope.month = p.currentMonth + 1;
 				$scope.$digest();
 
@@ -301,8 +299,8 @@ MyApp.pages.CalendarPageController = function ($scope) {
 				}
 			}
 		});
-	var _now = moment();
-	calendarInline.setYearMonth(_now.format('YYYY'), _now.format('M') - 1, 0);
+	//var _now = moment();
+	//calendarInline.setYearMonth(_now.format('YYYY'), _now.format('M') - 1, 0);
 
 	$scope.$watch('year', function(val){
 		$$('.calendar-head-year').text(val);
