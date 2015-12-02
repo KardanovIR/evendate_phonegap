@@ -163,15 +163,6 @@
         <div class="tabs">
           <div id="profile" class="tab infinite-scroll active page-content profile-page-content" data-ptr-distance="40" data-distance="100">
             <div class="content-block">
-                <!--<div class="content-block-inner user-info" ng-style="{'background-image': 'url(' + info.blurred_image_url + ')'}">-->
-                <!--<div class="user-image">-->
-                <!--<img ng-src="{{info.avatar_url}}" class="img">-->
-                <!--</div>-->
-                <!--<div class="user-name">-->
-                <!--<div class="user-name-text sfui_display_light">{{info.first_name}} {{info.last_name}}</div>-->
-                <!--<div class="user-is-editor" ng-hide="{{info.is_editor === false}}"> Редактор</div>-->
-                <!--</div>-->
-                <!--</div>-->
                 <div class="friend-profile-fixed-part">
                   <div class="profile-background-image">
                     <div class="user-background-opacity"
@@ -226,7 +217,6 @@
               </div>
           </div>
           <div id="organizations" class="tab profile-page-content page-content infinite-scroll"  data-ptr-distance="40" data-distance="100">
-
             <div class="list-block media-list">
               <div class="list-group organizations-list" ng-repeat="category in organization_categories">
                 <ul>
@@ -335,11 +325,15 @@
               </div>
             </a>
           </div>
-          <div id="timeline" class="tab page-content my-timeline infinite-scroll" data-distance="400" data-ptr-distance="50" >
+          <div id="timeline" class="tab page-content my-timeline infinite-scroll pull-to-refresh-content" data-distance="500" data-ptr-distance="50" >
+            <div class="pull-to-refresh-layer">
+              <div class="loader"></div>
+              <div class="pull-to-refresh-arrow"></div>
+            </div>
+            <div class="no-events-text ng-hide" ng-hide="no_timeline_events">
+              Нет событий
+            </div>
             <div class="list-block no-margin media-list">
-              <div class="no-events-text ng-hide" ng-hide="no_timeline_events">
-                Нет событий
-              </div>
               <div class="list-group" ng-repeat="day in timeline_days">
                 <ul>
                   <li class="list-group-title timeline-day-title">{{day.name}}</li>

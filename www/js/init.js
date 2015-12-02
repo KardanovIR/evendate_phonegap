@@ -239,16 +239,16 @@ MyApp.init = (function () {
         modalTitle: 'Evendate',
         modalButtonOk: 'OK',
         modalButtonCancel: 'Отмена',
-        modalPreloaderTitle: 'Загрузка ...',
+        modalPreloaderTitle: 'Загрузка...',
         imagesLazyLoadThreshold: 50,
         animateNavBackIcon: true,
         swipeBackPage: true,
         dynamicNavbar: true,
         scrollTopOnStatusbarClick: true,
-        onAjaxStart: function () {
+        onAjaxStart: function(){
             fw7App.showIndicator();
         },
-        onAjaxComplete: function () {
+        onAjaxComplete: function(){
             fw7App.hideIndicator();
         }
     });
@@ -345,13 +345,11 @@ function onNotificationAPN (data) {
             L.log(e);
             return;
         }
-        L.log(_data);
 
         if (__is_ready){
             __api.events.get([{
                 id: _data.event_id
             }], function(res){
-                L.log(res);
                 res[0].open();
             });
         }else{
@@ -367,13 +365,11 @@ function onNotificationAPN (data) {
             L.log(e);
             return;
         }
-        L.log(_data);
 
         if (__is_ready){
             __api.events.get([{
                 id: _data.event_id
             }], function(res){
-                L.log(res);
                 res[0].open();
             });
         }else{
@@ -381,7 +377,6 @@ function onNotificationAPN (data) {
                 __api.events.get([{
                     id: _data.event_id
                 }], function(res){
-                    L.log(res);
                     res[0].open();
                 });
                 __run_after_init = function(){};
@@ -408,7 +403,6 @@ function registerPushService(){
 
             //set push notification callback before we initialize the plugin
             document.addEventListener('push-notification', function(event) {
-                L.log(notification);
                 //get the notification payload
                 var notification = event.notification;
                 //display alert to the user for example
@@ -667,7 +661,7 @@ function isOnline() {
         return true;
     }
     var networkState = navigator.connection.type;
-     return networkState != Connection.NONE;
+    return networkState != Connection.NONE;
 }
 
 function saveTokenInLocalStorage(url){
@@ -679,7 +673,6 @@ function saveTokenInLocalStorage(url){
 function openNotification(){
     if (__to_open_event != null && __is_ready){
         L.log("launchedNotification");
-        L.log(__to_open_event);
         if (__to_open_event && __to_open_event.onStart){
             __api.events.get([
                 {id: __to_open_event.userdata.event_id}
@@ -867,7 +860,6 @@ function checkToken(to_reset){
                     fw7App.hideIndicator();
                     $$('.preloader-indicator-modal').removeClass('with-top');
                     showSlides(to_reset);
-                    L.log(res);
                     return;
                 }
 

@@ -109,7 +109,7 @@ function Users(){
 				switch(item.type){
 					case CONTRACT.SOCIAL_LINK_TYPES.VK:{
 						type = 'vk';
-						_link = 'vk://vk.com/' + item.friend_uid;
+						_link = 'vk://vk.com/id' + item.friend_uid;
 						break;
 					}
 					case CONTRACT.SOCIAL_LINK_TYPES.FACEBOOK:{
