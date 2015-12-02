@@ -245,6 +245,7 @@ MyApp.init = (function () {
         swipeBackPage: true,
         dynamicNavbar: true,
         scrollTopOnStatusbarClick: true,
+        statusbarOverlay: true,
         onAjaxStart: function(){
             fw7App.showIndicator();
         },
@@ -454,7 +455,6 @@ function registerPushService(){
             );
         }
         initPushwoosh();
-
     }
 }
 
@@ -722,8 +722,12 @@ function openApplication(){
 
         if ($$this.hasClass('active')){
             var max_pages_count = 0;
-            while(fw7App.getCurrentView().history[0] != fw7App.getCurrentView().activePage.url && max_pages_count++ < 500){
-                fw7App.getCurrentView().back({animatePages: fw7App.getCurrentView().history.length == 2});
+            if (fw7App.getCurrentView().history.length == 1){
+                $$(fw7App.getCurrentView().activePage.container).find('.tab.active').scrollTo(0, 0, 400);
+            }else{
+                while(fw7App.getCurrentView().history[0] != fw7App.getCurrentView().activePage.url && max_pages_count++ < 500){
+                    fw7App.getCurrentView().back({animatePages: fw7App.getCurrentView().history.length == 2});
+                }
             }
         }
 
