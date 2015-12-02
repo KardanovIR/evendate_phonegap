@@ -487,6 +487,10 @@ function onDeviceReady(){
         });
     }else{
         StatusBar.styleBlackTranslucent();
+        window.addEventListener('statusbarTap', function() {
+            L.log('STATUS-CLICK');
+            $$(fw7App.getCurrentView().activePage.container).find('.page-content').scrollTo(0, 0, 400);
+        });
         __db = window.sqlitePlugin.openDatabase({name: CONTRACT.DB.NAME, location: 2});
         if (db_version != CONTRACT.DB.VERSION){ // schema updated
             window.localStorage.setItem('db_version', CONTRACT.DB.VERSION);
@@ -905,10 +909,6 @@ function initAPI(){
         tags: new Tags(),
         organizations_users:new OrganizationsUsers()
     }
-
-    $$('.statusbar-overlay').on('click', function(){
-        L.log('STATUS');
-    });
 }
 
 function prepareFilterQuery(filters){
@@ -950,7 +950,3 @@ function prepareFilterQuery(filters){
 function shareInfoAboutApp(){
     window.plugins.socialsharing.share('Evendate помогает мне быть в курсе событий ', null, null, 'http://evendate.ru')
 }
-
-$$('.statusbar-overlay').on('click', function(){
-    L.log('STATUS');
-});
