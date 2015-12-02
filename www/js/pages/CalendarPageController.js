@@ -134,6 +134,10 @@ MyApp.pages.CalendarPageController = function ($scope) {
 				}
 			});
 		});
+
+		$$('.statusbar-overlay').on('click', function(){
+			L.log('STATUS');
+		});
 	}
 
 	$scope.startBinding = function(){

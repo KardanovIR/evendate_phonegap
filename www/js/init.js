@@ -904,8 +904,11 @@ function initAPI(){
         favorite_events: new FavoriteEvents(),
         tags: new Tags(),
         organizations_users:new OrganizationsUsers()
-
     }
+
+    $$('.statusbar-overlay').on('click', function(){
+        L.log('STATUS');
+    });
 }
 
 function prepareFilterQuery(filters){
@@ -947,3 +950,7 @@ function prepareFilterQuery(filters){
 function shareInfoAboutApp(){
     window.plugins.socialsharing.share('Evendate помогает мне быть в курсе событий ', null, null, 'http://evendate.ru')
 }
+
+$$('.statusbar-overlay').on('click', function(){
+    L.log('STATUS');
+});
