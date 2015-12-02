@@ -41,9 +41,6 @@ MyApp.pages.CalendarPageController = function ($scope) {
 		if ($scope.is_downloading) return;
 		if (first_page == true){
 			$scope.page_counter = 0;
-			$$('.my-timeline').on('infinite', function (){
-				$scope.getMyTimeline(false);
-			});
 		}
 
 		$scope.is_downloading = true;
@@ -135,7 +132,7 @@ MyApp.pages.CalendarPageController = function ($scope) {
 	}
 
 	$scope.startBinding = function(){
-		$$('.picker-calendar-day-today:not(.picker-calendar-day-next)').click();
+		$$('.picker-calendar-month-current .picker-calendar-day-today').click();
 		$scope.binded = true;
 		__api.events.get([{
 			since_date: moment($scope.year + '-' +$scope.month, 'YYYY-MM').startOf('month').format(CONTRACT.DATE_FORMAT)},
@@ -308,5 +305,11 @@ MyApp.pages.CalendarPageController = function ($scope) {
 
 	$scope.$watch('month', function(val){
 		$$('.calendar-custom-toolbar .center').text(monthNames[val]);
+	});
+
+
+	$$('.my-timeline').on('infinite', function (){
+		if (is_downloading) return;
+		$scope.getMyTimeline(false);
 	});
 };

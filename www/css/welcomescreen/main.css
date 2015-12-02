@@ -1500,7 +1500,7 @@ and (orientation : portrait) {
     padding-bottom: 6px;
   }
 
-  .friend-profile-fixed-part .user-info {
+  .page.friend .friend-profile-fixed-part .user-info {
     top: 51px;
     left: 10px;
   }
@@ -1672,16 +1672,16 @@ and (orientation : portrait) {
     left: 107px;
   }
 
-  .friend-page-content{
+  .page.friend .friend-page-content{
     top: 200px;
   }
 
-  .friend-profile-fixed-part .user-info {
+  .page.friend .friend-profile-fixed-part .user-info {
     top: 80px;
     left: 20px;
   }
 
-  .friend-profile-fixed-part .social-type{
+  .page.friend .friend-profile-fixed-part .social-type{
     top: 119px;
     left: 107px;
   }
@@ -1857,15 +1857,15 @@ and (-webkit-min-device-pixel-ratio: 2) {
     left: 107px;
   }
 
-  .friend-page-content{
+  .page.friend .friend-page-content{
     top: 200px;
   }
 
-  .friend-profile-fixed-part .user-info {
+  .page.friend .friend-profile-fixed-part .user-info {
     left: 13px;
   }
 
-  .friend-profile-fixed-part .social-type{
+  .page.friend .friend-profile-fixed-part .social-type{
     top: 125px;
     left: 107px;
   }
@@ -2080,15 +2080,15 @@ and (-webkit-min-device-pixel-ratio: 3) {
     margin-top: -6px;
   }
 
-  .friend-page-content{
+  .page.friend .friend-page-content{
     top: 213px;
   }
 
-  .friend-profile-fixed-part .user-info {
+  .page.friend .friend-profile-fixed-part .user-info {
     left: 13px;
   }
 
-  .friend-profile-fixed-part .social-type{
+  .page.friend .friend-profile-fixed-part .social-type{
     top: 132px;
     left: 113px;
   }
@@ -2119,5 +2119,9 @@ a.link.back{
 }
 
 .friend-page-content .without-top-border{
+  padding-bottom: 50px;
+}
+
+.my-timeline.page-content{
   padding-bottom: 50px;
 }
