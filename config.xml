@@ -73,7 +73,6 @@
     <gap:plugin name="com.ohh2ahh.plugins.appavailability" source="npm" />
     <gap:plugin name="cordova-plugin-inappbrowser" source="npm" version="~1" />
     <gap:plugin name="cordova-plugin-x-socialsharing" source="npm" />
-    <gap:plugin name="phonegap-statusbar-tap" source="npm" version="0.1.0" />
 
 
     <icon src="www/res/icon/ios/icon.png" />

@@ -487,7 +487,7 @@ function onDeviceReady(){
         });
     }else{
         StatusBar.styleBlackTranslucent();
-        window.addEventListener('statusbarTap', function() {
+        window.addEventListener('statusTap', function() {
             L.log('STATUS-CLICK');
             $$(fw7App.getCurrentView().activePage.container).find('.page-content').scrollTo(0, 0, 400);
         });
