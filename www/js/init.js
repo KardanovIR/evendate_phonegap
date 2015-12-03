@@ -400,12 +400,8 @@ function registerPushService(){
     }else{
 
         function initPushwoosh() {
-
-            L.log('initPushwooshStart');
             try{
                 var pushNotification = cordova.require("com.pushwoosh.plugins.pushwoosh.PushNotification");
-
-                L.log('initPushwooshStart2');
                 //set push notification callback before we initialize the plugin
                 document.addEventListener('push-notification', function(event) {
                     //get the notification payload
@@ -435,7 +431,6 @@ function registerPushService(){
                         })
                     }
                 });
-                L.log('initPushwooshStart3');
             }catch(e){
                 registerSuccessHandler(null);
             }
@@ -445,26 +440,21 @@ function registerPushService(){
                     __to_open_event = payload;
                     openNotification();
                 });
-                L.log('initPushwooshStart4');
                 //initialize the plugin
                 pushNotification.onDeviceReady({pw_appid: "3874F-0C5E5"});
-                L.log('initPushwooshStart5');
 
                 //register for pushes
                 pushNotification.registerDevice(
                     function(status) {
-                        L.log('initPushwoosh1');
                         registerSuccessHandler(status['deviceToken']);
                     },
                     function(status) {
-                        L.log('initPushwoosh2');
                         registerSuccessHandler(null);
                     }
                 );
             }catch(e){
                 registerSuccessHandler(null);
             }
-
         }
         initPushwoosh();
     }
@@ -508,6 +498,7 @@ function onDeviceReady(){
             window.localStorage.setItem('db_version', CONTRACT.DB.VERSION);
             updateDBScheme();
         }else{
+            checkToken();
             registerPushService();
         }
     }
@@ -665,8 +656,19 @@ function updateDBScheme() { // drop all existing tables\
 
 function registerSuccessHandler(result){
     L.log('Regsiter status');
+    if (result == null) return;
     __device_id = result;
-    checkToken();
+    $$.ajax({
+        url: CONTRACT.URLS.API_FULL_PATH + CONTRACT.URLS.USERS_PATH + '/device',
+        headers: {
+            'Authorization': permanentStorage.getItem('token')
+        },
+        data: {
+            'device_token': __device_id,
+            'client_type': __os == 'win' ? 'browser' : 'ios'
+        },
+        type: 'PUT',
+        dataType: 'JSON'});
 }
 
 function isOnline() {
