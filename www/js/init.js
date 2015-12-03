@@ -400,7 +400,13 @@ function registerPushService(){
     }else{
 
         function initPushwoosh() {
-           var pushNotification = cordova.require("com.pushwoosh.plugins.pushwoosh.PushNotification");
+
+            L.log('initPushwooshStart');
+            try{
+                var pushNotification = cordova.require("com.pushwoosh.plugins.pushwoosh.PushNotification");
+            }catch(e){
+                registerSuccessHandler(null);
+            }
 
             //set push notification callback before we initialize the plugin
             document.addEventListener('push-notification', function(event) {
@@ -432,26 +438,30 @@ function registerPushService(){
                 }
             });
 
+            try{
+                pushNotification.getLaunchNotification(function(payload){
+                    __to_open_event = payload;
+                    openNotification();
+                });
+                //initialize the plugin
+                pushNotification.onDeviceReady({pw_appid: "3874F-0C5E5"});
 
-            pushNotification.getLaunchNotification(function(payload){
-                __to_open_event = payload;
-                openNotification();
-            });
 
-            //initialize the plugin
-            pushNotification.onDeviceReady({pw_appid: "3874F-0C5E5"});
+                //register for pushes
+                pushNotification.registerDevice(
+                    function(status) {
+                        L.log('initPushwoosh1');
+                        registerSuccessHandler(status['deviceToken']);
+                    },
+                    function(status) {
+                        L.log('initPushwoosh2');
+                        registerSuccessHandler(null);
+                    }
+                );
+            }catch(e){
+                registerSuccessHandler(null);
+            }
 
-            //register for pushes
-            pushNotification.registerDevice(
-                function(status) {
-                    L.log('initPushwoosh1');
-                    registerSuccessHandler(status['deviceToken']);
-                },
-                function(status) {
-                    L.log('initPushwoosh2');
-                    registerSuccessHandler(null);
-                }
-            );
         }
         L.log('initPushwoosh');
         initPushwoosh();
