@@ -484,6 +484,7 @@ function onDeviceReady(){
                 window.localStorage.setItem('db_version', CONTRACT.DB.VERSION);
                 updateDBScheme();
             }else{
+                checkToken();
                 registerPushService();
             }
         });
