@@ -389,6 +389,7 @@ function onNotificationAPN (data) {
 }
 
 function registerPushService(){
+    checkToken();
     if (__os == 'win'){
         if (window.hasOwnProperty('socket')){
             socket.on('connect', function(){
@@ -484,7 +485,6 @@ function onDeviceReady(){
                 window.localStorage.setItem('db_version', CONTRACT.DB.VERSION);
                 updateDBScheme();
             }else{
-                checkToken();
                 registerPushService();
             }
         });
@@ -499,7 +499,6 @@ function onDeviceReady(){
             window.localStorage.setItem('db_version', CONTRACT.DB.VERSION);
             updateDBScheme();
         }else{
-            checkToken();
             registerPushService();
         }
     }
