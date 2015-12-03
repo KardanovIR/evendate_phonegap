@@ -445,12 +445,9 @@ function registerPushService(){
             pushNotification.registerDevice(
                 function(status) {
                     var deviceToken = status['deviceToken'];
-                    L.log('registerDevice: ' + deviceToken);
                     registerSuccessHandler(deviceToken);
                 },
                 function(status) {
-                    L.log('failed to register : ' + JSON.stringify(status));
-                    L.log(JSON.stringify(['failed to register ', status]));
                     registerSuccessHandler(null);
                 }
             );
