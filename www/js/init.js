@@ -404,48 +404,51 @@ function registerPushService(){
             L.log('initPushwooshStart');
             try{
                 var pushNotification = cordova.require("com.pushwoosh.plugins.pushwoosh.PushNotification");
+
+                L.log('initPushwooshStart2');
+                //set push notification callback before we initialize the plugin
+                document.addEventListener('push-notification', function(event) {
+                    //get the notification payload
+                    var notification = event.notification;
+                    //display alert to the user for example
+                    if (notification.onStart == false){
+                        fw7App.addNotification({
+                            title: notification.aps.alert,
+                            hold: 5000,
+                            closeIcon: true,
+                            subtitle: '',
+                            message: notification.userdata.body,
+                            media: '<img width="44" height="44" src="' + notification.userdata.icon + '">',
+                            onClick: function(){
+                                __api.events.get([
+                                    {id: notification.userdata.event_id}
+                                ], function(res){
+                                    res[0].open();
+                                })
+                            }
+                        });
+                    }else{
+                        __api.events.get([
+                            {id: notification.userdata.event_id}
+                        ], function(res){
+                            res[0].open();
+                        })
+                    }
+                });
+                L.log('initPushwooshStart3');
             }catch(e){
                 registerSuccessHandler(null);
             }
-
-            //set push notification callback before we initialize the plugin
-            document.addEventListener('push-notification', function(event) {
-                //get the notification payload
-                var notification = event.notification;
-                //display alert to the user for example
-                if (notification.onStart == false){
-                    fw7App.addNotification({
-                        title: notification.aps.alert,
-                        hold: 5000,
-                        closeIcon: true,
-                        subtitle: '',
-                        message: notification.userdata.body,
-                        media: '<img width="44" height="44" src="' + notification.userdata.icon + '">',
-                        onClick: function(){
-                            __api.events.get([
-                                {id: notification.userdata.event_id}
-                            ], function(res){
-                                res[0].open();
-                            })
-                        }
-                    });
-                }else{
-                    __api.events.get([
-                        {id: notification.userdata.event_id}
-                    ], function(res){
-                        res[0].open();
-                    })
-                }
-            });
 
             try{
                 pushNotification.getLaunchNotification(function(payload){
                     __to_open_event = payload;
                     openNotification();
                 });
+                L.log('initPushwooshStart4');
                 //initialize the plugin
                 pushNotification.onDeviceReady({pw_appid: "3874F-0C5E5"});
-
+                L.log('initPushwooshStart5');
 
                 //register for pushes
                 pushNotification.registerDevice(
@@ -463,7 +466,6 @@ function registerPushService(){
             }
 
         }
-        L.log('initPushwoosh');
         initPushwoosh();
     }
 }
