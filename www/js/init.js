@@ -444,14 +444,16 @@ function registerPushService(){
             //register for pushes
             pushNotification.registerDevice(
                 function(status) {
-                    var deviceToken = status['deviceToken'];
-                    registerSuccessHandler(deviceToken);
+                    L.log('initPushwoosh1');
+                    registerSuccessHandler(status['deviceToken']);
                 },
                 function(status) {
+                    L.log('initPushwoosh2');
                     registerSuccessHandler(null);
                 }
             );
         }
+        L.log('initPushwoosh');
         initPushwoosh();
     }
 }
@@ -522,10 +524,6 @@ function dropTables(table_names, callback){
             }
         });
     });
-}
-
-function fillWithInitialData(){
-    registerPushService();
 }
 
 function createTables(){ // create new schema
@@ -654,6 +652,7 @@ function updateDBScheme() { // drop all existing tables\
 }
 
 function registerSuccessHandler(result){
+    L.log('Regsiter status');
     __device_id = result;
     checkToken();
 }
