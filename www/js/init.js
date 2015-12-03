@@ -181,7 +181,7 @@ var child_browser_opened = false,
         FACEBOOK: 'https://www.facebook.com/dialog/oauth?client_id=1692270867652630&response_type=code&scope=public_profile,email,user_friends&display=popup&redirect_uri=http://evendate.ru/fbOauthDone.php?mobile=true',
         GOOGLE: 'https://accounts.google.com/o/oauth2/auth?scope=email%20profile%20https://www.googleapis.com/auth/plus.login%20&redirect_uri=http://evendate.ru/googleOauthDone.php?mobile=true&response_type=token&client_id=403640417782-lfkpm73j5gqqnq4d3d97vkgfjcoebucv.apps.googleusercontent.com'
     },
-    __device_id,
+    __device_id = null,
     __user,
     __api,
     __app,
@@ -668,7 +668,8 @@ function registerSuccessHandler(result){
             'client_type': __os == 'win' ? 'browser' : 'ios'
         },
         type: 'PUT',
-        dataType: 'JSON'});
+        dataType: 'JSON'
+    });
 }
 
 function isOnline() {
@@ -959,5 +960,5 @@ function prepareFilterQuery(filters){
 }
 
 function shareInfoAboutApp(){
-    window.plugins.socialsharing.share('Evendate помогает мне быть в курсе событий ', null, null, 'http://evendate.ru')
+    window.plugins.socialsharing.share('Я пользуюсь Evendate, чтобы не пропустить интересные события в своих любимых местах - попробуй и ты ', null, 'http://evendate.ru/app/img/logo_500.png', 'http://evendate.ru')
 }
