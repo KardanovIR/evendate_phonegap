@@ -8,7 +8,9 @@ MyApp.ns('MyApp.pages');
 MyApp.pages.FavoritesPageController = function ($scope) {
 	'use strict';
 
-	var events_by_days = {};
+	var events_by_days = {},
+		is_refreshing,
+		no_more_favorites = false;
 
 	$scope.no_events = false;
 	$scope.favorites_days = [];
@@ -22,8 +24,10 @@ MyApp.pages.FavoritesPageController = function ($scope) {
 	var $$pull_to_refresh = $$('.favorites-page-content');
 
 	$$pull_to_refresh.on('refresh', function(){
+		if (is_refreshing) return true;
 		$scope.getMyFavorites(true, function(){
 			fw7App.pullToRefreshDone();
+			is_refreshing = false;
 		});
 	});
 
@@ -33,6 +37,9 @@ MyApp.pages.FavoritesPageController = function ($scope) {
 			$$('.favorites-page-content').on('infinite', function (){
 				$scope.getMyFavorites(false);
 			});
+			no_more_favorites = false;
+		}else{
+			if (no_more_favorites) return;
 		}
 		__api.events.get([
 			{favorites: true},
@@ -41,8 +48,25 @@ MyApp.pages.FavoritesPageController = function ($scope) {
 			{offset: 10 * $scope.page_counter++},
 			{length: 10}
 		], function(data){
+			if (data.length == 0 && first_page == false){
+				no_more_favorites = true;
+			}
+			var today_timestamp = new Date(moment().format('YYYY/MM/DD 00:00:00')).getTime();
+
+			data.forEach(function(item, index){
+				item.moment_dates_range = [];
+				item.dates_range.forEach(function(date){
+					date = date.replace(/-/igm, '/');
+					var m_date = new Date(date);
+					if (m_date.getTime() >= today_timestamp){
+						item.moment_dates_range.push(moment(m_date));
+					}
+				});
+				data[index] = item;
+			});
 
 			events_by_days = first_page ? {} : events_by_days;
+
 			var data_length = data.length;
 
 			for (var i = 0; i < data_length; i++){

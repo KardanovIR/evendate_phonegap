@@ -38,6 +38,13 @@ MyApp.pages.EventsInDayController = function ($scope, $element) {
 	$scope.setDate = function(date){
 		$scope.date = date;
 		$scope.date_text = date.format('DD MMMM');
+
+		var __today = moment();
+		if (__today.format(CONTRACT.DATE_FORMAT) == date.format(CONTRACT.DATE_FORMAT)){
+			$scope.date_text = 'Сегодня';
+		}else if (__today.add('days', 1).format(CONTRACT.DATE_FORMAT) == date.format(CONTRACT.DATE_FORMAT)){
+			$scope.date_text = 'Завтра';
+		}
 		$scope.$digest();
 	};
 

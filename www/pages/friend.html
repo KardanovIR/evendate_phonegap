@@ -4,22 +4,25 @@
       <a href="#" class="link back">
         <i class="ion-ios-arrow-back"></i></a>
     </div>
-    <div class="buttons-row">
-      <a href="#" data-page="friend-subscriptions" onclick="showFriendSubscriptions(this);" class="friend-subscriptions friend-buttons button button-white">Подписки</a>
-      <a href="#" data-page="friend-actions" onclick="showFriendEvents(this);" class="friend-actions button friend-buttons button-white">События</a>
+    <div class="center sliding">
+      <div class="buttons-row">
+        <a href="#" data-page="friend-subscriptions" onclick="showFriendSubscriptions(this);" class="friend-subscriptions friend-buttons button button-white">Подписки</a>
+        <a href="#" data-page="friend-actions" onclick="showFriendEvents(this);" class="friend-actions button friend-buttons button-white">События</a>
+      </div>
+
     </div>
     <div class="right"></div>
   </div>
 </div>
 <div class="pages">
   <div class="page friend" data-page="friend" ng-controller="FriendPageController">
-    <div class="page-content infinite-scroll" data-ptr-distance="140" data-distance="140">
+    <div class="page-content infinite-scroll" data-ptr-distance="40" data-distance="100">
+      <div class="no-events-text ng-hide" ng-hide="no_actions">
+        Нет активности
+      </div>
       <div class="tabs friend-tabs">
         <div class="friend-actions tab">
           <div>
-            <div class="no-events-text ng-hide" ng-hide="no_actions">
-              Нет событий
-            </div>
             <div class="list-block cards-list">
               <ul>
                 <li class="card feed-card {{card.entity}}" ng-repeat="card in cards">
@@ -52,7 +55,7 @@
                 </li>
               </ul>
               <div class="infinite-scroll-preloader ng-hide" ng-hide="is_downloading == false">
-                <div class="preloader"></div>
+                <div class="loader"></div>
               </div>
             </div>
           </div>
@@ -90,6 +93,10 @@
                 </a>
               </li>
             </ul>
+          </div>
+
+          <div class="infinite-scroll-preloader" style="margin-top: 25px;"  ng-show="subscriptions_downloading">
+            <div class="loader"></div>
           </div>
         </div>
       </div>

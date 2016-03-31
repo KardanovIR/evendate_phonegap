@@ -125,7 +125,7 @@ MyApp.pages.SubscriptionsPageController = function ($scope, $http) {
 
   $scope.getOrganizationsCatalog = function(){
 
-    fw7App.showPreloader();
+    fw7App.showIndicator();
 
     __api.organizations.get([{
       fields: 'description,is_subscribed,background_medium_img_url,img_medium_url,subscribed_count'
@@ -170,7 +170,7 @@ MyApp.pages.SubscriptionsPageController = function ($scope, $http) {
           $$(this).removeClass('disable-active-state');
         }
       });
-      fw7App.hidePreloader();
+      fw7App.hideIndicator();
     });
   };
 

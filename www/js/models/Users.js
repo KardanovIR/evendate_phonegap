@@ -22,12 +22,13 @@ function Users(){
 				}
 
 				callbackObjects['userPageAfterAnimation'] = fw7App.onPageAfterAnimation('friend', function(page){
-					if($$(fw7App.getCurrentView().container).find('.friend-buttons.active').length == 0){
-						$$(fw7App.getCurrentView().container).find('a.friend-subscriptions').click();
+					if($$(page.navbarInnerContainer).find('.friend-buttons.active').length == 0){
+						$$(page.navbarInnerContainer).find('a.friend-subscriptions').click();
 					}
 					is_opening = false;
 				});
 				callbackObjects['userPageBeforeAnimation'] = fw7App.onPageBeforeAnimation('friend', function(page){
+					if ($$(page.container).hasClass('page-on-left')) return;
 					var $$container = $$(page.container);
 					if ($$container.data('opened') == true){
 						var $scope = angular.element($$container[0]).scope();
@@ -60,7 +61,7 @@ function Users(){
 				switch(item.type){
 					case CONTRACT.SOCIAL_LINK_TYPES.VK:{
 						type = 'vk';
-						_link = 'vk://vk.com/' + item.friend_uid;
+						_link = 'vk://vk.com/id' + item.friend_uid;
 						break;
 					}
 					case CONTRACT.SOCIAL_LINK_TYPES.FACEBOOK:{

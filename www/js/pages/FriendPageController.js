@@ -15,6 +15,7 @@ MyApp.pages.FriendPageController = function ($scope) {
 	$scope.no_actions = true;
 	$scope.is_downloading = false;
 
+	$scope.subscriptions_downloading = true;
 
 	var feed_is_active = false,
 		cards_by_users = {};
@@ -31,6 +32,7 @@ MyApp.pages.FriendPageController = function ($scope) {
 	$scope.setSubscriptions = function(data){
 		$scope.subscriptions = data;
 		$scope.no_subscriptions = data.length != 0;
+		$scope.subscriptions_downloading = false;
 	};
 
 	$$(fw7App.getCurrentView().activePage.container).find('.friend .page-content').on('infinite', function (){

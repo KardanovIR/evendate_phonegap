@@ -171,7 +171,7 @@ var child_browser_opened = false,
             FACEBOOK: 'facebook',
             GOOGLE: 'vk'
         },
-        DEMO_TOKEN: '1b2f4977fdbc59bbcc8053795cb2a027f4a67cdb52e9387a5c5e23a681567577b85f074057c20b0f721bbc5d0deba417a9c1bdelC8BqCBzrba9ksH8sbw5ynESYabHsttMTaaDZihY3e8CqM1AIZrs0IwH9FmFf0Fb',
+        DEMO_TOKEN: 'CAAYDHIPuIBYBAM26ZBTlCN1k08K7iZCKTrQ1JjFxNdWoGyFkgZAymhrmn5W92aL7XtPD6m2CYu9sSS1a30HA6TjkNyPkvChyyt1wCu7vleuMHbtpro6lJsJDNbAZBfUZCna1bXMULPv4igyZAEz9qvJxeHiUTgOghmklhlQAgAvvrjqi8sEOSWiJn5DbZAwNcUZDundefinedjrR7TyjWPIN3NjfazLy3hdtYOqnmd11tHWR1F0hoznPPpdaV1FNFlb47pfr4W26i',
     },
     __db,
     __os = navigator.platform == 'Win32' ? 'win': 'hz',
@@ -182,10 +182,11 @@ var child_browser_opened = false,
         FACEBOOK: 'https://www.facebook.com/dialog/oauth?client_id=1692270867652630&response_type=code&scope=public_profile,email,user_friends&display=popup&redirect_uri=http://evendate.ru/fbOauthDone.php?mobile=true',
         GOOGLE: 'https://accounts.google.com/o/oauth2/auth?scope=email%20profile%20https://www.googleapis.com/auth/plus.login%20&redirect_uri=http://evendate.ru/googleOauthDone.php?mobile=true&response_type=token&client_id=403640417782-lfkpm73j5gqqnq4d3d97vkgfjcoebucv.apps.googleusercontent.com'
     },
-    __device_id,
+    __device_id = null,
     __user,
     __api,
     __app,
+    __to_open_event,
     ONE_SIGNAL_APP_ID = '585c1542-9dd7-432b-b033-f541b3192ec6',
     __run_after_init = function(){},
     __is_ready = false,
@@ -241,15 +242,17 @@ MyApp.init = (function () {
         modalTitle: 'Evendate',
         modalButtonOk: 'OK',
         modalButtonCancel: 'Отмена',
-        modalPreloaderTitle: 'Загрузка ...',
+        modalPreloaderTitle: 'Загрузка...',
         imagesLazyLoadThreshold: 50,
         animateNavBackIcon: true,
         swipeBackPage: true,
         dynamicNavbar: true,
-        onAjaxStart: function () {
+        scrollTopOnStatusbarClick: true,
+        statusbarOverlay: true,
+        onAjaxStart: function(){
             fw7App.showIndicator();
         },
-        onAjaxComplete: function () {
+        onAjaxComplete: function(){
             fw7App.hideIndicator();
         }
     });
@@ -301,7 +304,6 @@ MyApp.init = (function () {
 }());
 
 document.addEventListener("deviceready", onDeviceReady, false);
-document.addEventListener("resume", __run_after_init, false);
 
 function makeid(){
     var text = "";
@@ -347,45 +349,31 @@ function onNotificationAPN (data) {
             L.log(e);
             return;
         }
-        L.log(_data);
 
         if (__is_ready){
             __api.events.get([{
                 id: _data.event_id
             }], function(res){
-                L.log(res);
                 res[0].open();
             });
         }else{
-            __run_after_init = function(){
-                __api.events.get([{
-                    id: _data.event_id
-                }], function(res){
-                    L.log(res);
-                    res[0].open();
-                });
-                __run_after_init = function(){};
-            }
         }
 
 
     }, this);
 
     cordova.plugins.notification.local.on("trigger", function(notification) {
-
         try{
             var _data = JSON.parse(notification.data);
         }catch(e){
             L.log(e);
             return;
         }
-        L.log(_data);
 
         if (__is_ready){
             __api.events.get([{
                 id: _data.event_id
             }], function(res){
-                L.log(res);
                 res[0].open();
             });
         }else{
@@ -393,7 +381,6 @@ function onNotificationAPN (data) {
                 __api.events.get([{
                     id: _data.event_id
                 }], function(res){
-                    L.log(res);
                     res[0].open();
                 });
                 __run_after_init = function(){};
@@ -414,6 +401,65 @@ function registerPushService(){
             registerSuccessHandler(null);
         }
     }else{
+
+        function initPushwoosh() {
+            try{
+                var pushNotification = cordova.require("com.pushwoosh.plugins.pushwoosh.PushNotification");
+                //set push notification callback before we initialize the plugin
+                document.addEventListener('push-notification', function(event) {
+                    //get the notification payload
+                    var notification = event.notification;
+                    //display alert to the user for example
+                    if (notification.onStart == false){
+                        fw7App.addNotification({
+                            title: notification.aps.alert,
+                            hold: 5000,
+                            closeIcon: true,
+                            subtitle: '',
+                            message: notification.userdata.body,
+                            media: '<img width="44" height="44" src="' + notification.userdata.icon + '">',
+                            onClick: function(){
+                                __api.events.get([
+                                    {id: notification.userdata.event_id}
+                                ], function(res){
+                                    res[0].open();
+                                })
+                            }
+                        });
+                    }else{
+                        __api.events.get([
+                            {id: notification.userdata.event_id}
+                        ], function(res){
+                            res[0].open();
+                        })
+                    }
+                });
+            }catch(e){
+                registerSuccessHandler(null);
+            }
+
+            try{
+                pushNotification.getLaunchNotification(function(payload){
+                    __to_open_event = payload;
+                    openNotification();
+                });
+                //initialize the plugin
+                pushNotification.onDeviceReady({pw_appid: "3874F-0C5E5"});
+
+                //register for pushes
+                pushNotification.registerDevice(
+                    function(status) {
+                        registerSuccessHandler(status['deviceToken']);
+                    },
+                    function(status) {
+                        registerSuccessHandler(null);
+                    }
+                );
+            }catch(e){
+                registerSuccessHandler(null);
+            }
+        }
+        initPushwoosh();
         window.plugins.OneSignal.setLogLevel({logLevel: 4, visualLevel: 4});
         var notificationOpenedCallback = function(jsonData) {
             L.log('didReceiveRemoteNotificationCallBack: ' + JSON.stringify(jsonData));
@@ -443,8 +489,6 @@ function setDemoAccount(){
 }
 
 function resetAccount(){
-    //permanentStorage.setItem('token', null);
-    //permanentStorage.setItem('demo', null);
     tempStorage.clear();
     checkToken(true);
 }
@@ -475,24 +519,26 @@ function isOnline() {
         return true;
     }
     var networkState = navigator.connection.type;
-     return networkState != Connection.NONE;
-}
-
-function registerErrorHandler(result){
-    L.log('device token = ' + result);
-}
-
-function getSearchAsObject(search) {
-    if (search == null) return null;
-    return search.replace(/(^\?)/, '').split("&").map(function(n) {
-        return n = n.split("="), this[n[0]] = n[1], this
-    }.bind({}))[0];
+    return networkState != Connection.NONE;
 }
 
 function saveTokenInLocalStorage(url){
     var search_object = $$.parseUrlQuery(url);
     permanentStorage.setItem('token', search_object['token']);
     checkToken();
+}
+
+function openNotification(){
+    if (__to_open_event != null && __is_ready){
+        L.log("launchedNotification");
+        if (__to_open_event && __to_open_event.onStart){
+            __api.events.get([
+                {id: __to_open_event.userdata.event_id}
+            ], function(res){
+                res[0].open();
+            })
+        }
+    }
 }
 
 function openApplication(){
@@ -512,6 +558,7 @@ function openApplication(){
     var calendar_scope = angular.element($$('#calendar')).scope();
     calendar_scope.$apply(function(){
         calendar_scope.startBinding();
+        calendar_scope.getMyTimeline(true);
     });
 
     var favorites_scope = angular.element($$('#favorites')).scope();
@@ -526,10 +573,34 @@ function openApplication(){
 
 
     $$('.main-tabbar .toolbar-inner a').on('click', function(){
+
         var $toolbar = $$('.main-tabbar .toolbar-inner'),
-            $$this = $$(this);
+            $$this = $$(this),
+            $$i = $$this.find('i');
+
+        if ($$this.hasClass('active')){
+            var max_pages_count = 0;
+            if (fw7App.getCurrentView().history.length == 1){
+                $$(fw7App.getCurrentView().activePage.container).find('.tab.active').scrollTo(0, 0, 400);
+            }else{
+                while(fw7App.getCurrentView().history[0] != fw7App.getCurrentView().activePage.url && max_pages_count++ < 500){
+                    fw7App.getCurrentView().back({animatePages: fw7App.getCurrentView().history.length == 2});
+                }
+            }
+        }
 
         $toolbar.removeClass('toolbar-item-0 toolbar-item-1 toolbar-item-2 toolbar-item-3');
+
+        $toolbar.find('i').each(function(){
+            var $$this_i = $$(this);
+            $$this_i
+                .removeClass($$this_i.data('active-icon'))
+                .addClass($$this_i.data('icon'));
+        });
+
+        $$i
+            .removeClass($$i.data('icon'))
+            .addClass($$i.data('active-icon'));
 
         $toolbar.addClass('animated');
         $toolbar.addClass('toolbar-item-' + $$this.data('number'));
@@ -546,19 +617,13 @@ function openApplication(){
             }
         });
 
-    $$('.main-tabbar .tab-link').on('click', function(e){
-        if ($$(this).hasClass('active')){
-            while(fw7App.getCurrentView().history.length > 1){
-                fw7App.getCurrentView().back();
-            }
-        }
-    });
+    __is_ready = true;
+    openNotification();
 
-    __run_after_init();
 }
 
 window.onerror = function sendCrashReport(message, url , linenumber, column, errorObj){
-    var stack = "";
+    var stack = '';
     if(errorObj !== undefined) //so it won’t blow up in the rest of the browsers
         stack = errorObj.stack;
     L.log({
@@ -571,7 +636,7 @@ window.onerror = function sendCrashReport(message, url , linenumber, column, err
     })
 };
 
-function showSlides(){
+function showSlides(to_reset){
     $$('.splash-icon').addClass('hidden');
     $$('.swiper-container').removeClass('hidden');
     $$('.view-main').removeClass('tab');
@@ -586,7 +651,7 @@ function showSlides(){
     $$('.view').removeClass('active');
     $$('.view-main').removeClass('active');
 
-    var mySwiper = fw7App.swiper('.swiper-container', {
+   var mySwiper = fw7App.swiper('.swiper-container', {
         pagination: '.swiper-pagination',
         preloadImages: true,
         parallax: true,
@@ -595,6 +660,8 @@ function showSlides(){
             $$('.swiper-pagination').hide();
         }
     });
+
+    if (to_reset) mySwiper.slideTo(5, 0);
 
     $$('.vk-btn, .facebook-btn, .google-btn')
         .off('click')
@@ -628,13 +695,13 @@ function showSlides(){
 }
 
 function checkToken(to_reset){
-    fw7App.showPreloader();
+    fw7App.showIndicator();
+    $$('.preloader-indicator-modal').addClass('with-top');
     if (to_reset){
         permanentStorage.clear();
         token = null;
     }else{
         var token = permanentStorage.getItem('token');
-        L.log('TOKEN:' + token);
     }
     if (token != null){
         $$.ajax({
@@ -652,15 +719,16 @@ function checkToken(to_reset){
                 try{
                     var json_res = JSON.parse(res);
                 }catch(e){
-                    fw7App.hidePreloader();
-                    showSlides();
-                    L.log(res);
+                    fw7App.hideIndicator();
+                    $$('.preloader-indicator-modal').removeClass('with-top');
+                    showSlides(to_reset);
                     return;
                 }
 
-                fw7App.hidePreloader();
+                fw7App.hideIndicator();
+                $$('.preloader-indicator-modal').removeClass('with-top');
                 if (json_res.status == false){
-                    showSlides();
+                    showSlides(to_reset);
                 }else{
                     permanentStorage.setItem('user', JSON.stringify(json_res.data));
                     __user = json_res.data;
@@ -671,7 +739,7 @@ function checkToken(to_reset){
                         dataType: "json",
                         contentType: 'application/x-www-form-urlencoded'
                     });
-                    __is_ready = true;
+
                     openApplication();
                 }
             },
@@ -682,8 +750,9 @@ function checkToken(to_reset){
             }
         });
     }else{
-        fw7App.hidePreloader();
-        showSlides();
+        fw7App.hideIndicator();
+        $$('.preloader-indicator-modal').removeClass('with-top');
+        showSlides(to_reset);
     }
 }
 
@@ -726,4 +795,8 @@ function prepareFilterQuery(filters){
         args: args,
         data: data
     };
+}
+
+function shareInfoAboutApp(){
+    window.plugins.socialsharing.share('Я пользуюсь Evendate, чтобы не пропустить интересные события в своих любимых местах.', null, 'http://evendate.ru/app/img/logo_500.png', 'http://evendate.ru')
 }

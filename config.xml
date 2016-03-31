@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='utf-8'?>
 <widget id="ru.evendate.phonegap"
-        version="1.0.8"
+        version="1.0.14 "
         xmlns="http://www.w3.org/ns/widgets"
         xmlns:gap="http://phonegap.com/ns/1.0"
         versionCode = "1">
@@ -14,7 +14,7 @@
     </author>
 
     <gap:config-file platform="iOS" parent="CFBundleVersion">
-        <string>1.0.8</string>
+        <string>1.0.14</string>
     </gap:config-file>
 
     <content src="index.html" />
@@ -37,8 +37,9 @@
     <preference name="StatusBarBackgroundColor" value="#5379B8"/>
     <preference name="StatusBarStyle" value="lightcontent" />
     <preference name="DisallowOverscroll" value="true" />
-    <preference name="UIWebViewBounce" value="false" />
     <preference name="webviewbounce" value="false" />
+    <preference name="android-build-tool" value="gradle" />
+
 
     <plugin name="org.apache.cordova.media-capture" />
     <plugin name="org.apache.cordova.console" />
@@ -66,10 +67,13 @@
     <gap:plugin name="org.apache.cordova.statusbar"/>
     <gap:plugin name="com.analytics.google"/>
     <gap:plugin name="org.apache.cordova.inappbrowser" />
-    <plugin name="de.appplant.cordova.plugin.local-notification" spec="0.8.2"/>
-    <plugin name="com.philmerrell.cordova.canopen" spec="0.1" source="pgb" />
+    <gap:plugin name="pushwoosh-pgb-plugin" source="npm" />
+    <!--<plugin name="de.appplant.cordova.plugin.local-notification" spec="0.8.2"/>-->
+    <!--<plugin name="com.philmerrell.cordova.canopen" spec="0.1" source="pgb" />-->
     <gap:plugin name="com.ohh2ahh.plugins.appavailability" source="npm" />
     <gap:plugin name="cordova-plugin-inappbrowser" source="npm" version="~1" />
+    <gap:plugin name="cordova-plugin-x-socialsharing" source="npm" />
+
     <gap:plugin name="onesignal-cordova-plugin" source="npm" />
 
     <icon src="www/res/icon/ios/icon.png" />
@@ -116,6 +120,7 @@
 
     <plugin name="cordova-plugin-whitelist" version="1" />
     <access origin="*" />
+    <access origin="*.pushwoosh.com"/> <!-- allow pushwoosh service -->
     <allow-intent href="http://*/*" />
     <allow-intent href="https://*/*" />
     <allow-intent href="tel:*" />

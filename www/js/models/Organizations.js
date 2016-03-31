@@ -57,6 +57,10 @@ function Organizations(){
 				}
 				callbackObjects['organizationPageBeforeAnimation'] = fw7App.onPageBeforeAnimation('organization', function(page){
 
+					$$(page.navbarInnerContainer).find('.organization-heading-name').text(_organization.short_name);
+
+					if ($$(page.container).hasClass('page-on-left')) return;
+
 					var $$container = $$(page.container),
 						$$page = $$container.parents('.page.organization');
 					if ($$container.data('opened') == true){

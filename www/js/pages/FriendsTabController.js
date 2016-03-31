@@ -11,7 +11,8 @@ MyApp.pages.FriendsTabController = function ($scope) {
 		is_downloading = false,
 		friends_downloading = false,
 		downloaded_friends_page = 0,
-		all_downloaded = false;
+		all_downloaded = false,
+		feed_is_loading = false;
 	$scope.cards = [];
 	$scope.page_counter = 0;
 	$scope.no_actions = true;
@@ -44,13 +45,14 @@ MyApp.pages.FriendsTabController = function ($scope) {
 
 	$scope.showFeed = function(first_page, cb){
 		feed_is_active = true;
+		feed_is_loading = true;
+		if (first_page == 'BUTTON') return;
 		if (is_downloading == true){
 			if (cb){
 				cb();
 			}
 			return;
 		}
-		$$pull_to_refresh.find('.infinite-scroll-preloader').show();
 		is_downloading = true;
 
 		if (first_page == true){
@@ -66,7 +68,6 @@ MyApp.pages.FriendsTabController = function ($scope) {
 			{offset: 10 * $scope.page_counter++},
 			{length: 10}
 		], function(data){
-
 			if (first_page && data.length == 0){
 				$scope.no_actions = false;
 			}
@@ -132,7 +133,6 @@ MyApp.pages.FriendsTabController = function ($scope) {
 			}
 			$scope.$apply();
 			is_downloading = false;
-			$$pull_to_refresh.find('.infinite-scroll-preloader').hide();
 			if (cb){
 				cb();
 			}
@@ -153,7 +153,6 @@ MyApp.pages.FriendsTabController = function ($scope) {
 			downloaded_friends_page = 0;
 		}
 
-		$$pull_to_refresh.find('.infinite-scroll-preloader').show();
 		friends_downloading = true;
 		__api.users.get([
 			{friends: true},
@@ -174,7 +173,6 @@ MyApp.pages.FriendsTabController = function ($scope) {
 
 			$scope.$apply();
 			friends_downloading = false;
-			$$pull_to_refresh.find('.infinite-scroll-preloader').hide();
 
 			if (cb){
 				cb();

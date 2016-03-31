@@ -142,7 +142,7 @@ function Events() {
 				});
 
 				fw7App.getCurrentView().router.loadPage({
-					url: 'pages/event.html',
+					url: 'pages/event.html?id=' + event.id + '&t=' + new Date().getTime(),
 					query: {id: event.id},
 					pushState: true,
 					animatePages: true
@@ -228,6 +228,8 @@ function Events() {
 				}
 				callbackObjects['likedFriendsPageBeforeAnimation'] = fw7App.onPageBeforeAnimation('friends_liked', function(page) {
 
+
+					if ($$(page.container).hasClass('page-on-left')) return;
 					var $$container = $$(page.container);
 					if ($$container.data('opened') == true) {
 						var $scope = angular.element($$container[0]).scope();

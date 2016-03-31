@@ -24,15 +24,25 @@ MyApp.pages.CalendarPageController = function ($scope) {
 	$scope.events_text = '';
 	$scope.date_text = '';
 	$scope.is_downloading = false;
+	$scope.first_page_downloaded = false;
 	$scope.no_timeline_events = true;
 
-	$scope.getMyTimeline = function(first_page){
+
+	var $$my_timeline = $$('.my-timeline');
+
+	$$my_timeline.on('refresh', function(){
+		$scope.getMyTimeline(true, function(){
+			fw7App.pullToRefreshDone($$my_timeline);
+		});
+	});
+
+	$scope.getMyTimeline = function(first_page, cb){
+
+		if (first_page == 'BUTTON') return;
 		if ($scope.is_downloading) return;
 		if (first_page == true){
 			$scope.page_counter = 0;
-			$$('.profile-page-content').on('infinite', function (){
-				$scope.getMyTimeline(false);
-			});
+			$scope.first_page_downloaded = false;
 		}
 
 		$scope.is_downloading = true;
@@ -44,10 +54,13 @@ MyApp.pages.CalendarPageController = function ($scope) {
 			{timeline: true},
 			{type: 'future'},
 			{page: $scope.page_counter++},
-			{length: 10}
+			{length: 20}
 		], function(data){
 			if (data.length == 0 && first_page){
 				$scope.no_timeline_events = false;
+			}
+			if (first_page){
+				$scope.first_page_downloaded = true;
 			}
 			$scope.$apply();
 			var today_timestamp = new Date(moment().format('YYYY/MM/DD 00:00:00')).getTime();
@@ -73,7 +86,7 @@ MyApp.pages.CalendarPageController = function ($scope) {
 				if (item.moment_dates_range.length == 0){
 					continue;
 				}
-				var first_date = item.moment_dates_range[0].format('DD MMMM');
+				var first_date = moment(item.nearest_event_date).format('DD MMMM');
 				if (!events_by_days.hasOwnProperty(first_date)){
 					events_by_days[first_date] = {};
 				}
@@ -101,6 +114,9 @@ MyApp.pages.CalendarPageController = function ($scope) {
 			}
 			$scope.is_downloading = false;
 			$scope.$apply();
+			if (cb){
+				cb();
+			}
 		});
 	};
 
@@ -117,11 +133,13 @@ MyApp.pages.CalendarPageController = function ($scope) {
 			}
 		});
 
+		$$('.statusbar-overlay').on('click', function(){
+			L.log('STATUS');
+		});
 	}
 
 	$scope.startBinding = function(){
-		$$('.picker-calendar-day-today').click();
-
+		$$('.picker-calendar-month-current .picker-calendar-day-today').click();
 		$scope.binded = true;
 		__api.events.dates.get([{
 			since: moment($scope.year + '-' + $scope.month, 'YYYY-MM').startOf('month').format(CONTRACT.DATE_FORMAT)},
@@ -185,8 +203,9 @@ MyApp.pages.CalendarPageController = function ($scope) {
 			dayNamesShort: ['ВС', 'ПН', 'ВТ', 'СР', 'ЧТ', 'ПТ', 'СБ'],
 			monthNames: monthNames,
 			container: '#calendar-inline-container',
-			value: [new Date()],
 			weekHeader: true,
+			monthPicker: false,
+			yearPicker: false,
 			toolbarTemplate:
 			'<div class="calendar-head-year"></div>' +
 			'<div class="toolbar calendar-custom-toolbar">' +
@@ -233,6 +252,7 @@ MyApp.pages.CalendarPageController = function ($scope) {
 				$scope.selected_day = _date;
 				if (window.innerHeight == IPHONE_4_HEIGHT){
 					$$('.calendar-loader').show();
+					$$('.iphone-4-events-btn').hide();
 
 					__api.events.get([
 						{date: _date.format(CONTRACT.DATE_FORMAT)},
@@ -253,10 +273,17 @@ MyApp.pages.CalendarPageController = function ($scope) {
 							$scope.events_text += ', ' + favorites_count + getUnitsText(favorites_count, CONTRACT.TEXTS.FAVORITES);
 						}
 
-						$scope.date_text = _date.format('DD MMMM');
+						$scope.date_text = _date.format('D MMMM');
+						var __today = moment();
+						if (__today.format(CONTRACT.DATE_FORMAT) == _date.format(CONTRACT.DATE_FORMAT)){
+							$scope.date_text = 'Сегодня';
+						}else if (__today.add('days', 1).format(CONTRACT.DATE_FORMAT) == _date.format(CONTRACT.DATE_FORMAT)){
+							$scope.date_text = 'Завтра';
+						}
 						$scope.$apply();
 
 						$$('.calendar-loader').hide();
+						$$('.iphone-4-events-btn').show();
 					});
 				}else{
 					$$('.calendar-loader').show();
@@ -275,7 +302,8 @@ MyApp.pages.CalendarPageController = function ($scope) {
 				}
 			}
 		});
-
+	//var _now = moment();
+	//calendarInline.setYearMonth(_now.format('YYYY'), _now.format('M') - 1, 0);
 
 	$scope.$watch('year', function(val){
 		$$('.calendar-head-year').text(val);
@@ -283,5 +311,11 @@ MyApp.pages.CalendarPageController = function ($scope) {
 
 	$scope.$watch('month', function(val){
 		$$('.calendar-custom-toolbar .center').text(monthNames[val]);
+	});
+
+
+	$$('.my-timeline').on('infinite', function (){
+		if ($scope.is_downloading) return;
+		$scope.getMyTimeline(false);
 	});
 };
