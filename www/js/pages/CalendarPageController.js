@@ -104,19 +104,17 @@ MyApp.pages.CalendarPageController = function ($scope) {
 		});
 	};
 
-	function addClassesToDatesWithEvents(events){
-		events.forEach(function(event){
-			event.dates_range.forEach(function(date){
-				var m_date = moment(date),
-					year = m_date.format('YYYY'),
-					month = m_date.format('M') - 1,
-					day = m_date.format('D'),
-					$$day = $$('.d-' + [year, month,day].join('-'));
+	function addClassesToDatesWithEvents(dates){
+		dates.forEach(function(date){
+			var m_date = moment.unix(date.event_date),
+				year = m_date.format('YYYY'),
+				month = m_date.format('M') - 1,
+				day = m_date.format('D'),
+				$$day = $$('.d-' + [year, month,day].join('-'));
 
-				if (event.is_favorite){
-					$$day.addClass('with-events with-favorites');
-				}
-			});
+			if (date.favorites_count > 0){
+				$$day.addClass('with-events with-favorites');
+			}
 		});
 
 	}
@@ -125,26 +123,26 @@ MyApp.pages.CalendarPageController = function ($scope) {
 		$$('.picker-calendar-day-today').click();
 
 		$scope.binded = true;
-		__api.events.get([{
-			since_date: moment($scope.year + '-' +$scope.month, 'YYYY-MM').startOf('month').format(CONTRACT.DATE_FORMAT)},
-			{till_date: moment($scope.year + '-' +$scope.month, 'YYYY-MM').endOf('month').format(CONTRACT.DATE_FORMAT)},
-			{type: 'favorites'},
-			{page: 0},
+		__api.events.dates.get([{
+			since: moment($scope.year + '-' + $scope.month, 'YYYY-MM').startOf('month').format(CONTRACT.DATE_FORMAT)},
+			{till: moment($scope.year + '-' + $scope.month, 'YYYY-MM').endOf('month').format(CONTRACT.DATE_FORMAT)},
+			{my: 'true'},
+			{unique: 'true'},
+			{fields: 'favored_count'},
 			{length: 500}
 
-		], function(events){
-			$scope.$digest();
-			addClassesToDatesWithEvents(events);
-		});
+		], addClassesToDatesWithEvents);
 	};
 
 	$scope.showEventsInSelectedDay = function(){
 		if ($scope.selected_day == null) return;
 		fw7App.showIndicator();
 		__api.events.get([
-			{'date': $scope.selected_day.format(CONTRACT.DATE_FORMAT)},
+			{date: $scope.selected_day.format(CONTRACT.DATE_FORMAT)},
+			{fields: 'detail_info_url,image_square_vertical_url,is_favorite,location,favored_users_count,organization_name,organization_logo_small_url,description,favored,is_same_time,tags'},
 			{my: true}
 		], function(data){
+			console.log(data);
 			if (callbackObjects['eventsInDayPageBeforeAnimation']){
 				callbackObjects['eventsInDayPageBeforeAnimation'].remove();
 			}
@@ -219,11 +217,11 @@ MyApp.pages.CalendarPageController = function ($scope) {
 				$scope.$digest();
 
 				if ($scope.binded){
-					__api.events.get([
-						{since_date: moment($scope.year + '-' + ($scope.month), 'YYYY-MM').startOf('month').format(CONTRACT.DATE_FORMAT)},
-						{till_date: moment($scope.year + '-' + ($scope.month), 'YYYY-MM').endOf('month').format(CONTRACT.DATE_FORMAT)},
-						{type: 'favorites'},
-						{page: 0},
+					__api.events.dates.get([
+						{since: moment($scope.year + '-' + ($scope.month), 'YYYY-MM').startOf('month').format(CONTRACT.DATE_FORMAT)},
+						{till: moment($scope.year + '-' + ($scope.month), 'YYYY-MM').endOf('month').format(CONTRACT.DATE_FORMAT)},
+						{my: true},
+						{unique: true},
 						{length: 500}
 					], addClassesToDatesWithEvents);
 				}
@@ -238,7 +236,6 @@ MyApp.pages.CalendarPageController = function ($scope) {
 
 					__api.events.get([
 						{date: _date.format(CONTRACT.DATE_FORMAT)},
-						{type: 'short'},
 						{my: true}
 					], function(data){
 						var events_count = 0,
@@ -266,7 +263,8 @@ MyApp.pages.CalendarPageController = function ($scope) {
 					$$('.calendar-list').hide();
 					__api.events.get([
 						{date: _date.format(CONTRACT.DATE_FORMAT)},
-						{my: true}
+						{my: true},
+						{fields: 'dates{length:500,fields:"start_time,end_time"},detail_info_url,image_square_vertical_url,is_favorite,can_edit,location,favored_users_count,organization_name,organization_logo_small_url,description,favored,is_same_time,tags'}
 					], function(events){
 						$$('.calendar-loader').hide();
 						$$('.calendar-list').show();

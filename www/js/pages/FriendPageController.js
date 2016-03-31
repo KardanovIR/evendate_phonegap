@@ -17,7 +17,6 @@ MyApp.pages.FriendPageController = function ($scope) {
 
 
 	var feed_is_active = false,
-
 		cards_by_users = {};
 
 	$scope.setUser = function(user){
@@ -165,11 +164,12 @@ function showFriendSubscriptions(el){
 
 	__api.users.get([
 		{friend_id: friend_id},
-		{subscriptions: true}
+		{fields: 'subscriptions{fields:"img_medium_url"}'}
 	], function(data){
 		var scope = angular.element(fw7App.getCurrentView().activePage.container).scope();
+		scope.setUser(data[0]);
 		scope.$apply(function(){
-			scope.setSubscriptions(__api.organizations.normalize(data));
+			scope.setSubscriptions(__api.organizations.normalize(data[0].subscriptions));
 		});
 	});
 }

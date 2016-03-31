@@ -26,14 +26,14 @@
           <li ng-repeat="friend in info.friends" ng-click="friend.open();">
             <a href="#" class="item-link item-content">
               <div class="item-media">
-                <img ng-src="{{friend.avatar_url}}" class="friend-image">
+                <img ng-src="{{user.avatar_url}}" class="friend-image">
               </div>
               <div class="item-inner">
                 <div class="item-title-row">
-                  <div class="item-title">{{friend.last_name}} {{friend.first_name}}</div>
+                  <div class="item-title">{{user.last_name}} {{user.first_name}}</div>
                 </div>
                 <div class="item-subtitle text-gray" ng-show="friend.is_friend == true">
-                  {{friend.type_name}}
+                  {{user.type_name}}
                 </div>
               </div>
             </a>

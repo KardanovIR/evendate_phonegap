@@ -15,6 +15,12 @@ MyApp.pages.SubscriptionsPageController = function ($scope, $http) {
 
   $scope.setUser = function(){
     $scope.info = __api.users.normalize([__user])[0];
+    __api.users.get([
+      {me: true},
+      {fields: 'blurred_image_url'}
+    ], function(data){
+      $scope.info.blurred_img_url = data[0].blurred_img_url;
+    });
     $scope.getSubscriptionsList();
   };
 
@@ -76,7 +82,9 @@ MyApp.pages.SubscriptionsPageController = function ($scope, $http) {
   $scope.getSubscriptionsList = function(){
     $scope.data_loaded = false;
     $scope.no_subscriptions = true;
-    __api.subscriptions.get(null, function(data){
+    __api.organizations.get([
+      {subscriptions: true},
+      {fields: 'description,is_subscribed,background_medium_img_url,img_medium_url,subscribed_count'}], function(data){
       $scope.subscriptions = data;
       $scope.no_subscriptions = $scope.subscriptions.length != 0;
       $scope.data_loaded = true;
@@ -119,7 +127,9 @@ MyApp.pages.SubscriptionsPageController = function ($scope, $http) {
 
     fw7App.showPreloader();
 
-    __api.organizations.get(null, function(data){
+    __api.organizations.get([{
+      fields: 'description,is_subscribed,background_medium_img_url,img_medium_url,subscribed_count'
+    }], function(data){
 
       var categories_array = [],
           orgs_by_categories = {};

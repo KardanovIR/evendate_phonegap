@@ -1640,3 +1640,7 @@ and (-webkit-min-device-pixel-ratio: 3) {
 .views.toolbar{
   z-index: 9999999999 !important;
 }
+
+.event-description{
+  white-space: pre-line !important;
+}

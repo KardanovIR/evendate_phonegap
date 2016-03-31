@@ -3,7 +3,7 @@
 
 MyApp.ns('MyApp.pages');
 
-MyApp.pages.OrganizationPageController = function ($scope, $http) {
+MyApp.pages.OrganizationPageController = function ($scope) {
 	'use strict';
 
 	$scope.organization = {};
@@ -12,11 +12,11 @@ MyApp.pages.OrganizationPageController = function ($scope, $http) {
 		$scope.organization = organization;
 		$$('.organization-events-loader').show();
 		$$('.organization-events').hide();
-		__api.events.get([{
-			organization_id: organization.id,
-			type: 'future'
+		__api.organizations.get([{
+			id: organization.id,
+			fields:'subscribed_count,is_subscribed,img_medium_url,background_medium_img_url,subscribed{order_by:"is_friend",length:5},events{filters:"future=true",length:100,fields:"dates,favored_count"}'
 		}], function(res){
-			$scope.organization.events = res;
+			$scope.organization = res[0];
 			$$('.organization-events-loader').hide();
 			$$('.organization-events').show();
 			$scope.$apply();

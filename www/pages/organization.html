@@ -27,11 +27,11 @@
             <div class="row">
               <div class="col-50 text-center">
                 <div class="liked-users" ng-click="organization.openSubscribedFriends()">
-                  <img class="user-avatar" ng-repeat="user in organization.subscribed_friends | limitTo: 5" ng-src="{{user.avatar_url}}">
-                  <div class="organization-subscribed-count">+{{organization.subscribed_count}}</div>
+                  <img class="user-avatar" ng-repeat="user in organization.subscribed" ng-src="{{user.avatar_url}}">
+                  <div class="organization-subscribed-count">{{organization.subscribed_count}}</div>
                 </div>
                 <div class="subscribed-friends-count text-center">
-                  {{organization.subscribed_friends.length}} друзей подписано
+                  подписались
                 </div>
               </div>
               <div class="col-50">
@@ -65,7 +65,7 @@
                 <div class="item-text">
                   <div class="liked-users">
                     <img class="user-avatar" ng-repeat="user in event.favorite_friends | limitTo: 5" ng-src="{{user.avatar_url}}">
-                    <div class="organization-subscribed-count">+{{event.liked_users_count}}</div>
+                    <div class="organization-subscribed-count">+{{event.favored_count}}</div>
                   </div>
                 </div>
                 <div class="item-subtitle event-datetime">

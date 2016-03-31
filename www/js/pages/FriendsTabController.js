@@ -61,7 +61,9 @@ MyApp.pages.FriendsTabController = function ($scope) {
 
 		__api.users.get([
 			{feed: true},
-			{page: $scope.page_counter++},
+			{fields: 'type_code,organization{fields:"img_medium_url"},event{fields:"image_square_vertical_url"},created_at,user'},
+			{order_by: '-created_at'},
+			{offset: 10 * $scope.page_counter++},
 			{length: 10}
 		], function(data){
 
@@ -69,7 +71,7 @@ MyApp.pages.FriendsTabController = function ($scope) {
 				$scope.no_actions = false;
 			}
 			data.forEach(function(stat){
-				var date = moment(stat.created_at),
+				var date = moment.unix(stat.created_at),
 					ent = stat[stat.entity],
 					key = [stat.entity, stat.stat_type_id, stat.user.id, $scope.page_counter, date.format('DD.MM')].join('-');
 				if (cards_by_users.hasOwnProperty(key) == false){
@@ -95,8 +97,7 @@ MyApp.pages.FriendsTabController = function ($scope) {
 				}
 
 				if (stat.entity == CONTRACT.ENTITIES.EVENT){
-					ent.img_url = ent.image_square_url;
-
+					ent.img_url = ent.image_square_vertical_url;
 					ent.openEntity = function(){
 						fw7App.showIndicator();
 						__api.events.get([
@@ -156,6 +157,7 @@ MyApp.pages.FriendsTabController = function ($scope) {
 		friends_downloading = true;
 		__api.users.get([
 			{friends: true},
+			{fields: 'is_friend,type'},
 			{page: downloaded_friends_page++},
 			{length: 10}
 		], function(data){

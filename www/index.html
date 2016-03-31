@@ -164,15 +164,6 @@
           <div class="tabs">
             <div id="profile" class="tab active">
               <div class="content-block">
-                <!--<div class="content-block-inner user-info" ng-style="{'background-image': 'url(' + info.blurred_image_url + ')'}">-->
-                <!--<div class="user-image">-->
-                <!--<img ng-src="{{info.avatar_url}}" class="img">-->
-                <!--</div>-->
-                <!--<div class="user-name">-->
-                <!--<div class="user-name-text sfui_display_light">{{info.first_name}} {{info.last_name}}</div>-->
-                <!--<div class="user-is-editor" ng-hide="{{info.is_editor === false}}"> Редактор</div>-->
-                <!--</div>-->
-                <!--</div>-->
                 <div class="friend-profile-fixed-part">
                   <div class="profile-background-image">
                     <div class="user-background-opacity"
@@ -202,7 +193,7 @@
                     <a href="#" class="item-link swipeout-content item-content"
                        ng-click="subscription.open()">
                       <div class="item-media">
-                        <img ng-src="{{subscription.img_small_url}}">
+                        <img ng-src="{{subscription.img_medium_url}}">
                       </div>
                       <div class="item-inner">
                         <div class="item-title">{{subscription.short_name}}</div>
@@ -211,7 +202,7 @@
                     </a>
 
                     <div class="swipeout-actions-right">
-                      <a href="#" class="swipeout-delete"
+                      <a href="#" class="swipeout-delete swipeout-overswipe"
                          ng-click="subscription.toggleSubscriptionStatus();">Отписаться</a>
                     </div>
                   </li>
@@ -238,7 +229,7 @@
                         ng-click="organization.open();">
                       <a href="#" class="item-link item-content disable-active-state organization-item">
                         <div class="item-media ">
-                          <img ng-src="{{organization.img_small_url}}" width="80">
+                          <img ng-src="{{organization.img_medium_url}}" width="80">
                         </div>
                         <div class="item-inner row">
                           <div class="col-100-60px">
@@ -280,7 +271,6 @@
       </div>
     </div>
     <div class="pages navbar-through">
-      <!-- Pag has additional "with-subnavbar" class -->
       <div data-page="calendar" class="page with-subnavbar">
         <div class="page-content profile-page-content infinite-scroll" data-distance="140" data-ptr-distance="140">
           <div class="tabs">
@@ -301,23 +291,19 @@
                         ng-class="{'favorite':event.is_favorite}">
                       <a href="#" class="item-link item-content swipeout-content" ng-click="event.open()">
                         <div class="item-media calendar-event-cover"
-                             ng-style="{'background': 'url({{event.image_square_url}})'}">
+                             ng-style="{'background': 'url({{event.image_square_vertical_url}})'}">
                         </div>
                         <div class="item-inner">
                           <div class="item-title-row">
                             <div class="item-title">{{event.title}}</div>
                           </div>
-                          <div class="item-subtitle">{{event.short_dates}} | {{event.time}}</div>
+                          <div class="item-subtitle">{{event.today.start_time}} {{event.today.end_time ? '- ' + event.today.end_time : ''}}</div>
                         </div>
                       </a>
-
-                      <div class="swipeout-actions-left">
-                        <!-- We add data-confirm and data-confirm-title attributes -->
-                        <a href="#" class="action1 swipeout-delete" ng-click="event.toggleHidden($event);">{{event.hide_text}}</a>
-                      </div>
                       <div class="swipeout-actions-right">
                         <!-- We add data-confirm and data-confirm-title attributes -->
                         <a href="#" class="action1 favorite-action" ng-click="event.toggleFavorite($event);">{{event.favorite_text}}</a>
+                        <a href="#" class="action1 swipeout-delete swipeout-overswipe" ng-click="event.toggleHidden($event);">{{event.hide_text}}</a>
                       </div>
                     </li>
                   </ul>
@@ -373,12 +359,9 @@
                         </div>
                       </a>
 
-                      <div class="swipeout-actions-left">
-                        <!-- We add data-confirm and data-confirm-title attributes -->
-                        <a href="#" class="action1 swipeout-delete" ng-click="event.toggleHidden($event);">{{event.hide_text}}</a>
-                      </div>
                       <div class="swipeout-actions-right">
                         <a href="#" class="action1 favorite-action" ng-click="event.toggleFavorite($event);">{{event.favorite_text}}</a>
+                        <a href="#" class="action1 swipeout-delete swipeout-overswipe" ng-click="event.toggleHidden($event);">{{event.hide_text}}</a>
                       </div>
                     </li>
                   </ul>
@@ -425,7 +408,7 @@
                     ng-class="{'favorite': event.is_favorite}">
                   <a href="#" class="item-link item-content swipeout-content" ng-click="event.open()">
                     <div class="item-media">
-                      <img ng-src="{{event.image_vertical_url}}" class="event-vertical">
+                      <img ng-src="{{event.image_vertical_medium_url}}" class="event-vertical">
                     </div>
                     <div class="item-inner">
                       <div class="item-title-row">
@@ -438,17 +421,14 @@
                         </div>
                       </div>
                       <div class="item-subtitle event-datetime">
-                        {{event.short_dates}} | {{event.time}}
+                        {{event.today.start_time}} {{event.today.end_time ? '- ' + event.today.end_time : ''}}
                       </div>
                     </div>
                   </a>
 
-                  <div class="swipeout-actions-left">
-                    <!-- We add data-confirm and data-confirm-title attributes -->
-                    <a href="#" class="action1 swipeout-delete" ng-click="event.toggleHidden($event);">{{event.hide_text}}</a>
-                  </div>
                   <div class="swipeout-actions-right">
                     <a href="#" class="action1 favorite-action" ng-click="event.toggleFavorite($event);">{{event.favorite_text}}</a>
+                    <a href="#" class="action1 swipeout-delete swipeout-overswipe" ng-click="event.toggleHidden($event);">{{event.hide_text}}</a>
                   </div>
                 </li>
               </ul>
