@@ -459,27 +459,17 @@ function registerPushService(){
                 registerSuccessHandler(null);
             }
         }
-        initPushwoosh();
+        // initPushwoosh();
         window.plugins.OneSignal.setLogLevel({logLevel: 4, visualLevel: 4});
         var notificationOpenedCallback = function(jsonData) {
             L.log('didReceiveRemoteNotificationCallBack: ' + JSON.stringify(jsonData));
+            L.log(jsonData);
             onNotificationAPN(jsonData);
         };
 
         window.plugins.OneSignal.init(ONE_SIGNAL_APP_ID,
             {googleProjectNumber: ""},
             notificationOpenedCallback);
-
-        // var pushNotification = window.plugins.pushNotification;
-        // pushNotification.register(
-        //     registerSuccessHandler,
-        //     registerErrorHandler,
-        //     {
-        //         "badge":"false",
-        //         "sound":"false",
-        //         "alert":"true",
-        //         "ecb":"onNotificationAPN"
-        //     });
     }
 }
 
