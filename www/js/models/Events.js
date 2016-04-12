@@ -5,33 +5,39 @@ function Events() {
 	function normalize(items) {
 		if (!items) return items;
 		var _items = [],
-			dates = [],
 			_today = moment().format(CONTRACT.DATE_FORMAT),
 			_today_unix = moment(_today + ' 00:00:00').unix();
 		items.forEach(function(event) {
 			event.tags_array = [];
 			event.future_moment_dates = [];
-			dates = [];
+			event.moment_dates = [];
 
-			if (event.tags){
+			if (event.tags) {
 				event.tags.forEach(function(tag) {
 					event.tags_array.push(tag.name);
 				});
 			}
 
-			if (event.dates){
-				event.dates.forEach(function(event_day){
+
+			if (event.hasOwnProperty('nearest_event_date')) {
+				event.nearest_event_date_string = moment.unix(event.nearest_event_date).format('DD/MM');
+			}
+
+			event.liked_users_count = event.favored_users_count;
+
+			if (event.dates) {
+				event.dates.forEach(function(event_day) {
 					var _date = moment.unix(event_day.event_date),
 						day = _date.format(CONTRACT.DATE_FORMAT),
 						current = {
 							start_date: moment(day + ' ' + event_day.start_time),
 							end_date: moment(day + ' ' + event_day.end_time)
 						};
-					dates.push(current);
-					if (event_day.event_date >=_today_unix){
+					event.moment_dates.push(current);
+					if (event_day.event_date >= _today_unix) {
 						event.future_moment_dates.push(current);
 					}
-					if (day == _today){
+					if (day == _today) {
 						event.today = {
 							moment: current,
 							start_time: event_day.start_time,
@@ -39,38 +45,45 @@ function Events() {
 						};
 					}
 				});
-				event.moment_dates = dates;
-				event.liked_users_count = event.favored_users_count;
 
-				event.begin_time = dates[0].start_date.format('HH:mm');
+				event.begin_time = event.moment_dates[0].start_date.format('HH:mm');
 
 				event.one_day = event.dates.length == 1;
 				event.short_dates = [];
-				event.dates = [];
+				event.dates_text = [];
+				event.every_day = true;
+
 				var date_format = event.dates.length == 1 ? 'DD MMMM' : 'DD/MM';
-				event.moment_dates.forEach(function(val){
-					event.dates.push(val.start_date.format(date_format) + ' ' + val.start_date.format('HH:mm') + ' - ' + val.end_date.format('HH:mm'));
+				event.moment_dates.forEach(function(val, index) {
+					var mdate = val.start_date.clone();
+					event.dates_text.push(val.start_date.format(date_format) + ' ' + val.start_date.format('HH:mm') + ' - ' + val.end_date.format('HH:mm'));
 					event.short_dates.push(val.start_date.format('DD/MM'));
+
+					if (index == 0) return true;
+					event.every_day =
+						event.every_day
+						&&
+						mdate.add(-1, 'days').format(CONTRACT.DATE_FORMAT)
+						==
+						event.moment_dates[index - 1].start_date.format(CONTRACT.DATE_FORMAT)
 				});
-				if (event.is_dates_range){
-					if (event.dates.length > 1){
-						event.dates = '' + event.moment_dates[0].start_date.format('DD/MM') + ' - ' + event.moment_dates[event.moment_dates.length - 1].start_date.format('DD/MM');
-						event.dates += "\n" + ' c ' + event.moment_dates[0].start_date.format('HH:mm') + ' по ' + event.moment_dates[0].end_date.format('HH:mm');
-						event.short_dates = event.dates;
-					}else{
-						event.dates = event.moment_dates[0].start_date.format('DD/MM');
-						event.dates += "\n" + ' c ' + event.moment_dates[0].start_date.format('HH:mm') + ' по ' + event.moment_dates[0].end_date.format('HH:mm');
-						event.short_dates = event.dates;
+
+				if (event.is_same_time && event.every_day) {
+					if (event.dates.length > 1) {
+						event.dates_text = '' + event.moment_dates[0].start_date.format('DD/MM') + ' - ' + event.moment_dates[event.moment_dates.length - 1].start_date.format('DD/MM');
+						event.dates_text += "\n" + ' c ' + event.moment_dates[0].start_date.format('HH:mm') + ' по ' + event.moment_dates[0].end_date.format('HH:mm');
+						event.short_dates = event.dates_text;
+					} else {
+						event.dates_text = event.moment_dates[0].start_date.format('DD/MM');
+						event.dates_text += "\n" + ' c ' + event.moment_dates[0].start_date.format('HH:mm') + ' по ' + event.moment_dates[0].end_date.format('HH:mm');
+						event.short_dates = event.dates_text;
 					}
-				}else{
-					event.dates = event.dates.join(', ') ;
-					event.short_dates = event.short_dates.join(', ') ;
+				} else {
+					event.dates_text = event.dates_text.join(', ');
+					event.short_dates = event.short_dates.join(', ');
 				}
-				event.day_name = dates[0].start_date.format('dddd');
+				event.day_name = event.moment_dates[0].start_date.format('dddd');
 			}
-
-
-
 
 
 			var _a = document.createElement('a'),
@@ -86,9 +99,7 @@ function Events() {
 			}
 
 			event.detail_info_url = _url;
-
 			event.tags_text = event.tags_array.join(', ');
-
 			event.hide_text = 'Не показывать';
 
 			event.toggleHidden = function() {
@@ -105,6 +116,7 @@ function Events() {
 				if (is_opening) return;
 				is_opening = true;
 				fw7App.showIndicator();
+
 				var _event = this;
 				if (callbackObjects['eventPageBeforeAnimation']) {
 					callbackObjects['eventPageBeforeAnimation'].remove();
@@ -114,8 +126,6 @@ function Events() {
 				}
 				callbackObjects['eventPageBeforeAnimation'] = fw7App.onPageBeforeAnimation('event', function(page) {
 					var $$container = $$(page.container),
-						$$event_wrapper = $$container.find('.event-wrapper'),
-						$bcg_img_wrapper = $$container.find('.background-img-wrapper'),
 						$$page = $$container.parents('.page.event');
 					if ($$container.data('opened') == true) {
 						var $scope = angular.element($$container[0]).scope();
@@ -147,6 +157,7 @@ function Events() {
 					pushState: true,
 					animatePages: true
 				});
+
 			};
 
 			event.openDetailInfoUrl = function() {
@@ -164,45 +175,26 @@ function Events() {
 			};
 
 			event.toggleFavorite = function($event) {
-				var opts = {
-					type: 'POST',
-					url: CONTRACT.URLS.API_FULL_PATH + CONTRACT.URLS.EVENTS_PATH + CONTRACT.URLS.FAVORITES_PART,
-					data: {event_id: event.id},
-					error: function() {
-						fw7App.alert(CONTRACT.ALERTS.NO_INTERNET);
-					},
-					complete: function() {
-						var favorites_scope = angular.element($$('#favorites')).scope();
-						favorites_scope.$apply(function() {
-							favorites_scope.startBinding();
-						});
-					}
-				};
-				if (event.is_favorite) {
+				var _url = CONTRACT.URLS.API_FULL_PATH + CONTRACT.URLS.EVENTS_PATH + '/' + event.id + CONTRACT.URLS.FAVORITES_PART,
 					opts = {
-						type: 'DELETE',
-						url: CONTRACT.URLS.API_FULL_PATH + CONTRACT.URLS.EVENTS_PATH +
-						CONTRACT.URLS.FAVORITES_PART + '/' + event.id,
-						data: {event_id: event.id},
-						error: function() {
-							fw7App.alert(CONTRACT.ALERTS.NO_INTERNET);
-						},
+						type: 'POST',
+						url: _url,
 						complete: function() {
 							var favorites_scope = angular.element($$('#favorites')).scope();
 							favorites_scope.$apply(function() {
 								favorites_scope.startBinding();
 							});
+						},
+						success: function() {
+							event.is_favorite = !event.is_favorite;
+							event.updateFavoriteTexts();
 						}
 					};
+				if (event.is_favorite) {
+					opts['type'] = 'DELETE';
 				}
-				if (isOnline()) {
-					$$.ajax(opts);
-				} else {
-					fw7App.alert(CONTRACT.ALERTS.NO_INTERNET);
-				}
+				$$.ajax(opts);
 
-				event.is_favorite = !event.is_favorite;
-				event.updateFavoriteTexts();
 
 				if ($event) {
 					fw7App.swipeoutClose($$($event.target).parents('.swipeout')[0])
@@ -311,6 +303,9 @@ function Events() {
 				}
 			});
 
+		},
+		normalizeAll: function(items) {
+			return normalize(items);
 		},
 		'dates': {
 			'get': function(filters, cb) {

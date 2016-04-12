@@ -8,14 +8,13 @@ MyApp.pages.FriendsTabController = function ($scope) {
 
 	var cards_by_users = {},
 		action_names = CONTRACT.ACTION_NAMES,
-		is_downloading = false,
 		friends_downloading = false,
 		downloaded_friends_page = 0,
-		all_downloaded = false,
-		feed_is_loading = false;
+		all_downloaded = false;
 	$scope.cards = [];
 	$scope.page_counter = 0;
 	$scope.no_actions = true;
+	$scope.is_downloading = false;
 
 	$scope.friends = [];
 	var $$pull_to_refresh = $$('.friends-page-content'),
@@ -38,22 +37,20 @@ MyApp.pages.FriendsTabController = function ($scope) {
 		if (feed_is_active){
 			$scope.showFeed(false);
 		}else{
-			if (all_downloaded) return;
 			$scope.showFriends(false);
 		}
 	});
 
 	$scope.showFeed = function(first_page, cb){
 		feed_is_active = true;
-		feed_is_loading = true;
 		if (first_page == 'BUTTON') return;
-		if (is_downloading == true){
+		if ($scope.is_downloading){
 			if (cb){
 				cb();
 			}
 			return;
 		}
-		is_downloading = true;
+		$scope.is_downloading = true;
 
 		if (first_page == true){
 			$scope.cards = [];
@@ -63,13 +60,13 @@ MyApp.pages.FriendsTabController = function ($scope) {
 
 		__api.users.get([
 			{feed: true},
-			{fields: 'type_code,organization{fields:"img_medium_url"},event{fields:"image_square_vertical_url"},created_at,user'},
+			{fields: 'type_code,organization{fields:"img_small_url"},event{fields:"image_square_vertical_url"},created_at,user'},
 			{order_by: '-created_at'},
 			{offset: 10 * $scope.page_counter++},
 			{length: 10}
 		], function(data){
 			if (first_page && data.length == 0){
-				$scope.no_actions = false;
+				$scope.no_actions = true;
 			}
 			data.forEach(function(stat){
 				var date = moment.unix(stat.created_at),
@@ -110,7 +107,7 @@ MyApp.pages.FriendsTabController = function ($scope) {
 					};
 
 				}else if (stat.entity == CONTRACT.ENTITIES.ORGANIZATION){
-					ent.img_url = ent.img_medium_url;
+					ent.img_url = ent.img_small_url;
 					ent.title = ent.short_name;
 					ent.openEntity = function(){
 						__api.organizations.get([

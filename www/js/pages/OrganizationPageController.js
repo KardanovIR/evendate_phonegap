@@ -14,9 +14,10 @@ MyApp.pages.OrganizationPageController = function ($scope) {
 		$$('.organization-events').hide();
 		__api.organizations.get([{
 			id: organization.id,
-			fields:'subscribed_count,is_subscribed,img_medium_url,background_medium_img_url,subscribed{order_by:"is_friend",length:5},events{filters:"future=true",length:100,fields:"dates,favored_count"}'
+			fields:'is_subscribed,background_medium_img_url,img_medium_url,subscribed_count,description,events{length:100,filters:"future=true",fields:"image_square_vertical_url,nearest_event_date,favored,is_favorite"},site_url,subscribed{length:5, fields:"is_friend,random",order_by:"-is_friend,random"}'
 		}], function(res){
 			$scope.organization = res[0];
+			$scope.organization.events = __api.events.normalizeAll($scope.organization.events);
 			$$('.organization-events-loader').hide();
 			$$('.organization-events').show();
 			$scope.$apply();

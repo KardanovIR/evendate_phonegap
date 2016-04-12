@@ -61,8 +61,7 @@ function Organizations(){
 
 					if ($$(page.container).hasClass('page-on-left')) return;
 
-					var $$container = $$(page.container),
-						$$page = $$container.parents('.page.organization');
+					var $$container = $$(page.container);
 					if ($$container.data('opened') == true){
 						var $scope = angular.element($$container[0]).scope();
 						$scope.setOrganization(_organization);
@@ -93,6 +92,7 @@ function Organizations(){
 					pushState: true,
 					animatePages: true
 				});
+
 			};
 
 			value.openSite = function(){

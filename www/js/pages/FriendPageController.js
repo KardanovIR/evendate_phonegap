@@ -60,6 +60,7 @@ MyApp.pages.FriendPageController = function ($scope) {
 		__api.users.get([
 			{friends: true},
 			{actions: true},
+			{fields: 'user'},
 			{friend_id: $scope.friend_id},
 			{page: $scope.page_counter++},
 			{length: 10}

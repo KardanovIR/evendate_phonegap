@@ -21,6 +21,7 @@ MyApp.pages.EventsInDayController = function ($scope, $element) {
 		$scope.setDate($scope.date.add(direction, 'days'));
 		__api.events.get([
 			{'date': $scope.date.format(CONTRACT.DATE_FORMAT)},
+			{fields: 'image_square_vertical_url'},
 			{my: true}
 		], function(data){
 			$$loader.hide();
@@ -29,9 +30,14 @@ MyApp.pages.EventsInDayController = function ($scope, $element) {
 	}
 
 	$scope.setEvents = function(data){
-
 		$scope.day_events = data;
 		$scope.no_events = data.length != 0;
+		__api.events.get([
+			{}
+		], function(items){
+			$scope.day_events = items;
+			$scope.$digest();
+		});
 		$scope.$digest();
 	};
 

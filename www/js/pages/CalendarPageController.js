@@ -18,6 +18,8 @@ MyApp.pages.CalendarPageController = function ($scope) {
 	$scope.timeline_days = [];
 	$scope.selected_day = null;
 
+	$scope.loading_events = true;
+
 	$scope.page_counter = 0;
 	$scope.binded = false;
 
@@ -25,7 +27,7 @@ MyApp.pages.CalendarPageController = function ($scope) {
 	$scope.date_text = '';
 	$scope.is_downloading = false;
 	$scope.first_page_downloaded = false;
-	$scope.no_timeline_events = true;
+	$scope.no_timeline_events = null;
 
 
 	var $$my_timeline = $$('.my-timeline');
@@ -46,55 +48,48 @@ MyApp.pages.CalendarPageController = function ($scope) {
 		}
 
 		$scope.is_downloading = true;
-		$scope.no_timeline_events = true;
+		$scope.no_timeline_events = null;
 
 		$scope.$apply();
 
 		__api.events.get([
 			{timeline: true},
-			{type: 'future'},
-			{page: $scope.page_counter++},
-			{length: 20}
+			{fields: 'is_favorite,nearest_event_date,image_square_vertical_url,dates'},
+			{order_by: "nearest_event_date,-is_favorite"},
+			{future: 'true'},
+			{offset: 10 * $scope.page_counter++},
+			{length: 10}
 		], function(data){
 			if (data.length == 0 && first_page){
-				$scope.no_timeline_events = false;
+				$scope.no_timeline_events = true;
 			}
 			if (first_page){
 				$scope.first_page_downloaded = true;
 			}
 			$scope.$apply();
-			var today_timestamp = new Date(moment().format('YYYY/MM/DD 00:00:00')).getTime();
-
-			data.forEach(function(item, index){
-				item.moment_dates_range = [];
-				item.dates_range.forEach(function(date){
-					date = date.replace(/-/igm, '/');
-					var m_date = new Date(date);
-					if (m_date.getTime() >= today_timestamp){
-						item.moment_dates_range.push(moment(m_date));
-					}
-				});
-				data[index] = item;
-			});
 
 			events_by_days = first_page ? {} : events_by_days;
 
-			var data_length = data.length;
+			data.forEach(function(item){
+				var first_date = moment.unix(item.nearest_event_date).format('DD MMMM');
 
-			for (var i = 0; i < data_length; i++){
-				var item = data[i];
-				if (item.moment_dates_range.length == 0){
-					continue;
-				}
-				var first_date = moment(item.nearest_event_date).format('DD MMMM');
+				item.dates.forEach(function(date){
+					if (date.event_date == item.nearest_event_date){
+						item.display_time = {
+							start:  moment(date.start_time, 'HH:mm:ss').format('HH:mm'),
+							end: moment(date.end_time, 'HH:mm:ss').format('HH:mm')
+						}
+					}
+				});
+
+
 				if (!events_by_days.hasOwnProperty(first_date)){
 					events_by_days[first_date] = {};
 				}
 				if (!events_by_days[first_date].hasOwnProperty('_' + item.id)){
 					events_by_days[first_date]['_' + item.id] = item;
 				}
-				data[i] = item;
-			}
+			});
 
 			$scope.timeline_days = [];
 
@@ -112,6 +107,7 @@ MyApp.pages.CalendarPageController = function ($scope) {
 					});
 				}
 			}
+
 			$scope.is_downloading = false;
 			$scope.$apply();
 			if (cb){
@@ -129,7 +125,14 @@ MyApp.pages.CalendarPageController = function ($scope) {
 				$$day = $$('.d-' + [year, month,day].join('-'));
 
 			if (date.favorites_count > 0){
-				$$day.addClass('with-events with-favorites');
+				$$day
+					.addClass('with-events with-favorites');
+			}
+			$$day
+				.data('favorites-count', date.favorites_count)
+				.data('events-count', date.events_count);
+			if ($$day.parents('.picker-calendar-day').hasClass('picker-calendar-day-selected')){
+				$scope.generateEventsText(date.events_count, date.favorites_count);
 			}
 		});
 
@@ -152,6 +155,15 @@ MyApp.pages.CalendarPageController = function ($scope) {
 		], addClassesToDatesWithEvents);
 	};
 
+	$scope.generateEventsText = function(events_count, favorites_count){
+		var events_text = events_count + getUnitsText(events_count, CONTRACT.TEXTS.EVENTS);
+		if (favorites_count){
+			events_text += ', ' + favorites_count + getUnitsText(favorites_count, CONTRACT.TEXTS.FAVORITES);
+		}
+		$scope.events_text = events_text;
+		$scope.$apply()
+	};
+
 	$scope.showEventsInSelectedDay = function(){
 		if ($scope.selected_day == null) return;
 		fw7App.showIndicator();
@@ -160,7 +172,7 @@ MyApp.pages.CalendarPageController = function ($scope) {
 			{fields: 'detail_info_url,image_square_vertical_url,is_favorite,location,favored_users_count,organization_name,organization_logo_small_url,description,favored,is_same_time,tags'},
 			{my: true}
 		], function(data){
-			console.log(data);
+
 			if (callbackObjects['eventsInDayPageBeforeAnimation']){
 				callbackObjects['eventsInDayPageBeforeAnimation'].remove();
 			}
@@ -246,64 +258,65 @@ MyApp.pages.CalendarPageController = function ($scope) {
 				}
 			},
 			onDayClick: function (p, dayContainer, year, month, day){
+				$scope.day_events = [];
 				$scope.no_events = true;
+				$scope.loading_events = true;
+				$$('.calendar-loader').show();
 				$scope.$apply();
-				var _date = moment([year, parseInt(month) + 1, day].join('-'), 'YYYY-M-D');
+				var _date = moment([year, parseInt(month) + 1, day].join('-'), 'YYYY-M-D'),
+					$$day = $$(dayContainer).find('span.day-number'),
+					events_count = $$day.data('events-count'),
+					favorites_count =  $$day.data('favorites-count');
 				$scope.selected_day = _date;
-				if (window.innerHeight == IPHONE_4_HEIGHT){
-					$$('.calendar-loader').show();
-					$$('.iphone-4-events-btn').hide();
 
-					__api.events.get([
-						{date: _date.format(CONTRACT.DATE_FORMAT)},
-						{my: true}
-					], function(data){
-						var events_count = 0,
-							favorites_count = 0;
+				__api.events.get([
+					{date: _date.format(CONTRACT.DATE_FORMAT)},
+					{my: true},
+					{fields: 'dates{length:500,fields:"start_time,end_time"},image_square_vertical_url,is_favorite,is_same_time,tags'},
+					{length: favorites_count > 10 ? favorites_count : 10},
+					{order_by: "-is_favorite"}
+				], function(data){
 
-						data.forEach(function(event){
-							events_count++;
-							if (event.is_favorite){
-								favorites_count++;
+					$scope.generateEventsText(events_count, favorites_count);
+
+
+					$scope.date_text = _date.format('D MMMM');
+					var __today = moment();
+					if (__today.format(CONTRACT.DATE_FORMAT) == _date.format(CONTRACT.DATE_FORMAT)){
+						$scope.date_text = 'Сегодня';
+					}else if (__today.add('days', 1).format(CONTRACT.DATE_FORMAT) == _date.format(CONTRACT.DATE_FORMAT)){
+						$scope.date_text = 'Завтра';
+					}
+					
+					data.forEach(function(item){
+						item.moment_dates.forEach(function(m_date){
+							if (m_date.start_date.format(CONTRACT.DATE_FORMAT) == _date.format(CONTRACT.DATE_FORMAT)){
+								item.display_time = {
+									start:  m_date.start_date.format('HH:ss'),
+									end:  m_date.end_date.format('HH:ss') 
+								}
 							}
-						});
-
-						$scope.events_text = events_count + getUnitsText(events_count, CONTRACT.TEXTS.EVENTS);
-						if (favorites_count){
-							$scope.events_text += ', ' + favorites_count + getUnitsText(favorites_count, CONTRACT.TEXTS.FAVORITES);
-						}
-
-						$scope.date_text = _date.format('D MMMM');
-						var __today = moment();
-						if (__today.format(CONTRACT.DATE_FORMAT) == _date.format(CONTRACT.DATE_FORMAT)){
-							$scope.date_text = 'Сегодня';
-						}else if (__today.add('days', 1).format(CONTRACT.DATE_FORMAT) == _date.format(CONTRACT.DATE_FORMAT)){
-							$scope.date_text = 'Завтра';
-						}
-						$scope.$apply();
-
-						$$('.calendar-loader').hide();
-						$$('.iphone-4-events-btn').show();
+						})
 					});
-				}else{
-					$$('.calendar-loader').show();
-					$$('.calendar-list').hide();
-					__api.events.get([
-						{date: _date.format(CONTRACT.DATE_FORMAT)},
-						{my: true},
-						{fields: 'dates{length:500,fields:"start_time,end_time"},detail_info_url,image_square_vertical_url,is_favorite,can_edit,location,favored_users_count,organization_name,organization_logo_small_url,description,favored,is_same_time,tags'}
-					], function(events){
-						$$('.calendar-loader').hide();
-						$$('.calendar-list').show();
-						$scope.day_events = events;
-						$scope.no_events = $scope.day_events.length != 0;
+
+					$$('.calendar-loader').hide();
+
+
+					$scope.loading_events = false;
+					if (window.innerHeight == IPHONE_4_HEIGHT){
+						$scope.day_events = [];
+						$scope.no_events = events_count != 0;
 						$scope.$apply();
-					});
-				}
+					}else{
+						$scope.day_events = data;
+						$scope.no_events = events_count != 0;
+						$scope.$apply();
+					}
+				});
+
+
 			}
 		});
-	//var _now = moment();
-	//calendarInline.setYearMonth(_now.format('YYYY'), _now.format('M') - 1, 0);
 
 	$scope.$watch('year', function(val){
 		$$('.calendar-head-year').text(val);

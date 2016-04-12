@@ -12,8 +12,8 @@ var child_browser_opened = false,
             unsubscribe:    ['удалил(а) подписки']
         },
         URLS: {
-            BASE_NAME: 'http://dev.evendate.org',
-            API_FULL_PATH: 'http://dev.evendate.org/api/v1',
+            BASE_NAME: 'http://evendate.ru',
+            API_FULL_PATH: 'http://evendate.ru/api/v1',
             USERS_PATH: '/users',
             SUBSCRIPTIONS_PATH: '/subscriptions',
             ORGANIZATIONS_PATH: '/organizations',
@@ -171,9 +171,11 @@ var child_browser_opened = false,
             FACEBOOK: 'facebook',
             GOOGLE: 'vk'
         },
+        STATISTICS: {
+
+        },
         DEMO_TOKEN: 'CAAYDHIPuIBYBAM26ZBTlCN1k08K7iZCKTrQ1JjFxNdWoGyFkgZAymhrmn5W92aL7XtPD6m2CYu9sSS1a30HA6TjkNyPkvChyyt1wCu7vleuMHbtpro6lJsJDNbAZBfUZCna1bXMULPv4igyZAEz9qvJxeHiUTgOghmklhlQAgAvvrjqi8sEOSWiJn5DbZAwNcUZDundefinedjrR7TyjWPIN3NjfazLy3hdtYOqnmd11tHWR1F0hoznPPpdaV1FNFlb47pfr4W26i',
     },
-    __db,
     __os = navigator.platform == 'Win32' ? 'win': 'hz',
     permanentStorage = window.localStorage,
     tempStorage = window.sessionStorage,
@@ -187,7 +189,7 @@ var child_browser_opened = false,
     __api,
     __app,
     __to_open_event,
-    ONE_SIGNAL_APP_ID = '585c1542-9dd7-432b-b033-f541b3192ec6',
+    ONE_SIGNAL_APP_ID = '7471a586-01f3-4eef-b989-c809700a8658',
     __run_after_init = function(){},
     __is_ready = false,
     $$,
@@ -254,6 +256,11 @@ MyApp.init = (function () {
         },
         onAjaxComplete: function(){
             fw7App.hideIndicator();
+        },
+        onAjaxError: function(e){
+            if (e.status != 200 && e.requestUrl.indexOf(CONTRACT.URLS.BASE_NAME) != -1){
+                fw7App.alert(CONTRACT.ALERTS.NO_INTERNET);
+            }
         }
     });
     $$ = Dom7;
@@ -305,15 +312,6 @@ MyApp.init = (function () {
 
 document.addEventListener("deviceready", onDeviceReady, false);
 
-function makeid(){
-    var text = "";
-    var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-
-    for( var i=0; i < 5; i++ )
-        text += possible.charAt(Math.floor(Math.random() * possible.length));
-    return text;
-}
-
 if (__os == 'win'){
     (function() {
         tempStorage.clear();
@@ -329,7 +327,6 @@ function openLink(prefix, link, http_link){
         },
         function(){
             window.open(http_link, '_system');
-
         }
     );
 }
@@ -401,65 +398,65 @@ function registerPushService(){
             registerSuccessHandler(null);
         }
     }else{
-
-        function initPushwoosh() {
-            try{
-                var pushNotification = cordova.require("com.pushwoosh.plugins.pushwoosh.PushNotification");
-                //set push notification callback before we initialize the plugin
-                document.addEventListener('push-notification', function(event) {
-                    //get the notification payload
-                    var notification = event.notification;
-                    //display alert to the user for example
-                    if (notification.onStart == false){
-                        fw7App.addNotification({
-                            title: notification.aps.alert,
-                            hold: 5000,
-                            closeIcon: true,
-                            subtitle: '',
-                            message: notification.userdata.body,
-                            media: '<img width="44" height="44" src="' + notification.userdata.icon + '">',
-                            onClick: function(){
-                                __api.events.get([
-                                    {id: notification.userdata.event_id}
-                                ], function(res){
-                                    res[0].open();
-                                })
-                            }
-                        });
-                    }else{
-                        __api.events.get([
-                            {id: notification.userdata.event_id}
-                        ], function(res){
-                            res[0].open();
-                        })
-                    }
-                });
-            }catch(e){
-                registerSuccessHandler(null);
-            }
-
-            try{
-                pushNotification.getLaunchNotification(function(payload){
-                    __to_open_event = payload;
-                    openNotification();
-                });
-                //initialize the plugin
-                pushNotification.onDeviceReady({pw_appid: "3874F-0C5E5"});
-
-                //register for pushes
-                pushNotification.registerDevice(
-                    function(status) {
-                        registerSuccessHandler(status['deviceToken']);
-                    },
-                    function(status) {
-                        registerSuccessHandler(null);
-                    }
-                );
-            }catch(e){
-                registerSuccessHandler(null);
-            }
-        }
-        // initPushwoosh();
+        //
+        // function initPushwoosh() {
+        //     try{
+        //         var pushNotification = cordova.require("com.pushwoosh.plugins.pushwoosh.PushNotification");
+        //         //set push notification callback before we initialize the plugin
+        //         document.addEventListener('push-notification', function(event) {
+        //             //get the notification payload
+        //             var notification = event.notification;
+        //             //display alert to the user for example
+        //             if (notification.onStart == false){
+        //                 fw7App.addNotification({
+        //                     title: notification.aps.alert,
+        //                     hold: 5000,
+        //                     closeIcon: true,
+        //                     subtitle: '',
+        //                     message: notification.userdata.body,
+        //                     media: '<img width="44" height="44" src="' + notification.userdata.icon + '">',
+        //                     onClick: function(){
+        //                         __api.events.get([
+        //                             {id: notification.userdata.event_id}
+        //                         ], function(res){
+        //                             res[0].open();
+        //                         })
+        //                     }
+        //                 });
+        //             }else{
+        //                 __api.events.get([
+        //                     {id: notification.userdata.event_id}
+        //                 ], function(res){
+        //                     res[0].open();
+        //                 })
+        //             }
+        //         });
+        //     }catch(e){
+        //         registerSuccessHandler(null);
+        //     }
+        //
+        //     try{
+        //         pushNotification.getLaunchNotification(function(payload){
+        //             __to_open_event = payload;
+        //             openNotification();
+        //         });
+        //         //initialize the plugin
+        //         pushNotification.onDeviceReady({pw_appid: "3874F-0C5E5"});
+        //
+        //         //register for pushes
+        //         pushNotification.registerDevice(
+        //             function(status) {
+        //                 registerSuccessHandler(status['deviceToken']);
+        //             },
+        //             function(status) {
+        //                 registerSuccessHandler(null);
+        //             }
+        //         );
+        //     }catch(e){
+        //         registerSuccessHandler(null);
+        //     }
+        // }
+        //
         window.plugins.OneSignal.setLogLevel({logLevel: 4, visualLevel: 4});
         var notificationOpenedCallback = function(jsonData) {
             L.log('didReceiveRemoteNotificationCallBack: ' + JSON.stringify(jsonData));
@@ -468,8 +465,10 @@ function registerPushService(){
         };
 
         window.plugins.OneSignal.init(ONE_SIGNAL_APP_ID,
-            {googleProjectNumber: ""},
+            {googleProjectNumber: "", autoRegister: true},
             notificationOpenedCallback);
+        window.plugins.OneSignal.enableNotificationsWhenActive(true);
+        window.plugins.OneSignal.enableInAppAlertNotification(true);
     }
 }
 
@@ -484,16 +483,9 @@ function resetAccount(){
 }
 
 function onDeviceReady(){
-
-    $$(document).on('ajaxError', function (){
-        fw7App.alert(CONTRACT.ALERTS.NO_INTERNET);
-    });
     __api = initAPI();
     moment.locale("ru");
 
-    if (window.analytics){
-        window.analytics.startTrackerWithId('UA-69300084-1');
-    }
     registerPushService();
     StatusBar.styleBlackTranslucent();
 }
@@ -695,7 +687,7 @@ function checkToken(to_reset){
     }
     if (token != null){
         $$.ajax({
-            url: CONTRACT.URLS.API_FULL_PATH + CONTRACT.URLS.USERS_PATH + '/me/status',
+            url: CONTRACT.URLS.API_FULL_PATH + CONTRACT.URLS.USERS_PATH + '/me/devices',
             headers: {
                 'Authorization': token
             },

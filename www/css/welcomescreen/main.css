@@ -348,7 +348,7 @@ span.day-number.with-favorites::after{
   margin: 0;
 }
 
-.organizations-list ul::before, .organizations-list ul::after, {
+.organizations-list ul::before, .organizations-list ul::after {
   background-color: transparent;
 }
 
@@ -557,7 +557,7 @@ span.day-number.with-favorites::after{
   color: #4A4A4A !important;
   letter-spacing: 2px!important;
   line-height: 24px!important;
-  border-bottom: 1px solid rgba(0,0,0,0.05)!important;s
+  border-bottom: 1px solid rgba(0,0,0,0.05)!important;
 }
 
 .img-cirle-wrapper{
@@ -778,6 +778,7 @@ span.day-number.with-favorites::after{
   margin-top: 10px;
   margin-bottom: 10px;
   text-align: center;
+  min-height: 20px;
 }
 
 .infinite-scroll-preloader .preloader {
@@ -874,7 +875,7 @@ span.day-number.with-favorites::after{
 }
 
 #calendar-date-events-button{
-  display: none
+  /*display: none*/
 }
 
 #calendar-date-events-button.active-state{
@@ -1304,6 +1305,34 @@ li.organization{
 }
 
 
+#calendar-date-events-button{
+  display: block;
+  /*-webkit-transition: all 0.3s linear;*/
+  /*transition: all 0.3s linear;*/
+  /*position: fixed;*/
+  top: 74%;
+  overflow: scroll;
+  height: 60px;
+  /*width: 100%;*/
+  padding-left: 25px;
+  padding-top: 10px;
+}
+
+#calendar-date-events-button .right-arrow{
+  float: right;
+  padding-right: 20px;
+  font-size: 24px;
+  padding-top: 7px;
+  color: #F82969;
+}
+
+#calendar-date-events-button .day-name{
+  font-size: 20px;
+  color: #F11069;
+  line-height: 24px;
+}
+
+
 #profile .content-block-title{
   margin: 24px 15px 2px;
   font-size: 12px;
@@ -1316,6 +1345,11 @@ li.organization{
 @media only screen
 and (max-device-height : 480px)
 and (orientation : portrait) {
+
+
+  #calendar-date-events-button{
+    border-top: 2px solid rgba(204, 204, 204, 0.45);
+  }
 
   .calendar-head-year{
     display: none;
@@ -1417,35 +1451,7 @@ and (orientation : portrait) {
   }
 
   #calendar-date-events-list{
-    display: none;
-  }
-
-  #calendar-date-events-button{
-    display: block;
-    /*-webkit-transition: all 0.3s linear;*/
-    /*transition: all 0.3s linear;*/
-    position: fixed;
-    top: 74%;
-    overflow: scroll;
-    height: calc(80% - 70px);
-    width: 100%;
-    padding-left: 25px;
-    border-top: 2px solid rgba(204,204,204,0.45);
-    padding-top: 10px;
-  }
-
-  #calendar-date-events-button .right-arrow{
-    float: right;
-    padding-right: 40px;
-    font-size: 24px;
-    padding-top: 7px;
-    color: #F82969;
-  }
-
-  #calendar-date-events-button .day-name{
-    font-size: 20px;
-    color: #F11069;
-    line-height: 24px;
+    top: calc(69% + 20px);
   }
 
   .auth-slide .content-block{
@@ -2135,4 +2141,26 @@ a.link.back{
 
 .event-description{
   white-space: pre-line !important;
+}
+
+.action1 {
+  padding: 0 15px;
+}
+
+.action1_text {
+  display: block;
+  margin: 0;
+  font-size: 0.7em;
+  white-space: nowrap;
+}
+
+.action1_icon {
+  display: block;
+  font-size: 32px;
+}
+
+.list-block .swipeout-actions-left a.action1,
+.list-block .swipeout-actions-right a.action1 {
+  display: block;
+  text-align: center;
 }
