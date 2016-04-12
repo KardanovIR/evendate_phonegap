@@ -6,10 +6,10 @@ var child_browser_opened = false,
     CONTRACT = {
         DATE_FORMAT: 'YYYY-MM-DD',
         ACTION_NAMES: {
-            fave:           ['добавил(а) в избранное'],
-            unfave:         ['удалил(а) из избранного'],
-            subscribe:      ['добавил(а) подписки'],
-            unsubscribe:    ['удалил(а) подписки']
+            fave: ['добавил(а) в избранное'],
+            unfave: ['удалил(а) из избранного'],
+            subscribe: ['добавил(а) подписки'],
+            unsubscribe: ['удалил(а) подписки']
         },
         URLS: {
             BASE_NAME: 'http://evendate.ru',
@@ -27,7 +27,7 @@ var child_browser_opened = false,
             ACTIONS_PART: '/actions',
             SUBSCRIPTIONS_PART: '/subscriptions'
         },
-        FRIEND_TYPE_NAMES:{
+        FRIEND_TYPE_NAMES: {
             vk: 'ВКонтакте',
             google: 'Google +',
             fb: 'Facebook'
@@ -36,7 +36,7 @@ var child_browser_opened = false,
             NO_INTERNET: 'Отсутствует соединение с сервером',
 
         },
-        DB:{
+        DB: {
             NAME: 'evendate.db',
             VERSION: 2,
             TABLES: {
@@ -81,7 +81,7 @@ var child_browser_opened = false,
                     CREATED_AT: 'created_at',
                     UPDATED_AT: 'updated_at'
                 },
-                EVENTS_DATES:{
+                EVENTS_DATES: {
                     _ID: 'id',
                     EVENT_ID: 'event_id',
                     EVENT_DATE: 'event_date',
@@ -171,12 +171,10 @@ var child_browser_opened = false,
             FACEBOOK: 'facebook',
             GOOGLE: 'vk'
         },
-        STATISTICS: {
-
-        },
+        STATISTICS: {},
         DEMO_TOKEN: 'CAAYDHIPuIBYBAM26ZBTlCN1k08K7iZCKTrQ1JjFxNdWoGyFkgZAymhrmn5W92aL7XtPD6m2CYu9sSS1a30HA6TjkNyPkvChyyt1wCu7vleuMHbtpro6lJsJDNbAZBfUZCna1bXMULPv4igyZAEz9qvJxeHiUTgOghmklhlQAgAvvrjqi8sEOSWiJn5DbZAwNcUZDundefinedjrR7TyjWPIN3NjfazLy3hdtYOqnmd11tHWR1F0hoznPPpdaV1FNFlb47pfr4W26i',
     },
-    __os = navigator.platform == 'Win32' ? 'win': 'hz',
+    __os = navigator.platform == 'Win32' ? 'win' : 'hz',
     permanentStorage = window.localStorage,
     tempStorage = window.sessionStorage,
     URLs = {
@@ -190,7 +188,8 @@ var child_browser_opened = false,
     __app,
     __to_open_event,
     ONE_SIGNAL_APP_ID = '7471a586-01f3-4eef-b989-c809700a8658',
-    __run_after_init = function(){},
+    __run_after_init = function () {
+    },
     __is_ready = false,
     $$,
     MyApp = MyApp || {},
@@ -198,19 +197,19 @@ var child_browser_opened = false,
     subscriptions_updated = false,
     callbackObjects = {};
 
-if (window.hasOwnProperty('io')){
+if (window.hasOwnProperty('io')) {
     window.socket = io.connect('http://evendate.ru:443');
 }
 window.L = {
-    log: function(data){
-        if (window.hasOwnProperty('socket')){
+    log: function (data) {
+        if (window.hasOwnProperty('socket')) {
             socket.emit('log', data);
-        }else if (__os == 'win'){
+        } else if (__os == 'win') {
             console.log(data)
         }
     }
 };
-String.prototype.capitalize = function() {
+String.prototype.capitalize = function () {
     return this.charAt(0).toUpperCase() + this.slice(1);
 };
 
@@ -251,31 +250,31 @@ MyApp.init = (function () {
         dynamicNavbar: true,
         scrollTopOnStatusbarClick: true,
         statusbarOverlay: true,
-        onAjaxStart: function(){
+        onAjaxStart: function () {
             fw7App.showIndicator();
         },
-        onAjaxComplete: function(){
+        onAjaxComplete: function () {
             fw7App.hideIndicator();
         },
-        onAjaxError: function(e){
-            if (e.status != 200 && e.requestUrl.indexOf(CONTRACT.URLS.BASE_NAME) != -1){
+        onAjaxError: function (e) {
+            if (e.status != 200 && e.requestUrl.indexOf(CONTRACT.URLS.BASE_NAME) != -1) {
                 fw7App.alert(CONTRACT.ALERTS.NO_INTERNET);
             }
         }
     });
     $$ = Dom7;
 
-    fw7App.getViewByName = function(name){
+    fw7App.getViewByName = function (name) {
         var _view = null;
-        fw7App.views.forEach(function(view){
-            if (view.selector == '.view-' + name){
+        fw7App.views.forEach(function (view) {
+            if (view.selector == '.view-' + name) {
                 _view = view;
             }
         });
         return _view;
     };
 
-    fw7App.setView = function(name){
+    fw7App.setView = function (name) {
         var viewInstance = fw7App.getViewByName(name);
         $$('.view').removeClass('active');
         $$(viewInstance.container).addClass('active');
@@ -306,32 +305,32 @@ MyApp.init = (function () {
     __app.controller('EventPageController', ['$scope', MyApp.pages.EventPageController]);
     __app.controller('OrganizationPageController', ['$scope', MyApp.pages.OrganizationPageController]);
     __app.controller('FriendPageController', ['$scope', MyApp.pages.FriendPageController]);
-    __app.controller('EventsInDayController', ['$scope', '$element',  MyApp.pages.EventsInDayController]);
-    __app.controller('UsersPageController', ['$scope', '$element',  MyApp.pages.UsersPageController]);
+    __app.controller('EventsInDayController', ['$scope', '$element', MyApp.pages.EventsInDayController]);
+    __app.controller('UsersPageController', ['$scope', '$element', MyApp.pages.UsersPageController]);
 }());
 
 document.addEventListener("deviceready", onDeviceReady, false);
 
-if (__os == 'win'){
-    (function() {
+if (__os == 'win') {
+    (function () {
         tempStorage.clear();
         onDeviceReady();
     })();
 }
 
-function openLink(prefix, link, http_link){
+function openLink(prefix, link, http_link) {
     appAvailability.check(
         prefix + '://',
-        function(){
+        function () {
             window.open(link, '_system');
         },
-        function(){
+        function () {
             window.open(http_link, '_system');
         }
     );
 }
 
-function onNotificationAPN (data) {
+function onNotificationAPN(data) {
     cordova.plugins.notification.local.schedule({
         id: data.event_id,
         title: data.title,
@@ -339,48 +338,49 @@ function onNotificationAPN (data) {
         data: data
     });
 
-    cordova.plugins.notification.local.on("click", function(notification) {
-        try{
+    cordova.plugins.notification.local.on("click", function (notification) {
+        try {
             var _data = JSON.parse(notification.data);
-        }catch(e){
+        } catch (e) {
             L.log(e);
             return;
         }
 
-        if (__is_ready){
+        if (__is_ready) {
             __api.events.get([{
                 id: _data.event_id
-            }], function(res){
+            }], function (res) {
                 res[0].open();
             });
-        }else{
+        } else {
         }
 
 
     }, this);
 
-    cordova.plugins.notification.local.on("trigger", function(notification) {
-        try{
+    cordova.plugins.notification.local.on("trigger", function (notification) {
+        try {
             var _data = JSON.parse(notification.data);
-        }catch(e){
+        } catch (e) {
             L.log(e);
             return;
         }
 
-        if (__is_ready){
+        if (__is_ready) {
             __api.events.get([{
                 id: _data.event_id
-            }], function(res){
+            }], function (res) {
                 res[0].open();
             });
-        }else{
-            __run_after_init = function(){
+        } else {
+            __run_after_init = function () {
                 __api.events.get([{
                     id: _data.event_id
-                }], function(res){
+                }], function (res) {
                     res[0].open();
                 });
-                __run_after_init = function(){};
+                __run_after_init = function () {
+                };
             }
         }
 
@@ -388,16 +388,16 @@ function onNotificationAPN (data) {
     }, this);
 }
 
-function registerPushService(){
-    if (__os == 'win'){
-        if (window.hasOwnProperty('socket')){
-            socket.on('connect', function(){
+function registerPushService() {
+    if (__os == 'win') {
+        if (window.hasOwnProperty('socket')) {
+            socket.on('connect', function () {
                 registerSuccessHandler(socket.id);
             });
-        }else{
+        } else {
             registerSuccessHandler(null);
         }
-    }else{
+    } else {
         //
         // function initPushwoosh() {
         //     try{
@@ -458,8 +458,8 @@ function registerPushService(){
         // }
         //
         // window.plugins.OneSignal.setLogLevel({logLevel: 4, visualLevel: 4});
-        
-        var notificationOpenedCallback = function(jsonData) {
+
+        var notificationOpenedCallback = function (jsonData) {
             L.log('didReceiveRemoteNotificationCallBack: ' + JSON.stringify(jsonData));
             L.log(jsonData);
             onNotificationAPN(jsonData);
@@ -468,30 +468,31 @@ function registerPushService(){
         window.plugins.OneSignal.init(ONE_SIGNAL_APP_ID,
             {googleProjectNumber: "", autoRegister: true},
             notificationOpenedCallback);
-        window.plugins.OneSignal.enableNotificationsWhenActive(true);
+
+
         window.plugins.OneSignal.enableInAppAlertNotification(true);
-        window.plugins.OneSignal.getIds(function(ids) {
+        window.plugins.OneSignal.getIds(function (ids) {
             L.log(ids);
-            if (ids.hasOwnProperty('pushToken')){
-                registerSuccessHandler(ids.pushToken);
-            }else{
+            if (ids.hasOwnProperty('userId')) {
+                registerSuccessHandler(ids.userId);
+            } else {
                 registerSuccessHandler(null);
             }
         });
     }
 }
 
-function setDemoAccount(){
+function setDemoAccount() {
     permanentStorage.setItem('token', CONTRACT.DEMO_TOKEN);
     permanentStorage.setItem('demo', true);
 }
 
-function resetAccount(){
+function resetAccount() {
     tempStorage.clear();
     checkToken(true);
 }
 
-function onDeviceReady(){
+function onDeviceReady() {
     __api = initAPI();
     moment.locale("ru");
 
@@ -499,40 +500,40 @@ function onDeviceReady(){
     StatusBar.styleBlackTranslucent();
 }
 
-function registerSuccessHandler(result){
+function registerSuccessHandler(result) {
     L.log('device token = ' + result);
     __device_id = result;
     checkToken();
 }
 
 function isOnline() {
-    if (__os == 'win'){
+    if (__os == 'win') {
         return true;
     }
     var networkState = navigator.connection.type;
     return networkState != Connection.NONE;
 }
 
-function saveTokenInLocalStorage(url){
+function saveTokenInLocalStorage(url) {
     var search_object = $$.parseUrlQuery(url);
     permanentStorage.setItem('token', search_object['token']);
     checkToken();
 }
 
-function openNotification(){
-    if (__to_open_event != null && __is_ready){
+function openNotification() {
+    if (__to_open_event != null && __is_ready) {
         L.log("launchedNotification");
-        if (__to_open_event && __to_open_event.onStart){
+        if (__to_open_event && __to_open_event.onStart) {
             __api.events.get([
                 {id: __to_open_event.userdata.event_id}
-            ], function(res){
+            ], function (res) {
                 res[0].open();
             })
         }
     }
 }
 
-function openApplication(){
+function openApplication() {
     __app = angular.module('Evendate', []);
     $$('.main-tabbar').removeClass('hidden');
     var viewInstance = fw7App.getViewByName('events');
@@ -542,39 +543,39 @@ function openApplication(){
     $$('.view-main').addClass('tab');
 
     var scope = angular.element($$('#profile')).scope();
-    scope.$apply(function(){
+    scope.$apply(function () {
         scope.setUser();
     });
 
     var calendar_scope = angular.element($$('#calendar')).scope();
-    calendar_scope.$apply(function(){
+    calendar_scope.$apply(function () {
         calendar_scope.startBinding();
         calendar_scope.getMyTimeline(true);
     });
 
     var favorites_scope = angular.element($$('#favorites')).scope();
-    favorites_scope.$apply(function(){
+    favorites_scope.$apply(function () {
         favorites_scope.startBinding();
     });
 
     var friends_scope = angular.element($$('#friends')).scope();
-    friends_scope.$apply(function(){
+    friends_scope.$apply(function () {
         friends_scope.showFeed(true);
     });
 
 
-    $$('.main-tabbar .toolbar-inner a').on('click', function(){
+    $$('.main-tabbar .toolbar-inner a').on('click', function () {
 
         var $toolbar = $$('.main-tabbar .toolbar-inner'),
             $$this = $$(this),
             $$i = $$this.find('i');
 
-        if ($$this.hasClass('active')){
+        if ($$this.hasClass('active')) {
             var max_pages_count = 0;
-            if (fw7App.getCurrentView().history.length == 1){
+            if (fw7App.getCurrentView().history.length == 1) {
                 $$(fw7App.getCurrentView().activePage.container).find('.tab.active').scrollTo(0, 0, 400);
-            }else{
-                while(fw7App.getCurrentView().history[0] != fw7App.getCurrentView().activePage.url && max_pages_count++ < 500){
+            } else {
+                while (fw7App.getCurrentView().history[0] != fw7App.getCurrentView().activePage.url && max_pages_count++ < 500) {
                     fw7App.getCurrentView().back({animatePages: fw7App.getCurrentView().history.length == 2});
                 }
             }
@@ -582,7 +583,7 @@ function openApplication(){
 
         $toolbar.removeClass('toolbar-item-0 toolbar-item-1 toolbar-item-2 toolbar-item-3');
 
-        $toolbar.find('i').each(function(){
+        $toolbar.find('i').each(function () {
             var $$this_i = $$(this);
             $$this_i
                 .removeClass($$this_i.data('active-icon'))
@@ -598,11 +599,11 @@ function openApplication(){
     });
 
     $$('#view-events-tab-link').addClass('active')
-        .on('click', function(){
-            if (subscriptions_updated){
+        .on('click', function () {
+            if (subscriptions_updated) {
                 var calendar_scope = angular.element($$('#calendar')).scope();
                 subscriptions_updated = false;
-                calendar_scope.$apply(function(){
+                calendar_scope.$apply(function () {
                     calendar_scope.startBinding();
                 });
             }
@@ -613,9 +614,9 @@ function openApplication(){
 
 }
 
-window.onerror = function sendCrashReport(message, url , linenumber, column, errorObj){
+window.onerror = function sendCrashReport(message, url, linenumber, column, errorObj) {
     var stack = '';
-    if(errorObj !== undefined) //so it won’t blow up in the rest of the browsers
+    if (errorObj !== undefined) //so it won’t blow up in the rest of the browsers
         stack = errorObj.stack;
     L.log({
         message: message,
@@ -627,7 +628,7 @@ window.onerror = function sendCrashReport(message, url , linenumber, column, err
     })
 };
 
-function showSlides(to_reset){
+function showSlides(to_reset) {
     $$('.splash-icon').addClass('hidden');
     $$('.swiper-container').removeClass('hidden');
     $$('.view-main').removeClass('tab');
@@ -642,12 +643,12 @@ function showSlides(to_reset){
     $$('.view').removeClass('active');
     $$('.view-main').removeClass('active');
 
-   var mySwiper = fw7App.swiper('.swiper-container', {
+    var mySwiper = fw7App.swiper('.swiper-container', {
         pagination: '.swiper-pagination',
         preloadImages: true,
         parallax: true,
         paginationHide: false,
-        onReachEnd: function(swiper){
+        onReachEnd: function (swiper) {
             $$('.swiper-pagination').hide();
         }
     });
@@ -656,45 +657,44 @@ function showSlides(to_reset){
 
     $$('.vk-btn, .facebook-btn, .google-btn')
         .off('click')
-        .on('click',function() {
-        var type = $$(this).data('type');
-        if (child_browser_opened) return false;
-        child_browser_opened = true;
-        window.plugins.ChildBrowser.showWebPage(URLs[type], {
-            showLocationBar: true,
-            showAddress: true,
-            showNavigationBar: true
+        .on('click', function () {
+            var type = $$(this).data('type');
+            if (child_browser_opened) return false;
+            child_browser_opened = true;
+            window.plugins.ChildBrowser.showWebPage(URLs[type], {
+                showLocationBar: true,
+                showAddress: true,
+                showNavigationBar: true
+            });
+            window.plugins.ChildBrowser.onClose = function () {
+                child_browser_opened = false;
+            };
+            window.plugins.ChildBrowser.onLocationChange = function (url) {
+                if (/mobileAuthDone/.test(url)) {
+                    saveTokenInLocalStorage(url);
+                    window.plugins.ChildBrowser.close();
+                }
+            };
         });
-        window.plugins.ChildBrowser.onClose = function () {
-            child_browser_opened = false;
-        };
-        window.plugins.ChildBrowser.onLocationChange = function(url) {
-            if (/mobileAuthDone/.test(url)) {
-                saveTokenInLocalStorage(url);
-                window.plugins.ChildBrowser.close();
-            }
-        };
-    });
 
 
-
-    $$('.start-demo-button').on('click', function(){
+    $$('.start-demo-button').on('click', function () {
         setDemoAccount();
         checkToken();
     });
 
 }
 
-function checkToken(to_reset){
+function checkToken(to_reset) {
     fw7App.showIndicator();
     $$('.preloader-indicator-modal').addClass('with-top');
-    if (to_reset){
+    if (to_reset) {
         permanentStorage.clear();
         token = null;
-    }else{
+    } else {
         var token = permanentStorage.getItem('token');
     }
-    if (token != null){
+    if (token != null) {
         $$.ajax({
             url: CONTRACT.URLS.API_FULL_PATH + CONTRACT.URLS.USERS_PATH + '/me/devices',
             headers: {
@@ -706,10 +706,10 @@ function checkToken(to_reset){
             },
             type: 'PUT',
             dataType: 'JSON',
-            success: function(res){
-                try{
+            success: function (res) {
+                try {
                     var json_res = JSON.parse(res);
-                }catch(e){
+                } catch (e) {
                     fw7App.hideIndicator();
                     $$('.preloader-indicator-modal').removeClass('with-top');
                     showSlides(to_reset);
@@ -718,9 +718,9 @@ function checkToken(to_reset){
 
                 fw7App.hideIndicator();
                 $$('.preloader-indicator-modal').removeClass('with-top');
-                if (json_res.status == false){
+                if (json_res.status == false) {
                     showSlides(to_reset);
-                }else{
+                } else {
                     permanentStorage.setItem('user', JSON.stringify(json_res.data));
                     __user = json_res.data;
                     $$.ajaxSetup({
@@ -734,20 +734,20 @@ function checkToken(to_reset){
                     openApplication();
                 }
             },
-            error: function(){
+            error: function () {
                 fw7App.hidePreloader();
                 fw7App.alert('Отсутствует интернет соединение');
                 showSlides();
             }
         });
-    }else{
+    } else {
         fw7App.hideIndicator();
         $$('.preloader-indicator-modal').removeClass('with-top');
         showSlides(to_reset);
     }
 }
 
-function initAPI(){
+function initAPI() {
     return {
         users: new Users(),
         organizations: new Organizations(),
@@ -757,12 +757,12 @@ function initAPI(){
         subscriptions: new Subscriptions(),
         favorite_events: new FavoriteEvents(),
         tags: new Tags(),
-        organizations_users:new OrganizationsUsers()
+        organizations_users: new OrganizationsUsers()
     }
 }
 
-function prepareFilterQuery(filters){
-    if (!Array.isArray(filters)){
+function prepareFilterQuery(filters) {
+    if (!Array.isArray(filters)) {
         return {
             args: [],
             data: {}
@@ -771,10 +771,10 @@ function prepareFilterQuery(filters){
     var args = [],
         data = {};
 
-    filters.forEach(function(_value){
+    filters.forEach(function (_value) {
         if (!_value) return true;
-        for (var key in _value){
-            if (_value.hasOwnProperty(key)){
+        for (var key in _value) {
+            if (_value.hasOwnProperty(key)) {
                 data[key] = _value[key];
                 var value = String(_value[key]);
                 args.push(value.trim());
@@ -788,6 +788,6 @@ function prepareFilterQuery(filters){
     };
 }
 
-function shareInfoAboutApp(){
+function shareInfoAboutApp() {
     window.plugins.socialsharing.share('Я пользуюсь Evendate, чтобы не пропустить интересные события в своих любимых местах.', null, 'http://evendate.ru/app/img/logo_500.png', 'http://evendate.ru')
 }
