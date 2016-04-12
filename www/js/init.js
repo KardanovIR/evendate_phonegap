@@ -470,7 +470,14 @@ function registerPushService(){
             notificationOpenedCallback);
         window.plugins.OneSignal.enableNotificationsWhenActive(true);
         window.plugins.OneSignal.enableInAppAlertNotification(true);
-        registerSuccessHandler();
+        window.plugins.OneSignal.getIds(function(ids) {
+            L.log(ids);
+            if (ids.hasOwnProperty('pushToken')){
+                registerSuccessHandler(ids.pushToken);
+            }else{
+                registerSuccessHandler(null);
+            }
+        });
     }
 }
 
