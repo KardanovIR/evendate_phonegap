@@ -457,7 +457,8 @@ function registerPushService(){
         //     }
         // }
         //
-        window.plugins.OneSignal.setLogLevel({logLevel: 4, visualLevel: 4});
+        // window.plugins.OneSignal.setLogLevel({logLevel: 4, visualLevel: 4});
+        
         var notificationOpenedCallback = function(jsonData) {
             L.log('didReceiveRemoteNotificationCallBack: ' + JSON.stringify(jsonData));
             L.log(jsonData);
@@ -469,6 +470,7 @@ function registerPushService(){
             notificationOpenedCallback);
         window.plugins.OneSignal.enableNotificationsWhenActive(true);
         window.plugins.OneSignal.enableInAppAlertNotification(true);
+        registerSuccessHandler();
     }
 }
 
