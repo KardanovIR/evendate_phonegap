@@ -695,6 +695,7 @@ function checkToken(to_reset) {
         var token = permanentStorage.getItem('token');
     }
     if (token != null) {
+        L.log('DOING AJAX WITH ' + __device_id);
         $$.ajax({
             url: CONTRACT.URLS.API_FULL_PATH + CONTRACT.URLS.USERS_PATH + '/me/devices',
             headers: {
