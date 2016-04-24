@@ -65,6 +65,7 @@
     <gap:plugin name="cordova-plugin-x-socialsharing" source="npm" />
 
     <gap:plugin name="onesignal-cordova-plugin" source="npm" />
+    <gap:plugin name="cordova-plugin-appavailability" source="npm" />
 
     <icon src="www/res/icon/ios/icon.png" />
     <icon gap:platform="ios" height="57" src="res/icon/ios/icon-57.png" width="57" />
