@@ -330,64 +330,6 @@ function openLink(prefix, link, http_link) {
     );
 }
 
-function onNotificationAPN(data) {
-    cordova.plugins.notification.local.schedule({
-        id: data.event_id,
-        title: data.title,
-        text: data.alert,
-        data: data
-    });
-
-    cordova.plugins.notification.local.on("click", function (notification) {
-        try {
-            var _data = JSON.parse(notification.data);
-        } catch (e) {
-            L.log(e);
-            return;
-        }
-
-        if (__is_ready) {
-            __api.events.get([{
-                id: _data.event_id
-            }], function (res) {
-                res[0].open();
-            });
-        } else {
-        }
-
-
-    }, this);
-
-    cordova.plugins.notification.local.on("trigger", function (notification) {
-        try {
-            var _data = JSON.parse(notification.data);
-        } catch (e) {
-            L.log(e);
-            return;
-        }
-
-        if (__is_ready) {
-            __api.events.get([{
-                id: _data.event_id
-            }], function (res) {
-                res[0].open();
-            });
-        } else {
-            __run_after_init = function () {
-                __api.events.get([{
-                    id: _data.event_id
-                }], function (res) {
-                    res[0].open();
-                });
-                __run_after_init = function () {
-                };
-            }
-        }
-
-
-    }, this);
-}
-
 function registerPushService() {
     if (__os == 'win') {
         if (window.hasOwnProperty('socket')) {
@@ -462,7 +404,7 @@ function registerPushService() {
         var notificationOpenedCallback = function (jsonData) {
             L.log('didReceiveRemoteNotificationCallBack: ' + JSON.stringify(jsonData));
             L.log(jsonData);
-            onNotificationAPN(jsonData);
+            // onNotificationAPN(jsonData);
         };
 
         window.plugins.OneSignal.init(ONE_SIGNAL_APP_ID,
@@ -470,7 +412,8 @@ function registerPushService() {
             notificationOpenedCallback);
 
 
-        window.plugins.OneSignal.enableInAppAlertNotification(true);
+        // window.plugins.OneSignal.enableInAppAlertNotification(true);
+        
         window.plugins.OneSignal.getIds(function (ids) {
             L.log(ids);
             if (ids.hasOwnProperty('userId')) {

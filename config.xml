@@ -62,12 +62,12 @@
     <gap:plugin name="com.phonegap.plugins.childbrowser"/>
     <gap:plugin name="org.apache.cordova.console"/>
     <gap:plugin name="org.apache.cordova.dialogs"/>
-    <gap:plugin name="com.phonegap.plugins.pushplugin"/>
-    <gap:plugin name="com.brodysoft.sqliteplugin"/>
+    <!--<gap:plugin name="com.phonegap.plugins.pushplugin"/>-->
+    <!--<gap:plugin name="com.brodysoft.sqliteplugin"/>-->
     <gap:plugin name="org.apache.cordova.statusbar"/>
     <gap:plugin name="com.analytics.google"/>
     <gap:plugin name="org.apache.cordova.inappbrowser" />
-    <gap:plugin name="pushwoosh-pgb-plugin" source="npm" />
+    <!--<gap:plugin name="pushwoosh-pgb-plugin" source="npm" />-->
     <!--<plugin name="de.appplant.cordova.plugin.local-notification" spec="0.8.2"/>-->
     <!--<plugin name="com.philmerrell.cordova.canopen" spec="0.1" source="pgb" />-->
     <gap:plugin name="com.ohh2ahh.plugins.appavailability" source="npm" />
