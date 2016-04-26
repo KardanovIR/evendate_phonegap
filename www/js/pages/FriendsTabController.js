@@ -73,7 +73,7 @@ MyApp.pages.FriendsTabController = function ($scope) {
 					ent = stat[stat.entity],
 					key = [stat.entity, stat.stat_type_id, stat.user.id, $scope.page_counter, date.format('DD.MM')].join('-');
 				if (cards_by_users.hasOwnProperty(key) == false){
-					var _user_id = stat.user.id;
+
 					cards_by_users[key] = {
 						user: stat.user,
 						entity: stat.entity,
@@ -83,7 +83,7 @@ MyApp.pages.FriendsTabController = function ($scope) {
 						open: function(){
 							fw7App.showIndicator();
 							__api.users.get([
-								{friend_id: _user_id},
+								{friend_id: this.user.id},
 								{friends: true}
 							], function(data){
 								fw7App.hideIndicator();
@@ -105,7 +105,6 @@ MyApp.pages.FriendsTabController = function ($scope) {
 							res[0].open();
 						});
 					};
-
 				}else if (stat.entity == CONTRACT.ENTITIES.ORGANIZATION){
 					ent.img_url = ent.img_small_url;
 					ent.title = ent.short_name;
@@ -128,8 +127,8 @@ MyApp.pages.FriendsTabController = function ($scope) {
 					$scope.cards.push(cards_by_users[day]);
 				}
 			}
+			$scope.is_downloading = false;
 			$scope.$apply();
-			is_downloading = false;
 			if (cb){
 				cb();
 			}

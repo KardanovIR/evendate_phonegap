@@ -311,6 +311,20 @@ MyApp.init = (function () {
 
 document.addEventListener("deviceready", onDeviceReady, false);
 
+function onImgErrorSmall(source)
+{
+    source.src = "img/icon_500.png";
+    source.onerror = "";
+    return true;
+}
+
+function onImgErrorPattern(source)
+{
+    source.src = "img/port_pattern.png";
+    source.onerror = "";
+    return true;
+}
+
 if (__os == 'win') {
     (function () {
         tempStorage.clear();
@@ -631,6 +645,7 @@ function showSlides(to_reset) {
 function checkToken(to_reset) {
     fw7App.showIndicator();
     $$('.preloader-indicator-modal').addClass('with-top');
+    L.log(window.device);
     if (to_reset) {
         permanentStorage.clear();
         token = null;

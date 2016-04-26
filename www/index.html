@@ -169,7 +169,7 @@
                        ng-style="{'background-image': 'url(' + info.blurred_image_url + ')'}"></div>
                 </div>
                 <div class="user-info">
-                  <img class="avatar" ng-src="{{info.avatar_url}}">
+                  <img class="avatar" ng-src="{{info.avatar_url}}" onerror="onImgErrorSmall(this);" >
                 </div>
                 <div class="user-name sfui_display_light">
                   {{info.last_name}} {{info.first_name}}
@@ -189,7 +189,7 @@
                   <a href="#" class="item-link swipeout-content item-content"
                      ng-click="subscription.open()">
                     <div class="item-media">
-                      <img ng-src="{{subscription.img_medium_url}}">
+                      <img ng-src="{{subscription.img_medium_url}}" onerror="onImgErrorSmall(this);" >
                     </div>
                     <div class="item-inner">
                       <div class="item-title">{{subscription.short_name}}</div>
@@ -226,7 +226,7 @@
                       ng-click="organization.open();">
                     <a href="#" class="item-link item-content disable-active-state organization-item">
                       <div class="item-media ">
-                        <img ng-src="{{organization.img_medium_url}}" width="80">
+                        <img ng-src="{{organization.img_medium_url}}" width="80" onerror="onImgErrorSmall(this);" >
                       </div>
                       <div class="item-inner row">
                         <div class="col-100-60px">
@@ -351,8 +351,14 @@
                       </div>
                     </a>
                     <div class="swipeout-actions-right">
-                      <a href="#" class="action1 favorite-action" ng-click="event.toggleFavorite($event);">{{event.favorite_text}}</a>
-                      <a href="#" class="action1 swipeout-delete swipeout-overswipe" ng-click="event.toggleHidden($event);">{{event.hide_text}}</a>
+                      <a href="#" class="action1 favorite-action" ng-click="event.toggleFavorite($event);">
+                        <span class="action1_icon ion-ios-star-outline"></span>
+                        <p class="action1_text">{{event.favorite_text}}</p>
+                      </a>
+                      <a href="#" class="action1 swipeout-delete swipeout-overswipe" ng-click="event.toggleHidden($event);">
+                        <span class="action1_icon icon ion-ios-trash-outline"></span>
+                        <p class="action1_text">{{event.hide_text}}</p>
+                      </a>
                     </div>
                   </li>
 
@@ -399,7 +405,7 @@
                   <a href="#" class="item-link item-content swipeout-content" ng-click="event.open()">
                     <div class="item-media">
                       <img ng-src="{{event.image_vertical_url}}" src="img/event_vertical_transparent.png"
-                           class="event-vertical">
+                           class="event-vertical" onerror="onImgErrorSmall(this);" >
                     </div>
                     <div class="item-inner">
                       <div class="item-title-row">
@@ -418,9 +424,14 @@
                   </a>
 
                   <div class="swipeout-actions-right">
-                    <a href="#" class="action1 favorite-action" ng-click="event.toggleFavorite($event);">{{event.favorite_text}}</a>
-                    <a href="#" class="action1 swipeout-delete swipeout-overswipe"
-                       ng-click="event.toggleHidden($event);">{{event.hide_text}}</a>
+                    <a href="#" class="action1 favorite-action" ng-click="event.toggleFavorite($event);">
+                      <span class="action1_icon ion-ios-star-outline"></span>
+                      <p class="action1_text">{{event.favorite_text}}</p>
+                    </a>
+                    <a href="#" class="action1 swipeout-delete swipeout-overswipe" ng-click="event.toggleHidden($event);">
+                      <span class="action1_icon icon ion-ios-trash-outline"></span>
+                      <p class="action1_text">{{event.hide_text}}</p>
+                    </a>
                   </div>
                 </li>
               </ul>
@@ -466,7 +477,7 @@
                 <li class="card feed-card {{card.entity}}" ng-repeat="card in cards">
                   <div class="card-header" ng-click="card.open();">
                     <span class="pull-right feed-date">{{card.date}}</span>
-                    <img ng-src="{{card.user.avatar_url}}" class="user-avatar pull-left">
+                    <img ng-src="{{card.user.avatar_url}}" class="user-avatar pull-left" onerror="onImgErrorSmall(this);" >
                     <span class="user-name sfui_display_medium">{{card.user.last_name}} {{card.user.first_name}}</span>
                     <br>
                     <span class="action-name text-gray">{{card.action_name}}</span>
@@ -478,7 +489,7 @@
                           <li ng-repeat="entity in card.entities" ng-click="entity.openEntity();">
                             <a href="#" class="item-link item-content">
                               <div class="item-media">
-                                <img ng-src="{{entity.img_url}}" class="image-cirle">
+                                <img ng-src="{{entity.img_url}}" class="image-cirle" onerror="onImgErrorSmall(this);" >
                               </div>
                               <div class="item-inner">
                                 <div class="item-title">{{entity.title}}</div>
@@ -510,7 +521,7 @@
                 <li ng-repeat="friend in friends">
                   <a href="#" class="item-link item-content" ng-click="friend.open();">
                     <div class="item-media">
-                      <img ng-src="{{friend.avatar_url}}" class="friend-image">
+                      <img ng-src="{{friend.avatar_url}}" class="friend-image" onerror="onImgErrorSmall(this);" >
                     </div>
                     <div class="item-inner">
                       <div class="item-title-row">

@@ -1,90 +1,110 @@
 <div class="navbar">
-  <div class="navbar-inner">
-    <div class="left sliding">
-      <a href="#" class="link back">
-        <i class="ion-ios-arrow-back"></i>
-      </a>
+    <div class="navbar-inner">
+        <div class="left sliding">
+            <a href="#" class="link back">
+                <i class="ion-ios-arrow-back"></i>
+            </a>
+        </div>
+        <div class="center sliding heading-name">Событие</div>
+        <div class="right"></div>
     </div>
-    <div class="center sliding heading-name">Событие</div>
-    <div class="right"></div>
-  </div>
 </div>
 <div class="pages">
-  <div data-page="event" class="page event" ng-controller="EventPageController">
-    <div class="page-content">
-      <div class="event-viewport">
-        <div class="background-img-wrapper" data-top="0">
-          <img ng-src="{{event.image_horizontal_url}}" class="background-img" src="img/event_bg.png">
+    <div data-page="event" class="page event" ng-controller="EventPageController">
+        <div class="page-content">
+            <div class="event-viewport">
+                <div class="background-img-wrapper" data-top="0">
+                    <img ng-src="{{event.image_horizontal_url}}" class="background-img" src="img/event_bg.png"
+                         onerror="onImgErrorPattern(this);">
+                </div>
+                <div class="event-wrapper">
+                    <img ng-src="{{event.image_horizontal_url}}" class="hidden-img" onerror="onImgErrorPattern(this);">
+                    <div class="content-block">
+                        <div class="diagonal-block">
+                            <div class="diagonal-content">
+                                <div class="liked-users text-right"
+                                     ng-click="event.favorite_friends.length != 0 ? event.openLikedFriends(): null">
+                                    <img class="user-avatar" ng-repeat="user in event.favored"
+                                         onerror="onImgErrorSmall(this);" ng-src="{{user.avatar_url}}">
+                                    <div ng-hide="event.favorite_friends.length == 0"
+                                         class="organization-subscribed-count">{{event.favored_users_count}}
+                                    </div>
+                                </div>
+                                <button type="button" ng-click="event.toggleFavorite($event);"
+                                        class="button pull-right favorite-button"
+                                        ng-class="{'button-pink':event.is_favorite}">
+                                    {{event.favorite_text}}
+                                </button>
+                            </div>
+                        </div>
+                        <div class="event-name">
+                            {{event.name}}
+                        </div>
+
+                        <div class="content-block-inner without-top-border without-bottom-border">
+                            <div>
+                                <div class="event-name">
+                                    {{event.title}}
+                                </div>
+                                <table class="event-attributes">
+                                    <tr>
+                                        <td colspan="2"><i class="ion-ios-time-outline"></i> {{event.dates}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2"><i class="ion-ios-location-outline"></i> {{event.location}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2"><i class="ion-ios-pricetags-outline"></i> {{event.tags_text}}
+                                        </td>
+                                    </tr>
+                                    <tr ng-click="event.openOrganization();">
+                                        <td class="text-center organization-logo-td">
+                                            <div class="event-page-img-wrapper"><img onerror="onImgErrorPattern(this);"
+                                                                                     ng-src="{{event.organization_logo_small_url}}">
+                                            </div>
+                                        </td>
+                                        <td>{{event.organization_name}}</td>
+                                    </tr>
+                                </table>
+                                <div class="row">
+                                    <div class="col-60">
+
+                                    </div>
+                                    <div class="col-40">
+
+                                    </div>
+                                </div>
+                                <div class="event-description">
+                                    {{event.description}}
+                                </div>
+                            </div>
+
+                            <div class="list-block event-menu-items">
+                                <ul>
+                                    <li>
+                                        <a href="#" class="item-link item-content"
+                                           ng-click="event.openDetailInfoUrl();">
+                                            <div class="item-media"><i class="ion-ios-browsers-outline"></i></div>
+                                            <div class="item-inner">
+                                                <div class="item-title text-bold">Страница события</div>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#" class="item-link item-content" ng-click="event.openMap();">
+                                            <div class="item-media"><i class="ion-ios-navigate-outline"></i></div>
+                                            <div class="item-inner">
+                                                <div class="item-title text-bold">Показать на карте</div>
+                                                <div class="item-after"></div>
+                                            </div>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="event-wrapper">
-          <img ng-src="{{event.image_horizontal_url}}" class="hidden-img">
-          <div class="content-block">
-            <div class="diagonal-block">
-              <div class="diagonal-content">
-                <div class="liked-users text-right" ng-click="event.favorite_friends.length != 0 ? event.openLikedFriends(): null">
-                  <img class="user-avatar" ng-repeat="user in event.favored" ng-src="{{user.avatar_url}}">
-                  <div  ng-hide="event.favorite_friends.length == 0" class="organization-subscribed-count">{{event.favored_users_count}}</div>
-                </div>
-                <button type="button" ng-click="event.toggleFavorite($event);" class="button pull-right favorite-button" ng-class="{'button-pink':event.is_favorite}">
-                  {{event.favorite_text}}
-                </button>
-              </div>
-            </div>
-            <div class="event-name">
-              {{event.name}}
-            </div>
-
-            <div class="content-block-inner without-top-border without-bottom-border">
-              <div>
-                <div class="event-name">
-                  {{event.title}}
-                </div>
-                <table class="event-attributes">
-                  <tr><td colspan="2"><i class="ion-ios-time-outline"></i> {{event.dates}}</td></tr>
-                  <tr><td colspan="2"><i class="ion-ios-location-outline"></i> {{event.location}}</td></tr>
-                  <tr><td colspan="2"><i class="ion-ios-pricetags-outline"></i> {{event.tags_text}}</td></tr>
-                  <tr ng-click="event.openOrganization();"><td class="text-center organization-logo-td">
-                    <div class="event-page-img-wrapper"> <img ng-src="{{event.organization_logo_small_url}}"></div></td>
-                    <td>{{event.organization_name}}</td></tr>
-                </table>
-                <div class="row">
-                  <div class="col-60">
-
-                  </div>
-                  <div class="col-40">
-
-                  </div>
-                </div>
-                <div class="event-description">
-                  {{event.description}}
-                </div>
-              </div>
-
-              <div class="list-block event-menu-items">
-                <ul>
-                  <li>
-                    <a href="#" class="item-link item-content" ng-click="event.openDetailInfoUrl();">
-                      <div class="item-media"><i class="ion-ios-browsers-outline"></i></div>
-                      <div class="item-inner">
-                        <div class="item-title text-bold">Страница события</div>
-                      </div>
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#" class="item-link item-content" ng-click="event.openMap();">
-                      <div class="item-media"><i class="ion-ios-navigate-outline"></i></div>
-                      <div class="item-inner">
-                        <div class="item-title text-bold">Показать на карте</div>
-                        <div class="item-after"></div>
-                      </div>
-                    </a>
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
     </div>
-  </div>
 </div>

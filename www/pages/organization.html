@@ -13,11 +13,11 @@
   <div class="page organization" data-page="organization" ng-controller="OrganizationPageController">
     <div class="page-content">
       <div class="background-img-wrapper" data-top="0">
-        <img ng-src="{{organization.background_medium_img_url}}" src="img/organization_bg.png" class="background-img">
+        <img ng-src="{{organization.background_medium_img_url}}" onerror="onImgErrorPattern(this);" src="img/organization_bg.png" class="background-img">
       </div>
       <div class="organization-img-wrapper">
         <div class="organization-page-img-wrapper" ng-click="organization.openSite()">
-          <img ng-src="{{organization.img_medium_url}}" class="organization-page-img">
+          <img ng-src="{{organization.img_medium_url}}" onerror="onImgErrorSmall(this);" class="organization-page-img">
         </div>
       </div>
       <div class="organization-name">
@@ -28,7 +28,7 @@
             <div class="row">
               <div class="col-50 text-center">
                 <div class="liked-users" ng-click="organization.openSubscribedFriends()">
-                  <img class="user-avatar" ng-repeat="user in organization.subscribed" ng-src="{{user.avatar_url}}">
+                  <img class="user-avatar" ng-repeat="user in organization.subscribed" ng-src="{{user.avatar_url}}" onerror="onImgErrorSmall(this);">
                   <div class="organization-subscribed-count">{{organization.subscribed_count}}</div>
                 </div>
                 <div class="subscribed-friends-count text-center">
@@ -55,7 +55,7 @@
           <li ng-repeat="event in organization.events" class="event-item swipeout" ng-class="{'favorite':event.is_favorite}">
             <a href="#" class="item-link item-content swipeout-content" ng-click="event.open()">
               <div class="item-media calendar-event-cover"
-                   ng-style="{'background': 'url({{event.image_square_vertical_url}})'}">
+                   ng-style="{'background': 'url({{event.image_square_horizontal_url}})'}">
               </div>
               <div class="item-inner">
                 <div class="item-title-row">
