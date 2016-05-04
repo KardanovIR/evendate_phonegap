@@ -48,8 +48,9 @@ MyApp.pages.FavoritesPageController = function ($scope) {
 
 		__api.events.get([
 			{favorites: true},
-			{fields: 'nearest_event_date,organization_logo_small_url,dates{fields:"start_time,end_time",length:500},organization_short_name,image_vertical_medium_url,order_by=nearest_event_date'},
+			{fields: 'nearest_event_date,organization_logo_small_url,dates{fields:"start_time,end_time",length:500},organization_short_name,image_vertical_medium_url,is_favorite'},
 			{future: true},
+			{order_by: 'nearest_event_date'},
 			{offset: 10 * $scope.page_counter++},
 			{length: 10}
 		], function(data){

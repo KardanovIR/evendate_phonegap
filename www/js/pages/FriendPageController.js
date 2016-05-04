@@ -58,9 +58,8 @@ MyApp.pages.FriendPageController = function ($scope) {
 		}
 
 		__api.users.get([
-			{friends: true},
 			{actions: true},
-			{fields: 'user'},
+			{fields: 'uid,type,type_code,organization{fields:"img_small_url"},event{fields:"image_square_vertical_url"},created_at,user'},
 			{friend_id: $scope.friend_id},
 			{page: $scope.page_counter++},
 			{length: 10}
@@ -84,7 +83,8 @@ MyApp.pages.FriendPageController = function ($scope) {
 							fw7App.showIndicator();
 							__api.users.get([
 								{friend_id: _user_id},
-								{friends: true}
+								{friends: true},
+								{fields: 'blurred_img_url,type,uid'}
 							], function(data){
 								data[0].open();
 							})
@@ -94,9 +94,10 @@ MyApp.pages.FriendPageController = function ($scope) {
 				}
 
 				if (stat.entity == CONTRACT.ENTITIES.EVENT){
-					ent.img_url = ent.image_square_url;
+					ent.img_url = ent.image_square_vertical_url;
 					ent.openEntity = function(){
 						fw7App.showIndicator();
+						storeStat(stat.user.id, CONTRACT.ENTITIES.FRIEND, CONTRACT.STATISTICS.FRIEND_VIEW_EVENT_FROM_USER);
 						__api.events.get([
 							{id: ent.id}
 						], function(res){
@@ -106,7 +107,7 @@ MyApp.pages.FriendPageController = function ($scope) {
 					};
 
 				}else if (stat.entity == CONTRACT.ENTITIES.ORGANIZATION){
-					ent.img_url = ent.img_medium_url;
+					ent.img_url = ent.img_small_url;
 					ent.title = ent.short_name;
 					ent.openEntity = function(){
 						__api.organizations.get([
@@ -167,7 +168,7 @@ function showFriendSubscriptions(el){
 
 	__api.users.get([
 		{friend_id: friend_id},
-		{fields: 'subscriptions{fields:"img_medium_url"}'}
+		{fields: 'subscriptions{fields:"img_medium_url"},type,uid'}
 	], function(data){
 		var scope = angular.element(fw7App.getCurrentView().activePage.container).scope();
 		scope.setUser(data[0]);

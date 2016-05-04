@@ -84,7 +84,7 @@ MyApp.pages.SubscriptionsPageController = function ($scope, $http) {
     $scope.no_subscriptions = true;
     __api.organizations.get([
       {subscriptions: true},
-      {fields: 'description,is_subscribed,background_medium_img_url,img_medium_url,subscribed_count'}], function(data){
+      {fields: 'description,new_events_count,is_subscribed,background_medium_img_url,img_medium_url,subscribed_count'}], function(data){
       $scope.subscriptions = data;
       $scope.no_subscriptions = $scope.subscriptions.length != 0;
       $scope.data_loaded = true;
@@ -124,7 +124,7 @@ MyApp.pages.SubscriptionsPageController = function ($scope, $http) {
   };
 
   $scope.getOrganizationsCatalog = function(){
-
+    if ($scope.organization_categories.length != 0) return;
     fw7App.showIndicator();
 
     __api.organizations.get([{

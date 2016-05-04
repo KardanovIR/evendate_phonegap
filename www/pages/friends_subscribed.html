@@ -13,7 +13,7 @@
 </div>
 <div class="pages">
   <div data-page="friends_subscribed" class="page friends_subscribed" ng-controller="UsersPageController">
-    <div class="page-content">
+    <div class="page-content infinite-scroll friends_subscribed" data-distance="100">
       <div class="friends-page-header">
         <img src="img/organization_bg.png" class="background-img" ng-src="{{info.background_img_url}}">
         <div class="friends-page-header-shadow">
@@ -27,10 +27,10 @@
       </div>
       <div class="list-block no-margin media-list">
         <ul>
-          <li ng-repeat="friend in info.friends" ng-click="friend.open();">
+          <li ng-repeat="friend in users" ng-click="friend.open();">
             <a href="#" class="item-link item-content">
               <div class="item-media">
-                <img ng-src="{{friend.avatar_url}}" class="friend-image">
+                <img ng-src="{{friend.avatar_url}}" onerror="onImgErrorSmall(this)" class="friend-image">
               </div>
               <div class="item-inner">
                 <div class="item-title-row">
@@ -43,6 +43,11 @@
             </a>
           </li>
         </ul>
+      </div>
+
+      <!-- Preloader -->
+      <div class="infinite-scroll-preloader" ng-show="is_downloading" ng-hide="all_downloaded">
+        <div class="loader"></div>
       </div>
     </div>
   </div>

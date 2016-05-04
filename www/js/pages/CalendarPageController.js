@@ -156,6 +156,7 @@ MyApp.pages.CalendarPageController = function ($scope) {
 	};
 
 	$scope.generateEventsText = function(events_count, favorites_count){
+		if (events_count == undefined) return;
 		var events_text = events_count + getUnitsText(events_count, CONTRACT.TEXTS.EVENTS);
 		if (favorites_count){
 			events_text += ', ' + favorites_count + getUnitsText(favorites_count, CONTRACT.TEXTS.FAVORITES);
@@ -169,7 +170,9 @@ MyApp.pages.CalendarPageController = function ($scope) {
 		fw7App.showIndicator();
 		__api.events.get([
 			{date: $scope.selected_day.format(CONTRACT.DATE_FORMAT)},
-			{fields: 'detail_info_url,image_square_vertical_url,is_favorite,location,favored_users_count,organization_name,organization_logo_small_url,description,favored,is_same_time,tags'},
+			{fields: 'dates{length:500,fields:"start_time,end_time"},image_square_vertical_url,is_favorite,is_same_time'},
+			{length: 10},
+			{order_by: '-is_favorite'},
 			{my: true}
 		], function(data){
 
@@ -207,6 +210,20 @@ MyApp.pages.CalendarPageController = function ($scope) {
 		});
 
 	};
+
+	function initTapHoldAndDblClick(){
+
+		function openPage(){
+			debugger;
+			var _date = moment([year, parseInt(month) + 1, day].join('-'), 'YYYY-M-D')
+		}
+
+		$$('.picker-calendar-month-current .picker-calendar-day')
+			.off('taphold')
+			.off('dblclick')
+			.on('dblclick', openPage)
+			.on('taphold', openPage);
+	}
 
 	var monthNames = ['', 'Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'],
 		calendarInline = fw7App.calendar({
@@ -247,6 +264,7 @@ MyApp.pages.CalendarPageController = function ($scope) {
 				$scope.month = p.currentMonth + 1;
 				$scope.$digest();
 
+				initTapHoldAndDblClick();
 				if ($scope.binded){
 					__api.events.dates.get([
 						{since: moment($scope.year + '-' + ($scope.month), 'YYYY-MM').startOf('month').format(CONTRACT.DATE_FORMAT)},
@@ -305,19 +323,19 @@ MyApp.pages.CalendarPageController = function ($scope) {
 					$scope.loading_events = false;
 					if (window.innerHeight == IPHONE_4_HEIGHT){
 						$scope.day_events = [];
-						$scope.no_events = events_count != 0;
-						$scope.$apply();
 					}else{
 						$scope.day_events = data;
-						$scope.no_events = events_count != 0;
-						$scope.$apply();
 					}
+
+					$scope.no_events = events_count != 0;
+					$scope.$apply();
 				});
 
 
 			}
 		});
 
+	initTapHoldAndDblClick();
 	$scope.$watch('year', function(val){
 		$$('.calendar-head-year').text(val);
 	});

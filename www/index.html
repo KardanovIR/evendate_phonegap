@@ -2,21 +2,23 @@
 <html ng-app="MyApp">
 
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport"
-        content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black">
-  <title>Evendate</title>
-  <!-- Path to Framework7 Library CSS-->
-  <link rel="stylesheet" href="css/framework7.ios.css">
-  <!-- Path to your custom app styles-->
-  <link rel="stylesheet" href="css/welcomescreen/welcomescreen.css?nc=3">
-  <link rel="stylesheet" href="css/ionic_icons.min.css">
-  <link rel="stylesheet" href="css/sf.css">
-  <link rel="stylesheet" href="css/welcomescreen/main.css?nc=3">
-  <link rel="stylesheet" href="css/lineicons.css">
-  <link rel="stylesheet" href="css/introjs.css">
+    <meta charset="utf-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no" />
+
+    <title>Evendate</title>
+    <!-- Path to Framework7 Library CSS-->
+    <link rel="stylesheet" href="css/framework7.ios.css">
+    <!-- Path to your custom app styles-->
+    <link rel="stylesheet" href="css/welcomescreen/welcomescreen.css?nc=3">
+    <link rel="stylesheet" href="css/ionic_icons.min.css">
+    <link rel="stylesheet" href="css/sf.css">
+    <link rel="stylesheet" href="css/welcomescreen/main.css?nc=3">
+    <link rel="stylesheet" href="css/lineicons.css">
+    <link rel="stylesheet" href="css/introjs.css">
 </head>
 
 <body id="main-body">
@@ -28,573 +30,606 @@
 <!-- /Header -->
 <!-- Views-->
 <div class="views tabs tabbar-through">
-  <!-- Your main view, should have "view-main" class-->
-  <div class="view view-main">
-    <div class="pages">
-      <div data-page="index" class="page no-toolbar no-tabbar">
-        <div class="page-content">
-          <table style="background-image: linear-gradient(-180deg, #6EACE6  0%, #1A335B  100%);" width="100%"
-                 height="100%" border="0" class="splash-icon">
-            <tr>
-              <td align="center" valign="center">
-                <img src="img/icon_w_evendate.png" class="logo-img">
-              </td>
-            </tr>
-          </table>
-          <div class="swiper-container pattern-background-img hidden">
-            <!-- Slides wrapper -->
-            <div class="swiper-wrapper">
-              <!-- Slides -->
+    <!-- Your main view, should have "view-main" class-->
+    <div class="view view-main">
+        <div class="pages">
+            <div data-page="index" class="page no-toolbar no-tabbar">
+                <div class="page-content">
+                    <table style="background-image: linear-gradient(-180deg, #6EACE6  0%, #1A335B  100%);" width="100%"
+                           height="100%" border="0" class="splash-icon">
+                        <tr>
+                            <td align="center" valign="center">
+                                <img src="img/icon_w_evendate.png" class="logo-img">
+                            </td>
+                        </tr>
+                    </table>
+                    <div class="swiper-container pattern-background-img hidden">
+                        <!-- Slides wrapper -->
+                        <div class="swiper-wrapper">
+                            <!-- Slides -->
 
-              <div class="swiper-slide">
-                <table width="100%" height="100%" border="0">
-                  <tr>
-                    <td align="center" valign="center">
-                      <img src="img/welcomeslides/2.png" class="enot-img">
+                            <div class="swiper-slide">
+                                <table width="100%" height="100%" border="0">
+                                    <tr>
+                                        <td align="center" valign="center">
+                                            <img src="img/welcomeslides/2.png" class="enot-img">
 
-                      <div class="enot-description">
-                        Не пропусти важное событие
-                      </div>
-                    </td>
-                  </tr>
-                </table>
-              </div>
-              <div class="swiper-slide">
-                <table width="100%" height="100%" border="0">
-                  <tr>
-                    <td align="center" valign="center">
-                      <img src="img/welcomeslides/0.png" class="enot-img">
+                                            <div class="enot-description">
+                                                Не пропусти важное событие
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div class="swiper-slide">
+                                <table width="100%" height="100%" border="0">
+                                    <tr>
+                                        <td align="center" valign="center">
+                                            <img src="img/welcomeslides/0.png" class="enot-img">
 
-                      <div class="enot-description">
-                        Узнай, что интересно твоим друзьям
-                      </div>
-                    </td>
-                  </tr>
-                </table>
-              </div>
-              <div class="swiper-slide">
-                <table width="100%" height="100%" border="0">
-                  <tr>
-                    <td align="center" valign="center">
-                      <img src="img/welcomeslides/1.png" class="enot-img">
+                                            <div class="enot-description">
+                                                Узнай, что интересно твоим друзьям
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div class="swiper-slide">
+                                <table width="100%" height="100%" border="0">
+                                    <tr>
+                                        <td align="center" valign="center">
+                                            <img src="img/welcomeslides/1.png" class="enot-img">
 
-                      <div class="enot-description">
-                        Делись событиями с друзьями
-                      </div>
-                    </td>
-                  </tr>
-                </table>
-              </div>
-              <div class="swiper-slide">
-                <table width="100%" height="100%" border="0">
-                  <tr>
-                    <td align="center" valign="center">
-                      <img src="img/welcomeslides/4.png" class="enot-img">
+                                            <div class="enot-description">
+                                                Делись событиями с друзьями
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div class="swiper-slide">
+                                <table width="100%" height="100%" border="0">
+                                    <tr>
+                                        <td align="center" valign="center">
+                                            <img src="img/welcomeslides/4.png" class="enot-img">
 
-                      <div class="enot-description">
-                        Управляй уведомлениями
-                      </div>
-                    </td>
-                  </tr>
-                </table>
-              </div>
-              <div class="swiper-slide">
-                <table width="100%" height="100%" border="0">
-                  <tr>
-                    <td align="center" valign="center">
-                      <img src="img/welcomeslides/3.png" class="enot-img">
+                                            <div class="enot-description">
+                                                Управляй уведомлениями
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div class="swiper-slide">
+                                <table width="100%" height="100%" border="0">
+                                    <tr>
+                                        <td align="center" valign="center">
+                                            <img src="img/welcomeslides/3.png" class="enot-img">
 
-                      <div class="enot-description">
-                        Синхронизируйся со всеми устройствами
-                      </div>
-                    </td>
-                  </tr>
-                </table>
-              </div>
-              <div class="swiper-slide auth-slide">
-                <div class="content-block">
-                  <p class="text-center">
-                    <img src="img/icon_500.png" class="logo-img">
-                  </p>
+                                            <div class="enot-description">
+                                                Синхронизируйся со всеми устройствами
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div class="swiper-slide auth-slide">
+                                <div class="content-block">
+                                    <p class="text-center">
+                                        <img src="img/icon_500.png" class="logo-img">
+                                    </p>
 
-                  <p class="text-wight text-center">
-                    Войдите через социальную сеть
-                  </p>
+                                    <p class="text-wight text-center">
+                                        Войдите через социальную сеть
+                                    </p>
 
-                  <div class="text-center">
-                    <p><a href="#" data-type="VK" class="button button-big auth-btn vk-btn">ВКонтакте <i
-                            class="ion-ios-arrow-right"></i></a></p>
+                                    <div class="text-center">
+                                        <p><a href="#" data-type="VK" class="button button-big auth-btn vk-btn">ВКонтакте
+                                            <i
+                                                    class="ion-ios-arrow-right"></i></a></p>
 
-                    <p><a href="#" data-type="FACEBOOK" class="button button-big auth-btn facebook-btn">Facebook <i
-                            class="ion-ios-arrow-right"></i></a></p>
+                                        <p><a href="#" data-type="FACEBOOK"
+                                              class="button button-big auth-btn facebook-btn">Facebook <i
+                                                class="ion-ios-arrow-right"></i></a></p>
 
-                    <p><a href="#" data-type="GOOGLE" class="button button-big auth-btn google-btn">Google<i
-                            class="ion-ios-arrow-right"></i></a></p>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="swiper-pagination"></div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div id="view-profile" class="view view-profile tab" ng-controller="SubscriptionsPageController">
-    <div class="navbar navbar-hiding profile-navbar">
-      <div class="navbar-inner">
-        <!-- Sub navbar -->
-        <div class="subnavbar">
-          <div class="left"></div>
-          <div class="buttons-row">
-            <a ng-href="#profile" ng-click="getSubscriptionsList()"
-               class="button tab-link button-white active">Подписки</a>
-            <a ng-href="#organizations" data-step="2" data-position="bottom" data-intro="Перейдите в каталог"
-               ng-click="getOrganizationsCatalog()" class="button tab-link button-white organizations">Каталог</a>
-          </div>
-          <div class="right"></div>
-        </div>
-      </div>
-    </div>
-    <div class="modal-overlay modal-overlay-navbar"></div>
-    <div class="pages navbar-through">
-      <div id="subscriptions" data-page="profile" class="page with-subnavbar tabs-animated-wrap">
-        <div class="tabs">
-          <div id="profile" class="tab infinite-scroll active page-content profile-page-content" data-ptr-distance="40"
-               data-distance="100">
-            <div class="content-block">
-              <div class="friend-profile-fixed-part">
-                <div class="profile-background-image">
-                  <div class="user-background-opacity"
-                       ng-style="{'background-image': 'url(' + info.blurred_image_url + ')'}"></div>
-                </div>
-                <div class="user-info">
-                  <img class="avatar" ng-src="{{info.avatar_url}}" onerror="onImgErrorSmall(this);" >
-                </div>
-                <div class="user-name sfui_display_light">
-                  {{info.last_name}} {{info.first_name}}
-                </div>
-              </div>
-            </div>
-            <div class="content-block-title">Подписки</div>
-            <div class="list-block subscriptions-list">
-              <div class="no-subscriptions-text ng-hide" ng-hide="no_subscriptions">
-                Нет подписок
-              </div>
-              <div class="infinite-scroll-preloader text-center subscriptions-loader ng-hide" ng-hide="data_loaded">
-                <div class="loader"></div>
-              </div>
-              <ul class="without-top-border without-bottom-border">
-                <li class="swipeout" ng-repeat="subscription in subscriptions">
-                  <a href="#" class="item-link swipeout-content item-content"
-                     ng-click="subscription.open()">
-                    <div class="item-media">
-                      <img ng-src="{{subscription.img_medium_url}}" onerror="onImgErrorSmall(this);" >
-                    </div>
-                    <div class="item-inner">
-                      <div class="item-title">{{subscription.short_name}}</div>
-                      <div class="item-after"></div>
-                    </div>
-                  </a>
-
-                  <div class="swipeout-actions-right">
-                    <a href="#" class="swipeout-delete swipeout-overswipe"
-                       ng-click="subscription.toggleSubscriptionStatus();">Отписаться</a>
-                  </div>
-                </li>
-              </ul>
-            </div>
-            <div class="exit-block background-gray">
-              <div class="list-block">
-                <ul>
-                  <li class="item-content">
-                    <div class="item-inner">
-                      <div class="item-title text-center logout-btn">Выйти из аккаунта</div>
-                    </div>
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </div>
-          <div id="organizations" class="tab profile-page-content page-content infinite-scroll" data-ptr-distance="40"
-               data-distance="100">
-            <div class="list-block media-list">
-              <div class="list-group organizations-list" ng-repeat="category in organization_categories">
-                <ul>
-                  <li class="list-group-title text-center text-bold">{{category.name}}</li>
-                  <li class="organization" ng-repeat="organization in category.organizations"
-                      ng-click="organization.open();">
-                    <a href="#" class="item-link item-content disable-active-state organization-item">
-                      <div class="item-media ">
-                        <img ng-src="{{organization.img_medium_url}}" width="80" onerror="onImgErrorSmall(this);" >
-                      </div>
-                      <div class="item-inner row">
-                        <div class="col-100-60px">
-                          <div class="item-title">{{organization.short_name}}</div>
-                          <div class="item-subtitle">{{organization.subscribed_count}}
-                            {{organization.subscribed_count_text}}
-                          </div>
+                                        <p><a href="#" data-type="GOOGLE" class="button button-big auth-btn google-btn">Google<i
+                                                class="ion-ios-arrow-right"></i></a></p>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <div class="col-60px">
-                          <button type="button" class="button pull-right button-circle"
-                                  ng-click="organization.toggleSubscriptionStatus($event);"
-                                  ng-class="{'button-filled-blue':organization.is_subscribed}"></button>
-                        </div>
-                      </div>
-                    </a>
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="modal-overlay modal-overlay-tabbar"></div>
-  <div id="view-events" class="view view-events tab" ng-controller="CalendarPageController">
-    <div class="navbar">
-      <div class="navbar-inner">
-        <!-- Sub navbar -->
-        <div class="subnavbar">
-          <div class="left"></div>
-          <div class="buttons-row">
-            <a href="#calendar" class="button tab-link button-white active" ng-click="showCalendar();">Календарь</a>
-            <a href="#timeline" class="button tab-link button-white" ng-click="getMyTimeline('BUTTON');">Лента</a>
-          </div>
-          <div class="right hidden"></div>
-        </div>
-      </div>
-    </div>
-    <div class="pages navbar-through">
-      <div data-page="calendar" class="page tabs-animated-wrap">
-        <div class="tabs">
-          <div id="calendar" class="tab profile-page-content active">
-            <div id="calendar-inline-container"></div>
-            <div id="calendar-date-events-list">
-              <div class="no-events-text ng-hide" ng-hide="no_events">
-                Нет событий
-              </div>
-              <div class="text-center calendar-loader">
-                <div class="infinite-scroll-preloader">
-                  <div class="loader"></div>
+                        <div class="swiper-pagination"></div>
+                    </div>
                 </div>
-              </div>
-              <div class="list-block media-list calendar-list" ng-hide="loading_events">
-                <ul>
-                  <li ng-repeat="event in day_events" class="event-item event-small-item swipeout"
-                      ng-class="{'favorite':event.is_favorite}">
-                    <a href="#" class="item-link item-content swipeout-content" ng-click="event.open()">
-                      <div class="item-media calendar-event-cover"
-                           ng-style="{'background': 'url({{event.image_square_vertical_url}})'}">
-                      </div>
-                      <div class="item-inner">
-                        <div class="item-title-row">
-                          <div class="item-title">{{event.title}}</div>
-                        </div>
-                        <div class="item-subtitle">{{event.display_time.start}} - {{event.display_time.end}}</div>
-                      </div>
-                    </a>
-                    <div class="swipeout-actions-right">
-                      <a href="#" class="action1 favorite-action" ng-click="event.toggleFavorite($event);">
-                        <span class="action1_icon ion-ios-star-outline"></span>
-                        <p class="action1_text">{{event.favorite_text}}</p>
-                      </a>
-                      <a href="#" class="action1 swipeout-delete swipeout-overswipe" ng-click="event.toggleHidden($event);">
-                        <span class="action1_icon icon ion-ios-trash-outline"></span>
-                        <p class="action1_text">{{event.hide_text}}</p>
-                      </a>
+            </div>
+        </div>
+    </div>
+    <div id="view-profile" class="view view-profile tab" ng-controller="SubscriptionsPageController">
+        <div class="navbar navbar-hiding profile-navbar">
+            <div class="navbar-inner">
+                <!-- Sub navbar -->
+                <div class="subnavbar">
+                    <div class="left"></div>
+                    <div class="buttons-row">
+                        <a ng-href="#profile" ng-click="getSubscriptionsList()"
+                           class="button tab-link button-white active">Подписки</a>
+                        <a ng-href="#organizations" data-step="2" data-position="bottom"
+                           data-intro="Перейдите в каталог"
+                           ng-click="getOrganizationsCatalog()" class="button tab-link button-white organizations">Каталог</a>
                     </div>
-                  </li>
-                </ul>
-              </div>
-              <a id="calendar-date-events-button" href="#" ng-click="showEventsInSelectedDay();" ng-hide="loading_events">
-                <div class="iphone-4-events-btn">
-                  <div class="right-arrow" ng-hide="date_text == ''">
-                    <i class="ion-ios-arrow-right"></i>
-                  </div>
-                  <div class="day-name">
-                    {{date_text}}
-                  </div>
-                  <div>
-                    {{events_text}}
-                  </div>
+                    <div class="right"></div>
                 </div>
-              </a>
             </div>
-
-          </div>
-          <div id="timeline" class="tab page-content my-timeline infinite-scroll pull-to-refresh-content"
-               data-distance="500" data-ptr-distance="50">
-            <div class="pull-to-refresh-layer">
-              <div class="loader"></div>
-              <div class="pull-to-refresh-arrow"></div>
-            </div>
-            <div class="no-events-text" ng-show="no_timeline_events">
-              Нет событий
-            </div>
-            <div class="list-block no-margin media-list">
-              <div class="list-group" ng-repeat="day in timeline_days">
-                <ul>
-                  <li class="list-group-title timeline-day-title">{{day.name}}</li>
-                  <li ng-repeat="event in day.events" class="event-item event-small-item swipeout"
-                      ng-class="{'favorite':event.is_favorite}">
-                    <a href="#" class="item-link item-content swipeout-content" ng-click="event.open()">
-                      <div class="item-media calendar-event-cover"
-                           ng-style="{'background': 'url({{event.image_square_vertical_url}})'}">
-                      </div>
-                      <div class="item-inner">
-                        <div class="item-title-row">
-                          <div class="item-title">{{event.title}}</div>
+        </div>
+        <div class="modal-overlay modal-overlay-navbar"></div>
+        <div class="pages navbar-through">
+            <div id="subscriptions" data-page="profile" class="page with-subnavbar tabs-animated-wrap">
+                <div class="tabs">
+                    <div id="profile" class="tab infinite-scroll active page-content profile-page-content"
+                         data-ptr-distance="40"
+                         data-distance="100">
+                        <div class="content-block">
+                            <div class="friend-profile-fixed-part">
+                                <div class="profile-background-image">
+                                    <div class="user-background-opacity"
+                                         ng-style="{'background-image': 'url(' + info.blurred_image_url + ')'}"></div>
+                                </div>
+                                <div class="user-info">
+                                    <img class="avatar" ng-src="{{info.avatar_url}}" onerror="onImgErrorSmall(this);">
+                                </div>
+                                <div class="user-name sfui_display_light">
+                                    {{info.last_name}} {{info.first_name}}
+                                </div>
+                            </div>
                         </div>
-                        <div class="item-subtitle">{{event.display_time.start}} - {{event.display_time.end}}</div>
-                      </div>
-                    </a>
-                    <div class="swipeout-actions-right">
-                      <a href="#" class="action1 favorite-action" ng-click="event.toggleFavorite($event);">
-                        <span class="action1_icon ion-ios-star-outline"></span>
-                        <p class="action1_text">{{event.favorite_text}}</p>
-                      </a>
-                      <a href="#" class="action1 swipeout-delete swipeout-overswipe" ng-click="event.toggleHidden($event);">
-                        <span class="action1_icon icon ion-ios-trash-outline"></span>
-                        <p class="action1_text">{{event.hide_text}}</p>
-                      </a>
-                    </div>
-                  </li>
+                        <div class="content-block-title">Подписки</div>
+                        <div class="list-block subscriptions-list">
+                            <div class="no-subscriptions-text ng-hide" ng-hide="no_subscriptions">
+                                Нет подписок
+                            </div>
+                            <div class="infinite-scroll-preloader text-center subscriptions-loader ng-hide"
+                                 ng-hide="data_loaded">
+                                <div class="loader"></div>
+                            </div>
+                            <ul class="without-top-border without-bottom-border">
+                                <li class="swipeout" ng-repeat="subscription in subscriptions">
+                                    <a href="#" class="item-link swipeout-content item-content"
+                                       ng-click="subscription.open()">
+                                        <div class="item-media">
+                                            <img ng-src="{{subscription.img_medium_url}}"
+                                                 onerror="onImgErrorSmall(this);">
+                                        </div>
+                                        <div class="item-inner">
+                                            <div class="item-title">{{subscription.short_name}}</div>
+                                            <div class="item-after"><span class="badge pink"
+                                                                          ng-hide="subscription.new_events_count == 0">{{subscription.new_events_count}}</span>
+                                            </div>
+                                        </div>
+                                    </a>
 
-                </ul>
-              </div>
-            </div>
-            <div class="infinite-scroll-preloader" ng-show="is_downloading">
-              <div class="loader"></div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div id="view-favorites" class="view view-favorites tab" ng-controller="FavoritesPageController">
-    <!-- Top Navbar-->
-    <div class="navbar">
-      <div class="navbar-inner">
-        <div class="subnavbar">
-          <div class="left"></div>
-          <div class="center">Избранное</div>
-          <div class="right hidden"></div>
-        </div>
-      </div>
-    </div>
-    <div class="pages navbar-through">
-      <div data-page="favorites" class="page navbar-fixed toolbar-fixed">
-        <!-- /End of Top Navbar-->
-        <div class="page-content favorites-page-content infinite-scroll pull-to-refresh-content" id="favorites"
-             data-distance="100" data-ptr-distance="50">
-          <div class="pull-to-refresh-layer">
-            <div class="loader"></div>
-            <div class="pull-to-refresh-arrow"></div>
-          </div>
-          <div class="no-events-text" ng-show="no_timeline_events">
-            Нет событий
-          </div>
-          <div class="list-block media-list no-margin">
-            <div class="list-group" ng-repeat="day in timeline_days">
-              <ul>
-                <li class="list-group-title timeline-day-title">{{day.name}}</li>
-                <li ng-repeat="event in day.events" class="event-item swipeout"
-                    ng-class="{'favorite': event.is_favorite}">
-                  <a href="#" class="item-link item-content swipeout-content" ng-click="event.open()">
-                    <div class="item-media">
-                      <img ng-src="{{event.image_vertical_url}}" src="img/event_vertical_transparent.png"
-                           class="event-vertical" onerror="onImgErrorSmall(this);" >
-                    </div>
-                    <div class="item-inner">
-                      <div class="item-title-row">
-                        <div class="item-title">{{event.title}}</div>
-                        <div class="item-after"></div>
-                      </div>
-                      <div class="item-text inline-block">
-                        <div class="event-organization-name">
-                          {{event.organization_short_name}}
+                                    <div class="swipeout-actions-right">
+                                        <a href="#" class="swipeout-delete swipeout-overswipe"
+                                           ng-click="subscription.toggleSubscriptionStatus();">Отписаться</a>
+                                    </div>
+                                </li>
+                            </ul>
                         </div>
-                      </div>
-                      <div class="item-subtitle event-datetime">
-                        {{event.display_time.start}} - {{event.display_time.end}}
-                      </div>
+                        <div class="exit-block background-gray">
+                            <div class="list-block">
+                                <ul>
+                                    <li class="item-content">
+                                        <div class="item-inner">
+                                            <div class="item-title text-center logout-btn">Выйти из аккаунта</div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
                     </div>
-                  </a>
-
-                  <div class="swipeout-actions-right">
-                    <a href="#" class="action1 favorite-action" ng-click="event.toggleFavorite($event);">
-                      <span class="action1_icon ion-ios-star-outline"></span>
-                      <p class="action1_text">{{event.favorite_text}}</p>
-                    </a>
-                    <a href="#" class="action1 swipeout-delete swipeout-overswipe" ng-click="event.toggleHidden($event);">
-                      <span class="action1_icon icon ion-ios-trash-outline"></span>
-                      <p class="action1_text">{{event.hide_text}}</p>
-                    </a>
-                  </div>
-                </li>
-              </ul>
+                    <div id="organizations" class="tab profile-page-content page-content infinite-scroll"
+                         data-ptr-distance="40"
+                         data-distance="100">
+                        <div class="list-block media-list">
+                            <div class="list-group organizations-list" ng-repeat="category in organization_categories">
+                                <ul>
+                                    <li class="list-group-title text-center text-bold">{{category.name}}</li>
+                                    <li class="organization" ng-repeat="organization in category.organizations"
+                                        ng-click="organization.open();">
+                                        <a href="#"
+                                           class="item-link item-content disable-active-state organization-item">
+                                            <div class="item-media ">
+                                                <img ng-src="{{organization.img_medium_url}}" width="80"
+                                                     onerror="onImgErrorSmall(this);">
+                                            </div>
+                                            <div class="item-inner row">
+                                                <div class="col-100-60px">
+                                                    <div class="item-title">{{organization.short_name}}</div>
+                                                    <div class="item-subtitle">{{organization.subscribed_count}}
+                                                        {{organization.subscribed_count_text}}
+                                                    </div>
+                                                </div>
+                                                <div class="col-60px">
+                                                    <button type="button" class="button pull-right button-circle"
+                                                            ng-click="organization.toggleSubscriptionStatus($event);"
+                                                            ng-class="{'button-filled-blue':organization.is_subscribed}"></button>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-          </div>
-          <div class="infinite-scroll-preloader" ng-show="is_downloading">
-            <div class="loader"></div>
-          </div>
         </div>
-      </div>
     </div>
-  </div>
-  <div id="view-friends" class="view view-friends tab" ng-controller="FriendsTabController">
-    <div class="navbar navbar-hiding">
-      <div class="navbar-inner">
-        <!-- Sub navbar -->
-        <div class="subnavbar">
-          <div class="left"></div>
-          <div class="buttons-row">
-            <a ng-href="#friends-feed" ng-click="showFeed('BUTTON');"
-               class="button tab-link button-white active">Активность</a>
-            <a ng-href="#friends-list" ng-click="showFriends(true);" class="button tab-link button-white">Профили</a>
-          </div>
-          <div class="right"></div>
+    <div class="modal-overlay modal-overlay-tabbar"></div>
+    <div id="view-events" class="view view-events tab" ng-controller="CalendarPageController">
+        <div class="navbar">
+            <div class="navbar-inner">
+                <!-- Sub navbar -->
+                <div class="subnavbar">
+                    <div class="left"></div>
+                    <div class="buttons-row">
+                        <a href="#calendar" class="button tab-link button-white active" ng-click="showCalendar();">Календарь</a>
+                        <a href="#timeline" class="button tab-link button-white" ng-click="getMyTimeline('BUTTON');">Лента</a>
+                    </div>
+                    <div class="right hidden"></div>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
-    <div class="pages navbar-through">
-      <div id="friends" data-page="friends" class="page with-subnavbar tabs-animated-wrap background-gray">
-        <div class="tabs">
-          <div id="friends-feed"
-               class="tab page-content padding-top-30 infinite-scroll friends-page-content background-gray pull-to-refresh-content active"
-               data-ptr-distance="50" data-distance="100">
-            <div class="pull-to-refresh-layer">
-              <div class="loader"></div>
-              <div class="pull-to-refresh-arrow"></div>
-            </div>
-            <div class="no-events-text" ng-show="no_actions">
-              Нет активности
-            </div>
-            <div class="list-block cards-list">
-              <ul>
-                <li class="card feed-card {{card.entity}}" ng-repeat="card in cards">
-                  <div class="card-header" ng-click="card.open();">
-                    <span class="pull-right feed-date">{{card.date}}</span>
-                    <img ng-src="{{card.user.avatar_url}}" class="user-avatar pull-left" onerror="onImgErrorSmall(this);" >
-                    <span class="user-name sfui_display_medium">{{card.user.last_name}} {{card.user.first_name}}</span>
-                    <br>
-                    <span class="action-name text-gray">{{card.action_name}}</span>
-                  </div>
-                  <div class="card-content">
-                    <div class="card-content-inner">
-                      <div class="list-block subscriptions-list">
-                        <ul class="without-top-border without-bottom-border">
-                          <li ng-repeat="entity in card.entities" ng-click="entity.openEntity();">
-                            <a href="#" class="item-link item-content">
-                              <div class="item-media">
-                                <img ng-src="{{entity.img_url}}" class="image-cirle" onerror="onImgErrorSmall(this);" >
-                              </div>
-                              <div class="item-inner">
-                                <div class="item-title">{{entity.title}}</div>
-                                <div class="item-after"></div>
-                              </div>
+        <div class="pages navbar-through">
+            <div data-page="calendar" class="page tabs-animated-wrap">
+                <div class="tabs">
+                    <div id="calendar" class="tab profile-page-content active">
+                        <div id="calendar-inline-container"></div>
+                        <div id="calendar-date-events-list">
+                            <div class="no-events-text ng-hide" ng-hide="no_events">
+                                Нет событий
+                            </div>
+                            <div class="text-center calendar-loader">
+                                <div class="infinite-scroll-preloader">
+                                    <div class="loader"></div>
+                                </div>
+                            </div>
+                            <div class="list-block media-list calendar-list" ng-hide="loading_events">
+                                <ul>
+                                    <li ng-repeat="event in day_events" class="event-item event-small-item swipeout"
+                                        ng-class="{'favorite':event.is_favorite}">
+                                        <a href="#" class="item-link item-content swipeout-content"
+                                           ng-click="event.open()">
+                                            <div class="item-media calendar-event-cover"
+                                                 ng-style="{'background': 'url({{event.image_square_vertical_url}})'}">
+                                            </div>
+                                            <div class="item-inner">
+                                                <div class="item-title-row">
+                                                    <div class="item-title">{{event.title}}</div>
+                                                </div>
+                                                <div class="item-subtitle">{{event.display_time.start}} -
+                                                    {{event.display_time.end}}
+                                                </div>
+                                            </div>
+                                        </a>
+                                        <div class="swipeout-actions-right">
+                                            <a href="#" class="action1 favorite-action"
+                                               ng-click="event.toggleFavorite($event);">
+                                                <span class="action1_icon {{event.favorite_icon}}"></span>
+                                                <p class="action1_text">{{event.favorite_text}}</p>
+                                            </a>
+                                            <a href="#" class="action1 swipeout-delete swipeout-overswipe"
+                                               ng-click="event.toggleHidden($event);">
+                                                <span class="action1_icon icon ion-ios-trash-outline"></span>
+                                                <p class="action1_text">{{event.hide_text}}</p>
+                                            </a>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                            <a id="calendar-date-events-button" href="#" ng-click="showEventsInSelectedDay();"
+                               ng-hide="loading_events">
+                                <div class="iphone-4-events-btn">
+                                    <div class="right-arrow" ng-hide="date_text == ''">
+                                        <i class="ion-ios-arrow-right"></i>
+                                    </div>
+                                    <div class="day-name">
+                                        {{date_text}}
+                                    </div>
+                                    <div>
+                                        {{events_text}}
+                                    </div>
+                                </div>
                             </a>
-                          </li>
-                        </ul>
-                      </div>
-                    </div>
-                  </div>
-                </li>
-              </ul>
-            </div>
+                        </div>
 
-            <div class="infinite-scroll-preloader" ng-show="is_downloading">
-              <div class="loader"></div>
-            </div>
-          </div>
+                    </div>
+                    <div id="timeline" class="tab page-content my-timeline infinite-scroll pull-to-refresh-content"
+                         data-distance="500" data-ptr-distance="50">
+                        <div class="pull-to-refresh-layer">
+                            <div class="loader"></div>
+                            <div class="pull-to-refresh-arrow"></div>
+                        </div>
+                        <div class="no-events-text" ng-show="no_timeline_events">
+                            Нет событий
+                        </div>
+                        <div class="list-block no-margin media-list">
+                            <div class="list-group" ng-repeat="day in timeline_days">
+                                <ul>
+                                    <li class="list-group-title timeline-day-title">{{day.name}}</li>
+                                    <li ng-repeat="event in day.events" class="event-item event-small-item swipeout"
+                                        ng-class="{'favorite':event.is_favorite}">
+                                        <a href="#" class="item-link item-content swipeout-content"
+                                           ng-click="event.open()">
+                                            <div class="item-media calendar-event-cover"
+                                                 ng-style="{'background': 'url({{event.image_square_vertical_url}})'}">
+                                            </div>
+                                            <div class="item-inner">
+                                                <div class="item-title-row">
+                                                    <div class="item-title">{{event.title}}</div>
+                                                </div>
+                                                <div class="item-subtitle">{{event.display_time.start}} -
+                                                    {{event.display_time.end}}
+                                                </div>
+                                            </div>
+                                        </a>
+                                        <div class="swipeout-actions-right">
+                                            <a href="#" class="action1 favorite-action"
+                                               ng-click="event.toggleFavorite($event);">
+                                                <span class="action1_icon {{event.favorite_icon}}"></span>
+                                                <p class="action1_text">{{event.favorite_text}}</p>
+                                            </a>
+                                            <a href="#" class="action1 swipeout-delete swipeout-overswipe"
+                                               ng-click="event.toggleHidden($event);">
+                                                <span class="action1_icon icon ion-ios-trash-outline"></span>
+                                                <p class="action1_text">{{event.hide_text}}</p>
+                                            </a>
+                                        </div>
+                                    </li>
 
-          <div id="friends-list" style="background: #fff" data-ptr-distance="50" data-distance="100"
-               class="tab page-content padding-top-30 infinite-scroll friends-page-content background-gray pull-to-refresh-content">
-            <div class="pull-to-refresh-layer">
-              <div class="loader"></div>
-              <div class="pull-to-refresh-arrow"></div>
-            </div>
-            <div class="list-block no-margin media-list friend-profiles">
-              <ul>
-                <li ng-repeat="friend in friends">
-                  <a href="#" class="item-link item-content" ng-click="friend.open();">
-                    <div class="item-media">
-                      <img ng-src="{{friend.avatar_url}}" class="friend-image" onerror="onImgErrorSmall(this);" >
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="infinite-scroll-preloader" ng-show="is_downloading">
+                            <div class="loader"></div>
+                        </div>
                     </div>
-                    <div class="item-inner">
-                      <div class="item-title-row">
-                        <div class="item-title">{{friend.last_name}} {{friend.first_name}}</div>
-                      </div>
-                      <div class="item-subtitle text-gray">
-                        {{friend.type_name}}
-                      </div>
-                    </div>
-                  </a>
-                </li>
-              </ul>
-            </div>
-            <div class="content-block" ng-show="friends.length == 0">
-              <div class="no-friends-text ng-hide" ng-hide="no_actions">
-                Ваших друзей нет<br> в Evendate
-              </div>
-              <div class="text-center no-friends-text-gray">
-                <p class="tell-to-friends sfui_display_light">Расскажите друзьям</p>
-                <div class="text-center">
-                  <button type="button" onclick="shareInfoAboutApp();"
-                          class="button button-160px button-pink button-center">
-                    Поделиться
-                  </button>
                 </div>
-              </div>
-              <div class="text-center no-friends-text-gray sfui_display_light">
-                <p class="log-in-with-another-account">Или попробуйте войти через <br> другую социальную сеть</p>
-                <div class="text-center">
-                  <button type="button" class="button button-160px button-gray button-center" onclick="resetAccount();">
-                    Сменить аккаунт
-                  </button>
-                </div>
-              </div>
-
             </div>
-            <div class="infinite-scroll-preloader" ng-show="friends_downloading">
-              <div class="loader"></div>
-            </div>
-          </div>
         </div>
-      </div>
     </div>
-  </div>
-  <div class="toolbar tabbar tabbar-labels main-tabbar hidden">
-    <div class="toolbar-inner animated">
-      <a href="#view-profile" data-step="1" data-position="top" data-intro="Подпишитесь на организации" data-number="0"
-         class="tab-link view-profile"><i data-active-icon="icon ion-ios-person" data-icon="icon ion-ios-person-outline"
-                                          class="icon ion-ios-person-outline"></i><span
-              class="tabbar-label">Профиль</span></a>
-      <a href="#view-events" data-step="3" data-number="1" data-position="top"
-         data-intro="Календарь и лента к Вашим услугам"
-         id="view-events-tab-link" class="tab-link active"><i data-active-icon="icon ion-ios-calendar"
-                                                              data-icon="icon ion-ios-calendar-outline"
-                                                              class="icon ion-ios-calendar"></i><span
-              class="tabbar-label">События</span></a>
-      <a href="#view-favorites" data-number="2" class="tab-link"><i data-active-icon="lnr icon-pin_full"
-                                                                    data-icon="lnr icon-lnr-pushpin"
-                                                                    class="lnr icon-lnr-pushpin"></i><span
-              class="tabbar-label">Избранное</span></a>
-      <a href="#view-friends" data-number="3" class="tab-link"><i data-active-icon="icon ion-ios-paper"
-                                                                  data-icon="icon ion-ios-paper-outline"
-                                                                  class="icon ion-ios-paper-outline"></i><span
-              class="tabbar-label">Друзья</span></a>
+    <div id="view-favorites" class="view view-favorites tab" ng-controller="FavoritesPageController">
+        <!-- Top Navbar-->
+        <div class="navbar">
+            <div class="navbar-inner">
+                <div class="subnavbar">
+                    <div class="left"></div>
+                    <div class="center">Избранное</div>
+                    <div class="right hidden"></div>
+                </div>
+            </div>
+        </div>
+        <div class="pages navbar-through">
+            <div data-page="favorites" class="page navbar-fixed toolbar-fixed">
+                <!-- /End of Top Navbar-->
+                <div class="page-content favorites-page-content infinite-scroll pull-to-refresh-content" id="favorites"
+                     data-distance="100" data-ptr-distance="50">
+                    <div class="pull-to-refresh-layer">
+                        <div class="loader"></div>
+                        <div class="pull-to-refresh-arrow"></div>
+                    </div>
+                    <div class="no-events-text" ng-show="no_timeline_events">
+                        Нет событий
+                    </div>
+                    <div class="list-block media-list no-margin">
+                        <div class="list-group" ng-repeat="day in timeline_days">
+                            <ul>
+                                <li class="list-group-title timeline-day-title">{{day.name}}</li>
+                                <li ng-repeat="event in day.events" class="event-item swipeout"
+                                    ng-class="{'favorite': event.is_favorite}">
+                                    <a href="#" class="item-link item-content swipeout-content" ng-click="event.open()">
+                                        <div class="item-media">
+                                            <img ng-src="{{event.image_vertical_url}}"
+                                                 src="img/event_vertical_transparent.png"
+                                                 class="event-vertical" onerror="onImgErrorSmall(this);">
+                                        </div>
+                                        <div class="item-inner">
+                                            <div class="item-title-row">
+                                                <div class="item-title">{{event.title}}</div>
+                                                <div class="item-after"></div>
+                                            </div>
+                                            <div class="item-text inline-block">
+                                                <div class="event-organization-name">
+                                                    {{event.organization_short_name}}
+                                                </div>
+                                            </div>
+                                            <div class="item-subtitle event-datetime">
+                                                {{event.display_time.start}} - {{event.display_time.end}}
+                                            </div>
+                                        </div>
+                                    </a>
+
+                                    <div class="swipeout-actions-right">
+                                        <a href="#" class="action1 favorite-action"
+                                           ng-click="event.toggleFavorite($event);">
+                                            <span class="action1_icon {{event.favorite_icon}}"></span>
+                                            <p class="action1_text">{{event.favorite_text}}</p>
+                                        </a>
+                                        <a href="#" class="action1 swipeout-delete swipeout-overswipe"
+                                           ng-click="event.toggleHidden($event);">
+                                            <span class="action1_icon icon ion-ios-trash-outline"></span>
+                                            <p class="action1_text">{{event.hide_text}}</p>
+                                        </a>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="infinite-scroll-preloader" ng-show="is_downloading">
+                        <div class="loader"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-  </div>
+    <div id="view-friends" class="view view-friends tab" ng-controller="FriendsTabController">
+        <div class="navbar navbar-hiding">
+            <div class="navbar-inner">
+                <!-- Sub navbar -->
+                <div class="subnavbar">
+                    <div class="left"></div>
+                    <div class="buttons-row">
+                        <a ng-href="#friends-feed" ng-click="showFeed('BUTTON');"
+                           class="button tab-link button-white active">Активность</a>
+                        <a ng-href="#friends-list" ng-click="showFriends(true);" class="button tab-link button-white">Профили</a>
+                    </div>
+                    <div class="right"></div>
+                </div>
+            </div>
+        </div>
+        <div class="pages navbar-through">
+            <div id="friends" data-page="friends" class="page with-subnavbar tabs-animated-wrap background-gray">
+                <div class="tabs">
+                    <div id="friends-feed"
+                         class="tab page-content padding-top-30 infinite-scroll friends-page-content background-gray pull-to-refresh-content active"
+                         data-ptr-distance="50" data-distance="100">
+                        <div class="pull-to-refresh-layer">
+                            <!--<div class="loader"></div>-->
+                            <div class="pull-to-refresh-arrow"></div>
+                        </div>
+                        <div class="no-events-text" ng-show="no_actions">
+                            Нет активности
+                        </div>
+                        <div class="list-block cards-list">
+                            <ul>
+                                <li class="card feed-card {{card.entity}}" ng-repeat="card in cards">
+                                    <div class="card-header" ng-click="card.open();">
+                                        <span class="pull-right feed-date">{{card.date}}</span>
+                                        <img ng-src="{{card.user.avatar_url}}" class="user-avatar pull-left"
+                                             onerror="onImgErrorSmall(this);">
+                                        <span class="user-name sfui_display_medium">{{card.user.last_name}} {{card.user.first_name}}</span>
+                                        <br>
+                                        <span class="action-name text-gray">{{card.action_name}}</span>
+                                    </div>
+                                    <div class="card-content">
+                                        <div class="card-content-inner">
+                                            <div class="list-block subscriptions-list">
+                                                <ul class="without-top-border without-bottom-border">
+                                                    <li ng-repeat="entity in card.entities"
+                                                        ng-click="entity.openEntity();">
+                                                        <a href="#" class="item-link item-content">
+                                                            <div class="item-media">
+                                                                <img ng-src="{{entity.img_url}}" class="image-cirle"
+                                                                     onerror="onImgErrorSmall(this);">
+                                                            </div>
+                                                            <div class="item-inner">
+                                                                <div class="item-title">{{entity.title}}</div>
+                                                                <div class="item-after"></div>
+                                                            </div>
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="infinite-scroll-preloader" ng-show="is_downloading">
+                            <div class="loader"></div>
+                        </div>
+                    </div>
+
+                    <div id="friends-list" style="background: #fff" data-ptr-distance="50" data-distance="100"
+                         class="tab page-content padding-top-30 infinite-scroll friends-page-content background-gray pull-to-refresh-content">
+                        <div class="pull-to-refresh-layer">
+                            <div class="loader"></div>
+                            <div class="pull-to-refresh-arrow"></div>
+                        </div>
+                        <div class="list-block no-margin media-list friend-profiles">
+                            <ul>
+                                <li ng-repeat="friend in friends">
+                                    <a href="#" class="item-link item-content" ng-click="friend.open();">
+                                        <div class="item-media">
+                                            <img ng-src="{{friend.avatar_url}}" class="friend-image"
+                                                 onerror="onImgErrorSmall(this);">
+                                        </div>
+                                        <div class="item-inner">
+                                            <div class="item-title-row">
+                                                <div class="item-title">{{friend.last_name}} {{friend.first_name}}</div>
+                                            </div>
+                                            <div class="item-subtitle text-gray">
+                                                {{friend.type_name}}
+                                            </div>
+                                        </div>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="content-block" ng-show="friends.length == 0">
+                            <div class="no-friends-text ng-hide" ng-hide="no_actions">
+                                Ваших друзей нет<br> в Evendate
+                            </div>
+                            <div class="text-center no-friends-text-gray">
+                                <p class="tell-to-friends sfui_display_light">Расскажите друзьям</p>
+                                <div class="text-center">
+                                    <button type="button" onclick="shareInfoAboutApp();"
+                                            class="button button-160px button-pink button-center">
+                                        Поделиться
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="text-center no-friends-text-gray sfui_display_light">
+                                <p class="log-in-with-another-account">Или попробуйте войти через <br> другую социальную
+                                    сеть</p>
+                                <div class="text-center">
+                                    <button type="button" class="button button-160px button-gray button-center"
+                                            onclick="resetAccount();">
+                                        Сменить аккаунт
+                                    </button>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="infinite-scroll-preloader" ng-show="friends_downloading">
+                            <div class="loader"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="toolbar tabbar tabbar-labels main-tabbar hidden">
+        <div class="toolbar-inner animated">
+            <a href="#view-profile" data-step="1" data-position="top" data-intro="Подпишитесь на организации"
+               data-number="0"
+               class="tab-link view-profile"><i data-active-icon="icon ion-ios-list"
+                                                data-icon="icon ion-ios-list-outline"
+                                                class="icon ion-ios-list-outline"></i><span
+                    class="tabbar-label">Подписки</span></a>
+            <a href="#view-events" data-step="3" data-number="1" data-position="top"
+               data-intro="Календарь и лента к Вашим услугам"
+               id="view-events-tab-link" class="tab-link active"><i data-active-icon="icon ion-ios-calendar"
+                                                                    data-icon="icon ion-ios-calendar-outline"
+                                                                    class="icon ion-ios-calendar"></i><span
+                    class="tabbar-label">События</span></a>
+            <a href="#view-favorites" data-number="2" class="tab-link"><i data-active-icon="lnr icon-pin_full"
+                                                                          data-icon="lnr icon-lnr-pushpin"
+                                                                          class="lnr icon-lnr-pushpin"></i><span
+                    class="tabbar-label">Избранное</span></a>
+            <a href="#view-friends" data-number="3" class="tab-link"><i data-active-icon="icon ion-ios-paper"
+                                                                        data-icon="icon ion-ios-paper-outline"
+                                                                        class="icon ion-ios-paper-outline"></i><span
+                    class="tabbar-label">Друзья</span></a>
+        </div>
+    </div>
 </div>
 
 <div class="introjs-tooltipReferenceLayer" style="display: none;">
-  <div class="introjs-tooltip">
-    <div class="introjs-tooltiptext">Подпишитесь на организации</div>
-    <div class="introjs-arrow bottom" style="display: inherit;"></div>
-  </div>
+    <div class="introjs-tooltip">
+        <div class="introjs-tooltiptext">Подпишитесь на организации</div>
+        <div class="introjs-arrow bottom" style="display: inherit;"></div>
+    </div>
 </div>
 
 <script type="text/javascript" src="js/models/Organizations.js"></script>
@@ -624,41 +659,42 @@
 <script type="text/javascript" src="http://evendate.ru:443/socket.io/socket.io.js"></script>
 <script type="text/javascript" src="phonegap.js"></script>
 <script type="text/javascript" src="childbrowser.js"></script>
-<script type="text/javascript" src="SQLitePlugin.js"></script>
+<script type="text/javascript" src="js/Calendar.js"></script>
 <script type="text/javascript" src="PushNotification.js"></script>
 <script type="text/javascript" charset="utf-8" src="canOpen.js"></script>
 <script type="text/javascript" src="js/init.js"></script>
 
 <!-- Yandex.Metrika counter -->
-<script type="text/javascript"> (function(d, w, c) {
-  (w[c] = w[c] || []).push(function() {
-    try {
-      w.yaCounter33876404 = new Ya.Metrika({
-        id: 33876404,
-        clickmap: true,
-        trackLinks: true,
-        accurateTrackBounce: true,
-        webvisor: true,
-        trackHash: true,
-        ut: "noindex"
-      });
-    } catch(e) {
+<script type="text/javascript"> (function (d, w, c) {
+    (w[c] = w[c] || []).push(function () {
+        try {
+            w.yaCounter33876404 = new Ya.Metrika({
+                id: 33876404,
+                clickmap: true,
+                trackLinks: true,
+                accurateTrackBounce: true,
+                webvisor: true,
+                trackHash: true,
+                ut: "noindex"
+            });
+        } catch (e) {
+        }
+    });
+    var n = d.getElementsByTagName("script")[0], s = d.createElement("script"), f = function () {
+        n.parentNode.insertBefore(s, n);
+    };
+    s.type = "text/javascript";
+    s.async = true;
+    s.src = "https://mc.yandex.ru/metrika/watch.js";
+    if (w.opera == "[object Opera]") {
+        d.addEventListener("DOMContentLoaded", f, false);
+    } else {
+        f();
     }
-  });
-  var n = d.getElementsByTagName("script")[0], s = d.createElement("script"), f = function() {
-    n.parentNode.insertBefore(s, n);
-  };
-  s.type = "text/javascript";
-  s.async = true;
-  s.src = "https://mc.yandex.ru/metrika/watch.js";
-  if (w.opera == "[object Opera]") {
-    d.addEventListener("DOMContentLoaded", f, false);
-  } else {
-    f();
-  }
 })(document, window, "yandex_metrika_callbacks");</script>
 <noscript>
-  <div><img src="https://mc.yandex.ru/watch/33876404?ut=noindex" style="position:absolute; left:-9999px;" alt=""/></div>
+    <div><img src="https://mc.yandex.ru/watch/33876404?ut=noindex" style="position:absolute; left:-9999px;" alt=""/>
+    </div>
 </noscript>
 <!-- /Yandex.Metrika counter -->
 

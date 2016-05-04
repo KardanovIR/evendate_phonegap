@@ -13,7 +13,7 @@ MyApp.pages.FriendsTabController = function ($scope) {
 		all_downloaded = false;
 	$scope.cards = [];
 	$scope.page_counter = 0;
-	$scope.no_actions = true;
+	$scope.no_actions = false;
 	$scope.is_downloading = false;
 
 	$scope.friends = [];
@@ -57,6 +57,7 @@ MyApp.pages.FriendsTabController = function ($scope) {
 			cards_by_users = {};
 			$scope.page_counter = 0;
 		}
+		$scope.$apply();
 
 		__api.users.get([
 			{feed: true},
@@ -65,8 +66,8 @@ MyApp.pages.FriendsTabController = function ($scope) {
 			{offset: 10 * $scope.page_counter++},
 			{length: 10}
 		], function(data){
-			if (first_page && data.length == 0){
-				$scope.no_actions = true;
+			if (first_page){
+				$scope.no_actions = data.length == 0;
 			}
 			data.forEach(function(stat){
 				var date = moment.unix(stat.created_at),
@@ -84,7 +85,7 @@ MyApp.pages.FriendsTabController = function ($scope) {
 							fw7App.showIndicator();
 							__api.users.get([
 								{friend_id: this.user.id},
-								{friends: true}
+								{fields: 'blurred_img_url,uid,type'}
 							], function(data){
 								fw7App.hideIndicator();
 								data[0].open();
@@ -98,6 +99,7 @@ MyApp.pages.FriendsTabController = function ($scope) {
 					ent.img_url = ent.image_square_vertical_url;
 					ent.openEntity = function(){
 						fw7App.showIndicator();
+						storeStat(stat.user.id, CONTRACT.ENTITIES.FRIEND, CONTRACT.STATISTICS.FRIEND_VIEW_EVENT_FROM_USER);
 						__api.events.get([
 							{id: ent.id}
 						], function(res){
@@ -152,8 +154,8 @@ MyApp.pages.FriendsTabController = function ($scope) {
 		friends_downloading = true;
 		__api.users.get([
 			{friends: true},
-			{fields: 'is_friend,type'},
-			{page: downloaded_friends_page++},
+			{fields: 'is_friend,type,'},
+			{page: downloaded_friends_page++}	,
 			{length: 10}
 		], function(data){
 

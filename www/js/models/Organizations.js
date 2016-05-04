@@ -46,6 +46,7 @@ function Organizations(){
 
 			value.open = function(){
 				if (is_opening) return;
+				value.new_events_count = 0;
 				is_opening = true;
 				fw7App.showIndicator();
 				var _organization = this;
@@ -118,7 +119,7 @@ function Organizations(){
 							background_img_url: _organization.background_img_url,
 							logo_url: _organization.img_url,
 							name: _organization.name,
-							friends: _organization.subscribed_friends
+							organization_id: _organization.id
 						});
 					}else{
 						var rootElement = angular.element(document);
@@ -131,7 +132,7 @@ function Organizations(){
 									background_img_url: _organization.background_img_url,
 									logo_url: _organization.img_url,
 									name: _organization.name,
-									friends: _organization.subscribed_friends
+									organization_id: _organization.id
 								});
 								$$container.data('opened', true);
 							}]);

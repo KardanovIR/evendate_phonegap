@@ -53,11 +53,10 @@ function Events() {
 				event.dates_text = [];
 				event.every_day = true;
 
-				var date_format = event.dates.length == 1 ? 'DD MMMM' : 'DD/MM';
 				event.moment_dates.forEach(function(val, index) {
 					var mdate = val.start_date.clone();
-					event.dates_text.push(val.start_date.format(date_format) + ' ' + val.start_date.format('HH:mm') + ' - ' + val.end_date.format('HH:mm'));
 					event.short_dates.push(val.start_date.format('DD/MM'));
+					event.dates_text.push(val.start_date.format('DD/MM'));
 
 					if (index == 0) return true;
 					event.every_day =
@@ -161,6 +160,7 @@ function Events() {
 			};
 
 			event.openDetailInfoUrl = function() {
+				storeStat(event.id, CONTRACT.ENTITIES.EVENT, CONTRACT.STATISTICS.EVENT_OPEN_SITE);
 				window.open(event.detail_info_url, '_system', 'location=yes');
 			};
 
@@ -230,7 +230,7 @@ function Events() {
 							background_img_url: _event.image_horizontal_url,
 							logo_url: null,
 							name: _event.title,
-							friends: _event.favorite_friends
+							event_id: _event.id
 						});
 					} else {
 						var rootElement = angular.element(document);
@@ -244,7 +244,7 @@ function Events() {
 									background_img_url: _event.image_horizontal_url,
 									logo_url: null,
 									name: _event.title,
-									friends: _event.favorite_friends
+									event_id: _event.id
 								});
 								$$container.data('opened', true);
 							}]);
@@ -262,6 +262,7 @@ function Events() {
 			event.updateFavoriteTexts = function() {
 				event.favorite_text = event.is_favorite ? 'Убрать из избранного' : 'В избранное';
 				event.favorite_short_text = event.is_favorite ? 'В избранном' : 'В избранное';
+				event.favorite_icon = event.is_favorite ? 'ion-ios-star' : 'ion-ios-star-outline';
 			};
 
 			//КОСТЫЛЬ для iPhone 4
@@ -282,11 +283,14 @@ function Events() {
 				url = CONTRACT.URLS.API_FULL_PATH + CONTRACT.URLS.EVENTS_PATH;
 			if (_f.data.hasOwnProperty('timeline') && _f.data.timeline == true) {
 				url += '/' + CONTRACT.URLS.MY_PART
-			} else if (_f.data.hasOwnProperty('favorites') && _f.data.favorites == true) {
+			}
+			if (_f.data.hasOwnProperty('favorites') && _f.data.favorites == true) {
 				url += '/' + CONTRACT.URLS.FAVORITES_PART
-			} else if (_f.data.hasOwnProperty('id')) {
+			}
+			if (_f.data.hasOwnProperty('id')) {
 				url += '/' + _f.data.id;
-			} else if (_f.data.hasOwnProperty('my')) {
+			}
+			if (_f.data.hasOwnProperty('my')) {
 				url += '/my';
 			}
 

@@ -17,7 +17,7 @@
       <div class="friends-page-header-shadow">
         <div class="friends-page-header-text text-center">
           <div class="img-cirle-wrapper" ng-hide="info.logo_url == null">
-            <img ng-src="{{user.avatar_url}}">
+            <img ng-src="{{user.avatar_url}}" onerror="onImgErrorSmall(this);">
           </div>
           <span class="margin-left-10">{{info.name}}</span>
         </div>
@@ -33,7 +33,7 @@
                 <div class="item-title-row">
                   <div class="item-title">{{friend.last_name}} {{friend.first_name}}</div>
                 </div>
-                <div class="item-subtitle text-gray" ng-show="friend.is_friend == true">
+                <div class="item-subtitle text-gray" ng-show="friend.is_friend">
                   {{friend.type_name}}
                 </div>
               </div>

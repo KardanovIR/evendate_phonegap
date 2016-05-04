@@ -12,8 +12,8 @@ var child_browser_opened = false,
             unsubscribe: ['удалил(а) подписки']
         },
         URLS: {
-            BASE_NAME: 'http://evendate.ru',
-            API_FULL_PATH: 'http://evendate.ru/api/v1',
+            BASE_NAME: 'http://dev.evendate.org',
+            API_FULL_PATH: 'http://dev.evendate.org/api/v1',
             USERS_PATH: '/users',
             SUBSCRIPTIONS_PATH: '/subscriptions',
             ORGANIZATIONS_PATH: '/organizations',
@@ -28,126 +28,18 @@ var child_browser_opened = false,
             SUBSCRIPTIONS_PART: '/subscriptions'
         },
         FRIEND_TYPE_NAMES: {
-            vk: 'ВКонтакте',
-            google: 'Google +',
-            fb: 'Facebook'
+            'vk.com': 'ВКонтакте',
+            google: 'Google',
+            facebook: 'Facebook'
         },
         ALERTS: {
             NO_INTERNET: 'Отсутствует соединение с сервером',
-
-        },
-        DB: {
-            NAME: 'evendate.db',
-            VERSION: 2,
-            TABLES: {
-                USERS: 'users',
-                ORGANIZATIONS: 'organizations',
-                EVENTS: 'events',
-                FAVORITE_EVENTS: 'favorite_events',
-                TAGS: 'tags',
-                EVENTS_USERS: 'events_users',
-                EVENTS_TAGS: 'events_tags',
-                ORGANIZATIONS_USERS: 'organizations_users'
-            },
-            FIELDS: {
-                USERS: {
-                    _ID: 'id',
-                    FIRST_NAME: 'first_name',
-                    LAST_NAME: 'last_name',
-                    MIDDLE_NAME: 'middle_name',
-                    AVATAR_URL: 'avatar_url',
-                    TYPE: 'type',
-                    FRIEND_UID: 'friend_uid',
-                    LINK: 'link',
-                    CREATED_AT: 'created_at',
-                    UPDATED_AT: 'updated_at'
-                },
-                ORGANIZATIONS: {
-                    _ID: 'id',
-                    NAME: 'name',
-                    IMG_URL: 'img_url',
-                    IMG: 'img',
-                    SHORT_NAME: 'short_name',
-                    BACKGROUND_IMG_URL: 'background_img_url',
-                    DESCRIPTION: 'description',
-                    TYPE_NAME: 'type_name',
-                    TYPE_ID: 'type_id',
-                    SUBSCRIPTION_ID: 'subscription_id',
-                    SUBSCRIBED_COUNT: 'subscribed_count',
-                    BACKGROUND_MEDIUM_IMG_URL: 'background_medium_img_url',
-                    BACKGROUND_SMALL_IMG_URL: 'background_small_img_url',
-                    IMG_MEDIUM_URL: 'img_medium_url',
-                    IMG_SMALL_URL: 'img_small_url',
-                    CREATED_AT: 'created_at',
-                    UPDATED_AT: 'updated_at'
-                },
-                EVENTS_DATES: {
-                    _ID: 'id',
-                    EVENT_ID: 'event_id',
-                    EVENT_DATE: 'event_date',
-                    STATUS: 'status',
-                    CREATED_AT: 'created_at',
-                    UPDATED_AT: 'updated_at'
-                },
-                FAVORITE_EVENTS: {
-                    _ID: 'id',
-                    EVENT_ID: 'event_id',
-                    CREATED_AT: 'created_at',
-                    UPDATED_AT: 'updated_at'
-                },
-                TAGS: {
-                    _ID: 'id',
-                    NAME: 'name',
-                    CREATED_AT: 'created_at',
-                    UPDATED_AT: 'updated_at'
-                },
-                EVENTS: {
-                    _ID: 'id',
-                    TITLE: 'title',
-                    DESCRIPTION: 'description',
-                    LOCATION_TEXT: 'location',
-                    LOCATION_URI: 'location_uri',
-                    LOCATION_JSON: 'location_object',
-                    LATITUDE: 'latitude',
-                    LONGITUDE: 'longitude',
-                    START_DATE: 'event_start_date',
-                    END_DATE: 'event_end_date',
-                    NOTIFICATIONS: 'notifications_schema_json',
-                    ORGANIZATION_ID: 'organization_id',
-                    IMAGE_VERTICAL_URL: 'image_vertical_url',
-                    IMAGE_HORIZONTAL_URL: 'image_horizontal_url',
-                    DETAIL_INFO_URL: 'detail_info_url',
-                    BEGIN_TIME: 'begin_time',
-                    END_TIME: 'end_time',
-                    CREATED_AT: 'created_at',
-                    UPDATED_AT: 'updated_at'
-                },
-                EVENTS_TAGS: {
-                    _ID: 'id',
-                    EVENT_ID: 'event_id',
-                    TAG_ID: 'tag_id',
-                    CREATED_AT: 'created_at',
-                    UPDATED_AT: 'updated_at'
-                },
-                EVENTS_USERS: {
-                    _ID: 'id',
-                    EVENT_ID: 'event_id',
-                    USER_ID: 'user_id',
-                    CREATED_AT: 'created_at',
-                    UPDATED_AT: 'updated_at'
-                },
-                ORGANIZATIONS_USERS: {
-                    _ID: 'id',
-                    ORGANIZATION_ID: 'event_id',
-                    USER_ID: 'user_id',
-                    CREATED_AT: 'created_at',
-                    UPDATED_AT: 'updated_at'
-                }
-            }
+            REQUEST_ERROR: 'Ошибка получения данных с сервера. Попробуйте еще раз.',
         },
         ENTITIES: {
             EVENT: 'event',
-            ORGANIZATION: 'organization'
+            ORGANIZATION: 'organization',
+            FRIEND: 'friend'
         },
         TEXTS: {
             EVENTS: {
@@ -171,7 +63,13 @@ var child_browser_opened = false,
             FACEBOOK: 'facebook',
             GOOGLE: 'vk'
         },
-        STATISTICS: {},
+        STATISTICS: {
+            EVENT_OPEN_SITE: 'open_site',
+            SHARE_FACEBOOK: 'share_fb',
+            SHARE_VK: 'share_vk',
+            SHARE_TWITTER: 'share_tw',
+            FRIEND_VIEW_EVENT_FROM_USER: 'view_event_from_user'
+        },
         DEMO_TOKEN: 'CAAYDHIPuIBYBAM26ZBTlCN1k08K7iZCKTrQ1JjFxNdWoGyFkgZAymhrmn5W92aL7XtPD6m2CYu9sSS1a30HA6TjkNyPkvChyyt1wCu7vleuMHbtpro6lJsJDNbAZBfUZCna1bXMULPv4igyZAEz9qvJxeHiUTgOghmklhlQAgAvvrjqi8sEOSWiJn5DbZAwNcUZDundefinedjrR7TyjWPIN3NjfazLy3hdtYOqnmd11tHWR1F0hoznPPpdaV1FNFlb47pfr4W26i',
     },
     __os = navigator.platform == 'Win32' ? 'win' : 'hz',
@@ -332,16 +230,22 @@ if (__os == 'win') {
     })();
 }
 
+
+
 function openLink(prefix, link, http_link) {
-    appAvailability.check(
-        prefix + '://',
-        function () {
-            window.open(link, '_system');
-        },
-        function () {
-            window.open(http_link, '_system');
-        }
-    );
+    if (appAvailability){
+        appAvailability.check(
+            prefix + '://',
+            function () {
+                window.open(link, '_system');
+            },
+            function () {
+                window.open(http_link, '_system');
+            }
+        );
+    }else{
+        window.open(http_link, '_system');
+    }
 }
 
 function registerPushService() {
@@ -569,6 +473,32 @@ function openApplication() {
     __is_ready = true;
     openNotification();
 
+    window.__stats = [];
+
+    window.storeStat = function(entity_id, entity_type, event_type) {
+        window.__stats.push({
+            entity_id: entity_id,
+            entity_type: entity_type,
+            event_type: event_type
+        });
+    };
+
+    setInterval(function() {
+        if (window.__stats.length != 0) {
+            var batch = window.__stats;
+            window.__stats = [];
+            $$.ajax({
+                url: CONTRACT.URLS.API_FULL_PATH + '/statistics/batch',
+                data: JSON.stringify(batch),
+                type: 'POST',
+                contentType: 'application/json; charset=utf-8',
+                dataType: 'json',
+                error: function() {
+                    window.__stats.concat(batch);
+                }
+            });
+        }
+    }, 10000);
 }
 
 window.onerror = function sendCrashReport(message, url, linenumber, column, errorObj) {
@@ -661,7 +591,9 @@ function checkToken(to_reset) {
             },
             data: {
                 'device_token': __device_id,
-                'client_type': __os == 'win' ? 'browser' : 'ios'
+                'client_type': __os == 'win' ? 'browser' : 'ios',
+                'model': window.device ? window.device.model : null,
+                'os_version': window.device ? window.device.version : null
             },
             type: 'PUT',
             dataType: 'JSON',
