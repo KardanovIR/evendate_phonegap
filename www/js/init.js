@@ -12,8 +12,8 @@ var child_browser_opened = false,
             unsubscribe: ['удалил(а) подписки']
         },
         URLS: {
-            BASE_NAME: 'http://dev.evendate.org',
-            API_FULL_PATH: 'http://dev.evendate.org/api/v1',
+            BASE_NAME: 'http://evendate.ru',
+            API_FULL_PATH: 'http://evendate.ru/api/v1',
             USERS_PATH: '/users',
             SUBSCRIPTIONS_PATH: '/subscriptions',
             ORGANIZATIONS_PATH: '/organizations',
