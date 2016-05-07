@@ -317,16 +317,36 @@ function registerPushService() {
         //     }
         // }
         //
-        // window.plugins.OneSignal.setLogLevel({logLevel: 4, visualLevel: 4});
 
-        var notificationOpenedCallback = function (jsonData) {
-            L.log('didReceiveRemoteNotificationCallBack: ' + JSON.stringify(jsonData));
-            L.log(jsonData);
-            // onNotificationAPN(jsonData);
+        window.plugins.OneSignal.setLogLevel({logLevel: 4, visualLevel: 4});
+
+        var notificationOpenedCallback = function (json_data) {
+            L.log(json_data);
+            var id;
+            switch(json_data.additionalData.type){
+                case 'events':{
+                    id = json_data.additionalData.event_id;
+                    break;
+                }
+                case 'organizations':{
+                    id = json_data.additionalData.organization_id;
+                    break;
+                }
+                case 'users':{
+                    id = json_data.additionalData.user_id;
+                    break;
+                }
+            }
+
+            __api[json_data.additionalData.type].get([
+                {id: id}
+            ], function(items){
+                items[0].open();
+            });
         };
 
         window.plugins.OneSignal.init(ONE_SIGNAL_APP_ID,
-            {googleProjectNumber: "", autoRegister: true},
+            {googleProjectNumber: '', autoRegister: true},
             notificationOpenedCallback);
 
 
@@ -383,7 +403,6 @@ function saveTokenInLocalStorage(url) {
 
 function openNotification() {
     if (__to_open_event != null && __is_ready) {
-        L.log("launchedNotification");
         if (__to_open_event && __to_open_event.onStart) {
             __api.events.get([
                 {id: __to_open_event.userdata.event_id}
