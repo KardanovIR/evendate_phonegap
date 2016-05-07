@@ -209,15 +209,13 @@ MyApp.init = (function () {
 
 document.addEventListener("deviceready", onDeviceReady, false);
 
-function onImgErrorSmall(source)
-{
+function onImgErrorSmall(source) {
     source.src = "img/icon_500.png";
     source.onerror = "";
     return true;
 }
 
-function onImgErrorPattern(source)
-{
+function onImgErrorPattern(source) {
     source.src = "img/port_pattern.png";
     source.onerror = "";
     return true;
@@ -231,9 +229,8 @@ if (__os == 'win') {
 }
 
 
-
 function openLink(prefix, link, http_link) {
-    if (appAvailability){
+    if (appAvailability) {
         appAvailability.check(
             prefix + '://',
             function () {
@@ -243,7 +240,7 @@ function openLink(prefix, link, http_link) {
                 window.open(http_link, '_system');
             }
         );
-    }else{
+    } else {
         window.open(http_link, '_system');
     }
 }
@@ -318,31 +315,56 @@ function registerPushService() {
         // }
         //
 
-        window.plugins.OneSignal.setLogLevel({logLevel: 4, visualLevel: 4});
+        // window.plugins.OneSignal.setLogLevel({logLevel: 4, visualLevel: 4});
 
         var notificationOpenedCallback = function (json_data) {
             L.log(json_data);
             var id;
-            switch(json_data.additionalData.type){
-                case 'events':{
+            switch (json_data.additionalData.type) {
+                case 'events':
+                {
                     id = json_data.additionalData.event_id;
                     break;
                 }
-                case 'organizations':{
+                case 'organizations':
+                {
                     id = json_data.additionalData.organization_id;
                     break;
                 }
-                case 'users':{
+                case 'users':
+                {
                     id = json_data.additionalData.user_id;
                     break;
                 }
             }
 
-            __api[json_data.additionalData.type].get([
-                {id: id}
-            ], function(items){
-                items[0].open();
-            });
+            if (json_data.isActive) {
+                fw7App.addNotification({
+                    title: json_data.message,
+                    hold: 5000,
+                    closeIcon: true,
+                    subtitle: '',
+                    message: json_data.additionalData.title,
+                    media: '<img width="44" height="44" src="' + json_data.additionalData.organization_logo + '">',
+                    onClick: function () {
+                        __api[json_data.additionalData.type].get([
+                            {id: id}
+                        ], function (items) {
+                            items[0].open();
+                        });
+                    }
+                });
+            } else {
+                __to_open_event = (function(type, id){
+                    __api[type].get([
+                        {id: id}
+                    ], function (items) {
+                        items[0].open();
+                    });
+                    __to_open_event = null;
+                })(json_data.additionalData.type, id);
+                openNotification();
+            }
         };
 
         window.plugins.OneSignal.init(ONE_SIGNAL_APP_ID,
@@ -351,7 +373,7 @@ function registerPushService() {
 
 
         // window.plugins.OneSignal.enableInAppAlertNotification(true);
-        
+
         window.plugins.OneSignal.getIds(function (ids) {
             L.log(ids);
             if (ids.hasOwnProperty('userId')) {
@@ -403,13 +425,8 @@ function saveTokenInLocalStorage(url) {
 
 function openNotification() {
     if (__to_open_event != null && __is_ready) {
-        if (__to_open_event && __to_open_event.onStart) {
-            __api.events.get([
-                {id: __to_open_event.userdata.event_id}
-            ], function (res) {
-                res[0].open();
-            })
-        }
+        __to_open_event();
+        __to_open_event = null;
     }
 }
 
@@ -494,7 +511,7 @@ function openApplication() {
 
     window.__stats = [];
 
-    window.storeStat = function(entity_id, entity_type, event_type) {
+    window.storeStat = function (entity_id, entity_type, event_type) {
         window.__stats.push({
             entity_id: entity_id,
             entity_type: entity_type,
@@ -502,7 +519,7 @@ function openApplication() {
         });
     };
 
-    setInterval(function() {
+    setInterval(function () {
         if (window.__stats.length != 0) {
             var batch = window.__stats;
             window.__stats = [];
@@ -512,7 +529,7 @@ function openApplication() {
                 type: 'POST',
                 contentType: 'application/json; charset=utf-8',
                 dataType: 'json',
-                error: function() {
+                error: function () {
                     window.__stats.concat(batch);
                 }
             });
