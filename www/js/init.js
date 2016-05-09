@@ -84,11 +84,8 @@ var child_browser_opened = false,
     __user,
     __api,
     __app,
-    __auth_urls,
     __to_open_event,
     ONE_SIGNAL_APP_ID = '7471a586-01f3-4eef-b989-c809700a8658',
-    __run_after_init = function () {
-    },
     __is_ready = false,
     $$,
     MyApp = MyApp || {},
@@ -396,6 +393,8 @@ function registerPushService() {
                             });
                             __to_open_event = null;
                         })(json_data.additionalData.type, id);
+                        L.log('saving_to_open_event');
+                        L.log(type, id);
                         openNotification();
                     }
                 };
@@ -545,6 +544,7 @@ function openApplication() {
         });
 
     __is_ready = true;
+    L.log(__to_open_event);
     openNotification();
 
     window.__stats = [];
