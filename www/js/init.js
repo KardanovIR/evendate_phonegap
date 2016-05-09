@@ -386,15 +386,17 @@ function registerPushService() {
                         });
                     } else {
                         __to_open_event = (function (type, id) {
+                            L.log('calling');
+                            L.log(type, id);
                             __api[type].get([
                                 {id: id}
                             ], function (items) {
+                                L.log(items);
                                 items[0].open();
                             });
                             __to_open_event = null;
                         })(json_data.additionalData.type, id);
                         L.log('saving_to_open_event');
-                        L.log(type, id);
                         openNotification();
                     }
                 };
