@@ -76,14 +76,15 @@ var child_browser_opened = false,
     permanentStorage = window.localStorage,
     tempStorage = window.sessionStorage,
     URLs = {
-        VK: 'https://oauth.vk.com/authorize?client_id=5029623&scope=groups,friends,email,wall,offline,pages,photos,groups&redirect_uri=http://evendate.ru/vkOauthDone.php?mobile=true&response_type=token',
-        FACEBOOK: 'https://www.facebook.com/dialog/oauth?client_id=1692270867652630&response_type=token&scope=public_profile,email,user_friends&display=popup&redirect_uri=http://evendate.ru/fbOauthDone.php?mobile=true',
-        GOOGLE: 'https://accounts.google.com/o/oauth2/auth?scope=email profile https://www.googleapis.com/auth/plus.login &redirect_uri=http://evendate.ru/googleOauthDone.php?mobile=true&response_type=token&client_id=403640417782-lfkpm73j5gqqnq4d3d97vkgfjcoebucv.apps.googleusercontent.com'
+        // VK: 'https://oauth.vk.com/authorize?client_id=5029623&scope=groups,friends,email,wall,offline,pages,photos,groups&redirect_uri=http://evendate.ru/vkOauthDone.php?mobile=true&response_type=token',
+        // FACEBOOK: 'https://www.facebook.com/dialog/oauth?client_id=1692270867652630&response_type=token&scope=public_profile,email,user_friends&display=popup&redirect_uri=http://evendate.ru/fbOauthDone.php?mobile=true',
+        // GOOGLE: 'https://accounts.google.com/o/oauth2/auth?scope=email profile https://www.googleapis.com/auth/plus.login &redirect_uri=http://evendate.ru/googleOauthDone.php?mobile=true&response_type=token&client_id=403640417782-lfkpm73j5gqqnq4d3d97vkgfjcoebucv.apps.googleusercontent.com'
     },
     __device_id = null,
     __user,
     __api,
     __app,
+    __auth_urls,
     __to_open_event,
     ONE_SIGNAL_APP_ID = '7471a586-01f3-4eef-b989-c809700a8658',
     __run_after_init = function () {
@@ -247,6 +248,24 @@ function openLink(prefix, link, http_link) {
 
 function registerPushService() {
     if (__os == 'win') {
+
+        $$.ajax({
+            url: CONTRACT.URLS.BASE_NAME + '/auth.php?action=get_urls&mobile=true',
+            dataType: 'JSON',
+            success: function (res) {
+                var urls = JSON.parse(res).data;
+                URLs = {
+                    VK: urls.vk,
+                    GOOGLE: urls.google,
+                    FACEBOOK: urls.facebook
+                };
+            },
+            error: function () {
+                fw7App.alert('Отсутствует интернет соединение');
+            }
+        });
+
+
         if (window.hasOwnProperty('socket')) {
             socket.on('connect', function () {
                 registerSuccessHandler(socket.id);
@@ -317,69 +336,88 @@ function registerPushService() {
 
         // window.plugins.OneSignal.setLogLevel({logLevel: 4, visualLevel: 4});
 
-        var notificationOpenedCallback = function (json_data) {
-            L.log(json_data);
-            var id;
-            switch (json_data.additionalData.type) {
-                case 'events':
-                {
-                    id = json_data.additionalData.event_id;
-                    break;
-                }
-                case 'organizations':
-                {
-                    id = json_data.additionalData.organization_id;
-                    break;
-                }
-                case 'users':
-                {
-                    id = json_data.additionalData.user_id;
-                    break;
-                }
-            }
 
-            if (json_data.isActive) {
-                fw7App.addNotification({
-                    title: json_data.message,
-                    hold: 5000,
-                    closeIcon: true,
-                    subtitle: '',
-                    message: json_data.additionalData.title,
-                    media: '<img width="44" height="44" src="' + json_data.additionalData.organization_logo + '">',
-                    onClick: function () {
-                        __api[json_data.additionalData.type].get([
-                            {id: id}
-                        ], function (items) {
-                            items[0].open();
+        fw7App.hidePreloader();
+        $$.ajax({
+            url: CONTRACT.URLS.BASE_NAME + '/auth.php?action=get_urls&mobile=true',
+            dataType: 'JSON',
+            success: function (res) {
+
+                var urls = JSON.parse(res).data;
+                URLs = {
+                    VK: urls.vk,
+                    GOOGLE: urls.google,
+                    FACEBOOK: urls.facebook
+                };
+
+                var notificationOpenedCallback = function (json_data) {
+                    L.log(json_data);
+                    var id;
+                    switch (json_data.additionalData.type) {
+                        case 'events':
+                        {
+                            id = json_data.additionalData.event_id;
+                            break;
+                        }
+                        case 'organizations':
+                        {
+                            id = json_data.additionalData.organization_id;
+                            break;
+                        }
+                        case 'users':
+                        {
+                            id = json_data.additionalData.user_id;
+                            break;
+                        }
+                    }
+
+                    if (json_data.isActive) {
+                        fw7App.addNotification({
+                            title: json_data.message,
+                            hold: 5000,
+                            closeIcon: true,
+                            subtitle: '',
+                            message: json_data.additionalData.title,
+                            media: '<img width="44" height="44" src="' + json_data.additionalData.organization_logo + '">',
+                            onClick: function () {
+                                __api[json_data.additionalData.type].get([
+                                    {id: id}
+                                ], function (items) {
+                                    items[0].open();
+                                });
+                            }
                         });
+                    } else {
+                        __to_open_event = (function (type, id) {
+                            __api[type].get([
+                                {id: id}
+                            ], function (items) {
+                                items[0].open();
+                            });
+                            __to_open_event = null;
+                        })(json_data.additionalData.type, id);
+                        openNotification();
+                    }
+                };
+
+                window.plugins.OneSignal.init(ONE_SIGNAL_APP_ID,
+                    {googleProjectNumber: '', autoRegister: true},
+                    notificationOpenedCallback);
+
+
+                // window.plugins.OneSignal.enableInAppAlertNotification(true);
+
+                window.plugins.OneSignal.getIds(function (ids) {
+                    L.log(ids);
+                    if (ids.hasOwnProperty('userId')) {
+                        registerSuccessHandler(ids.userId);
+                    } else {
+                        registerSuccessHandler(null);
                     }
                 });
-            } else {
-                __to_open_event = (function(type, id){
-                    __api[type].get([
-                        {id: id}
-                    ], function (items) {
-                        items[0].open();
-                    });
-                    __to_open_event = null;
-                })(json_data.additionalData.type, id);
-                openNotification();
-            }
-        };
-
-        window.plugins.OneSignal.init(ONE_SIGNAL_APP_ID,
-            {googleProjectNumber: '', autoRegister: true},
-            notificationOpenedCallback);
-
-
-        // window.plugins.OneSignal.enableInAppAlertNotification(true);
-
-        window.plugins.OneSignal.getIds(function (ids) {
-            L.log(ids);
-            if (ids.hasOwnProperty('userId')) {
-                registerSuccessHandler(ids.userId);
-            } else {
-                registerSuccessHandler(null);
+            },
+            error: function () {
+                fw7App.alert('Отсутствует интернет соединение');
             }
         });
     }
