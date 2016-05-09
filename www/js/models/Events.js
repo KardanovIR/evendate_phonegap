@@ -223,6 +223,7 @@ function Events() {
 				}, function(param1, param2){
 					L.log('CREATE_CALENDAR_SUCCESS:', param1, param2);
 
+					window.plugins.calendar.listCalendars(L.log,L.log);
 					__api.events.get([
 						{id: event.id},
 						{fields: 'dates{fields:"start_time,end_time"},description,location'}
