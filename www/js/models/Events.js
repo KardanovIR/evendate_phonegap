@@ -217,10 +217,11 @@ function Events() {
 
 			event.addToCalendar = function(){
 				// create a calendar (iOS only for now)
-				window.plugins.calendar.createCalendar({
-					calendarName: 'Evendate',
-					calendarColor: '#E33D74'
-				}, function(param1, param2){
+				var create_cal_options = window.plugins.calendar.getCreateCalendarOptions();
+				create_cal_options.calendarName = "Evendate";
+				create_cal_options.calendarColor = "#E33D74"; // an optional hex color (with the # char), default is null, so the OS picks a color
+
+				window.plugins.calendar.createCalendar(create_cal_options, function(param1, param2){
 					L.log('CREATE_CALENDAR_SUCCESS:', param1, param2);
 
 					window.plugins.calendar.listCalendars(L.log,L.log);
