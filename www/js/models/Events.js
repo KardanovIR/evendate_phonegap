@@ -192,6 +192,8 @@ function Events() {
 					};
 				if (event.is_favorite) {
 					opts['type'] = 'DELETE';
+				}else{
+					event.addToCalendar();
 				}
 				$$.ajax(opts);
 
@@ -211,6 +213,51 @@ function Events() {
 					res[0].open();
 					fw7App.hideIndicator();
 				});
+			};
+
+			event.addToCalendar = function(){
+				// create a calendar (iOS only for now)
+				window.plugins.calendar.createCalendar({
+					calendarName: 'Evendate',
+					calendarColor: '#E33D74'
+				}, function(param1, param2){
+					L.log('CREATE_CALENDAR_SUCCESS:', param1, param2);
+
+					__api.events.get([
+						{id: event.id},
+						{fields: 'dates{fields:"start_time,end_time"},description,location'}
+					], function(_events){
+						var _e = _events[0];
+						// create an event in a named calendar (iOS only for now)
+						window.plugins.calendar.createEventInNamedCalendar(_e.title, _e.location, _e.description, _e.moment_dates[0].toDate(), _e.moment_dates[_e.moment_dates.length - 1].toDate(), 'Evendate',
+							function(param1, param2){
+								L.log('CREATE_EVENT_SUCCESS:', param1, param2);
+
+							},function(param1, param2){
+								L.log('CREATE_EVENT_ERROR:', param1, param2);
+
+							});
+
+					});
+
+
+					// // find events
+					// window.plugins.calendar.findEvent(title,location,notes,startDate,endDate,success,error);
+                    //
+					// // find all events in a named calendar (iOS only for now)
+					// window.plugins.calendar.findAllEventsInNamedCalendar(calendarName,success,error);
+                    //
+					// // change an event (iOS only for now)
+					// var newTitle = "New title!";
+					// window.plugins.calendar.modifyEvent(title,location,notes,startDate,endDate,newTitle,location,notes,startDate,endDate,success,error);
+                    //
+					// // delete an event (you can pass nulls for irrelevant parameters, note that on Android `notes` is ignored)
+					// window.plugins.calendar.deleteEvent(newTitle,location,notes,startDate,endDate,success,error);
+
+				}, function(param1, param2){
+					L.log('CREATE_CALENDAR_FAIL:', param1, param2);
+				});
+
 			};
 
 			event.openLikedFriends = function() {
