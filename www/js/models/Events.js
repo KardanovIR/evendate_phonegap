@@ -230,8 +230,24 @@ function Events() {
 						{fields: 'dates{fields:"start_time,end_time"},description,location'}
 					], function(_events){
 						var _e = _events[0];
+
+						L.log(_e);
+
+						var calOptions = window.plugins.calendar.getCalendarOptions(); // grab the defaults
+						calOptions.firstReminderMinutes = null; // default is 60, pass in null for no reminder (alarm)
+						calOptions.secondReminderMinutes = null;
+
+						// Added these options in version 4.2.4:
+						calOptions.recurrence = "daily"; // supported are: daily, weekly, monthly, yearly
+						calOptions.recurrenceEndDate = _e.moment_dates[_e.moment_dates.length - 1].toDate(); // leave null to add events into infinity and beyond
+						calOptions.calendarName = "Evendate"; // iOS only
+
+						// This is new since 4.2.7:
+						calOptions.recurrenceInterval = 1; // once every 2 months in this case, default: 1
+
+
 						// create an event in a named calendar (iOS only for now)
-						window.plugins.calendar.createEventInNamedCalendar(_e.title, _e.location, _e.description, _e.moment_dates[0].toDate(), _e.moment_dates[_e.moment_dates.length - 1].toDate(), 'Evendate',
+						window.plugins.calendar.createEventWithOptions(_e.title, _e.location, _e.description, _e.moment_dates[0].toDate(), _e.moment_dates[_e.moment_dates.length - 1].toDate(), calOptions,
 							function(param1, param2){
 								L.log('CREATE_EVENT_SUCCESS:', param1, param2);
 

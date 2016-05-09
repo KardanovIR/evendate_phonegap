@@ -64,7 +64,8 @@
     <gap:plugin name="com.ohh2ahh.plugins.appavailability" source="npm" />
     <gap:plugin name="cordova-plugin-inappbrowser" source="npm" version="~1" />
     <gap:plugin name="cordova-plugin-x-socialsharing" source="npm" />
-    <gap:plugin name="nl.x-services.plugins.calendar" />
+    <plugin name="cordova-plugin-calendar" />
+
 
     <gap:plugin name="onesignal-cordova-plugin" source="npm" />
     <gap:plugin name="cordova-plugin-appavailability" source="npm" />
