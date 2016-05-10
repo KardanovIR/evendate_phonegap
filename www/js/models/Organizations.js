@@ -97,6 +97,7 @@ function Organizations(){
 			};
 
 			value.openSite = function(){
+				storeStat(value.id, 'organization', 'open_site');
 				window.open(value.site_url, '_system');
 			};
 

@@ -171,6 +171,7 @@ function Events() {
 				} else {
 					url = 'maps://?q=' + event.latitude + ' , ' + event.longitude;
 				}
+				storeStat(event.id, CONTRACT.ENTITIES.EVENT, CONTRACT.STATISTICS.OPEN_MAP);
 				window.open(url, '_system', 'location=yes');
 			};
 

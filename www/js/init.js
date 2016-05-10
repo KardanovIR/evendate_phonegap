@@ -65,9 +65,12 @@ var child_browser_opened = false,
         },
         STATISTICS: {
             EVENT_OPEN_SITE: 'open_site',
+            ORGANIZATION_OPEN_SITE: 'open_site',
             SHARE_FACEBOOK: 'share_fb',
             SHARE_VK: 'share_vk',
             SHARE_TWITTER: 'share_tw',
+            OPEN_MAP: 'open_map',
+            OPEN_NOTIFICATION: 'open_notification',
             FRIEND_VIEW_EVENT_FROM_USER: 'view_event_from_user'
         },
         DEMO_TOKEN: 'CAAYDHIPuIBYBAM26ZBTlCN1k08K7iZCKTrQ1JjFxNdWoGyFkgZAymhrmn5W92aL7XtPD6m2CYu9sSS1a30HA6TjkNyPkvChyyt1wCu7vleuMHbtpro6lJsJDNbAZBfUZCna1bXMULPv4igyZAEz9qvJxeHiUTgOghmklhlQAgAvvrjqi8sEOSWiJn5DbZAwNcUZDundefinedjrR7TyjWPIN3NjfazLy3hdtYOqnmd11tHWR1F0hoznPPpdaV1FNFlb47pfr4W26i',
@@ -382,19 +385,19 @@ function registerPushService() {
                                 ], function (items) {
                                     items[0].open();
                                 });
+                                storeStat(id, json_data.additionalData.type, CONTRACT.STATISTICS.OPEN_NOTIFICATION);
                             }
                         });
                     } else {
                         (function (type, id) {
                             __to_open_event = function(){
-                                L.log('calling');
-                                L.log(type, id);
                                 __api[type].get([
                                     {id: id}
                                 ], function (items) {
                                     L.log(items);
                                     items[0].open();
                                 });
+                                storeStat(id, type, CONTRACT.STATISTICS.OPEN_NOTIFICATION);
                                 __to_open_event = null;
                             };
                         })(json_data.additionalData.type, id);
