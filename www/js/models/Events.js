@@ -193,8 +193,6 @@ function Events() {
 					};
 				if (event.is_favorite) {
 					opts['type'] = 'DELETE';
-				}else{
-					event.addToCalendar();
 				}
 				$$.ajax(opts);
 
