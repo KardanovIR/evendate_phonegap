@@ -59,7 +59,7 @@
     <!--<plugin name="com.philmerrell.cordova.canopen" spec="0.1" source="pgb" />-->
     <gap:plugin name="com.ohh2ahh.plugins.appavailability" source="npm" />
     <plugin name="cordova-vk" source="npm" >
-        <variable name="VK_APP_ID" value="vk5029623" />
+        <param name="VK_APP_ID" value="vk5029623" />
     </plugin>
     <gap:plugin name="cordova-plugin-inappbrowser" source="npm" version="~1" />
     <gap:plugin name="cordova-plugin-x-socialsharing" source="npm" />
