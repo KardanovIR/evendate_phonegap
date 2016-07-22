@@ -58,7 +58,9 @@
     <gap:plugin name="org.apache.cordova.inappbrowser" />
     <!--<plugin name="com.philmerrell.cordova.canopen" spec="0.1" source="pgb" />-->
     <gap:plugin name="com.ohh2ahh.plugins.appavailability" source="npm" />
-    <gap:plugin name="cordova-vk" source="npm" />
+    <plugin name="cordova-vk" source="npm" >
+        <variable name="VK_APP_ID" value="vk5029623" />
+    </plugin>
     <gap:plugin name="cordova-plugin-inappbrowser" source="npm" version="~1" />
     <gap:plugin name="cordova-plugin-x-socialsharing" source="npm" />
     <gap:plugin name="cordova-plugin-calendar" spec="4.4.7" source="pgb" />
