@@ -425,10 +425,9 @@ span.day-number.with-favorites::after {
     border-radius: 1000px;
     text-align: center;
     line-height: 33px;
-    font-size:18px;
-    color:#5379b8;
+    font-size: 18px;
+    color: #5379b8;
 }
-
 
 .event-item.favorite {
     border-right: 5px solid #E33D74 !important;
@@ -2313,19 +2312,21 @@ button.rounded-large.button-active {
     color: #5379b8;
 }
 
-.organization-block .content-block-title{
+.organization-block .content-block-title {
     margin: 7px 15px 10px;
 }
 
 .organization-block-content {
     margin: 7px 15px 10px;
 }
+
 .organization-block {
     padding-top: 7px;
     padding-bottom: 7px;
     border: 1px solid #f3f3f3;
 }
-.organization-block:last-of-type{
+
+.organization-block:last-of-type {
     border: none;
 }
 
@@ -2333,10 +2334,12 @@ button.rounded-large.button-active {
     background: #fafafa;
     min-height: 44px;
 }
+
 .event-card .card-footer a {
     color: #81848b;
     font-weight: 500;
 }
+
 .event-card .card-content-inner {
     padding: 15px 10px;
     font-size: 18px;
@@ -2345,122 +2348,128 @@ button.rounded-large.button-active {
 .event-card .card-footer.active {
     background: #ff5f9e;
 }
+
 .event-card .card-footer.active a {
     color: #ffffff;
     font-weight: 500;
 }
-.event-card .time{
+
+.event-card .time {
     font-size: 14px;
 }
-.event-card .title{
+
+.event-card .title {
     margin: 0px;
 }
-.event-card span.icon{
+
+.event-card span.icon {
     font-size: 30px;
     margin-right: 12px;
 }
 
-#catalog .accordion-item-content .content-block{
-    padding-left: 0;
-}
-#catalog .organization{
+#catalog .accordion-item-content .content-block {
     padding-left: 0;
 }
 
-.pull-to-refresh-content .mask-loading{
+#catalog .organization {
+    padding-left: 0;
+}
+
+.pull-to-refresh-content .mask-loading {
     display: none;
 }
 
-.pull-to-refresh-content.refreshing .mask-loading{
+.pull-to-refresh-content.refreshing .mask-loading {
     display: block;
 }
 
-.organization-item-onboarding{
+.organization-item-onboarding {
     color: #fff;
     background-color: #fff;
 }
 
-.organization-item-onboarding .item-title{
+.organization-item-onboarding .item-title {
     color: #000;
 }
 
-.organization-item-onboarding .button-circle{
+.organization-item-onboarding .button-circle {
     border: 1px solid #ff5f9e;
     color: #ff5f9e;
 }
-.organization-item-onboarding .button-circle:before{
+
+.organization-item-onboarding .button-circle:before {
     background-color: #ff5f9e;
 }
-.organization-item-onboarding .button-circle:after{
+
+.organization-item-onboarding .button-circle:after {
     background-color: #ff5f9e;
 }
 
-
-
-.organization-item-onboarding .button-filled-blue:before{
+.organization-item-onboarding .button-filled-blue:before {
     background-color: #fff;
 }
-.organization-item-onboarding .button-filled-blue:after{
+
+.organization-item-onboarding .button-filled-blue:after {
     background-color: #fff;
 }
-.organization-item-onboarding .button-filled-blue{
+
+.organization-item-onboarding .button-filled-blue {
     background-color: #ff5f9e;
 }
 
-.full-with-btn-wrapper{
+.full-with-btn-wrapper {
     padding: 7px;
 }
 
 .event-card-small {
-    background:#fcfcfc;
-    box-shadow:0px 1px 6px 0px rgba(0,0,0,0.20);
-    width:100%;
-    height:120px;
+    background: #fcfcfc;
+    box-shadow: 0px 1px 6px 0px rgba(0, 0, 0, 0.20);
+    width: 100%;
+    height: 120px;
 }
 
-@supports (-webkit-backdrop-filter: none) or (backdrop-filter: none) {
-    .blur {
-        background: rgba(255, 255, 255, 0.5) !important;
-        -webkit-backdrop-filter: brightness(1.5) blur(8px) !important;;
-        backdrop-filter: brightness(1.5) blur(8px) !important;;
-    }
+.blur {
+    background: rgba(255, 255, 255, 0.5) !important;
+    -webkit-backdrop-filter: brightness(1.5) blur(8px) !important;;
+    backdrop-filter: brightness(1.5) blur(8px) !important;;
 }
 
-.friend-profile-fixed-part .avatar{
+.friend-profile-fixed-part .avatar {
     margin-top: 43px;
     width: 100px;
     height: 100px;
 }
 
-.profile-buttons a.active{
-    background:rgba(189,189,189,0.52);
-    color:#000000;
-}
-.profile-buttons a.active-state{
-    background:rgba(189,189,189,0.52);
+.profile-buttons a.active {
+    background: rgba(189, 189, 189, 0.52);
+    color: #000000;
 }
 
-.profile-buttons a{
+.profile-buttons a.active-state {
+    background: rgba(189, 189, 189, 0.52);
+}
+
+.profile-buttons a {
     max-width: 40%;
     min-width: 100px;
     height: 32px;
     padding-top: 1px;
     font-size: 16px;
     font-family: sfui_display_light, sans-serif;
-    color:#000000;
-    letter-spacing:-0.32px;
+    color: #000000;
+    letter-spacing: -0.32px;
     border: none;
-    background:rgba(255,255,255,0.70);
+    background: rgba(255, 255, 255, 0.70);
 }
 
-.profile-buttons{
+.profile-buttons {
     display: flex;
     text-align: center;
-    padding-left: calc((100% - 232px)/2);
+    padding-left: calc((100% - 232px) / 2);
     margin-top: 25px;
 }
 
-.subnavbar .light-text{
+.subnavbar .light-text {
     font-family: sfui_display_light;
     font-size: 15px;
     color: #000;
@@ -2470,42 +2479,48 @@ button.rounded-large.button-active {
     font-size: 25px;
 }
 
-.profile-subscription .item-inner::after{
+.profile-subscription .item-inner::after {
     background-color: #FFFFFF;
 }
+
 .profile-subscription .item-link {
     min-height: 56px;
 }
-.profile-subscription .item-link .item-content{
+
+.profile-subscription .item-link .item-content {
     min-height: 56px;
 }
-.profile-subscription .item-link .item-inner{
+
+.profile-subscription .item-link .item-inner {
     font-size: 16px;
     background-image: none;
 }
+
 .profile-subscription .item-media img {
     height: 40px;
     width: 40px;
     border-radius: 100px;
 }
 
-.profile-subscription{
-    height:56px;
+.profile-subscription {
+    height: 56px;
 }
-.profile-subscription .item-media{
+
+.profile-subscription .item-media {
     height: 40px;
     width: 40px;
 }
 
-#subscriptions .page-content{
+#subscriptions .page-content {
     padding-top: 0;
 
 }
-#subscriptions{
-    background:#fafafa;
+
+#subscriptions {
+    background: #fafafa;
 }
 
-#profile .content-block{
+#profile .content-block {
     margin: 0;
     padding: 0;
 }
