@@ -86,21 +86,21 @@ var child_browser_opened = false,
     __app,
     __to_open_event,
     __organizations = {
-        getList: function(callback){
-            if (this.list.length != 0){
+        getList: function (callback) {
+            if (this.list.length != 0) {
                 callback(this.list);
                 return;
             }
             var _this = this;
             __api.organizations.get([{
                 fields: 'description,is_subscribed,default_address,background_medium_img_url,img_medium_url,subscribed_count,'
-            }], function(data){
+            }], function (data) {
 
                 _this.list = [];
 
-                data.forEach(function(org){
+                data.forEach(function (org) {
                     var key = '_' + org.type_id;
-                    if (!_this.list_with_keys.hasOwnProperty(key)){
+                    if (!_this.list_with_keys.hasOwnProperty(key)) {
                         _this.list_with_keys[key] = {
                             name: org.type_name,
                             organizations: []
@@ -109,27 +109,27 @@ var child_browser_opened = false,
                     _this.list_with_keys[key].organizations.push(org);
                 });
                 _this.updateListByKeys();
-                if (callback){
+                if (callback) {
                     callback(_this.list);
                 }
             });
         },
-        updateListByKeys: function(){
+        updateListByKeys: function () {
             this.list = [];
-            for(var key in this.list_with_keys){
-                if (this.list_with_keys.hasOwnProperty(key)){
+            for (var key in this.list_with_keys) {
+                if (this.list_with_keys.hasOwnProperty(key)) {
                     this.list.push(this.list_with_keys[key]);
                 }
             }
         },
         list: [],
         list_with_keys: {},
-        update: function(organization){
+        update: function (organization) {
             if (this.list.length == 0) return;
             var key = '_' + organization.type_id,
                 _this = this;
-            this.list_with_keys[key].organizations.forEach(function(org, index){
-                if (org.id == organization.id){
+            this.list_with_keys[key].organizations.forEach(function (org, index) {
+                if (org.id == organization.id) {
                     _this.list_with_keys[key].organizations[index] = organization;
                 }
             });
@@ -256,7 +256,7 @@ MyApp.init = (function () {
     __app.controller('OnboardingPageController', ['$scope', '$element', MyApp.pages.OnboardingPageController]);
 
 
-    __app.directive('loader', function(){
+    __app.directive('loader', function () {
         return {
             template: '<div class="mask-loading">' +
             '<div class="spinner">' +
@@ -267,7 +267,7 @@ MyApp.init = (function () {
             replace: true
         };
     })
-        .directive('pullToRefresh', function() {
+        .directive('pullToRefresh', function () {
             return {
                 template: '<div class="pull-to-refresh-layer">' +
                 '<div class="mask-loading">' +
@@ -281,7 +281,7 @@ MyApp.init = (function () {
                 replace: true
             };
         })
-        .directive('infiniteScroll', function() {
+        .directive('infiniteScroll', function () {
             return {
                 restrict: 'AE',
                 template: '<div class="infinite-scroll-preloader">' +
@@ -295,13 +295,13 @@ MyApp.init = (function () {
                 replace: true
             };
         })
-        .directive('eventCard', function(){
+        .directive('eventCard', function () {
             return {
                 templateUrl: './templates/tmplEventCard.html',
                 replace: true
             }
         })
-        .directive('organizationItem', function(){
+        .directive('organizationItem', function () {
             return {
                 templateUrl: './templates/tmplOrganizationListItem.html',
                 replace: false
@@ -392,18 +392,15 @@ function registerPushService() {
                     L.log(json_data);
                     var id;
                     switch (json_data.additionalData.type) {
-                        case 'events':
-                        {
+                        case 'events': {
                             id = json_data.additionalData.event_id;
                             break;
                         }
-                        case 'organizations':
-                        {
+                        case 'organizations': {
                             id = json_data.additionalData.organization_id;
                             break;
                         }
-                        case 'users':
-                        {
+                        case 'users': {
                             id = json_data.additionalData.user_id;
                             break;
                         }
@@ -428,7 +425,7 @@ function registerPushService() {
                         });
                     } else {
                         (function (type, id) {
-                            __to_open_event = function(){
+                            __to_open_event = function () {
                                 __api[type].get([
                                     {id: id}
                                 ], function (items) {
@@ -522,11 +519,11 @@ function openApplication() {
     $$('.view-main').addClass('tab');
 
 
-    angular.element($$('#calendar')).scope().startBinding(function(){
+    angular.element($$('#calendar')).scope().startBinding(function () {
         angular.element($$('#catalog')).scope().getOrganizationsCatalog();
         angular.element($$('#profile')).scope().setUser();
     });
-    angular.element($$('#feeds')).scope().startBinding(function(){
+    angular.element($$('#feeds')).scope().startBinding(function () {
         angular.element($$('#friends')).scope().showFeed(true);
     });
 
@@ -639,7 +636,7 @@ function showSlides(to_reset) {
 
     if (to_reset) mySwiper.slideTo(5, 0);
 
-    $$('.vk-btn, .facebook-btn, .google-btn')
+    $$('.vk-btn')
         .off('click')
         .on('click', function () {
             var type = $$(this).data('type');
@@ -659,6 +656,40 @@ function showSlides(to_reset) {
                     window.plugins.ChildBrowser.close();
                 }
             };
+        });
+
+
+    $$('.google-btn')
+        .off('click')
+        .on('click', function () {
+            window.plugins.googleplus.login(
+                {
+                    'scopes': 'email profile https://www.googleapis.com/auth/plus.login', // optional, space-separated list of scopes, If not included or empty, defaults to `profile` and `email`.
+                    'webClientId': '403640417782-lfkpm73j5gqqnq4d3d97vkgfjcoebucv.apps.googleusercontent.com', // optional clientId of your Web application from Credentials settings of your project - On Android, this MUST be included to get an idToken. On iOS, it is not required.
+                    'offline': true // optional, but requires the webClientId - if set to true the plugin will also return a serverAuthCode, which can be used to grant offline access to a non-Google server
+                },
+                function (obj) {
+                    L.log(JSON.stringify(obj)); // do something useful instead of alerting
+                },
+                function (msg) {
+                    L.log('error: ' + msg);
+                }
+            );
+        });
+
+    $$('.facebook-btn')
+        .off('click')
+        .on('click', function () {
+            facebookConnectPlugin.browserInit('1692270867652630');
+            facebookConnectPlugin.login(['public_profile', 'email', 'user_friends'],
+                function (response) {
+                    L.log('success: ');
+                    L.log(response);
+                },
+                function (response) {
+                    L.log('error: ');
+                    L.log(response);
+                });
         });
 
 
