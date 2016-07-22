@@ -216,68 +216,53 @@ function Events() {
                 });
             };
 
-            event.addToCalendar = function(){
-            	// create a calendar (iOS only for now)
-            	var create_cal_options = window.plugins.calendar.getCreateCalendarOptions();
-            	create_cal_options.calendarName = "Evendate";
-            	create_cal_options.calendarColor = "#E33D74"; // an optional hex color (with the # char), default is null, so the OS picks a color
-            //
+            event.addToCalendar = function () {
+                // create a calendar (iOS only for now)
+                var create_cal_options = window.plugins.calendar.getCreateCalendarOptions();
+                create_cal_options.calendarName = "Evendate";
+                create_cal_options.calendarColor = "#E33D74"; // an optional hex color (with the # char), default is null, so the OS picks a color
                 L.log(create_cal_options);
-            	window.plugins.calendar.createCalendar(create_cal_options, function(param1, param2){
-            		L.log('CREATE_CALENDAR_SUCCESS:', param1, param2);
-            //
-            		window.plugins.calendar.listCalendars(L.log, L.log);
-            		__api.events.get([
-            			{id: event.id},
-            			{fields: 'dates{fields:"start_time,end_time"},description,location'}
-            		], function(_events){
-            			var _e = _events[0];
-            //
-            			L.log(_e);
-            //
-            			var calOptions = window.plugins.calendar.getCalendarOptions(); // grab the defaults
-            			calOptions.firstReminderMinutes = null; // default is 60, pass in null for no reminder (alarm)
-            			calOptions.secondReminderMinutes = null;
-            //
-            			// Added these options in version 4.2.4:
-            			calOptions.recurrence = "daily"; // supported are: daily, weekly, monthly, yearly
-            			calOptions.recurrenceEndDate = _e.moment_dates[_e.moment_dates.length - 1].toDate(); // leave null to add events into infinity and beyond
-            			calOptions.calendarName = "Evendate"; // iOS only
-            //
-            			// This is new since 4.2.7:
-            			calOptions.recurrenceInterval = 1; // once every 2 months in this case, default: 1
-            //
-            //
-            			// create an event in a named calendar (iOS only for now)
-            			window.plugins.calendar.createEventWithOptions(_e.title, _e.location, _e.description, _e.moment_dates[0].toDate(), _e.moment_dates[_e.moment_dates.length - 1].toDate(), calOptions,
-            				function(param1, param2){
-            					L.log('CREATE_EVENT_SUCCESS:', param1, param2);
-            //
-            				},function(param1, param2){
-            					L.log('CREATE_EVENT_ERROR:', param1, param2);
-            //
-            				});
-            //
-            		});
-            //
-            //
-            		// // find events
-            		// window.plugins.calendar.findEvent(title,location,notes,startDate,endDate,success,error);
-                   //
-            		// // find all events in a named calendar (iOS only for now)
-            		// window.plugins.calendar.findAllEventsInNamedCalendar(calendarName,success,error);
-                   //
-            		// // change an event (iOS only for now)
-            		// var newTitle = "New title!";
-            		// window.plugins.calendar.modifyEvent(title,location,notes,startDate,endDate,newTitle,location,notes,startDate,endDate,success,error);
-                   //
-            		// // delete an event (you can pass nulls for irrelevant parameters, note that on Android `notes` is ignored)
-            		// window.plugins.calendar.deleteEvent(newTitle,location,notes,startDate,endDate,success,error);
-            //
-            	}, function(param1, param2){
-            		L.log('CREATE_CALENDAR_FAIL:', param1, param2);
-            	});
-            //
+
+                window.plugins.calendar.createCalendar(create_cal_options, function (param1, param2) {
+                    L.log('CREATE_CALENDAR_SUCCESS:', param1, param2);
+                    window.plugins.calendar.listCalendars(L.log, L.log);
+                }, function (param1, param2) {
+                    L.log('CREATE_CALENDAR_FAIL:', param1, param2);
+                });
+
+                __api.events.get([
+                        {id: event.id},
+                        {fields: 'dates{fields:"start_time,end_time"},description,location'}
+                    ],
+                    function (_events) {
+                        var _e = _events[0];
+                        //
+                        L.log(_e);
+                        //
+                        var calOptions = window.plugins.calendar.getCalendarOptions(); // grab the defaults
+                        calOptions.firstReminderMinutes = null; // default is 60, pass in null for no reminder (alarm)
+                        calOptions.secondReminderMinutes = null;
+                        //
+                        // Added these options in version 4.2.4:
+                        calOptions.recurrence = "daily"; // supported are: daily, weekly, monthly, yearly
+                        calOptions.recurrenceEndDate = _e.moment_dates[_e.moment_dates.length - 1].toDate(); // leave null to add events into infinity and beyond
+                        calOptions.calendarName = "Evendate"; // iOS only
+                        //
+                        // This is new since 4.2.7:
+                        calOptions.recurrenceInterval = 1; // once every 2 months in this case, default: 1
+                        //
+                        //
+                        // create an event in a named calendar (iOS only for now)
+                        window.plugins.calendar.createEvent(_e.title, _e.location, _e.description, _e.moment_dates[0].toDate(), _e.moment_dates[_e.moment_dates.length - 1].toDate(), function (param1, param2) {
+                                L.log('CREATE_EVENT_SUCCESS:', param1, param2);
+                                //
+                            }, function (param1, param2) {
+                                L.log('CREATE_EVENT_ERROR:', param1, param2);
+                                //
+                            });
+                        //
+                    });
+                //
             };
 
             event.openLikedFriends = function () {
@@ -359,18 +344,15 @@ function Events() {
             }
             if (_f.data.hasOwnProperty('type')) {
                 switch (_f.data.type) {
-                    case 'timeline':
-                    {
+                    case 'timeline': {
                         url += '/' + CONTRACT.URLS.MY_PART;
                         break;
                     }
-                    case 'favorites':
-                    {
+                    case 'favorites': {
                         url += '/' + CONTRACT.URLS.FAVORITES_PART;
                         break;
                     }
-                    case 'recommendations':
-                    {
+                    case 'recommendations': {
                         url += '/' + CONTRACT.URLS.RECOMMENDATIONS_PART;
                         break;
                     }
