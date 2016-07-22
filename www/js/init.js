@@ -480,8 +480,8 @@ function onDeviceReady() {
 
     registerPushService();
 
-    // StatusBar.overlaysWebView(true);
-    // StatusBar.styleDefault();
+    StatusBar.overlaysWebView(true);
+    StatusBar.styleDefault();
 
     $$('.google-btn')
         .off('click')
