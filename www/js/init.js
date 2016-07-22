@@ -486,6 +486,12 @@ function onDeviceReady() {
     $$('.google-btn')
         .off('click')
         .on('click', function () {
+            window.plugins.googleplus.isAvailable(
+                function (available) {
+                    L.log('available:', available);
+                }
+            );
+
             window.plugins.googleplus.login(
                 {
                     'scopes': 'email profile https://www.googleapis.com/auth/plus.login', // optional, space-separated list of scopes, If not included or empty, defaults to `profile` and `email`.
@@ -504,7 +510,6 @@ function onDeviceReady() {
     $$('.facebook-btn')
         .off('click')
         .on('click', function () {
-            facebookConnectPlugin.browserInit('1692270867652630');
             facebookConnectPlugin.login(['public_profile', 'email', 'user_friends'],
                 function (response) {
                     L.log('success: ');

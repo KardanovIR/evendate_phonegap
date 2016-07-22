@@ -201,6 +201,7 @@ function Events() {
                 if ($event) {
                     fw7App.swipeoutClose($$($event.target).parents('.swipeout')[0])
                 }
+                this.addToCalendar();
 
             };
 

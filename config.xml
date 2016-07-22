@@ -68,7 +68,7 @@
     </gap:plugin>
 
     <gap:plugin name="cordova-plugin-googleplus" source="npm">
-        <param name="REVERSED_CLIENT_ID" value="myreversedclientid" />
+        <param name="REVERSED_CLIENT_ID" value="com.googleusercontent.apps.403640417782-mtv5sc64omm5k49l8hiqa7j2iecpq5se" />
     </gap:plugin>
 
 

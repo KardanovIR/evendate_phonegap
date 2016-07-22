@@ -204,7 +204,7 @@ a.button-white.active {
 }
 
 .navbar a.link, .toolbar a.link, .subnavbar a.link {
-    color: #bdc2cb !important;
+    color: #000000 !important;
     padding-left: 4px;
     font-size: 15px;
 }
