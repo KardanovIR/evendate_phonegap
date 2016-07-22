@@ -144,9 +144,9 @@
         </div>
     </div>
     <div id="view-catalog" class="view view-catalog tab" ng-controller="CatalogPageController">
-        <div class="navbar blur">
+        <div class="navbar">
             <div class="navbar-inner">
-                <div class="subnavbar">
+                <div class="subnavbar blur">
                     <div class="left"></div>
                     <div class="center">Организаторы</div>
                     <div class="right hidden"></div>
@@ -184,9 +184,9 @@
         </div>
     </div>
     <div id="view-calendar" class="view view-calendar tab" ng-controller="CalendarPageController">
-        <div class="navbar blur">
+        <div class="navbar">
             <div class="navbar-inner">
-                <div class="subnavbar">
+                <div class="subnavbar blur">
                     <div class="left"></div>
                     <div class="center">Календарь</div>
                     <div class="right hidden"></div>
@@ -264,10 +264,10 @@
     </div>
     <div id="view-events" class="view view-events tab" ng-controller="FeedsPageController">
         <!-- Top Navbar-->
-        <div class="navbar blur">
+        <div class="navbar">
             <div class="navbar-inner">
                 <!-- Sub navbar -->
-                <div class="subnavbar">
+                <div class="subnavbar blur">
                     <div class="buttons-row" style="width: 100%;">
                         <a href="#timeline" class="button tab-link button-white active"
                            ng-click="changeTab('timeline');">Подписки</a>
@@ -404,10 +404,10 @@
         </div>
     </div>
     <div id="view-friends" class="view view-friends tab" ng-controller="FriendsTabController">
-        <div class="navbar navbar-hiding blur">
+        <div class="navbar navbar-hiding">
             <div class="navbar-inner">
                 <!-- Sub navbar -->
-                <div class="subnavbar">
+                <div class="subnavbar blur">
                     <div class="left"></div>
                     <div class="buttons-row">
                         <a ng-href="#friends-feed" ng-click="showFeed('BUTTON');"
@@ -522,9 +522,9 @@
         </div>
     </div>
     <div id="view-profile" class="view view-profile tab" ng-controller="ProfilePageController">
-        <div class="navbar navbar-hiding profile-navbar blur">
+        <div class="navbar navbar-hiding profile-navbar">
             <div class="navbar-inner">
-                <div class="subnavbar light-text text-center">
+                <div class="subnavbar light-text text-center blur">
                     <div class="left"></div>
                     <div class="text-center">{{info.last_name}} {{info.first_name}}</div>
                     <div class="right"><span class="icon ion-android-exit logout-icon"></span></div>
