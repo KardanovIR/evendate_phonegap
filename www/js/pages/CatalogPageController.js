@@ -8,14 +8,14 @@ MyApp.pages.CatalogPageController = function ($scope) {
 
     $scope.selected_organization = null;
     $scope.organization_categories = [];
-    $scope.data_loaded = false;
+    $scope.is_downloading = true;
 
     $scope.getOrganizationsCatalog = function () {
         fw7App.showIndicator();
 
         __organizations.getList(function (categories_array) {
             $scope.organization_categories = categories_array;
-
+            $scope.is_downloading = false;
             fw7App.hideIndicator();
             $$('.organizations-list button')
                 .off('touchend click')

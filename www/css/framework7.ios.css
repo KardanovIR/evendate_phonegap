@@ -987,7 +987,7 @@ html:not(.watch-active-state) .subnavbar a.link:active,
 .navbar {
   left: 0;
   top: 0;
-  background: #3e4d66 !important;
+  /*background: #3e4d66 !important;*/
 }
 .navbar:after {
   content: '';
@@ -998,7 +998,7 @@ html:not(.watch-active-state) .subnavbar a.link:active,
   top: auto;
   height: 1px;
   width: 100%;
-  background-color: #3e4d66;
+  /*background-color: #3e4d66;*/
   display: block;
   z-index: 15;
   -webkit-transform-origin: 50% 100%;
@@ -1216,9 +1216,9 @@ html.pixel-ratio-3 .toolbar:before {
 }
 .tabbar a.active {
   opacity: 1;
-  background:#ff5f9e;
+  /*background:#ff5f9e;*/
   font-size:10px;
-  color:#ffffff;
+  /*color:#ffffff;*/
   letter-spacing:-0.07px;
   text-align:center;
 }
@@ -1267,6 +1267,7 @@ html.pixel-ratio-3 .toolbar:before {
   -ms-flex-pack: justify;
   -webkit-justify-content: space-between;
   justify-content: space-between;
+  color:#9fa6b3;
 }
 .tabbar-labels a.tab-link i + span,
 .tabbar-labels a.link i + span {

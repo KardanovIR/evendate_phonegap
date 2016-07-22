@@ -479,7 +479,9 @@ function onDeviceReady() {
     moment.locale("ru");
 
     registerPushService();
-    // StatusBar.styleBlackTranslucent();
+
+    // StatusBar.overlaysWebView(true);
+    // StatusBar.styleDefault();
 
     $$('.google-btn')
         .off('click')

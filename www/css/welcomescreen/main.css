@@ -135,10 +135,6 @@
     display: none;
 }
 
-.navbar-inner {
-    background: #3e4d66 !important;
-}
-
 .navbar-inner, .toolbar-inner {
     height: auto;
 }
@@ -230,10 +226,6 @@ a.button-white.active {
     color: #3A3939;
     opacity: 0.7;
     font-weight: bold;
-}
-
-.navbar-inner {
-    color: #fff !important;
 }
 
 .organization-page-navbar {
@@ -1030,26 +1022,6 @@ li.organization {
 .animated.bounceIn:after, .animated.bounceOut:after, .animated.flipOutX:after, .animated.flipOutY:after {
     -webkit-animation-duration: .5s;
     animation-duration: .5s
-}
-
-.toolbar-item-0:after {
-    left: 0 !important;
-}
-
-.toolbar-item-1:after {
-    left: 20% !important;
-}
-
-.toolbar-item-2:after {
-    left: 40% !important;
-}
-
-.toolbar-item-3:after {
-    left: 60% !important;
-}
-
-.toolbar-item-4:after {
-    left: 80% !important;
 }
 
 .col-60px {
@@ -2523,4 +2495,36 @@ button.rounded-large.button-active {
 #profile .content-block {
     margin: 0;
     padding: 0;
+}
+
+.toolbar-inner .tab-link.active{
+    color: #f82969;
+}
+
+.navbar.blur{
+    font-family:sfui_display_light;
+    font-size:18px;
+    color:#000000;
+    letter-spacing:-0.53px;
+    text-align:center;
+}
+
+.navbar-inner.blur{
+    font-family:sfui_display_light;
+    font-size:18px;
+    color:#000000;
+    letter-spacing:-0.53px;
+    text-align:center;
+}
+
+.subnavbar.blur::after{
+    display: none;
+}
+
+.subnavbar.blur{
+    font-family:sfui_display_light;
+    font-size:18px;
+    color:#000000;
+    letter-spacing:-0.53px;
+    text-align:center;
 }

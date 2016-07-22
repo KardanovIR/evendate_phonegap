@@ -144,9 +144,9 @@
         </div>
     </div>
     <div id="view-catalog" class="view view-catalog tab" ng-controller="CatalogPageController">
-        <div class="navbar">
-            <div class="navbar-inner">
-                <div class="subnavbar">
+        <div class="navbar blur">
+            <div class="navbar-inner blur">
+                <div class="subnavbar blur">
                     <div class="left"></div>
                     <div class="center">Организаторы</div>
                     <div class="right hidden"></div>
@@ -156,7 +156,7 @@
         <div class="pages">
             <div data-page="catalog" class="page navbar-fixed" id="catalog">
                 <div class="page-content">
-                    <div class="list-block">
+                    <div class="list-block without-top-border" style="margin: 0 0;" ng-hide="is_downloading">
                         <ul>
                             <li class="accordion-item" ng-repeat="category in organization_categories">
                                 <a href="#" class="item-content item-link">
@@ -522,9 +522,9 @@
         </div>
     </div>
     <div id="view-profile" class="view view-profile tab" ng-controller="ProfilePageController">
-        <div class="navbar navbar-hiding profile-navbar">
-            <div class="navbar-inner">
-                <div class="subnavbar light-text text-center">
+        <div class="navbar navbar-hiding profile-navbar blur">
+            <div class="navbar-inner blur">
+                <div class="subnavbar light-text text-center blur">
                     <div class="left"></div>
                     <div class="text-center">{{info.last_name}} {{info.first_name}}</div>
                     <div class="right"><span class="icon ion-android-exit logout-icon"></span></div>
