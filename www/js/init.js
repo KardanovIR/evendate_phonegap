@@ -675,6 +675,8 @@ function showSlides(to_reset) {
         }
     });
 
+    VkSdk.init('5029623');
+
     if (to_reset) mySwiper.slideTo(5, 0);
 
     $$('.vk-btn, .google-btn')
@@ -698,6 +700,14 @@ function showSlides(to_reset) {
                 }
             };
         });
+
+    $$('.vk-btn').on('click', function(){
+        VkSdk.initiateLogin(['groups','friends','email','wall','offline','pages','photos']);
+    });
+
+    document.addEventListener('vkSdk.newToken', function(token) {
+        L.log('New token is ' + token);
+    });
 
 
     $$('.start-demo-button').on('click', function () {
