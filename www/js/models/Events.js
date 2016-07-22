@@ -222,6 +222,7 @@ function Events() {
             	create_cal_options.calendarName = "Evendate";
             	create_cal_options.calendarColor = "#E33D74"; // an optional hex color (with the # char), default is null, so the OS picks a color
             //
+                L.log(create_cal_options);
             	window.plugins.calendar.createCalendar(create_cal_options, function(param1, param2){
             		L.log('CREATE_CALENDAR_SUCCESS:', param1, param2);
             //

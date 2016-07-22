@@ -483,7 +483,7 @@ function onDeviceReady() {
     StatusBar.overlaysWebView(true);
     StatusBar.styleDefault();
 
-    $$('.google-btn')
+    $$('')
         .off('click')
         .on('click', function () {
             window.plugins.googleplus.isAvailable(
@@ -677,7 +677,7 @@ function showSlides(to_reset) {
 
     if (to_reset) mySwiper.slideTo(5, 0);
 
-    $$('.vk-btn')
+    $$('.vk-btn, .google-btn')
         .off('click')
         .on('click', function () {
             var type = $$(this).data('type');
