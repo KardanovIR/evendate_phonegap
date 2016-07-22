@@ -1,84 +1,80 @@
 <div class="navbar">
-  <div class="navbar-inner">
-    <div class="left sliding">
-      <a href="#" class="link back">
-        <i class="ion-ios-arrow-back"></i>
-      </a>
+    <div class="navbar-inner blur">
+        <div class="left sliding">
+            <a href="#" class="link back">
+                <i class="ion-ios-arrow-back"></i>
+            </a>
+        </div>
+        <div class="center sliding heading-name organization-heading-name sfui_display_light"></div>
+        <div class="right"></div>
     </div>
-    <div class="center sliding heading-name organization-heading-name sfui_display_light"></div>
-    <div class="right"></div>
-</div>
 </div>
 <div class="pages">
-  <div class="page organization" data-page="organization" ng-controller="OrganizationPageController">
-    <div class="page-content">
-      <div class="background-img-wrapper" data-top="0">
-        <img ng-src="{{organization.background_medium_img_url}}" onerror="onImgErrorPattern(this);" src="img/organization_bg.png" class="background-img">
-      </div>
-      <div class="organization-img-wrapper">
-        <div class="organization-page-img-wrapper" ng-click="organization.openSite()">
-          <img ng-src="{{organization.img_medium_url}}" onerror="onImgErrorSmall(this);" class="organization-page-img">
-        </div>
-      </div>
-      <div class="organization-name">
-        {{organization.name}}
-      </div>
-      <div class="content-block">
-        <div class="content-block-inner without-top-border without-bottom-border">
-            <div class="row">
-              <div class="col-50 text-center">
-                <div class="liked-users" ng-click="organization.openSubscribedFriends()">
-                  <img class="user-avatar" ng-repeat="user in organization.subscribed" ng-src="{{user.avatar_url}}" onerror="onImgErrorSmall(this);">
-                  <div class="organization-subscribed-count">{{organization.subscribed_count}}</div>
-                </div>
-                <div class="subscribed-friends-count text-center">
-                  подписались
-                </div>
-              </div>
-              <div class="col-50">
-                <button type="button" ng-click="organization.toggleSubscriptionStatus($event);" class="button pull-right" ng-class="{'button-pink':organization.is_subscribed}">
-                  {{organization.subscription_text}}
-                </button>
-              </div>
-            {{organization.description}}
-          </div>
-        </div>
-      </div>
-
-
-      <div class="infinite-scroll-preloader organization-events-loader">
-        <div class="loader"></div>
-      </div>
-
-      <div class="list-block media-list organization-events">
-        <ul>
-          <li ng-repeat="event in organization.events" class="event-item event-small-item swipeout" ng-class="{'favorite':event.is_favorite}">
-            <a href="#" class="item-link item-content swipeout-content" ng-click="event.open()">
-              <div class="item-media calendar-event-cover"
-                   ng-style="{'background': 'url({{event.image_square_horizontal_url}})'}">
-              </div>
-              <div class="item-inner">
-                <div class="item-title-row">
-                  <div class="item-title">{{event.title}}</div>
-                </div>
-                <div class="item-subtitle">{{event.nearest_event_date_string}}</div>
-              </div>
-            </a>
-            <div class="swipeout-actions-right">
-              <a href="#" class="action1 favorite-action"
-                 ng-click="event.toggleFavorite($event);">
-                <span class="action1_icon {{event.favorite_icon}}"></span>
-                <p class="action1_text">{{event.favorite_text}}</p>
-              </a>
-              <a href="#" class="action1 swipeout-delete swipeout-overswipe"
-                 ng-click="event.toggleHidden($event);">
-                <span class="action1_icon icon ion-ios-trash-outline"></span>
-                <p class="action1_text">{{event.hide_text}}</p>
-              </a>
+    <div class="page organization" data-page="organization" ng-controller="OrganizationPageController">
+        <div class="page-content infinite-scroll" data-distance="50" data-ptr-distance="50">
+            <div class="background-img-wrapper" data-top="0">
+                <img ng-src="{{organization.background_medium_img_url}}" onerror="onImgErrorPattern(this);"
+                     src="img/organization_bg.png" class="background-img">
             </div>
-          </li>
-        </ul>
-      </div>
+            <div class="organization-img-wrapper">
+                <div class="organization-page-img-wrapper" ng-click="organization.openSite()">
+                    <img ng-src="{{organization.img_medium_url}}" onerror="onImgErrorSmall(this);"
+                         class="organization-page-img">
+                </div>
+            </div>
+
+
+            <div class="text-center">
+                <button type="button" ng-click="organization.toggleSubscriptionStatus($event);"
+                        class="rounded-large" style="margin-top: 24px; margin-bottom: 25px;"
+                        ng-class="{'button-active':organization.is_subscribed}">
+                    {{organization.subscription_text}}
+                </button>
+            </div>
+            <div class="organization-name">
+                {{organization.name}}
+            </div>
+            <div class="content-block-inner without-top-border without-bottom-border"
+                 style="box-shadow:0px 2px 4px 0px rgba(0,0,0,0.11);
+                 padding-right: 0;">
+                <div class="text-center">
+                    <div class="liked-users" ng-click="organization.openSubscribedFriends()">
+                        <img class="user-avatar" ng-repeat="user in organization.subscribed"
+                             ng-src="{{user.avatar_url}}" onerror="onImgErrorSmall(this);">
+                        <div class="organization-subscribed-count">{{organization.subscribed_count}}</div>
+                    </div>
+                    <div class="subscribed-friends-count text-center">
+                        подписались
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <div class="accordion-item-toggle organization-details" ng-click="toggleDetails();">{{details_text}}
+                        <span
+                                class="icon"
+                                ng-class="{'ion-ios-arrow-down':details_shown == false, 'ion-ios-arrow-up':details_shown}"></span>
+                    </div>
+                    <div class="accordion-item-content">
+                        <div class="organization-block">
+                            <div class="content-block-title">Описание</div>
+                            <div class="organization-block-content">{{organization.description}}</div>
+                        </div>
+                        <div class="organization-block">
+                            <div class="content-block-title">Адрес</div>
+                            <div class="organization-block-content">{{organization.default_address}}</div>
+                        </div>
+                        <div class="organization-block" ng-show="organization.site_url != null">
+                            <div class="content-block-title">Официальный сайт</div>
+                            <div class="organization-block-content"><a href="#" ng-click="organization.openSite()">{{organization.site_url}}</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="list-block cards-list">
+                <event-card ng-repeat="event in organization.events"></event-card>
+                <infinite-scroll></infinite-scroll>
+            </div>
+        </div>
     </div>
-  </div>
 </div>

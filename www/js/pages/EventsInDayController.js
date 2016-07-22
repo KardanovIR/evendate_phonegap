@@ -20,7 +20,7 @@ MyApp.pages.EventsInDayController = function ($scope, $element) {
 		var is_first_page = $scope.page_counter == 0,
             send_data = [
 			{date: date},
-			{fields: 'dates{length:500,fields:"start_time,end_time"},image_square_vertical_url,is_favorite,is_same_time'},
+			{fields: 'dates{length:500,fields:"start_time,end_time"},image_horizontal_large_url,is_favorite,is_same_time'},
 			{length: 10},
 			{offset: $scope.page_counter++ * 10},
 			{order_by: '-is_favorite'},
@@ -39,7 +39,7 @@ MyApp.pages.EventsInDayController = function ($scope, $element) {
 
 	function changeDate(direction){
         fw7App.showIndicator();
-		$scope.no_events = true;
+		$scope.no_events = false;
         $scope.all_downloaded = false;
 		$scope.page_counter = 0;
 		$scope.$apply();
@@ -67,7 +67,7 @@ MyApp.pages.EventsInDayController = function ($scope, $element) {
         });
 		if (is_first_page){
 			$scope.day_events = data;
-			$scope.no_events = data.length != 0;
+			$scope.no_events = data.length == 0;
 		}else{
 			$scope.day_events = $scope.day_events.concat(data);
 		}

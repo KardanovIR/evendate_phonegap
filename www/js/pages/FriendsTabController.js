@@ -57,83 +57,86 @@ MyApp.pages.FriendsTabController = function ($scope) {
 			cards_by_users = {};
 			$scope.page_counter = 0;
 		}
-		$scope.$apply();
+		$scope.$apply(function(){
 
-		__api.users.get([
-			{feed: true},
-			{fields: 'type_code,organization{fields:"img_small_url"},event{fields:"image_square_vertical_url"},created_at,user'},
-			{order_by: '-created_at'},
-			{offset: 10 * $scope.page_counter++},
-			{length: 10}
-		], function(data){
-			if (first_page){
-				$scope.no_actions = data.length == 0;
-			}
-			data.forEach(function(stat){
-				var date = moment.unix(stat.created_at),
-					ent = stat[stat.entity],
-					key = [stat.entity, stat.stat_type_id, stat.user.id, $scope.page_counter, date.format('DD.MM')].join('-');
-				if (cards_by_users.hasOwnProperty(key) == false){
 
-					cards_by_users[key] = {
-						user: stat.user,
-						entity: stat.entity,
-						type_code: stat.type_code,
-						date: date.format('DD.MM'),
-						action_name: action_names[stat.type_code][0],
-						open: function(){
+			__api.users.get([
+				{feed: true},
+				{fields: 'type_code,organization{fields:"img_small_url"},event{fields:"image_square_vertical_url"},created_at,user'},
+				{order_by: '-created_at'},
+				{offset: 10 * $scope.page_counter++},
+				{length: 10}
+			], function(data){
+				if (first_page){
+					$scope.no_actions = data.length == 0;
+				}
+				data.forEach(function(stat){
+					var date = moment.unix(stat.created_at),
+						ent = stat[stat.entity],
+						key = [stat.entity, stat.stat_type_id, stat.user.id, $scope.page_counter, date.format('DD.MM')].join('-');
+					if (cards_by_users.hasOwnProperty(key) == false){
+
+						cards_by_users[key] = {
+							user: stat.user,
+							entity: stat.entity,
+							type_code: stat.type_code,
+							date: date.format('DD.MM'),
+							action_name: action_names[stat.type_code][0],
+							open: function(){
+								fw7App.showIndicator();
+								__api.users.get([
+									{friend_id: this.user.id},
+									{fields: 'blurred_img_url,uid,type'}
+								], function(data){
+									fw7App.hideIndicator();
+									data[0].open();
+								})
+							},
+							entities: []
+						};
+					}
+
+					if (stat.entity == CONTRACT.ENTITIES.EVENT){
+						ent.img_url = ent.image_square_vertical_url;
+						ent.openEntity = function(){
 							fw7App.showIndicator();
-							__api.users.get([
-								{friend_id: this.user.id},
-								{fields: 'blurred_img_url,uid,type'}
-							], function(data){
+							storeStat(stat.user.id, CONTRACT.ENTITIES.FRIEND, CONTRACT.STATISTICS.FRIEND_VIEW_EVENT_FROM_USER);
+							__api.events.get([
+								{id: ent.id}
+							], function(res){
 								fw7App.hideIndicator();
-								data[0].open();
-							})
-						},
-						entities: []
-					};
-				}
+								res[0].open();
+							});
+						};
+					}else if (stat.entity == CONTRACT.ENTITIES.ORGANIZATION){
+						ent.img_url = ent.img_small_url;
+						ent.title = ent.short_name;
+						ent.openEntity = function(){
+							__api.organizations.get([
+								{id: ent.id}
+							], function(res){
+								res[0].open();
+							});
+						};
+					}
 
-				if (stat.entity == CONTRACT.ENTITIES.EVENT){
-					ent.img_url = ent.image_square_vertical_url;
-					ent.openEntity = function(){
-						fw7App.showIndicator();
-						storeStat(stat.user.id, CONTRACT.ENTITIES.FRIEND, CONTRACT.STATISTICS.FRIEND_VIEW_EVENT_FROM_USER);
-						__api.events.get([
-							{id: ent.id}
-						], function(res){
-							fw7App.hideIndicator();
-							res[0].open();
-						});
-					};
-				}else if (stat.entity == CONTRACT.ENTITIES.ORGANIZATION){
-					ent.img_url = ent.img_small_url;
-					ent.title = ent.short_name;
-					ent.openEntity = function(){
-						__api.organizations.get([
-							{id: ent.id}
-						], function(res){
-							res[0].open();
-						});
-					};
-				}
+					cards_by_users[key].entities.push(ent);
+				});
 
-				cards_by_users[key].entities.push(ent);
+				$scope.cards = [];
+
+				for(var day in cards_by_users){
+					if (cards_by_users.hasOwnProperty(day)){
+						$scope.cards.push(cards_by_users[day]);
+					}
+				}
+				$scope.is_downloading = false;
+				$scope.$apply(function(){
+					if (cb){
+						cb();
+					}
+				});
 			});
-
-			$scope.cards = [];
-
-			for(var day in cards_by_users){
-				if (cards_by_users.hasOwnProperty(day)){
-					$scope.cards.push(cards_by_users[day]);
-				}
-			}
-			$scope.is_downloading = false;
-			$scope.$apply();
-			if (cb){
-				cb();
-			}
 		});
 	};
 

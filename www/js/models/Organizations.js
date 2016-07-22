@@ -11,19 +11,19 @@ function Organizations(){
 			value.toggleSubscriptionStatus = function($event){
 				var opts = {
 					type: 'POST',
-					url: CONTRACT.URLS.API_FULL_PATH + CONTRACT.URLS.ORGANIZATIONS_PATH + '/' + value.id + '/' + CONTRACT.URLS.SUBSCRIPTIONS_PATH,
+					url: CONTRACT.URLS.API_FULL_PATH + CONTRACT.URLS.ORGANIZATIONS_PATH + '/' + value.id + CONTRACT.URLS.SUBSCRIPTIONS_PATH,
 					data: {organization_id: value.id},
 					complete: function(){
-						subscriptions_updated = true;
+						angular.element($$('#profile')).scope().getSubscriptionsList();
 					}
 				};
 				if (value.is_subscribed){
 					opts = {
 						type: 'DELETE',
-						url: CONTRACT.URLS.API_FULL_PATH + CONTRACT.URLS.ORGANIZATIONS_PATH + '/' + value.id + '/' + CONTRACT.URLS.SUBSCRIPTIONS_PATH,
+						url: CONTRACT.URLS.API_FULL_PATH + CONTRACT.URLS.ORGANIZATIONS_PATH + '/' + value.id + CONTRACT.URLS.SUBSCRIPTIONS_PATH,
 						data: {subscription_id: value.subscription_id},
 						complete: function(){
-							subscriptions_updated = true;
+							angular.element($$('#profile')).scope().getSubscriptionsList();
 						}
 					};
 				}
@@ -34,6 +34,7 @@ function Organizations(){
 				}
 
 				value.is_subscribed = !value.is_subscribed;
+				__organizations.update(value);
 				value.updateSubscriptionText();
 				if ($event){
 					$event.stopPropagation();
@@ -175,6 +176,9 @@ function Organizations(){
 			}
 			if (_filters_data.hasOwnProperty('subscriptions')){
 				url += CONTRACT.URLS.SUBSCRIPTIONS_PART;
+			}
+			if (_filters_data.hasOwnProperty('recommendations')){
+				url += CONTRACT.URLS.RECOMMENDATIONS_PART;
 			}
 			$$.ajax({
 				url: url,

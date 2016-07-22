@@ -136,7 +136,7 @@
 }
 
 .navbar-inner {
-    background: #5379B8 !important;
+    background: #3e4d66 !important;
 }
 
 .navbar-inner, .toolbar-inner {
@@ -394,6 +394,9 @@ span.day-number.with-favorites::after {
     text-align: center;
     font-weight: 600;
     font-size: 18px;
+    border: 1px solid #f3f3f3;
+    padding-top: 14px;
+    padding-bottom: 18px;
 }
 
 .event-name {
@@ -402,26 +405,30 @@ span.day-number.with-favorites::after {
 }
 
 .liked-users .user-avatar {
-    width: 30px;
-    height: 30px;
+    width: 34px;
+    height: 34px;
     border-radius: 1000px;
-    margin-right: -15px;
-    border: 2px solid #ffffff;
+    /* margin-right: -15px; */
+    /* border: 2px solid #ffffff; */
+    margin-left: 6px;
+    margin-right: 2px;
 }
 
 .organization-subscribed-count {
     display: inline-block;
-    height: 25px;
-    width: 25px;
+    height: 34px;
+    padding-left: 2px;
+    padding-right: 2px;
     margin-left: 10px;
-    border: 1px solid #ccc;
+    border: 1px solid #5379b8;
     vertical-align: top;
     border-radius: 1000px;
     text-align: center;
-    line-height: 25px;
-    font-size: 11px;
-    margin-top: 5px;
+    line-height: 33px;
+    font-size:18px;
+    color:#5379b8;
 }
+
 
 .event-item.favorite {
     border-right: 5px solid #E33D74 !important;
@@ -995,11 +1002,11 @@ li.organization {
     position: absolute;
     content: "";
     top: 0;
-    left: 25%;
+    left: 40%;
     display: block;
-    width: 25%;
+    width: 20%;
     height: 3px;
-    background-color: #5379B8;
+    background-color: #ffffff;
     -webkit-transition: 500ms left;
     transition: 500ms left;
 }
@@ -1031,15 +1038,19 @@ li.organization {
 }
 
 .toolbar-item-1:after {
-    left: 25% !important;
+    left: 20% !important;
 }
 
 .toolbar-item-2:after {
-    left: 50% !important;
+    left: 40% !important;
 }
 
 .toolbar-item-3:after {
-    left: 75% !important;
+    left: 60% !important;
+}
+
+.toolbar-item-4:after {
+    left: 80% !important;
 }
 
 .col-60px {
@@ -1470,7 +1481,7 @@ and (orientation: portrait) {
     }
 
     #calendar-date-events-list {
-        top: calc(69% + 20px);
+        top: calc(58% + 20px);
     }
 
     .auth-slide .content-block {
@@ -2190,4 +2201,311 @@ a.link.back {
 
 .badge.pink {
     background: #FD6EA6 !important;
+}
+
+/*Loader*/
+.mask-loading {
+    width: 100%;
+    height: 100%;
+}
+
+.spinner {
+    width: 50px;
+    height: 50px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-top: -25px;
+    margin-left: -25px;
+}
+
+.infinite-scroll-preloader .spinner {
+    position: relative;
+}
+
+.sss {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background-color: #f82969;
+}
+
+.double-bounce1, .double-bounce2 {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: #f82969;
+    opacity: 0.6;
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    -webkit-animation: sk-bounce 2.4s infinite ease-in-out;
+    animation: sk-bounce 2.4s infinite ease-in-out;
+}
+
+.double-bounce2 {
+    -webkit-animation-delay: -1.4s;
+    animation-delay: -1.4s;
+}
+
+@-webkit-keyframes sk-bounce {
+    0%, 100% {
+        -webkit-transform: scale(0.0)
+    }
+    50% {
+        -webkit-transform: scale(1.0)
+    }
+}
+
+@keyframes sk-bounce {
+    0%, 100% {
+        transform: scale(0.0);
+        -webkit-transform: scale(0.0);
+    }
+    50% {
+        transform: scale(1.0);
+        -webkit-transform: scale(1.0);
+    }
+}
+
+.organization-subscribed-btn {
+    background-image: radial-gradient(50% 107%, #fc4382 0%, #f7477e 100%);
+    box-shadow: 0px 1px 5px 0px rgba(0, 0, 0, 0.22), inset 0px 1px 0px 0px rgba(255, 255, 255, 0.20);
+    border-radius: 100px;
+    width: 160px;
+    height: 36px;
+    font-size: 18px;
+    color: #ffffff;
+    letter-spacing: -0.45px;
+    text-align: center;
+    display: inline-block;
+}
+
+button.rounded-large {
+    background-image: radial-gradient(50% 107%, #fc4382 0%, #f7477e 100%);
+    box-shadow: 0px 1px 5px 0px rgba(0, 0, 0, 0.22), inset 0px 1px 0px 0px rgba(255, 255, 255, 0.20);
+    border-radius: 100px;
+    width: 160px;
+    height: 36px;
+    font-size: 18px;
+    color: #ffffff;
+    letter-spacing: -0.45px;
+    text-align: center;
+    display: inline-block;
+    border: 0px;
+}
+
+button.rounded-large.button-active {
+    color: #4A90E2;
+    background: buttonface none;
+}
+
+.event-card-img {
+    height: 55vw;
+    background-size: cover;
+    background-position: center;
+}
+
+.organization-details {
+    text-align: center;
+    font-size: 14px;
+    color: #5379b8;
+}
+
+.organization-block .content-block-title{
+    margin: 7px 15px 10px;
+}
+
+.organization-block-content {
+    margin: 7px 15px 10px;
+}
+.organization-block {
+    padding-top: 7px;
+    padding-bottom: 7px;
+    border: 1px solid #f3f3f3;
+}
+.organization-block:last-of-type{
+    border: none;
+}
+
+.event-card .card-footer {
+    background: #fafafa;
+    min-height: 44px;
+}
+.event-card .card-footer a {
+    color: #81848b;
+    font-weight: 500;
+}
+.event-card .card-content-inner {
+    padding: 15px 10px;
+    font-size: 18px;
+}
+
+.event-card .card-footer.active {
+    background: #ff5f9e;
+}
+.event-card .card-footer.active a {
+    color: #ffffff;
+    font-weight: 500;
+}
+.event-card .time{
+    font-size: 14px;
+}
+.event-card .title{
+    margin: 0px;
+}
+.event-card span.icon{
+    font-size: 30px;
+    margin-right: 12px;
+}
+
+#catalog .accordion-item-content .content-block{
+    padding-left: 0;
+}
+#catalog .organization{
+    padding-left: 0;
+}
+
+.pull-to-refresh-content .mask-loading{
+    display: none;
+}
+
+.pull-to-refresh-content.refreshing .mask-loading{
+    display: block;
+}
+
+.organization-item-onboarding{
+    color: #fff;
+    background-color: #fff;
+}
+
+.organization-item-onboarding .item-title{
+    color: #000;
+}
+
+.organization-item-onboarding .button-circle{
+    border: 1px solid #ff5f9e;
+    color: #ff5f9e;
+}
+.organization-item-onboarding .button-circle:before{
+    background-color: #ff5f9e;
+}
+.organization-item-onboarding .button-circle:after{
+    background-color: #ff5f9e;
+}
+
+
+
+.organization-item-onboarding .button-filled-blue:before{
+    background-color: #fff;
+}
+.organization-item-onboarding .button-filled-blue:after{
+    background-color: #fff;
+}
+.organization-item-onboarding .button-filled-blue{
+    background-color: #ff5f9e;
+}
+
+.full-with-btn-wrapper{
+    padding: 7px;
+}
+
+.event-card-small {
+    background:#fcfcfc;
+    box-shadow:0px 1px 6px 0px rgba(0,0,0,0.20);
+    width:100%;
+    height:120px;
+}
+
+@supports (-webkit-backdrop-filter: none) or (backdrop-filter: none) {
+    .blur {
+        background: RGBA(255, 255, 255, 0.5);
+        -webkit-backdrop-filter: brightness(1.5) blur(8px);
+        backdrop-filter: brightness(1.5) blur(8px);
+    }
+}
+
+.friend-profile-fixed-part .avatar{
+    margin-top: 43px;
+    width: 100px;
+    height: 100px;
+}
+
+.profile-buttons a.active{
+    background:rgba(189,189,189,0.52);
+    color:#000000;
+}
+.profile-buttons a.active-state{
+    background:rgba(189,189,189,0.52);
+}
+
+.profile-buttons a{
+    max-width: 40%;
+    min-width: 100px;
+    height: 32px;
+    padding-top: 1px;
+    font-size: 16px;
+    font-family: sfui_display_light, sans-serif;
+    color:#000000;
+    letter-spacing:-0.32px;
+    border: none;
+    background:rgba(255,255,255,0.70);
+}
+
+.profile-buttons{
+    display: flex;
+    text-align: center;
+    padding-left: calc((100% - 232px)/2);
+    margin-top: 25px;
+}
+
+.subnavbar .light-text{
+    font-family: sfui_display_light;
+    font-size: 15px;
+    color: #000;
+}
+
+.logout-icon {
+    font-size: 25px;
+}
+
+.profile-subscription .item-inner::after{
+    background-color: #FFFFFF;
+}
+.profile-subscription .item-link {
+    min-height: 56px;
+}
+.profile-subscription .item-link .item-content{
+    min-height: 56px;
+}
+.profile-subscription .item-link .item-inner{
+    font-size: 16px;
+    background-image: none;
+}
+.profile-subscription .item-media img {
+    height: 40px;
+    width: 40px;
+    border-radius: 100px;
+}
+
+.profile-subscription{
+    height:56px;
+}
+.profile-subscription .item-media{
+    height: 40px;
+    width: 40px;
+}
+
+#subscriptions .page-content{
+    padding-top: 0;
+
+}
+#subscriptions{
+    background:#fafafa;
+}
+
+#profile .content-block{
+    margin: 0;
+    padding: 0;
 }

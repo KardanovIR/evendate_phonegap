@@ -6,10 +6,10 @@ var child_browser_opened = false,
     CONTRACT = {
         DATE_FORMAT: 'YYYY-MM-DD',
         ACTION_NAMES: {
-            fave: ['добавил(а) в избранное'],
-            unfave: ['удалил(а) из избранного'],
-            subscribe: ['добавил(а) подписки'],
-            unsubscribe: ['удалил(а) подписки']
+            fave: {male: 'добавил в избранное', female: 'добавила в избранное', default: 'добавил(а) в избранное'},
+            unfave: {male: 'удалил из избранного', female: 'удалила из избранного', default: 'удалил(а) из избранного'},
+            subscribe: {male: 'добавил подписки', female: 'добавила подписки', default: 'добавил(а) подписки'},
+            unsubscribe: {male: 'добавил в избранное', female: 'добавила в избранное', default: 'удалил(а) подписки'}
         },
         URLS: {
             BASE_NAME: 'http://evendate.ru',
@@ -22,6 +22,7 @@ var child_browser_opened = false,
             TAGS_PATH: '/tags',
             MY_PART: '/my',
             FAVORITES_PART: '/favorites',
+            RECOMMENDATIONS_PART: '/recommendations',
             FEED_PART: '/feed',
             FRIENDS_PART: '/friends',
             ACTIONS_PART: '/actions',
@@ -34,7 +35,7 @@ var child_browser_opened = false,
         },
         ALERTS: {
             NO_INTERNET: 'Отсутствует соединение с сервером',
-            REQUEST_ERROR: 'Ошибка получения данных с сервера. Попробуйте еще раз.',
+            REQUEST_ERROR: 'Ошибка получения данных с сервера. Попробуйте еще раз.'
         },
         ENTITIES: {
             EVENT: 'event',
@@ -61,7 +62,7 @@ var child_browser_opened = false,
         SOCIAL_LINK_TYPES: {
             VK: 'vk',
             FACEBOOK: 'facebook',
-            GOOGLE: 'vk'
+            GOOGLE: 'google'
         },
         STATISTICS: {
             EVENT_OPEN_SITE: 'open_site',
@@ -78,16 +79,64 @@ var child_browser_opened = false,
     __os = navigator.platform == 'Win32' ? 'win' : 'hz',
     permanentStorage = window.localStorage,
     tempStorage = window.sessionStorage,
-    URLs = {
-        // VK: 'https://oauth.vk.com/authorize?client_id=5029623&scope=groups,friends,email,wall,offline,pages,photos,groups&redirect_uri=http://evendate.ru/vkOauthDone.php?mobile=true&response_type=token',
-        // FACEBOOK: 'https://www.facebook.com/dialog/oauth?client_id=1692270867652630&response_type=token&scope=public_profile,email,user_friends&display=popup&redirect_uri=http://evendate.ru/fbOauthDone.php?mobile=true',
-        // GOOGLE: 'https://accounts.google.com/o/oauth2/auth?scope=email profile https://www.googleapis.com/auth/plus.login &redirect_uri=http://evendate.ru/googleOauthDone.php?mobile=true&response_type=token&client_id=403640417782-lfkpm73j5gqqnq4d3d97vkgfjcoebucv.apps.googleusercontent.com'
-    },
+    URLs,
     __device_id = null,
     __user,
     __api,
     __app,
     __to_open_event,
+    __organizations = {
+        getList: function(callback){
+            if (this.list.length != 0){
+                callback(this.list);
+                return;
+            }
+            var _this = this;
+            __api.organizations.get([{
+                fields: 'description,is_subscribed,default_address,background_medium_img_url,img_medium_url,subscribed_count,'
+            }], function(data){
+
+                _this.list = [];
+
+                data.forEach(function(org){
+                    var key = '_' + org.type_id;
+                    if (!_this.list_with_keys.hasOwnProperty(key)){
+                        _this.list_with_keys[key] = {
+                            name: org.type_name,
+                            organizations: []
+                        };
+                    }
+                    _this.list_with_keys[key].organizations.push(org);
+                });
+                _this.updateListByKeys();
+                if (callback){
+                    callback(_this.list);
+                }
+            });
+        },
+        updateListByKeys: function(){
+            this.list = [];
+            for(var key in this.list_with_keys){
+                if (this.list_with_keys.hasOwnProperty(key)){
+                    this.list.push(this.list_with_keys[key]);
+                }
+            }
+        },
+        list: [],
+        list_with_keys: {},
+        update: function(organization){
+            if (this.list.length == 0) return;
+            var key = '_' + organization.type_id,
+                _this = this;
+            this.list_with_keys[key].organizations.forEach(function(org, index){
+                if (org.id == organization.id){
+                    _this.list_with_keys[key].organizations[index] = organization;
+                }
+            });
+            this.updateListByKeys();
+            angular.element($$('#catalog')).scope().getOrganizationsCatalog();
+        }
+    },
     ONE_SIGNAL_APP_ID = '7471a586-01f3-4eef-b989-c809700a8658',
     __is_ready = false,
     $$,
@@ -107,9 +156,6 @@ window.L = {
             console.log(data)
         }
     }
-};
-String.prototype.capitalize = function () {
-    return this.charAt(0).toUpperCase() + this.slice(1);
 };
 
 
@@ -188,24 +234,79 @@ MyApp.init = (function () {
     __app = angular.module('MyApp', []);
 
     fw7App.addView('.view-main', fw7ViewOptions);
-    fw7App.addView('.view-profile', fw7ViewOptions);
+    fw7App.addView('.view-catalog', fw7ViewOptions);
+    fw7App.addView('.view-calendar', fw7ViewOptions);
     fw7App.addView('.view-events', fw7ViewOptions);
-    fw7App.addView('.view-favorites', fw7ViewOptions);
     fw7App.addView('.view-friends', fw7ViewOptions);
+    fw7App.addView('.view-profile', fw7ViewOptions);
 
 
     __app.controller('CalendarPageController', ['$scope', MyApp.pages.CalendarPageController]);
-
-    __app.controller('SubscriptionsPageController', ['$scope', MyApp.pages.SubscriptionsPageController]);
-    __app.controller('FavoritesPageController', ['$scope', MyApp.pages.FavoritesPageController]);
+    __app.controller('ProfilePageController', ['$scope', MyApp.pages.ProfilePageController]);
+    __app.controller('CatalogPageController', ['$scope', MyApp.pages.CatalogPageController]);
+    __app.controller('FeedsPageController', ['$scope', MyApp.pages.FeedsPageController]);
     __app.controller('FriendsTabController', ['$scope', MyApp.pages.FriendsTabController]);
 
 
     __app.controller('EventPageController', ['$scope', MyApp.pages.EventPageController]);
-    __app.controller('OrganizationPageController', ['$scope', MyApp.pages.OrganizationPageController]);
+    __app.controller('OrganizationPageController', ['$scope', '$element', MyApp.pages.OrganizationPageController]);
     __app.controller('FriendPageController', ['$scope', MyApp.pages.FriendPageController]);
     __app.controller('EventsInDayController', ['$scope', '$element', MyApp.pages.EventsInDayController]);
     __app.controller('UsersPageController', ['$scope', '$element', MyApp.pages.UsersPageController]);
+    __app.controller('OnboardingPageController', ['$scope', '$element', MyApp.pages.OnboardingPageController]);
+
+
+    __app.directive('loader', function(){
+        return {
+            template: '<div class="mask-loading">' +
+            '<div class="spinner">' +
+            '<div class="double-bounce1"></div>' +
+            '<div class="double-bounce2"></div>' +
+            '</div>' +
+            '</div>',
+            replace: true
+        };
+    })
+        .directive('pullToRefresh', function() {
+            return {
+                template: '<div class="pull-to-refresh-layer">' +
+                '<div class="mask-loading">' +
+                '<div class="spinner">' +
+                '<div class="double-bounce1"></div>' +
+                '<div class="double-bounce2"></div>' +
+                '</div>' +
+                '</div>' +
+                '<div class="pull-to-refresh-arrow"></div>' +
+                '</div>',
+                replace: true
+            };
+        })
+        .directive('infiniteScroll', function() {
+            return {
+                restrict: 'AE',
+                template: '<div class="infinite-scroll-preloader">' +
+                '<div class="mask-loading">' +
+                '<div class="spinner">' +
+                '<div class="double-bounce1"></div>' +
+                '<div class="double-bounce2"></div>' +
+                '</div>' +
+                '</div>' +
+                '</div>',
+                replace: true
+            };
+        })
+        .directive('eventCard', function(){
+            return {
+                templateUrl: './templates/tmplEventCard.html',
+                replace: true
+            }
+        })
+        .directive('organizationItem', function(){
+            return {
+                templateUrl: './templates/tmplOrganizationListItem.html',
+                replace: false
+            }
+        });
 }());
 
 document.addEventListener("deviceready", onDeviceReady, false);
@@ -274,69 +375,6 @@ function registerPushService() {
             registerSuccessHandler(null);
         }
     } else {
-        //
-        // function initPushwoosh() {
-        //     try{
-        //         var pushNotification = cordova.require("com.pushwoosh.plugins.pushwoosh.PushNotification");
-        //         //set push notification callback before we initialize the plugin
-        //         document.addEventListener('push-notification', function(event) {
-        //             //get the notification payload
-        //             var notification = event.notification;
-        //             //display alert to the user for example
-        //             if (notification.onStart == false){
-        //                 fw7App.addNotification({
-        //                     title: notification.aps.alert,
-        //                     hold: 5000,
-        //                     closeIcon: true,
-        //                     subtitle: '',
-        //                     message: notification.userdata.body,
-        //                     media: '<img width="44" height="44" src="' + notification.userdata.icon + '">',
-        //                     onClick: function(){
-        //                         __api.events.get([
-        //                             {id: notification.userdata.event_id}
-        //                         ], function(res){
-        //                             res[0].open();
-        //                         })
-        //                     }
-        //                 });
-        //             }else{
-        //                 __api.events.get([
-        //                     {id: notification.userdata.event_id}
-        //                 ], function(res){
-        //                     res[0].open();
-        //                 })
-        //             }
-        //         });
-        //     }catch(e){
-        //         registerSuccessHandler(null);
-        //     }
-        //
-        //     try{
-        //         pushNotification.getLaunchNotification(function(payload){
-        //             __to_open_event = payload;
-        //             openNotification();
-        //         });
-        //         //initialize the plugin
-        //         pushNotification.onDeviceReady({pw_appid: "3874F-0C5E5"});
-        //
-        //         //register for pushes
-        //         pushNotification.registerDevice(
-        //             function(status) {
-        //                 registerSuccessHandler(status['deviceToken']);
-        //             },
-        //             function(status) {
-        //                 registerSuccessHandler(null);
-        //             }
-        //         );
-        //     }catch(e){
-        //         registerSuccessHandler(null);
-        //     }
-        // }
-        //
-
-        // window.plugins.OneSignal.setLogLevel({logLevel: 4, visualLevel: 4});
-
-
         fw7App.hidePreloader();
         $$.ajax({
             url: CONTRACT.URLS.BASE_NAME + '/auth.php?action=get_urls&mobile=true',
@@ -475,7 +513,7 @@ function openNotification() {
 }
 
 function openApplication() {
-    __app = angular.module('Evendate', []);
+
     $$('.main-tabbar').removeClass('hidden');
     var viewInstance = fw7App.getViewByName('events');
     viewInstance.showNavbar();
@@ -483,25 +521,13 @@ function openApplication() {
     fw7App.setView('events');
     $$('.view-main').addClass('tab');
 
-    var scope = angular.element($$('#profile')).scope();
-    scope.$apply(function () {
-        scope.setUser();
-    });
 
-    var calendar_scope = angular.element($$('#calendar')).scope();
-    calendar_scope.$apply(function () {
-        calendar_scope.startBinding();
-        calendar_scope.getMyTimeline(true);
+    angular.element($$('#calendar')).scope().startBinding(function(){
+        angular.element($$('#catalog')).scope().getOrganizationsCatalog();
+        angular.element($$('#profile')).scope().setUser();
     });
-
-    var favorites_scope = angular.element($$('#favorites')).scope();
-    favorites_scope.$apply(function () {
-        favorites_scope.startBinding();
-    });
-
-    var friends_scope = angular.element($$('#friends')).scope();
-    friends_scope.$apply(function () {
-        friends_scope.showFeed(true);
+    angular.element($$('#feeds')).scope().startBinding(function(){
+        angular.element($$('#friends')).scope().showFeed(true);
     });
 
 
@@ -522,7 +548,7 @@ function openApplication() {
             }
         }
 
-        $toolbar.removeClass('toolbar-item-0 toolbar-item-1 toolbar-item-2 toolbar-item-3');
+        $toolbar.removeClass('toolbar-item-0 toolbar-item-1 toolbar-item-2 toolbar-item-3 toolbar-item-4');
 
         $toolbar.find('i').each(function () {
             var $$this_i = $$(this);
@@ -539,16 +565,6 @@ function openApplication() {
         $toolbar.addClass('toolbar-item-' + $$this.data('number'));
     });
 
-    $$('#view-events-tab-link').addClass('active')
-        .on('click', function () {
-            if (subscriptions_updated) {
-                var calendar_scope = angular.element($$('#calendar')).scope();
-                subscriptions_updated = false;
-                calendar_scope.$apply(function () {
-                    calendar_scope.startBinding();
-                });
-            }
-        });
 
     __is_ready = true;
     L.log(__to_open_event);
@@ -593,7 +609,7 @@ window.onerror = function sendCrashReport(message, url, linenumber, column, erro
         column: column,
         errorObj: errorObj,
         stack: stack
-    })
+    });
 };
 
 function showSlides(to_reset) {
@@ -728,8 +744,7 @@ function initAPI() {
         event_dates: new EventDates(),
         subscriptions: new Subscriptions(),
         favorite_events: new FavoriteEvents(),
-        tags: new Tags(),
-        organizations_users: new OrganizationsUsers()
+        tags: new Tags()
     }
 }
 

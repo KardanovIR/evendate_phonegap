@@ -66,6 +66,15 @@
     <gap:plugin name="cordova-plugin-x-socialsharing" source="npm" />
     <plugin name="cordova-plugin-calendar" />
 
+    <gap:plugin name="com.phonegap.plugins.facebookconnect" version="0.12.0">
+        <param name="APP_ID" value="1692270867652630" />
+        <param name="APP_NAME" value="Evendate" />
+    </gap:plugin>
+
+    <gap:plugin name="cordova-plugin-googleplus" source="npm">
+        <param name="REVERSED_CLIENT_ID" value="myreversedclientid" />
+    </gap:plugin>
+
 
     <gap:plugin name="onesignal-cordova-plugin" source="npm" />
     <gap:plugin name="cordova-plugin-appavailability" source="npm" />
