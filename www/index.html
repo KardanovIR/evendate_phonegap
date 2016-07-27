@@ -33,8 +33,8 @@
     <div class="view view-main">
         <div class="pages">
             <div data-page="index" class="page no-toolbar no-tabbar">
-                <div class="page-content">
-                    <table style="background-image: linear-gradient(-180deg, #6EACE6  0%, #1A335B  100%);" width="100%"
+                <div class="page-content auth-page-content">
+                    <table style="background-color: #3e4d66;" width="100%"
                            height="100%" border="0" class="splash-icon">
                         <tr>
                             <td align="center" valign="center">
@@ -42,102 +42,26 @@
                             </td>
                         </tr>
                     </table>
-                    <div class="swiper-container pattern-background-img hidden">
-                        <!-- Slides wrapper -->
-                        <div class="swiper-wrapper">
-                            <!-- Slides -->
+                    <div class="content-block">
+                        <p class="text-center welcome-text">
+                            Добро пожаловать <br>
+                            в Evendate
+                        </p>
+                        <p class="text-center welcome-text-description">
+                            Evendate – это сервис, позволяющий <br>
+                            Вам оставаться в курсе предстоящих <br>
+                            событий в ваших любимых местах.
+                        </p>
 
-                            <div class="swiper-slide">
-                                <table width="100%" height="100%" border="0">
-                                    <tr>
-                                        <td align="center" valign="center">
-                                            <img src="img/welcomeslides/2.png" class="enot-img">
-
-                                            <div class="enot-description">
-                                                Не пропусти важное событие
-                                            </div>
-                                        </td>
-                                    </tr>
-                                </table>
-                            </div>
-                            <div class="swiper-slide">
-                                <table width="100%" height="100%" border="0">
-                                    <tr>
-                                        <td align="center" valign="center">
-                                            <img src="img/welcomeslides/0.png" class="enot-img">
-
-                                            <div class="enot-description">
-                                                Узнай, что интересно твоим друзьям
-                                            </div>
-                                        </td>
-                                    </tr>
-                                </table>
-                            </div>
-                            <div class="swiper-slide">
-                                <table width="100%" height="100%" border="0">
-                                    <tr>
-                                        <td align="center" valign="center">
-                                            <img src="img/welcomeslides/1.png" class="enot-img">
-
-                                            <div class="enot-description">
-                                                Делись событиями с друзьями
-                                            </div>
-                                        </td>
-                                    </tr>
-                                </table>
-                            </div>
-                            <div class="swiper-slide">
-                                <table width="100%" height="100%" border="0">
-                                    <tr>
-                                        <td align="center" valign="center">
-                                            <img src="img/welcomeslides/4.png" class="enot-img">
-
-                                            <div class="enot-description">
-                                                Управляй уведомлениями
-                                            </div>
-                                        </td>
-                                    </tr>
-                                </table>
-                            </div>
-                            <div class="swiper-slide">
-                                <table width="100%" height="100%" border="0">
-                                    <tr>
-                                        <td align="center" valign="center">
-                                            <img src="img/welcomeslides/3.png" class="enot-img">
-
-                                            <div class="enot-description">
-                                                Синхронизируйся со всеми устройствами
-                                            </div>
-                                        </td>
-                                    </tr>
-                                </table>
-                            </div>
-                            <div class="swiper-slide auth-slide">
-                                <div class="content-block">
-                                    <p class="text-center">
-                                        <img src="img/icon_500.png" class="logo-img">
-                                    </p>
-
-                                    <p class="text-wight text-center">
-                                        Войдите через социальную сеть
-                                    </p>
-
-                                    <div class="text-center">
-                                        <p><a href="#" data-type="VK" class="button button-big auth-btn vk-btn">ВКонтакте
-                                            <i
-                                                    class="ion-ios-arrow-right"></i></a></p>
-
-                                        <p><a href="#" data-type="FACEBOOK"
-                                              class="button button-big auth-btn facebook-btn">Facebook <i
-                                                class="ion-ios-arrow-right"></i></a></p>
-
-                                        <p><a href="#" data-type="GOOGLE" class="button button-big auth-btn google-btn">Google<i
-                                                class="ion-ios-arrow-right"></i></a></p>
-                                    </div>
-                                </div>
-                            </div>
+                        <div class="text-center">
+                            <span class="auth-social">Войдите через любую соц. сеть:</span>
+                            <p><a href="#" data-type="VK" class="button button-big auth-btn vk-btn">
+                                <img src="img/social/vk.svg"> Войти через ВКонтакте</a></p>
+                            <p><a href="#" data-type="GOOGLE" class="button button-big auth-btn google-btn">
+                                <img src="img/social/google.svg"> Войти через Google+</a></p>
+                            <p><a href="#" data-type="FACEBOOK" class="button button-big auth-btn facebook-btn">
+                                <img src="img/social/fb.svg"> Войти через Facebook</a></p>
                         </div>
-                        <div class="swiper-pagination"></div>
                     </div>
                 </div>
             </div>
@@ -269,6 +193,7 @@
                 <!-- Sub navbar -->
                 <div class="subnavbar blur">
                     <div class="buttons-row" style="width: 100%;">
+                        <div class="tab-runner"></div>
                         <a href="#timeline" class="button tab-link button-white active"
                            ng-click="changeTab('timeline');">Подписки</a>
                         <a href="#recommendations" class="button tab-link button-white"
@@ -282,123 +207,78 @@
         <div class="pages navbar-through">
             <div data-page="feeds" class="page navbar-fixed toolbar-fixed">
                 <!-- /End of Top Navbar-->
-                <div class="tabs">
-                    <div id="timeline" class="tab page-content my-timeline infinite-scroll pull-to-refresh-content"
-                         data-distance="500" data-ptr-distance="50">
-                        <div pull-to-refresh></div>
-                        <div class="no-events-text" ng-show="no_timeline_events">
-                            Нет событий
-                        </div>
-                        <div class="list-block cards-list" ng-repeat="day in tabs.timeline.items"
-                             ng-class="{hidden: tabs.timeline.items.length == 0}">
-                            <div class="content-block-title">{{day.name}}</div>
-                            <event-card ng-repeat="event in day.events"></event-card>
-                        </div>
-                        <div infinite-scroll class="text-center" ng-show="is_downloading"></div>
-                    </div>
-                    <div id="recommendations"
-                         class="tab page-content infinite-scroll pull-to-refresh-content"
-                         data-distance="500" data-ptr-distance="50">
-                        <div pull-to-refresh></div>
-                        <div class="no-events-text" ng-show="no_timeline_events">
-                            Нет событий
-                        </div>
-                        <div ng-repeat="day in timeline_days">
-                            <div class="content-block-title">{{day.name}}</div>
-                            <div class="card demo-card-header-pic" ng-repeat="event in day.events"
-                                 ng-click="event.open()">
-                                <div ng-style="{'background': 'url({{event.image_horizontal_large_url}})'}"
-                                     valign="bottom" class="card-header color-white no-border"></div>
-                                <div class="card-content">
-                                    <div class="card-content-inner">
-                                        <p class="color-gray">{{event.display_time.start}} -
-                                            {{event.display_time.end}}</p>
-                                        <p class="">{{event.title}}</p>
-                                    </div>
-                                </div>
-                                <div class="card-footer"><a href="#" class="link">Like</a><a href="#" class="link">Read
-                                    more</a></div>
-                            </div>
-                        </div>
-                        <div infinite-scroll ng-show="is_downloading"></div>
-                    </div>
-                    <div id="favorites" class="tab page-content infinite-scroll pull-to-refresh-content"
-                         data-distance="500" data-ptr-distance="50">
-                        <div pull-to-refresh></div>
-                        <div class="no-events-text" ng-show="no_timeline_events">
-                            Нет событий
-                        </div>
-                        <div ng-repeat="day in timeline_days">
-                            <div class="content-block-title">{{day.name}}</div>
-                            <div class="card demo-card-header-pic" ng-repeat="event in day.events"
-                                 ng-click="event.open()">
-                                <div ng-style="{'background': 'url({{event.image_horizontal_large_url}})'}"
-                                     valign="bottom" class="card-header color-white no-border"></div>
-                                <div class="card-content">
-                                    <div class="card-content-inner">
-                                        <p class="color-gray">{{event.display_time.start}} -
-                                            {{event.display_time.end}}</p>
-                                        <p class="">{{event.title}}</p>
-                                    </div>
-                                </div>
-                                <div class="card-footer"><a href="#" class="link">Like</a><a href="#" class="link">Read
-                                    more</a></div>
-                            </div>
-                        </div>
-                        <div infinite-scroll ng-show="is_downloading"></div>
-                    </div>
-                </div>
-                <div class="page-content feeds-page-content infinite-scroll pull-to-refresh-content" id="feeds"
+                <div class="page-content tabs-animated-wrap" id="feeds"
                      data-distance="100" data-ptr-distance="50">
-                    <div pull-to-refresh></div>
-                    <div class="no-events-text" ng-show="no_timeline_events">
-                        Нет событий
-                    </div>
-                    <div class="list-block media-list no-margin">
-                        <div class="list-group" ng-repeat="day in timeline_days">
-                            <ul>
-                                <li class="list-group-title timeline-day-title">{{day.name}}</li>
-                                <li ng-repeat="event in day.events" class="event-item swipeout"
-                                    ng-class="{'favorite': event.is_favorite}">
-                                    <a href="#" class="item-link item-content swipeout-content" ng-click="event.open()">
-                                        <div class="item-media">
-                                            <img ng-src="{{event.image_vertical_url}}"
-                                                 src="img/event_vertical_transparent.png"
-                                                 class="event-vertical" onerror="onImgErrorSmall(this);">
+                    <div class="tabs">
+                        <div id="timeline" class="tab my-timeline"
+                             data-distance="500" data-ptr-distance="50">
+                            <div pull-to-refresh></div>
+                            <div class="no-events-text" ng-show="no_timeline_events">
+                                Нет событий
+                            </div>
+                            <!--<div class="list-block cards-list" ng-repeat="day in tabs.timeline.items"-->
+                                 <!--ng-class="{hidden: tabs.timeline.items.length == 0}">-->
+                            <!--</div>-->
+                            <div class="list-block">
+                                <ul ng-repeat="day in tabs.timeline.items">
+                                    <div class="content-block-title">{{day.name}}</div>
+                                    <event-card-small ng-repeat="event in day.events"></event-card-small>
+                                </ul>
+                            </div>
+                            <div infinite-scroll class="text-center" ng-show="is_downloading"></div>
+                        </div>
+                        <div id="recommendations"
+                             class="tab page-content"
+                             data-distance="500" data-ptr-distance="50">
+                            <div pull-to-refresh></div>
+                            <div class="no-events-text" ng-show="no_timeline_events">
+                                Нет событий
+                            </div>
+                            <div ng-repeat="day in timeline_days">
+                                <div class="content-block-title">{{day.name}}</div>
+                                <div class="card demo-card-header-pic" ng-repeat="event in day.events"
+                                     ng-click="event.open()">
+                                    <div ng-style="{'background': 'url({{event.image_horizontal_large_url}})'}"
+                                         valign="bottom" class="card-header color-white no-border"></div>
+                                    <div class="card-content">
+                                        <div class="card-content-inner">
+                                            <p class="color-gray">{{event.display_time.start}} -
+                                                {{event.display_time.end}}</p>
+                                            <p class="">{{event.title}}</p>
                                         </div>
-                                        <div class="item-inner">
-                                            <div class="item-title-row">
-                                                <div class="item-title">{{event.title}}</div>
-                                                <div class="item-after"></div>
-                                            </div>
-                                            <div class="item-text inline-block">
-                                                <div class="event-organization-name">
-                                                    {{event.organization_short_name}}
-                                                </div>
-                                            </div>
-                                            <div class="item-subtitle event-datetime">
-                                                {{event.display_time.start}} - {{event.display_time.end}}
-                                            </div>
-                                        </div>
-                                    </a>
-
-                                    <div class="swipeout-actions-right">
-                                        <a href="#" class="action1 favorite-action"
-                                           ng-click="event.toggleFavorite($event);">
-                                            <span class="action1_icon {{event.favorite_icon}}"></span>
-                                            <p class="action1_text">{{event.favorite_text}}</p>
-                                        </a>
-                                        <a href="#" class="action1 swipeout-delete swipeout-overswipe"
-                                           ng-click="event.toggleHidden($event);">
-                                            <span class="action1_icon icon ion-ios-trash-outline"></span>
-                                            <p class="action1_text">{{event.hide_text}}</p>
-                                        </a>
                                     </div>
-                                </li>
-                            </ul>
+                                    <div class="card-footer"><a href="#" class="link">Like</a><a href="#" class="link">Read
+                                        more</a></div>
+                                </div>
+                            </div>
+                            <div infinite-scroll ng-show="is_downloading"></div>
+                        </div>
+                        <div id="favorites" class="tab page-content"
+                             data-distance="500" data-ptr-distance="50">
+                            <div pull-to-refresh></div>
+                            <div class="no-events-text" ng-show="no_timeline_events">
+                                Нет событий
+                            </div>
+                            <div ng-repeat="day in timeline_days">
+                                <div class="content-block-title">{{day.name}}</div>
+                                <div class="card demo-card-header-pic" ng-repeat="event in day.events"
+                                     ng-click="event.open()">
+                                    <div ng-style="{'background': 'url({{event.image_horizontal_large_url}})'}"
+                                         valign="bottom" class="card-header color-white no-border"></div>
+                                    <div class="card-content">
+                                        <div class="card-content-inner">
+                                            <p class="color-gray">{{event.display_time.start}} -
+                                                {{event.display_time.end}}</p>
+                                            <p class="">{{event.title}}</p>
+                                        </div>
+                                    </div>
+                                    <div class="card-footer"><a href="#" class="link">Like</a><a href="#" class="link">Read
+                                        more</a></div>
+                                </div>
+                            </div>
+                            <div infinite-scroll ng-show="is_downloading"></div>
                         </div>
                     </div>
-                    <div infinite-scroll ng-show="is_downloading"></div>
                 </div>
             </div>
         </div>
@@ -556,7 +436,8 @@
                                         <div infinite-scroll class="text-center subscriptions-loader ng-hide"></div>
 
                                         <ul class="without-top-border without-bottom-border">
-                                            <li class="swipeout profile-subscription" ng-repeat="subscription in subscriptions">
+                                            <li class="swipeout profile-subscription"
+                                                ng-repeat="subscription in subscriptions">
                                                 <a href="#" class="item-link swipeout-content item-content"
                                                    ng-click="subscription.open()">
                                                     <div class="item-media">
@@ -591,20 +472,23 @@
     <div id="onboarding" class="login-screen" ng-controller="OnboardingPageController">
         <div class="view">
             <div class="page">
-                <div class="page-content login-screen-content">
+                <div class="page-content login-screen-content infinite-scroll" data-distance="50"
+                     data-ptr-distance="50">
                     <div class="login-screen-title">Рекомендуем</div>
                     <div class="text-center">Мы подобрали для Вас организаторов, которые могут быть интересны</div>
-
                     <div class="list-block media-list">
                         <ul>
                             <div organization-item ng-repeat="organization in organizations"
                                  class="organization-item-onboarding"></div>
                         </ul>
+                        <div class="loader-container" ng-hide="is_downloading == false">
+                            <infinite-scroll></infinite-scroll>
+                        </div>
+                        <p class="full-with-btn-wrapper onboarding-resume">
+                            <a href="#"
+                               class="button button-filled button-pink close-login-screen">ПРОДОЛЖИТЬ</a>
+                        </p>
                     </div>
-                    <p class="full-with-btn-wrapper">
-                        <a href="#"
-                           class="button button-big button-filled button-pink close-login-screen">ПРОДОЛЖИТЬ</a>
-                    </p>
                 </div>
             </div>
         </div>

@@ -73,7 +73,7 @@
 
             <div class="list-block cards-list">
                 <event-card ng-repeat="event in organization.events"></event-card>
-                <infinite-scroll></infinite-scroll>
+                <infinite-scroll ng-hide="is_downloading == false"></infinite-scroll>
             </div>
         </div>
     </div>

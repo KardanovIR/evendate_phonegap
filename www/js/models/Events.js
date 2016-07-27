@@ -11,6 +11,7 @@ function Events() {
             event.tags_array = [];
             event.future_moment_dates = [];
             event.moment_dates = [];
+            event.moment_dates_object = {};
 
             if (event.tags) {
                 event.tags.forEach(function (tag) {
@@ -19,8 +20,9 @@ function Events() {
             }
 
 
-            if (event.hasOwnProperty('nearest_event_date')) {
-                event.nearest_event_date_string = moment.unix(event.nearest_event_date).format('DD/MM');
+            if (event.hasOwnProperty('nearest_event_date') && event.nearest_event_date != null) {
+                event.moment_nearest_event_date = moment.unix(event.nearest_event_date);
+                event.nearest_event_date_string = event.moment_nearest_event_date.format('DD/MM');
             }
 
             event.liked_users_count = event.favored_users_count;
@@ -33,7 +35,9 @@ function Events() {
                             start_date: moment(day + ' ' + event_day.start_time),
                             end_date: moment(day + ' ' + event_day.end_time)
                         };
+                    if (event.moment_dates.hasOwnProperty(day) == false) event.moment_dates_object[day] = [];
                     event.moment_dates.push(current);
+                    event.moment_dates_object[day].push(current);
                     if (event_day.event_date >= _today_unix) {
                         event.future_moment_dates.push(current);
                     }
@@ -52,6 +56,12 @@ function Events() {
                 event.short_dates = [];
                 event.dates_text = [];
                 event.every_day = true;
+
+                if (event.is_free == true){
+                    event.price_text = 'Бесплатно';
+                }else{
+                    event.price_text = event.min_price == null ? '' : 'от ' +  event.min_price + ' руб.';
+                }
 
                 event.moment_dates.forEach(function (val, index) {
                     var mdate = val.start_date.clone();
@@ -111,6 +121,17 @@ function Events() {
                 })
             };
 
+            event.smallCardFavorite = function($event){
+                var $$this = $$($event.target);
+                if ($$this.hasClass('active')) {
+                    $$this.parent().find('.ripple-wave').removeClass('active');
+                    $$this.removeClass('active ion-ios-star').addClass('ion-ios-star-outline');
+                } else {
+                    $$this.parent().find('.ripple-wave').addClass('active');
+                    $$this.addClass('active ion-ios-star').removeClass('ion-ios-star-outline');
+                }
+            };
+
             event.open = function () {
                 if (is_opening) return;
                 is_opening = true;
@@ -146,7 +167,7 @@ function Events() {
                     fw7App.hideIndicator();
                 });
 
-                callbackObjects['eventPageAfterAnimation'] = fw7App.onPageAfterAnimation('event', function (page) {
+                callbackObjects['eventPageAfterAnimation'] = fw7App.onPageAfterAnimation('event', function () {
                     is_opening = false;
                 });
 
@@ -254,15 +275,11 @@ function Events() {
                         //
                         // create an event in a named calendar (iOS only for now)
                         window.plugins.calendar.createEvent(_e.title, _e.location, _e.description, _e.moment_dates[0].toDate(), _e.moment_dates[_e.moment_dates.length - 1].toDate(), function (param1, param2) {
-                                L.log('CREATE_EVENT_SUCCESS:', param1, param2);
-                                //
-                            }, function (param1, param2) {
-                                L.log('CREATE_EVENT_ERROR:', param1, param2);
-                                //
-                            });
-                        //
+                            L.log('CREATE_EVENT_SUCCESS:', param1, param2);
+                        }, function (param1, param2) {
+                            L.log('CREATE_EVENT_ERROR:', param1, param2);
+                        });
                     });
-                //
             };
 
             event.openLikedFriends = function () {

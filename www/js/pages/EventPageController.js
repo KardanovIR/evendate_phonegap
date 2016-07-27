@@ -12,7 +12,7 @@ MyApp.pages.EventPageController = function ($scope) {
 
 		__api.events.get([
 			{id: event.id},
-			{fields: 'detail_info_url,is_favorite,nearest_event_date,location,favored_users_count,favored{length:5,fields:"is_friend",order_by:"-is_friend"},organization_name,organization_logo_small_url,description,favored,is_same_time,tags,dates{fields:"end_time,start_time",order_by:"event_date"},is_same_time'}
+			{fields: 'detail_info_url,is_favorite,nearest_event_date,min_price,location,favored_users_count,favored{length:5,fields:"is_friend",order_by:"-is_friend"},organization_name,organization_logo_small_url,description,favored,is_same_time,tags,dates{fields:"end_time,start_time",order_by:"event_date"},is_same_time'}
 		], function(res){
 			$scope.event = res[0];
 			$scope.$digest();

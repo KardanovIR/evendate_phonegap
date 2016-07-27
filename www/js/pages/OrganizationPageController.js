@@ -13,6 +13,9 @@ MyApp.pages.OrganizationPageController = function ($scope, $element) {
     $scope.events_page_counter = 1;
 
 
+    var no_more_events = false;
+
+
     $scope.toggleDetails = function () {
         $scope.details_shown = !$scope.details_shown;
         if (!$scope.details_shown) {
@@ -24,8 +27,9 @@ MyApp.pages.OrganizationPageController = function ($scope, $element) {
     };
 
     function loadNextEvents() {
-        if ($scope.is_downloading) return;
+        if ($scope.is_downloading || no_more_events) return;
         $scope.is_downloading = true;
+        $scope.$apply();
         __api.events.get([
             {organization_id: $scope.organization.id},
             {fields: 'image_square_horizontal_url,nearest_event_date,favored,is_favorite'},
@@ -34,6 +38,7 @@ MyApp.pages.OrganizationPageController = function ($scope, $element) {
             {future: true},
             {order_by: 'nearest_event_date'}
         ], function (res) {
+            if (res.length < 10) no_more_events = true;
             $scope.is_downloading = false;
             $scope.organization.events = $scope.organization.events.concat(res);
             $scope.$apply();
@@ -49,11 +54,11 @@ MyApp.pages.OrganizationPageController = function ($scope, $element) {
         }], function (res) {
             $scope.organization = res[0];
             $scope.organization.events = __api.events.normalizeAll($scope.organization.events);
-            $scope.is_downloading = false;
-            $scope.$apply();
 
             fw7App.attachInfiniteScroll($element);
             $element.on('infinite', loadNextEvents);
+            $scope.is_downloading = false;
+            $scope.$apply();
 
         });
     }

@@ -104,7 +104,7 @@ MyApp.pages.CalendarPageController = function ($scope) {
                 if ($$container.data('opened') == true) {
                     var $scope = angular.element($$container[0]).scope();
                     $scope.setDate($scope.selected_day);
-                    $scope.setEvents(data);
+                    $scope.showPage();
                 } else {
                     var rootElement = angular.element(document);
                     rootElement.ready(function () {
@@ -113,7 +113,7 @@ MyApp.pages.CalendarPageController = function ($scope) {
                             $compile(page.container)(scope);
                             var $scope = angular.element($$container[0]).scope();
                             $scope.setDate($scope.selected_day);
-                            $scope.setEvents(data);
+                            $scope.showPage();
                             $$container.data('opened', true);
                         }]);
                     });
@@ -167,7 +167,7 @@ MyApp.pages.CalendarPageController = function ($scope) {
             onMonthYearChangeEnd: function (calendar, year, month, dir) {
                 $scope.year = calendar.currentYear;
                 $scope.month = calendar.currentMonth + 1;
-                var _month = calendar.currentMonth + (dir == 'next' ? 1 : 0);
+                var _month = calendar.currentMonth + (dir == 'next' ? 2 : 0);
                 _month = _month == 0 ? 12 : _month;
                 $scope.$digest();
                 if ($scope.binded) {

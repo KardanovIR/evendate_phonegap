@@ -1,6 +1,9 @@
 /*jslint browser: true*/
 /*global console, Framework7, angular, Dom7*/
 
+String.prototype.capitalize = function() {
+    return this.charAt(0).toUpperCase() + this.slice(1);
+}
 
 var child_browser_opened = false,
     CONTRACT = {
@@ -301,6 +304,12 @@ MyApp.init = (function () {
                 replace: true
             }
         })
+        .directive('eventCardSmall', function () {
+            return {
+                templateUrl: './templates/tmplEventCardSmall.html',
+                replace: true
+            }
+        })
         .directive('organizationItem', function () {
             return {
                 templateUrl: './templates/tmplOrganizationListItem.html',
@@ -560,13 +569,16 @@ function openApplication() {
     $$('.view-main').addClass('tab');
 
 
+    angular.element($$('#profile')).scope().setUser();
+
     angular.element($$('#calendar')).scope().startBinding(function () {
         angular.element($$('#catalog')).scope().getOrganizationsCatalog();
-        angular.element($$('#profile')).scope().setUser();
     });
+
     angular.element($$('#feeds')).scope().startBinding(function () {
         angular.element($$('#friends')).scope().showFeed(true);
     });
+
 
 
     $$('.main-tabbar .toolbar-inner a').on('click', function () {
@@ -652,7 +664,7 @@ window.onerror = function sendCrashReport(message, url, linenumber, column, erro
 
 function showSlides(to_reset) {
     $$('.splash-icon').addClass('hidden');
-    $$('.swiper-container').removeClass('hidden');
+    $$('.auth-page-content').addClass('auth-grey');
     $$('.view-main').removeClass('tab');
     $$('.main-tabbar .tab-link').removeClass('active');
     $$('.main-tabbar .toolbar-inner').removeClass('toolbar-item-0').addClass('toolbar-item-1');
@@ -665,21 +677,11 @@ function showSlides(to_reset) {
     $$('.view').removeClass('active');
     $$('.view-main').removeClass('active');
 
-    var mySwiper = fw7App.swiper('.swiper-container', {
-        pagination: '.swiper-pagination',
-        preloadImages: true,
-        parallax: true,
-        paginationHide: false,
-        onReachEnd: function (swiper) {
-            $$('.swiper-pagination').hide();
-        }
-    });
+    if (window.VkSdk){
+        VkSdk.init('5029623');
+    }
 
-    VkSdk.init('5029623');
-
-    if (to_reset) mySwiper.slideTo(5, 0);
-
-    $$('.vk-btn, .google-btn')
+    $$('.google-btn')
         .off('click')
         .on('click', function () {
             var type = $$(this).data('type');
@@ -708,7 +710,6 @@ function showSlides(to_reset) {
     document.addEventListener('vkSdk.newToken', function(token) {
         L.log('New token is ' + token);
     });
-
 
     $$('.start-demo-button').on('click', function () {
         setDemoAccount();

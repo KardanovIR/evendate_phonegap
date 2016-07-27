@@ -4405,6 +4405,7 @@
             $(document).on(app.touchEvents.start, function (e) {
                 if (app.swipeoutOpenedEl) {
                     var target = $(e.target);
+                    if (app.swipeoutOpenedEl.hasClass('disable-auto-close')) return true;
                     if (!(
                         app.swipeoutOpenedEl.is(target[0]) ||
                         target.parents('.swipeout').is(app.swipeoutOpenedEl) ||
