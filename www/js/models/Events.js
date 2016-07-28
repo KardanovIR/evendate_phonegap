@@ -111,6 +111,11 @@ function Events() {
             event.tags_text = event.tags_array.join(', ');
             event.hide_text = 'Не показывать';
 
+
+            event.getUser = function(){
+                return __user;
+            };
+
             event.toggleHidden = function () {
                 $$.ajax({
                     url: CONTRACT.URLS.API_FULL_PATH + CONTRACT.URLS.EVENTS_PATH + '/' + event.id + '/status',
@@ -122,13 +127,12 @@ function Events() {
             };
 
             event.smallCardFavorite = function($event){
-                var $$this = $$($event.target);
-                if ($$this.hasClass('active')) {
-                    $$this.parent().find('.ripple-wave').removeClass('active');
-                    $$this.removeClass('active ion-ios-star').addClass('ion-ios-star-outline');
+                var $$this = $$($event.target),
+                    $$event_card = $$this.parents('.event-card-small');
+                if ($$event_card.hasClass('favored')) {
+                    $$event_card.removeClass('favored');
                 } else {
-                    $$this.parent().find('.ripple-wave').addClass('active');
-                    $$this.addClass('active ion-ios-star').removeClass('ion-ios-star-outline');
+                    $$event_card.addClass('favored');
                 }
             };
 

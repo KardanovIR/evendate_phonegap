@@ -1,18 +1,24 @@
-<li class="swipeout event-card-small no-swipeback disable-auto-close">
+<li class="swipeout event-card-small no-swipeback disable-auto-close" ng-class="{'favored': event.is_favorite}">
     <div class="swipeout-content">
         <div class="item-content">
             <div class="item-media" ng-click="event.open()">
                 <img ng-src="{{event.image_horizontal_medium_url}}">
             </div>
             <div class="item-title light-blur" ng-click="event.open()">{{event.title}}</div>
-            <div class="event-info"ng-class="{'active': event.is_favorite}">
+            <div class="event-info">
                 <div ng-click="event.open()" class="event-day-number text-center">{{event.display_date.start_date.format('DD')}}</div>
                 <div ng-click="event.open()" class="event-month-name text-center">{{event.display_date.start_date.format('DD MMMM').split(' ')[1].capitalize()}}</div>
                 <div ng-click="event.open()" class="event-time text-center">{{event.display_date.start_date.format('HH:mm')}} - {{event.display_date.end_date.format('HH:mm')}}</div>
                 <div ng-click="event.open()" class="event-price text-center">{{event.price_text}}</div>
                 <div class="event-favorite text-center">
-                    <span class="icon" ng-click="event.smallCardFavorite($event)" ng-class="{'ion-ios-star active': event.is_favorite, 'ion-ios-star-outline': !event.is_favorite}"></span>
-                    <span class="ripple-wave" ng-class="{'active': event.is_favorite}"></span>
+                    <span class="icon ion-ios-star-outline" ng-click="event.smallCardFavorite($event)"></span>
+                    <div class="ripple-wave">
+                        <div ng-click="event.open()" class="event-day-number text-center">{{event.display_date.start_date.format('DD')}}</div>
+                        <div ng-click="event.open()" class="event-month-name text-center">{{event.display_date.start_date.format('DD MMMM').split(' ')[1].capitalize()}}</div>
+                        <div ng-click="event.open()" class="event-time text-center">{{event.display_date.start_date.format('HH:mm')}} - {{event.display_date.end_date.format('HH:mm')}}</div>
+                        <div ng-click="event.open()" class="event-price text-center">{{event.price_text}}</div>
+                        <div class="event-favorite text-center"><span class="icon ion-ios-star active"></span></div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -20,11 +26,11 @@
     <div class="swipeout-actions-right">
         <a href="#" class="event-small-details">
             <div class="head" ng-click="event.openOrganization();">
-                <img class="head-organization-logo" ng-src="{{event.organization_logo_small_url}}">
-                <span class="head-organization-name">{{event.organization_short_name}}</span>
+                <img class="head-organization-logo" ng-src="{{event.organization_logo_small_url}}"><span class="head-organization-name">{{event.organization_short_name}}</span>
             </div>
-            <div class="dates"></div>
+            <div class="dates">{{event.nearest_event_date_string}}</div>
             <div class="users">
+                <img class="user-avatar" ng-src="{{event.getUser().avatar_url}}">
                 <img class="user-avatar" ng-repeat="user in event.favored" ng-src="{{user.avatar_url}}">
             </div>
         </a>
