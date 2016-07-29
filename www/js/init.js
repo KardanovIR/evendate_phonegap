@@ -247,7 +247,7 @@ MyApp.init = (function () {
     __app.controller('CalendarPageController', ['$scope', MyApp.pages.CalendarPageController]);
     __app.controller('ProfilePageController', ['$scope', MyApp.pages.ProfilePageController]);
     __app.controller('CatalogPageController', ['$scope', MyApp.pages.CatalogPageController]);
-    __app.controller('FeedsPageController', ['$scope', MyApp.pages.FeedsPageController]);
+    __app.controller('FeedsPageController', ['$scope', '$timeout', MyApp.pages.FeedsPageController]);
     __app.controller('FriendsTabController', ['$scope', MyApp.pages.FriendsTabController]);
 
 

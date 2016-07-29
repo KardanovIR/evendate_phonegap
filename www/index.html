@@ -194,12 +194,12 @@
                 <div class="subnavbar blur">
                     <div class="buttons-row" style="width: 100%;">
                         <div class="tab-runner"></div>
-                        <a href="#timeline" class="button tab-link button-white active"
-                           ng-click="changeTab('timeline');">Подписки</a>
+                        <a href="#timeline" class="button tab-link button-white active" id="timeline-tab-link"
+                           ng-click="moveActiveBackground($event);" data-name="timeline">Подписки</a>
                         <a href="#recommendations" class="button tab-link button-white"
-                           ng-click="changeTab('recommendations');">Для
-                            вас</a>
-                        <a href="#favorites" class="button tab-link button-white" ng-click="changeTab('favorites');">Избранные</a>
+                           ng-click="moveActiveBackground($event);" data-name="recommendations">Для вас</a>
+                        <a href="#favorites" class="button tab-link button-white"
+                           ng-click="moveActiveBackground($event);" data-name="favorites">Избранные</a>
                     </div>
                 </div>
             </div>
@@ -207,76 +207,43 @@
         <div class="pages navbar-through">
             <div data-page="feeds" class="page navbar-fixed toolbar-fixed">
                 <!-- /End of Top Navbar-->
-                <div class="page-content tabs-animated-wrap" id="feeds"
-                     data-distance="100" data-ptr-distance="50">
+                <div class="page-content infinite-scroll pull-to-refresh-content" id="feeds"
+                     data-distance="300" data-ptr-distance="50">
+                    <div pull-to-refresh></div>
                     <div class="tabs">
-                        <div id="timeline" class="tab my-timeline"
-                             data-distance="500" data-ptr-distance="50">
-                            <div pull-to-refresh></div>
-                            <div class="no-events-text" ng-show="no_timeline_events">
+                        <div id="timeline" class="tab" data-name="timeline">
+                            <div class="no-events-text" ng-show="tabs.timeline.no_timeline_events">
                                 Нет событий
                             </div>
-                            <!--<div class="list-block cards-list" ng-repeat="day in tabs.timeline.items"-->
-                                 <!--ng-class="{hidden: tabs.timeline.items.length == 0}">-->
-                            <!--</div>-->
-                            <div class="list-block">
-                                <ul ng-repeat="day in tabs.timeline.items">
-                                    <div class="content-block-title">{{day.name}}</div>
-                                    <event-card-small ng-repeat="event in day.events"></event-card-small>
+                            <div class="list-block no-top-margin">
+                                <ul class="no-border no-top-margin">
+                                    <event-card-small ng-repeat="event in tabs.timeline.items"></event-card-small>
                                 </ul>
                             </div>
-                            <div infinite-scroll class="text-center" ng-show="is_downloading"></div>
+                            <div infinite-scroll ng-show="tabs.timeline.is_downloading && tabs.timeline.page != 0"></div>
                         </div>
-                        <div id="recommendations"
-                             class="tab page-content"
-                             data-distance="500" data-ptr-distance="50">
-                            <div pull-to-refresh></div>
-                            <div class="no-events-text" ng-show="no_timeline_events">
+                        <div id="recommendations" class="tab" data-name="recommendations">
+                            <div pull-to-refresh ng-show="tabs.recommendations.is_pulled"></div>
+                            <div class="no-events-text" ng-show="tabs.recommendations.no_timeline_events">
                                 Нет событий
                             </div>
-                            <div ng-repeat="day in timeline_days">
-                                <div class="content-block-title">{{day.name}}</div>
-                                <div class="card demo-card-header-pic" ng-repeat="event in day.events"
-                                     ng-click="event.open()">
-                                    <div ng-style="{'background': 'url({{event.image_horizontal_large_url}})'}"
-                                         valign="bottom" class="card-header color-white no-border"></div>
-                                    <div class="card-content">
-                                        <div class="card-content-inner">
-                                            <p class="color-gray">{{event.display_time.start}} -
-                                                {{event.display_time.end}}</p>
-                                            <p class="">{{event.title}}</p>
-                                        </div>
-                                    </div>
-                                    <div class="card-footer"><a href="#" class="link">Like</a><a href="#" class="link">Read
-                                        more</a></div>
-                                </div>
+                            <div class="list-block no-top-margin">
+                                <ul class="no-border no-top-margin">
+                                    <event-card-small ng-repeat="event in tabs.recommendations.items"></event-card-small>
+                                </ul>
                             </div>
-                            <div infinite-scroll ng-show="is_downloading"></div>
+                            <div infinite-scroll ng-show="tabs.recommendations.is_downloading && tabs.recommendations.page != 0"></div>
                         </div>
-                        <div id="favorites" class="tab page-content"
-                             data-distance="500" data-ptr-distance="50">
-                            <div pull-to-refresh></div>
-                            <div class="no-events-text" ng-show="no_timeline_events">
+                        <div id="favorites" class="tab" data-name="favorites">
+                            <div class="no-events-text" ng-show="tabs.favorites.no_timeline_events">
                                 Нет событий
                             </div>
-                            <div ng-repeat="day in timeline_days">
-                                <div class="content-block-title">{{day.name}}</div>
-                                <div class="card demo-card-header-pic" ng-repeat="event in day.events"
-                                     ng-click="event.open()">
-                                    <div ng-style="{'background': 'url({{event.image_horizontal_large_url}})'}"
-                                         valign="bottom" class="card-header color-white no-border"></div>
-                                    <div class="card-content">
-                                        <div class="card-content-inner">
-                                            <p class="color-gray">{{event.display_time.start}} -
-                                                {{event.display_time.end}}</p>
-                                            <p class="">{{event.title}}</p>
-                                        </div>
-                                    </div>
-                                    <div class="card-footer"><a href="#" class="link">Like</a><a href="#" class="link">Read
-                                        more</a></div>
-                                </div>
+                            <div class="list-block no-top-margin">
+                                <ul class="no-border no-top-margin">
+                                    <event-card-small ng-repeat="event in tabs.favorites.items"></event-card-small>
+                                </ul>
                             </div>
-                            <div infinite-scroll ng-show="is_downloading"></div>
+                            <div infinite-scroll class="ng-hide" ng-show="tabs.favorites.is_downloading && tabs.favorites.page != 0"></div>
                         </div>
                     </div>
                 </div>

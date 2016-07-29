@@ -1,10 +1,9 @@
 MyApp.ns('MyApp.pages');
 
-MyApp.pages.FeedsPageController = function ($scope) {
+MyApp.pages.FeedsPageController = function ($scope, $timeout) {
     'use strict';
 
 
-    var $$my_timeline = $$('.my-timeline');
     var tab_names = ['timeline', 'recommendations', 'favorites'];
     var active_tab = tab_names[0];
     var callback;
@@ -13,129 +12,140 @@ MyApp.pages.FeedsPageController = function ($scope) {
     $scope.tabs = {
         timeline: {
             items: [],
-            events_by_days: {},
             page: 0,
+            scroll: 0,
             is_downloading: false,
+            all_loaded: false,
             no_timeline_events: null
         },
         recommendations: {
             items: [],
-            events_by_days: {},
             page: 0,
+            scroll: 0,
             is_downloading: false,
+            all_loaded: false,
             no_timeline_events: null
         },
         favorites: {
             items: [],
-            events_by_days: {},
             page: 0,
+            scroll: 0,
             is_downloading: false,
+            all_loaded: false,
             no_timeline_events: null
         }
     };
 
-    $$('.my-timeline').on('infinite', function () {
-        if ($scope.tabs[active_tab].is_downloading) return;
-        $scope.getTimeline(active_tab, false);
-    });
-
-    $scope.changeTab = function (type) {
-        active_tab = type;
-        $scope.getTimeline(type);
-    };
-
     $scope.getTimeline = function (type, first_page, cb) {
         if ($scope.tabs[type].is_downloading) return;
+        if ($scope.tabs[type].all_loaded && !first_page) return;
         if (first_page == true) {
             $scope.tabs[type].page = 0;
         }
 
         $scope.tabs[type].is_downloading = true;
         $scope.tabs[type].no_timeline_events = null;
+        $scope.$apply();
 
 
-        var data = [
+        var fields_string = 'is_favorite,organization_short_name,favored_users_count,favored{length:5, fields:"avatar_url"},organization_logo_small_url,nearest_event_date,dates{length:500,fields:"end_time,start_time",},image_horizontal_medium_url,is_free,dates,min_price',
+            data = [
             {type: type},
-            {fields: 'is_favorite,organization_short_name,favored_users_count,favored{length:5, fields:"avatar_url"},organization_logo_small_url,nearest_event_date,dates{length:500,fields:"end_time,start_time",},image_horizontal_medium_url,is_free,dates,min_price'},
-            {order_by: "nearest_event_date"},
+            {fields: fields_string + (type == 'timeline' ? ',actuality' : '')},
+            {order_by: (type == 'timeline' ? '-actuality' : 'nearest_event_date')},
             {future: 'true'},
-            {offset: 10 * $scope.tabs[type].page++},
+            {page: $scope.tabs[type].page++},
             {length: 10}
         ];
 
         __api.events.get(data, function (data) {
-            if (callback) {
-                callback();
+            if (data.length == 0) {
+                if (first_page){
+                    $scope.tabs[type].no_timeline_events = true;
+                }else{
+                    $scope.tabs[type].all_loaded = true;
+                }
             }
-            if (data.length == 0 && first_page) {
-                $scope.tabs[type].no_timeline_events = true;
-            }
+
             if (first_page) {
-                $scope.tabs[type].first_page_downloaded = true;
                 $scope.tabs[type].items = [];
             }
 
-            $scope.tabs[type].events_by_days = first_page ? {} : $scope.tabs[type].events_by_days;
-
             data.forEach(function (item) {
-                var first_date = item.moment_nearest_event_date.format('DD MMMM');
+                try{
+                    item.display_date = item.moment_dates_object[item.moment_nearest_event_date.format(CONTRACT.DATE_FORMAT)][0];
+                }catch(e){}
 
-                item.display_date = item.moment_dates_object[item.moment_nearest_event_date.format(CONTRACT.DATE_FORMAT)][0];
-
-
-                if (!$scope.tabs[type].events_by_days.hasOwnProperty(first_date)) {
-                    $scope.tabs[type].events_by_days[first_date] = {};
-                }
-                if (!$scope.tabs[type].events_by_days[first_date].hasOwnProperty('_' + item.id)) {
-                    $scope.tabs[type].events_by_days[first_date]['_' + item.id] = item;
-                }
+                $scope.tabs[type].items.push(item);
             });
-
-
-            for (var day in $scope.tabs[type].events_by_days) {
-                if ($scope.tabs[type].events_by_days.hasOwnProperty(day)) {
-                    var _events_array = [];
-                    for (var event_key in $scope.tabs[type].events_by_days[day]) {
-                        if ($scope.tabs[type].events_by_days[day].hasOwnProperty(event_key)) {
-                            _events_array.push($scope.tabs[type].events_by_days[day][event_key]);
-                        }
-                    }
-                    $scope.tabs[type].items.push({
-                        name: day,
-                        events: _events_array
-                    });
-                }
-            }
 
             $scope.tabs[type].is_downloading = false;
-            $scope.$apply(function () {
-                if (cb) {
-                    cb();
-                }
-            });
+            fw7App.pullToRefreshDone($$('#feeds'));
+            if (callback) {
+                callback();
+            }
+            if (cb) {
+                cb();
+            }
         });
 
 
     };
 
-    $$my_timeline.on('refresh', function () {
-        $scope.getTimeline(active_tab, true, function () {
-            fw7App.pullToRefreshDone($$my_timeline);
+
+    $scope.startBinding = function (cb) {
+        $$('#timeline-tab-link').click();
+        $scope.getTimeline('timeline', true, function(){
+            $scope.getTimeline('favorites', true, function(){
+                $scope.getTimeline('recommendations', true);
+            });
         });
+
+        $$('#feeds').on('infinite', function () {
+            var $$this = $$(this),
+                $$tab = $$this.find('.tab.active');
+
+            var name = $$tab.data('name');
+            $scope.getTimeline(name, false)
+        });
+
+        $$('#feeds').on('refresh', function () {
+            var $$this = $$(this),
+                $$tab = $$this.find('.tab.active');
+            var name = $$tab.data('name');
+            $scope.getTimeline(name, true, function(){
+                $scope.tabs[name].is_downloading = false;
+                fw7App.pullToRefreshDone($$('#feeds'));
+            });
+        });
+        callback = cb;
+    };
+
+    $scope.moveActiveBackground = function($event){
+        var $$this = $$($event.target),
+            $$feeds = $$('#feeds'),
+            name = $$this.data('name');
+
+        $scope.tabs[active_tab].scroll = $$feeds.scrollTop();
+
+
+        active_tab = name;
+        $$('.tab-runner').css({
+            width: $$this.width() + 'px',
+            left: $$this.offset().left + 'px'
+        });
+    };
+
+
+    $$('#timeline').on('show', function () {
+        $$('#feeds').scrollTop($scope.tabs['timeline'].scroll, 0);
     });
 
-    $scope.startBinding = function (callback) {
-        $scope.changeTab('timeline');
-    };
+    $$('#recommendations').on('show', function () {
+        $$('#feeds').scrollTop($scope.tabs['recommendations'].scroll, 0);
+    });
 
-
-    $$('#view-events .tab-link')
-        .on('click', function () {
-            var $$this = $$(this);
-            $$('.tab-runner').css({
-                width: $$this.width() + 'px',
-                left: $$this.offset().left + 'px'
-            });
-        });
-
+    $$('#favorites').on('show', function () {
+        $$('#feeds').scrollTop($scope.tabs['favorites'].scroll, 0);
+    });
 };
