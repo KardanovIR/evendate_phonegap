@@ -13,14 +13,14 @@
 </div>
 <div class="pages">
     <div data-page="events_in_day" class="page events_in_day" ng-controller="EventsInDayController">
-        <div class="page-content infinite-scroll events_in_day" data-distance="100">
-            <div class="day-title">
-                <div class="left"><a href="#" class="link icon-only calendar"><i
-                        class="ion-ios-arrow-thin-left"></i></a></div>
-                <div class="center">{{date_text}}</div>
-                <div class="right"><a href="#" class="link icon-only calendar"><i class="ion-ios-arrow-thin-right"></i></a>
-                </div>
+        <div class="day-title">
+            <div class="left"><a href="#" class="link icon-only calendar"><i
+                    class="ion-ios-arrow-thin-left"></i></a></div>
+            <div class="center">{{date_text}}</div>
+            <div class="right"><a href="#" class="link icon-only calendar"><i class="ion-ios-arrow-thin-right"></i></a>
             </div>
+        </div>
+        <div class="page-content infinite-scroll events_in_day" data-distance="100">
             <div class="no-events-text ng-hide" ng-show="no_events">
                 Нет событий
             </div>

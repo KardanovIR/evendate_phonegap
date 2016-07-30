@@ -220,7 +220,8 @@
                                     <event-card-small ng-repeat="event in tabs.timeline.items"></event-card-small>
                                 </ul>
                             </div>
-                            <div infinite-scroll ng-show="tabs.timeline.is_downloading && tabs.timeline.page != 0"></div>
+                            <div infinite-scroll
+                                 ng-show="tabs.timeline.is_downloading && tabs.timeline.page != 0"></div>
                         </div>
                         <div id="recommendations" class="tab" data-name="recommendations">
                             <div pull-to-refresh ng-show="tabs.recommendations.is_pulled"></div>
@@ -229,10 +230,12 @@
                             </div>
                             <div class="list-block no-top-margin">
                                 <ul class="no-border no-top-margin">
-                                    <event-card-small ng-repeat="event in tabs.recommendations.items"></event-card-small>
+                                    <event-card-small
+                                            ng-repeat="event in tabs.recommendations.items"></event-card-small>
                                 </ul>
                             </div>
-                            <div infinite-scroll ng-show="tabs.recommendations.is_downloading && tabs.recommendations.page != 0"></div>
+                            <div infinite-scroll
+                                 ng-show="tabs.recommendations.is_downloading && tabs.recommendations.page != 0"></div>
                         </div>
                         <div id="favorites" class="tab" data-name="favorites">
                             <div class="no-events-text" ng-show="tabs.favorites.no_timeline_events">
@@ -243,7 +246,8 @@
                                     <event-card-small ng-repeat="event in tabs.favorites.items"></event-card-small>
                                 </ul>
                             </div>
-                            <div infinite-scroll class="ng-hide" ng-show="tabs.favorites.is_downloading && tabs.favorites.page != 0"></div>
+                            <div infinite-scroll class="ng-hide"
+                                 ng-show="tabs.favorites.is_downloading && tabs.favorites.page != 0"></div>
                         </div>
                     </div>
                 </div>
@@ -257,112 +261,115 @@
                 <div class="subnavbar blur">
                     <div class="left"></div>
                     <div class="buttons-row">
-                        <a ng-href="#friends-feed" ng-click="showFeed('BUTTON');"
+                        <div class="tab-runner"></div>
+                        <a ng-href="#friends-feed" ng-click="moveActiveBackground($event);"
                            class="button tab-link button-white active">Активность</a>
-                        <a ng-href="#friends-list" ng-click="showFriends(true);" class="button tab-link button-white">Профили</a>
+                        <a ng-href="#friends-list" ng-click="moveActiveBackground($event);" class="button tab-link button-white">Профили</a>
                     </div>
                     <div class="right"></div>
                 </div>
             </div>
         </div>
         <div class="pages navbar-through">
-            <div id="friends" data-page="friends" class="page with-subnavbar tabs-animated-wrap background-gray">
-                <div class="tabs">
-                    <div id="friends-feed"
-                         class="tab page-content padding-top-30 infinite-scroll friends-page-content background-gray pull-to-refresh-content active"
-                         data-ptr-distance="50" data-distance="100">
-                        <div pull-to-refresh></div>
-                        <div class="no-events-text" ng-show="no_actions">
-                            Нет активности
-                        </div>
-                        <div class="list-block cards-list">
-                            <ul>
-                                <li class="card feed-card {{card.entity}}" ng-repeat="card in cards">
-                                    <div class="card-header" ng-click="card.open();">
-                                        <span class="pull-right feed-date">{{card.date}}</span>
-                                        <img ng-src="{{card.user.avatar_url}}" class="user-avatar pull-left"
-                                             onerror="onImgErrorSmall(this);">
-                                        <span class="user-name sfui_display_medium">{{card.user.last_name}} {{card.user.first_name}}</span>
-                                        <br>
-                                        <span class="action-name text-gray">{{card.action_name}}</span>
-                                    </div>
-                                    <div class="card-content">
-                                        <div class="card-content-inner">
-                                            <div class="list-block subscriptions-list">
-                                                <ul class="without-top-border without-bottom-border">
-                                                    <li ng-repeat="entity in card.entities"
-                                                        ng-click="entity.openEntity();">
-                                                        <a href="#" class="item-link item-content">
-                                                            <div class="item-media">
-                                                                <img ng-src="{{entity.img_url}}" class="image-cirle"
-                                                                     onerror="onImgErrorSmall(this);">
-                                                            </div>
-                                                            <div class="item-inner">
-                                                                <div class="item-title">{{entity.title}}</div>
-                                                                <div class="item-after"></div>
-                                                            </div>
-                                                        </a>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
-
-                        <infinite-scroll ng-show="is_downloading"></infinite-scroll>
-                    </div>
-
-                    <div id="friends-list" style="background: #fff" data-ptr-distance="50" data-distance="100"
-                         class="tab page-content padding-top-30 infinite-scroll friends-page-content background-gray pull-to-refresh-content">
-                        <pull-to-refresh></pull-to-refresh>
-                        <div class="list-block no-margin media-list friend-profiles">
-                            <ul>
-                                <li ng-repeat="friend in friends">
-                                    <a href="#" class="item-link item-content" ng-click="friend.open();">
-                                        <div class="item-media">
-                                            <img ng-src="{{friend.avatar_url}}" class="friend-image"
+            <div id="friends" data-page="friends" class="page navbar-fixed toolbar-fixed">
+                <div class="page-content padding-top-30 infinite-scroll friends-page-content pull-to-refresh-content"
+                     data-distance="300" data-ptr-distance="50">
+                    <div pull-to-refresh></div>
+                    <div class="tabs">
+                        <div id="friends-feed" class="tab">
+                            <div class="no-events-text" ng-show="no_actions">
+                                Нет активности
+                            </div>
+                            <div class="list-block cards-list">
+                                <ul>
+                                    <li class="card feed-card {{card.entity}}" ng-repeat="card in cards">
+                                        <div class="card-header" ng-click="card.open();">
+                                            <span class="pull-right feed-date">{{card.date}}</span>
+                                            <img ng-src="{{card.user.avatar_url}}" class="user-avatar pull-left"
                                                  onerror="onImgErrorSmall(this);">
+                                            <span class="user-name sfui_display_medium">{{card.user.last_name}} {{card.user.first_name}}</span>
+                                            <br>
+                                            <span class="action-name text-gray">{{card.action_name}}</span>
                                         </div>
-                                        <div class="item-inner">
-                                            <div class="item-title-row">
-                                                <div class="item-title">{{friend.last_name}} {{friend.first_name}}</div>
-                                            </div>
-                                            <div class="item-subtitle text-gray">
-                                                {{friend.type_name}}
+                                        <div class="card-content">
+                                            <div class="card-content-inner">
+                                                <div class="list-block subscriptions-list">
+                                                    <ul class="without-top-border without-bottom-border">
+                                                        <li ng-repeat="entity in card.entities"
+                                                            ng-click="entity.openEntity();">
+                                                            <a href="#" class="item-link item-content">
+                                                                <div class="item-media">
+                                                                    <img ng-src="{{entity.img_url}}" class="image-cirle"
+                                                                         onerror="onImgErrorSmall(this);">
+                                                                </div>
+                                                                <div class="item-inner">
+                                                                    <div class="item-title">{{entity.title}}</div>
+                                                                    <div class="item-after"></div>
+                                                                </div>
+                                                            </a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
                                             </div>
                                         </div>
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="content-block" ng-show="friends.length == 0">
-                            <div class="no-friends-text ng-hide" ng-hide="no_actions">
-                                Ваших друзей нет<br> в Evendate
-                            </div>
-                            <div class="text-center no-friends-text-gray">
-                                <p class="tell-to-friends sfui_display_light">Расскажите друзьям</p>
-                                <div class="text-center">
-                                    <button type="button" onclick="shareInfoAboutApp();"
-                                            class="button button-160px button-pink button-center">
-                                        Поделиться
-                                    </button>
-                                </div>
-                            </div>
-                            <div class="text-center no-friends-text-gray sfui_display_light">
-                                <p class="log-in-with-another-account">Или попробуйте войти через <br> другую социальную
-                                    сеть</p>
-                                <div class="text-center">
-                                    <button type="button" class="button button-160px button-gray button-center"
-                                            onclick="resetAccount();">
-                                        Сменить аккаунт
-                                    </button>
-                                </div>
+                                    </li>
+                                </ul>
                             </div>
 
+                            <div infinite-scroll class="ng-hide"
+                                 ng-show="is_downloading"></div>
                         </div>
-                        <div infinite-scroll ng-show="friends_downloading"></div>
+                        <div id="friends-list"
+                             class="tab">
+                            <div class="list-block no-margin media-list friend-profiles">
+                                <ul class="no-border">
+                                    <li ng-repeat="friend in friends">
+                                        <a href="#" class="item-link item-content" ng-click="friend.open();">
+                                            <div class="item-media">
+                                                <img ng-src="{{friend.avatar_url}}" class="friend-image"
+                                                     onerror="onImgErrorSmall(this);">
+                                            </div>
+                                            <div class="item-inner">
+                                                <div class="item-title-row">
+                                                    <div class="item-title">{{friend.last_name}} {{friend.first_name}}
+                                                    </div>
+                                                </div>
+                                                <div class="item-subtitle text-gray">
+                                                    {{friend.type_name}}
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </li>
+                                </ul>
+                                <div infinite-scroll class="ng-hide" ng-show="friends_downloading"></div>
+                            </div>
+                            <div class="content-block" ng-show="friends.length == 0">
+                                <div class="no-friends-text ng-hide" ng-hide="no_actions">
+                                    Ваших друзей нет<br> в Evendate
+                                </div>
+                                <div class="text-center no-friends-text-gray">
+                                    <p class="tell-to-friends sfui_display_light">Расскажите друзьям</p>
+                                    <div class="text-center">
+                                        <button type="button" onclick="shareInfoAboutApp();"
+                                                class="button button-160px button-pink button-center">
+                                            Поделиться
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="text-center no-friends-text-gray sfui_display_light">
+                                    <p class="log-in-with-another-account">Или попробуйте войти через <br> другую
+                                        социальную
+                                        сеть</p>
+                                    <div class="text-center">
+                                        <button type="button" class="button button-160px button-gray button-center"
+                                                onclick="resetAccount();">
+                                            Сменить аккаунт
+                                        </button>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -451,12 +458,12 @@
                         <div class="loader-container" ng-hide="is_downloading == false">
                             <infinite-scroll></infinite-scroll>
                         </div>
-                        <p class="full-with-btn-wrapper onboarding-resume">
-                            <a href="#"
-                               class="button button-filled button-pink close-login-screen">ПРОДОЛЖИТЬ</a>
-                        </p>
                     </div>
                 </div>
+                <p class="full-with-btn-wrapper onboarding-resume">
+                    <a href="#"
+                       class="button button-filled button-pink close-login-screen">ПРОДОЛЖИТЬ</a>
+                </p>
             </div>
         </div>
     </div>

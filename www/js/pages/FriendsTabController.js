@@ -9,6 +9,7 @@ MyApp.pages.FriendsTabController = function ($scope) {
 	var cards_by_users = {},
 		action_names = CONTRACT.ACTION_NAMES,
 		friends_downloading = false,
+		active_tab = '',
 		downloaded_friends_page = 0,
 		all_downloaded = false;
 	$scope.cards = [];
@@ -58,14 +59,12 @@ MyApp.pages.FriendsTabController = function ($scope) {
 			$scope.page_counter = 0;
 		}
 		$scope.$apply(function(){
-
-
 			__api.users.get([
 				{feed: true},
-				{fields: 'type_code,organization{fields:"img_small_url"},event{fields:"image_square_vertical_url"},created_at,user'},
+				{fields: 'type_code,organization{fields:"img_small_url"},event{fields:"image_square_vertical_url"},created_at,user{fields:"sex"}'},
 				{order_by: '-created_at'},
-				{offset: 10 * $scope.page_counter++},
-				{length: 10}
+				{page: $scope.page_counter++},
+				{length: 20}
 			], function(data){
 				if (first_page){
 					$scope.no_actions = data.length == 0;
@@ -75,7 +74,6 @@ MyApp.pages.FriendsTabController = function ($scope) {
 						ent = stat[stat.entity],
 						key = [stat.entity, stat.stat_type_id, stat.user.id, $scope.page_counter, date.format('DD.MM')].join('-');
 					if (cards_by_users.hasOwnProperty(key) == false){
-
 						cards_by_users[key] = {
 							user: stat.user,
 							entity: stat.entity,
@@ -131,18 +129,17 @@ MyApp.pages.FriendsTabController = function ($scope) {
 					}
 				}
 				$scope.is_downloading = false;
-				$scope.$apply(function(){
-					if (cb){
-						cb();
-					}
-				});
+
+				if (cb){
+					cb();
+				}
 			});
 		});
 	};
 
 	$scope.showFriends = function(first_page, cb){
 		feed_is_active = false;
-
+		$scope.friends_downloading = true;
 		if (friends_downloading == true){
 			if (cb){
 				cb();
@@ -162,6 +159,7 @@ MyApp.pages.FriendsTabController = function ($scope) {
 			{length: 10}
 		], function(data){
 
+
 			if (first_page){
 				$scope.friends = data;
 			}else{
@@ -178,6 +176,22 @@ MyApp.pages.FriendsTabController = function ($scope) {
 			if (cb){
 				cb();
 			}
+			$scope.friends_downloading = false;
 		});
 	}
+
+	$scope.moveActiveBackground = function($event){
+		var $$this = $$($event.target),
+			$$feeds = $$('#feeds'),
+			name = $$this.data('name');
+
+		// $scope.tabs[active_tab].scroll = $$feeds.scrollTop();
+
+
+		active_tab = name;
+		$$('#view-friends .tab-runner').css({
+			width: $$this.width() + 'px',
+			left: $$this.offset().left + 'px'
+		});
+	};
 };

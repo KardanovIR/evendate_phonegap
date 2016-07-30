@@ -338,7 +338,7 @@ span.day-number.with-favorites::after {
 }
 
 .picker-calendar.picker-modal-inline {
-    position: fixed;
+    position: absolute;
     top: 40px;
 }
 
@@ -1061,7 +1061,7 @@ li.organization {
     top: 38px;
     height: 56px;
     width: 100%;
-    position: fixed;
+    position: absolute;
     left: 0;
     /* top: 0; */
     width: 100%;
@@ -2539,16 +2539,20 @@ button.rounded-large {
     text-align: center;
 }
 
+#view-friends .buttons-row,
 #view-events .buttons-row {
     background-color: rgba(197, 201, 209, 0.3);
     border-radius: 100px;
 }
 
+#view-friends .tab-link.active,
 #view-events .tab-link.active {
     background: none;
 }
 
-#view-events .tab-link {
+#view-friends .tab-link,
+#view-events .tab-link
+{
     border: none;
     border-radius: 101px;
     font-size: 16px;
@@ -2571,7 +2575,7 @@ button.rounded-large {
 }
 
 .onboarding-resume {
-    position: fixed;
+    position: absolute;
     bottom: 0;
     width: 100%;
     margin-left: 0;

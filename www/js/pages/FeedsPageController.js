@@ -6,7 +6,6 @@ MyApp.pages.FeedsPageController = function ($scope, $timeout) {
 
     var tab_names = ['timeline', 'recommendations', 'favorites'];
     var active_tab = tab_names[0];
-    var callback;
 
 
     $scope.tabs = {
@@ -41,6 +40,7 @@ MyApp.pages.FeedsPageController = function ($scope, $timeout) {
         if ($scope.tabs[type].all_loaded && !first_page) return;
         if (first_page == true) {
             $scope.tabs[type].page = 0;
+            $scope.tabs[type].all_loaded = false;
         }
 
         $scope.tabs[type].is_downloading = true;
@@ -81,9 +81,6 @@ MyApp.pages.FeedsPageController = function ($scope, $timeout) {
 
             $scope.tabs[type].is_downloading = false;
             fw7App.pullToRefreshDone($$('#feeds'));
-            if (callback) {
-                callback();
-            }
             if (cb) {
                 cb();
             }
@@ -96,6 +93,9 @@ MyApp.pages.FeedsPageController = function ($scope, $timeout) {
     $scope.startBinding = function (cb) {
         $$('#timeline-tab-link').click();
         $scope.getTimeline('timeline', true, function(){
+            if (cb) {
+                cb();
+            }
             $scope.getTimeline('favorites', true, function(){
                 $scope.getTimeline('recommendations', true);
             });
@@ -118,7 +118,6 @@ MyApp.pages.FeedsPageController = function ($scope, $timeout) {
                 fw7App.pullToRefreshDone($$('#feeds'));
             });
         });
-        callback = cb;
     };
 
     $scope.moveActiveBackground = function($event){
@@ -130,7 +129,7 @@ MyApp.pages.FeedsPageController = function ($scope, $timeout) {
 
 
         active_tab = name;
-        $$('.tab-runner').css({
+        $$('#view-events .tab-runner').css({
             width: $$this.width() + 'px',
             left: $$this.offset().left + 'px'
         });
