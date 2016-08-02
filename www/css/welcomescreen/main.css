@@ -303,16 +303,76 @@ a.button-white.active {
 span.day-number.with-favorites::after {
     content: '';
     background-color: #FD6EA6 !important;
-    width: 5px;
-    height: 5px;
+    width: 4px;
+    height: 4px;
     border-radius: 999px;
     /* position: absolute; */
     top: -14px;
-    margin-left: calc(50% - 5px / 2);
+    margin-left: calc(50% - 4px / 2);
     display: block;
     margin-top: -9px;
     z-index: 999999;
     text-align: center;
+}
+
+span.day-number.with-favorites-2::after {
+    width: 5px;
+    margin-left: calc(50% - 5px / 2);
+}
+
+span.day-number.with-favorites-3::after {
+    width: 6px;
+    margin-left: calc(50% - 6px / 2);
+}
+
+span.day-number.with-favorites-4::after {
+    width: 7px;
+    margin-left: calc(50% - 7px / 2);
+}
+
+span.day-number.with-favorites-5::after {
+    width: 8px;
+    margin-left: calc(50% - 8px / 2);
+}
+
+span.day-number.with-favorites-6::after {
+    width: 9px;
+    margin-left: calc(50% - 9px / 2);
+}
+
+span.day-number.with-favorites-7::after {
+    width: 10px;
+    margin-left: calc(50% - 10px / 2);
+}
+
+span.day-number.with-favorites-8::after {
+    width: 11px;
+    margin-left: calc(50% - 11px / 2);
+}
+
+span.day-number.with-favorites-9::after {
+    width: 12px;
+    margin-left: calc(50% - 12px / 2);
+}
+
+span.day-number.with-favorites-10::after {
+    width: 13px;
+    margin-left: calc(50% - 13px / 2);
+}
+
+span.day-number.with-favorites-11::after {
+    width: 14px;
+    margin-left: calc(50% - 14px / 2);
+}
+
+span.day-number.with-favorites-12::after {
+    width: 15px;
+    margin-left: calc(50% - 15px / 2);
+}
+
+span.day-number.with-favorites-13::after {
+    width: 16px;
+    margin-left: calc(50% - 16px / 2);
 }
 
 .disable-active-state {
@@ -330,16 +390,18 @@ span.day-number.with-favorites::after {
     /*-webkit-transition: all 0.3s linear;*/
     /*transition: all 0.3s linear;*/
     position: fixed;
-    top: calc(50% + 20px);
+    top: calc(50% + 14px);
     display: block;
     overflow: scroll;
     height: calc(50% - 70px);
     width: 100%;
+    padding-top: 5px;
 }
 
 .picker-calendar.picker-modal-inline {
     position: absolute;
-    top: 40px;
+    top: 2px;
+    box-shadow: 0 0 7px 0 rgba(0, 0, 0, 0.3);
 }
 
 .organizations-list {
@@ -409,8 +471,8 @@ span.day-number.with-favorites::after {
 .organization-subscribed-count {
     display: inline-block;
     height: 34px;
-    padding-left: 2px;
-    padding-right: 2px;
+    padding-left: 22px;
+    padding-right: 22px;
     margin-left: 10px;
     border: 1px solid #5379b8;
     vertical-align: top;
@@ -419,6 +481,11 @@ span.day-number.with-favorites::after {
     line-height: 33px;
     font-size: 18px;
     color: #5379b8;
+}
+
+.event-item.event-small-item {
+    box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.2);
+    margin-bottom: 4px;
 }
 
 .event-item.favorite {
@@ -441,7 +508,7 @@ span.day-number.with-favorites::after {
 
 .event-item .item-subtitle {
     font-size: 14px !important;
-    line-height: 14px !important;
+    line-height: 16px !important;
     /* bottom: 3px; */
     margin-top: 8px;
     white-space: normal;
@@ -472,6 +539,7 @@ span.day-number.with-favorites::after {
 .event-viewport {
     overflow: hidden;
     height: 100%;
+    background-color: #fafafa;
 }
 
 .event-wrapper {
@@ -539,6 +607,7 @@ span.day-number.with-favorites::after {
 
 .event-menu-items li {
     border-bottom: 1px solid #ECECEC;
+    background-color: #fafafa;
 }
 
 .event-menu-items ul::before {
@@ -597,12 +666,25 @@ span.day-number.with-favorites::after {
 }
 
 .event-organization-name {
-    display: inline-block;
     line-height: 40px;
     padding-left: 10px;
 }
 
-.inline-block {
+.event-organization-name > img {
+    display: inline-block;
+    vertical-align: middle;
+    width: 42px;
+}
+
+.event-organization-title {
+    display: inline-block;
+    vertical-align: middle;
+    width: -webkit-calc(100% - 50px);
+    width: calc(100% - 50px);
+    margin-left: 8px;
+}
+
+.inline-block { /* WTF?!?! */
     display: inline-block !important;
 }
 
@@ -610,12 +692,13 @@ span.day-number.with-favorites::after {
     background: #E33D74 !important;
 }
 
-.organization-logo-td{
-    width: 40px;
+.organization-logo-td {
+    width: 28px;
     overflow: hidden;
     display: inline-block;
     white-space: nowrap;
 }
+
 .organization-logo-td img {
     width: 32px;
     border-radius: 999px;
@@ -638,7 +721,7 @@ span.day-number.with-favorites::after {
 }
 
 .event-small-item .item-inner {
-    padding-top: 10px !important;
+    padding-top: 8px !important;
 }
 
 #calendar-date-events-list .list-block {
@@ -711,8 +794,8 @@ span.day-number.with-favorites::after {
 }
 
 .feed-card .user-avatar {
-    width: 47px;
-    height: 47px;
+    width: 40px;
+    height: 40px;
     border-radius: 999px;
     margin-right: 10px;
 }
@@ -784,10 +867,17 @@ span.day-number.with-favorites::after {
 }
 
 .event-item .item-title {
-    font-size: 14px !important;
-    line-height: 16px !important;
-    height: 32px !important;
-    font-weight: 600 !important;
+    font-size: 16px !important;
+    font-family: sfui_display_medium;
+    line-height: 18px !important;
+    height: 36px !important;
+    font-weight: 500 !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    display: -webkit-box !important;
+    -webkit-line-clamp: 2 !important;
+    -webkit-box-orient: vertical !important;
+
 }
 
 .infinite-scroll-preloader.big-margin {
@@ -1467,7 +1557,7 @@ and (orientation: portrait) {
     }
 
     #calendar-date-events-list {
-        top: calc(58% + 20px);
+        top: calc(58% + 14px);
     }
 
     .auth-slide .content-block {
@@ -1494,7 +1584,7 @@ and (orientation: portrait) {
     }
 
     .friends_liked .friends-page-header-shadow {
-        height: 224px;
+        height: 180px;
     }
 
     .event-organization-name {
@@ -1620,8 +1710,9 @@ and (orientation: portrait) {
     }
 
     #calendar-date-events-list {
-        top: calc(54% + 20px);
-        height: calc(46% - 70px);
+        top: calc(48% + 14px);
+        height: calc(46% - 38px);
+        padding-top: 5px;
     }
 
     .picker-calendar-month {
@@ -1657,7 +1748,7 @@ and (orientation: portrait) {
     }
 
     .friends_liked .friends-page-header-shadow {
-        height: 224px;
+        height: 180px;
     }
 
     .no-friends-text {
@@ -1818,8 +1909,9 @@ and (-webkit-min-device-pixel-ratio: 2) {
     }
 
     #calendar-date-events-list {
-        top: calc(54% + 20px);
-        height: calc(46% - 70px);
+        top: calc(51% - 4px);
+        height: calc(46% - 33px);
+        padding-top: 5px;
     }
 
     .picker-calendar-day span {
@@ -1856,7 +1948,7 @@ and (-webkit-min-device-pixel-ratio: 2) {
     }
 
     .friends_liked .friends-page-header-shadow {
-        height: 224px;
+        height: 211px;
     }
 
     span.day-number.with-favorites::after {
@@ -2029,7 +2121,7 @@ and (-webkit-min-device-pixel-ratio: 3) {
     }
 
     .friends_liked .friends-page-header-shadow {
-        height: 290px;
+        height: 233px;
     }
 
     li.organization .item-inner {
@@ -2551,8 +2643,7 @@ button.rounded-large {
 }
 
 #view-friends .tab-link,
-#view-events .tab-link
-{
+#view-events .tab-link {
     border: none;
     border-radius: 101px;
     font-size: 16px;
@@ -2838,14 +2929,23 @@ button.rounded-large {
 .list-block ul.no-border:before {
     display: none !important;
 }
+
 .list-block ul.no-border:after {
     display: none !important;
 }
 
+#friends .pull-to-refresh-layer {
+    margin-top: -21px;
+}
+
+#friends .pull-to-refresh-layer,
 #feeds .pull-to-refresh-layer {
     visibility: hidden;
 }
 
+#friends.pull-up .pull-to-refresh-layer,
+#friends.refreshing .pull-to-refresh-layer,
+#friends.pull-down .pull-to-refresh-layer,
 #feeds.pull-up .pull-to-refresh-layer,
 #feeds.refreshing .pull-to-refresh-layer,
 #feeds.pull-down .pull-to-refresh-layer {
@@ -2856,6 +2956,7 @@ button.rounded-large {
     margin-top: 5px;
 }
 
+#view-friends .infinite-scroll-preloader .mask-loading,
 #view-events .infinite-scroll-preloader .mask-loading {
     display: block;
 }
@@ -2899,7 +3000,7 @@ button.rounded-large {
 }
 
 .event-page-content-block-inner {
-    background: #fff;
+    background-color: #fafafa;
     margin-left: 0px;
     width: auto;
     position: relative;
@@ -2928,4 +3029,70 @@ button.rounded-large {
     color: #4a4a4a;
     padding-left: 16px;
     margin-left: 0;
+}
+
+.muted-icon.active,
+.active-icon.active {
+    visibility: visible;
+}
+
+.muted-icon,
+.active-icon {
+    visibility: hidden;
+}
+
+.tag-name {
+    border-radius: 100px;
+    background-color: #e1e1e1;
+    line-height: 16px;
+    font-size: 16px;
+    font-weight: 400;
+    letter-spacing: -0.2px;
+    color: #4a4a4a;
+    padding: 5px 8px 7px;
+    margin-right: 8px;
+    margin-top: 7px;
+    display: inline-flex;
+}
+
+.event-attributes td {
+    padding-left: 16px;
+    padding-right: 16px;
+}
+
+.event-attributes .content-block-title {
+    margin-top: 8px;
+    margin-left: 0px;
+}
+
+.actions-modal-button.active {
+    background-image: radial-gradient(circle at 50% 0, #fc4382, #f7477e);
+    color: #fff;
+}
+
+.picker-calendar .toolbar {
+    background: #fafafa;
+}
+
+.event-item .item-subtitle .time {
+    float: right;
+}
+
+.event-item .item-subtitle .name {
+    margin-left: 8px;
+    line-height: 16px;
+    font-size: 16px;
+    max-width: calc(100% - 120px);
+    text-overflow: ellipsis;
+}
+
+.event-item .item-subtitle img {
+    width: 21px;
+    border-radius: 99px;
+}
+
+.event-item .item-inner {
+    padding-right: 16px;
+    padding-left: 16px;
+    padding-bottom: 12px;
 }

@@ -22,7 +22,6 @@ MyApp.pages.OrganizationPageController = function ($scope, $element) {
             $scope.details_text = 'Подробнее';
         } else {
             $scope.details_text = 'Скрыть';
-            $scope.details_class = 'Подробнее';
         }
     };
 

@@ -37,6 +37,13 @@ MyApp.pages.CalendarPageController = function ($scope) {
                 if ($el.parents('.picker-calendar-day-prev,.picker-calendar-day-next').length > 0) return true;
                 if (date.favorites_count > 0) {
                     $el.addClass('with-events with-favorites');
+                    var add_class = '';
+                    if (date.favorites_count > 2 && date.favorites_count <= 13) {
+                        add_class = 'with-favorites-' + date.favorites_count;
+                    }else if (date.favorites_count > 13){
+                        add_class = 'with-favorites-16';
+                    }
+                    $el.addClass(add_class);
                 }
             });
 
@@ -196,7 +203,7 @@ MyApp.pages.CalendarPageController = function ($scope) {
                     __api.events.get([
                         {date: _date.format(CONTRACT.DATE_FORMAT)},
                         {my: true},
-                        {fields: 'dates{length:500,fields:"start_time,end_time"},image_horizontal_large_url,image_square_vertical_url,is_favorite,is_same_time,tags'},
+                        {fields: 'organization_logo_small_url,organization_short_name,dates{length:500,fields:"start_time,end_time"},image_horizontal_large_url,image_square_vertical_url,is_favorite,is_same_time,tags'},
                         {length: favorites_count > 10 ? favorites_count : 10},
                         {order_by: "-is_favorite"}
                     ], function (data) {
@@ -210,9 +217,10 @@ MyApp.pages.CalendarPageController = function ($scope) {
                             $scope.date_text = 'Завтра';
                         }
 
+                        var formatted_date = _date.format(CONTRACT.DATE_FORMAT);
                         data.forEach(function (item) {
                             item.moment_dates.forEach(function (m_date) {
-                                if (m_date.start_date.format(CONTRACT.DATE_FORMAT) == _date.format(CONTRACT.DATE_FORMAT)) {
+                                if (m_date.start_date.format(CONTRACT.DATE_FORMAT) == formatted_date) {
                                     item.display_time = {
                                         start: m_date.start_date.format('HH:ss'),
                                         end: m_date.end_date.format('HH:ss')

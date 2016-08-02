@@ -119,7 +119,8 @@ function Users() {
                     _r = normalize(res.data);
                     cb(_r);
                 },
-                error: function(){
+                error: function(a, b, c){
+                    debugger;
                     fw7App.hideIndicator();
                     fw7App.alert(CONTRACT.ALERTS.REQUEST_ERROR);
                 }

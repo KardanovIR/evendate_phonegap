@@ -108,80 +108,73 @@
         </div>
     </div>
     <div id="view-calendar" class="view view-calendar tab" ng-controller="CalendarPageController">
-        <div class="navbar">
-            <div class="navbar-inner">
-                <div class="subnavbar blur">
-                    <div class="left"></div>
-                    <div class="center">Календарь</div>
-                    <div class="right hidden"></div>
-                </div>
-            </div>
-        </div>
-        <div class="pages navbar-through">
-            <div data-page="calendar" class="page tabs-animated-wrap">
-                <div id="calendar" class="tab profile-page-content active">
-                    <div id="calendar-inline-container"></div>
-                    <div id="calendar-date-events-list">
-                        <div class="no-events-text ng-hide" ng-hide="no_events">
-                            Нет событий
-                        </div>
-                        <div class="text-center calendar-loader">
-                            <div class="mask-loading">
-                                <div class="spinner">
-                                    <div class="double-bounce1"></div>
-                                    <div class="double-bounce2"></div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="list-block media-list calendar-list" ng-hide="loading_events">
-                            <ul>
-                                <li ng-repeat="event in day_events" class="event-item event-small-item swipeout"
-                                    ng-class="{'favorite':event.is_favorite}">
-                                    <a href="#" class="item-link item-content swipeout-content"
-                                       ng-click="event.open()">
-                                        <div class="item-media calendar-event-cover"
-                                             ng-style="{'background': 'url({{event.image_square_vertical_url}})'}">
-                                        </div>
-                                        <div class="item-inner">
-                                            <div class="item-title-row">
-                                                <div class="item-title">{{event.title}}</div>
-                                            </div>
-                                            <div class="item-subtitle">{{event.display_time.start}} -
-                                                {{event.display_time.end}}
-                                            </div>
-                                        </div>
-                                    </a>
-                                    <div class="swipeout-actions-right">
-                                        <a href="#" class="action1 favorite-action"
-                                           ng-click="event.toggleFavorite($event);">
-                                            <span class="action1_icon {{event.favorite_icon}}"></span>
-                                            <p class="action1_text">{{event.favorite_text}}</p>
-                                        </a>
-                                        <a href="#" class="action1 swipeout-delete swipeout-overswipe"
-                                           ng-click="event.toggleHidden($event);">
-                                            <span class="action1_icon icon ion-ios-trash-outline"></span>
-                                            <p class="action1_text">{{event.hide_text}}</p>
-                                        </a>
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
-                        <a id="calendar-date-events-button" href="#" ng-click="showEventsInSelectedDay();"
-                           ng-hide="loading_events">
-                            <div class="iphone-4-events-btn">
-                                <div class="right-arrow" ng-hide="date_text == ''">
-                                    <i class="ion-ios-arrow-right"></i>
-                                </div>
-                                <div class="day-name">
-                                    {{date_text}}
-                                </div>
-                                <div>
-                                    {{events_text}}
-                                </div>
-                            </div>
-                        </a>
+        <!--<div class="navbar">-->
+        <!--<div class="navbar-inner">-->
+        <!--<div class="subnavbar blur">-->
+        <!--<div class="left"></div>-->
+        <!--<div class="center">Календарь</div>-->
+        <!--<div class="right hidden"></div>-->
+        <!--</div>-->
+        <!--</div>-->
+        <!--</div>-->
+        <div class="pages">
+            <div data-page="calendar" class="page" id="calendar" style="background: #fafafa">
+                <div id="calendar-inline-container" style="margin-bottom: 8px;box-shadow: 0 0 7px 0 rgba(0, 0, 0, 0.3);"></div>
+                <div id="calendar-date-events-list">
+                    <div class="no-events-text ng-hide" ng-hide="no_events">
+                        Нет событий
                     </div>
-
+                    <div class="text-center calendar-loader">
+                        <div class="mask-loading">
+                            <div class="spinner">
+                                <div class="double-bounce1"></div>
+                                <div class="double-bounce2"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="list-block media-list calendar-list" ng-hide="loading_events">
+                        <ul class="no-border">
+                            <li ng-repeat="event in day_events" class="event-item event-small-item swipeout">
+                                <a href="#" class="item-link item-content swipeout-content"
+                                   ng-click="event.open()">
+                                    <div class="item-inner">
+                                        <div class="item-title-row">
+                                            <div class="item-title">{{event.title}}</div>
+                                        </div>
+                                        <div class="item-subtitle">
+                                            <img ng-src="{{event.organization_logo_small_url}}"><span class="name">{{event.organization_short_name}}</span><span class="time">{{event.display_time.start}}-{{event.display_time.end}}</span>
+                                        </div>
+                                    </div>
+                                </a>
+                                <div class="swipeout-actions-right">
+                                    <a href="#" class="action1 favorite-action"
+                                       ng-click="event.toggleFavorite($event);">
+                                        <span class="action1_icon {{event.favorite_icon}}"></span>
+                                        <p class="action1_text">{{event.favorite_text}}</p>
+                                    </a>
+                                    <a href="#" class="action1 swipeout-delete swipeout-overswipe"
+                                       ng-click="event.toggleHidden($event);">
+                                        <span class="action1_icon icon ion-ios-trash-outline"></span>
+                                        <p class="action1_text">{{event.hide_text}}</p>
+                                    </a>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <a id="calendar-date-events-button" href="#" ng-click="showEventsInSelectedDay();"
+                       ng-hide="loading_events">
+                        <div class="iphone-4-events-btn">
+                            <div class="right-arrow" ng-hide="date_text == ''">
+                                <i class="ion-ios-arrow-right"></i>
+                            </div>
+                            <div class="day-name">
+                                {{date_text}}
+                            </div>
+                            <div>
+                                {{events_text}}
+                            </div>
+                        </div>
+                    </a>
                 </div>
             </div>
         </div>
@@ -262,19 +255,21 @@
                     <div class="left"></div>
                     <div class="buttons-row">
                         <div class="tab-runner"></div>
-                        <a ng-href="#friends-feed" ng-click="moveActiveBackground($event);"
-                           class="button tab-link button-white active">Активность</a>
-                        <a ng-href="#friends-list" ng-click="moveActiveBackground($event);" class="button tab-link button-white">Профили</a>
+                        <a ng-href="#friends-feed" ng-click="moveActiveBackground($event);" data-name="feed"
+                           class="button tab-link button-white active" id="friends-feed-btn">Активность</a>
+                        <a ng-href="#friends-list" ng-click="moveActiveBackground($event);" data-name="friends"
+                           class="button tab-link button-white">Профили</a>
                     </div>
                     <div class="right"></div>
                 </div>
             </div>
         </div>
         <div class="pages navbar-through">
-            <div id="friends" data-page="friends" class="page navbar-fixed toolbar-fixed">
-                <div class="page-content padding-top-30 infinite-scroll friends-page-content pull-to-refresh-content"
+            <div data-page="friends" class="page navbar-fixed toolbar-fixed">
+                <div id="friends"
+                     class="page-content padding-top-30 infinite-scroll friends-page-content pull-to-refresh-content"
                      data-distance="300" data-ptr-distance="50">
-                    <div pull-to-refresh></div>
+                    <div pull-to-refresh class="big-margin"></div>
                     <div class="tabs">
                         <div id="friends-feed" class="tab">
                             <div class="no-events-text" ng-show="no_actions">
@@ -282,7 +277,7 @@
                             </div>
                             <div class="list-block cards-list">
                                 <ul>
-                                    <li class="card feed-card {{card.entity}}" ng-repeat="card in cards">
+                                    <li class="card feed-card {{card.entity}}" ng-repeat="card in tabs.feed.items">
                                         <div class="card-header" ng-click="card.open();">
                                             <span class="pull-right feed-date">{{card.date}}</span>
                                             <img ng-src="{{card.user.avatar_url}}" class="user-avatar pull-left"
@@ -314,16 +309,14 @@
                                         </div>
                                     </li>
                                 </ul>
+                                <div infinite-scroll class="ng-hide"
+                                     ng-show="tabs.feed.is_downloading && tabs.feed.page != 0"></div>
                             </div>
-
-                            <div infinite-scroll class="ng-hide"
-                                 ng-show="is_downloading"></div>
                         </div>
-                        <div id="friends-list"
-                             class="tab">
+                        <div id="friends-list" class="tab">
                             <div class="list-block no-margin media-list friend-profiles">
                                 <ul class="no-border">
-                                    <li ng-repeat="friend in friends">
+                                    <li ng-repeat="friend in tabs.friends.items">
                                         <a href="#" class="item-link item-content" ng-click="friend.open();">
                                             <div class="item-media">
                                                 <img ng-src="{{friend.avatar_url}}" class="friend-image"
@@ -341,10 +334,11 @@
                                         </a>
                                     </li>
                                 </ul>
-                                <div infinite-scroll class="ng-hide" ng-show="friends_downloading"></div>
+                                <div infinite-scroll class="ng-hide"
+                                     ng-show="tabs.friends.is_downloading && tabs.friends.page != 0"></div>
                             </div>
-                            <div class="content-block" ng-show="friends.length == 0">
-                                <div class="no-friends-text ng-hide" ng-hide="no_actions">
+                            <div class="content-block" ng-show="tabs.friends.no_timeline_events">
+                                <div class="no-friends-text">
                                     Ваших друзей нет<br> в Evendate
                                 </div>
                                 <div class="text-center no-friends-text-gray">
@@ -469,33 +463,38 @@
     </div>
     <div class="toolbar tabbar tabbar-labels main-tabbar hidden blur">
         <div class="toolbar-inner animated">
-            <a href="#view-catalog" data-step="1" data-position="top" data-intro="Подпишитесь на организации"
-               data-number="0"
-               class="tab-link view-profile"><i data-active-icon="icon ion-ios-list"
-                                                data-icon="icon ion-ios-list-outline"
-                                                class="icon ion-ios-list-outline"></i><span
-                    class="tabbar-label">Каталог</span></a>
-            <a href="#view-calendar" data-step="3" data-number="1" data-position="top"
-               id="view-events-tab-link" class="tab-link"><i data-active-icon="icon ion-ios-calendar"
-                                                             data-icon="icon ion-ios-calendar-outline"
-                                                             class="icon ion-ios-calendar"></i><span
-                    class="tabbar-label">Календарь</span></a>
-            <a href="#view-events" data-number="2" class="tab-link active"><i data-active-icon="icon ion-ios-paper"
-                                                                              data-icon="icon ion-ios-paper-outline"
-                                                                              class="icon ion-ios-paper-outline"></i><span
-                    class="tabbar-label">События</span></a>
-            <a href="#view-friends" data-number="3" class="tab-link"><i data-active-icon="icon ion-ios-people"
-                                                                        data-icon="icon ion-ios-people-outline"
-                                                                        class="icon ion-ios-people-outline"></i><span
-                    class="tabbar-label">Друзья</span></a>
-            <a href="#view-profile" data-position="top"
-               data-number="4"
-               class="tab-link view-profile"><i data-active-icon="icon ion-ios-person"
-                                                data-icon="icon ion-ios-person-outline"
-                                                class="icon ion-ios-person-outline"></i><span
-                    class="tabbar-label">Профиль</span></a>
+            <a href="#view-catalog" data-position="top" class="tab-link view-profile">
+                <img src="img/icons/muted/catalog.svg" class="muted-icon active">
+                <img src="img/icons/active/catalog.svg" class="active-icon hidden">
+                <span class="tabbar-label">Каталог</span>
+            </a>
+            <a href="#view-calendar" data-position="top"
+               id="view-events-tab-link" class="tab-link">
+                <img src="img/icons/muted/calendar.svg" class="muted-icon active">
+                <img src="img/icons/active/calendar.svg" class="active-icon hidden">
+                <span class="tabbar-label">Календарь</span>
+            </a>
+            <a href="#view-events" data-number="2" class="tab-link active">
+                <img src="img/icons/muted/home.svg" class="muted-icon hidden">
+                <img src="img/icons/active/home.svg" class="active-icon active">
+                <span class="tabbar-label">События</span>
+            </a>
+            <a href="#view-friends" data-number="3" class="tab-link" id="friends-tabbar-link">
+                <img src="img/icons/muted/friends.svg" class="muted-icon active">
+                <img src="img/icons/active/friends.svg" class="active-icon hidden">
+                <span class="tabbar-label">Друзья</span>
+            </a>
+            <a href="#view-profile" data-position="top" class="tab-link view-profile">
+                <img src="img/icons/muted/profile.svg" class="muted-icon active">
+                <img src="img/icons/active/profile.svg" class="active-icon hidden">
+                <span class="tabbar-label">Профиль</span>
+            </a>
         </div>
     </div>
+</div>
+
+<div style="visibility: hidden;">
+
 </div>
 
 <script type="text/javascript" src="js/models/Organizations.js"></script>
@@ -517,7 +516,7 @@
 <script type="text/javascript" src="js/pages/OrganizationPageController.js"></script>
 <script type="text/javascript" src="js/pages/EventPageController.js"></script>
 <script type="text/javascript" src="js/pages/FriendPageController.js"></script>
-<script type="text/javascript" src="js/pages/FavoritesPageController.js"></script>
+<!--<script type="text/javascript" src="js/pages/FavoritesPageController.js"></script>-->
 <script type="text/javascript" src="js/pages/FriendsTabController.js"></script>
 <script type="text/javascript" src="js/pages/EventsInDayController.js"></script>
 <script type="text/javascript" src="js/pages/UsersPageController.js"></script>

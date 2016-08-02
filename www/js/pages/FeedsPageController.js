@@ -84,6 +84,15 @@ MyApp.pages.FeedsPageController = function ($scope, $timeout) {
             if (cb) {
                 cb();
             }
+            if(!$scope.$$phase) {
+                $scope.$apply();
+            }else{
+                setTimeout(function(){
+                    if(!$scope.$$phase) {
+                        $scope.$apply();
+                    }
+                }, 1000);
+            }
         });
 
 

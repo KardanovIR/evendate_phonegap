@@ -27,6 +27,13 @@ function Events() {
 
             event.liked_users_count = event.favored_users_count;
 
+            if (event.registration_required) {
+                event.registration_till_moment = moment.unix(event.registration_till);
+                event.registration_till_text = 'до ' + event.registration_till_moment.format('HH:mm DD MMMM');
+            } else {
+                event.registration_till_text = 'Не требуется';
+            }
+
             if (event.dates) {
                 event.dates.forEach(function (event_day) {
                     var _date = moment.unix(event_day.event_date),
@@ -57,10 +64,10 @@ function Events() {
                 event.dates_text = [];
                 event.every_day = true;
 
-                if (event.is_free == true){
+                if (event.is_free == true) {
                     event.price_text = 'Бесплатно';
-                }else{
-                    event.price_text = event.min_price == null ? '' : 'от ' +  event.min_price + ' руб.';
+                } else {
+                    event.price_text = event.min_price == null ? '' : 'от ' + event.min_price + ' руб.';
                 }
 
                 event.moment_dates.forEach(function (val, index) {
@@ -112,7 +119,30 @@ function Events() {
             event.hide_text = 'Не показывать';
 
 
-            event.getUser = function(){
+            if (event.notifications) {
+                event.notifications_by_types = {};
+                event.notifications.forEach(function (notification) {
+                    event.notifications_by_types[notification.notification_type] = notification;
+                })
+            }
+
+            function updateNotification(type, status, uuid) {
+                if (event.notifications_by_types.hasOwnProperty(type) == false) {
+                    event.notifications_by_types[type] = {
+                        status: false,
+                        done: false,
+
+                    }
+                }
+                if (status != null) {
+                    event.notifications_by_types[type].status = status;
+                }
+                if (uuid !== undefined) {
+                    event.notifications_by_types[type].uuid = uuid;
+                }
+            }
+
+            event.getUser = function () {
                 return __user;
             };
 
@@ -126,7 +156,7 @@ function Events() {
                 })
             };
 
-            event.smallCardFavorite = function($event){
+            event.smallCardFavorite = function ($event) {
                 var $$this = $$($event.target),
                     $$event_card = $$this.parents('.event-card-small');
                 if ($$event_card.hasClass('favored')) {
@@ -208,9 +238,18 @@ function Events() {
                         complete: function () {
                             var favorites_scope = angular.element($$('#favorites')).scope();
                             if (favorites_scope) {
-                                favorites_scope.$apply(function () {
+
+                                if (!favorites_scope.$$phase) {
+                                    favorites_scope.$apply();
                                     favorites_scope.startBinding();
-                                });
+                                } else {
+                                    setTimeout(function () {
+                                        if (!favorites_scope.$$phase) {
+                                            favorites_scope.$apply();
+                                        }
+                                        favorites_scope.startBinding();
+                                    }, 1000);
+                                }
                             }
                         }
                     };
@@ -228,6 +267,39 @@ function Events() {
                 }
                 this.addToCalendar();
 
+            };
+
+            event.toggleNotification = function (type) {
+                if (event.notifications) {
+                    var _url = CONTRACT.URLS.API_FULL_PATH + CONTRACT.URLS.EVENTS_PATH + '/' + event.id + CONTRACT.URLS.NOTIFICATIONS_PART,
+                        opts;
+
+                    if (event.notifications_by_types[type] && event.notifications_by_types[type].status == true) {
+                        opts = {
+                            type: 'DELETE',
+                            url: _url + '/' + event.notifications_by_types[type].uuid,
+                            success: function (res) {
+                                updateNotification(type, null, null);
+                            }
+                        };
+                        updateNotification(type, false);
+                    }else{
+                        opts = {
+                            type: 'POST',
+                            data: {
+                                'notification_type': type
+                            },
+                            url: _url,
+                            success: function (res) {
+                                updateNotification(type, null, res.data.uuid);
+                            }
+                        };
+                        updateNotification(type, true)
+                    }
+                    $$.ajax(opts);
+                } else {
+                    console.error('CANT_FIND_NOTIFICATIONS');
+                }
             };
 
             event.openOrganization = function () {
@@ -268,7 +340,6 @@ function Events() {
                         calOptions.firstReminderMinutes = null; // default is 60, pass in null for no reminder (alarm)
                         calOptions.secondReminderMinutes = null;
                         //
-                        // Added these options in version 4.2.4:
                         calOptions.recurrence = "daily"; // supported are: daily, weekly, monthly, yearly
                         calOptions.recurrenceEndDate = _e.moment_dates[_e.moment_dates.length - 1].toDate(); // leave null to add events into infinity and beyond
                         calOptions.calendarName = "Evendate"; // iOS only

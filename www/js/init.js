@@ -12,7 +12,7 @@ var child_browser_opened = false,
             fave: {male: 'добавил в избранное', female: 'добавила в избранное', default: 'добавил(а) в избранное'},
             unfave: {male: 'удалил из избранного', female: 'удалила из избранного', default: 'удалил(а) из избранного'},
             subscribe: {male: 'добавил подписки', female: 'добавила подписки', default: 'добавил(а) подписки'},
-            unsubscribe: {male: 'добавил в избранное', female: 'добавила в избранное', default: 'удалил(а) подписки'}
+            unsubscribe: {male: 'добавил подписки', female: 'добавила подписки', default: 'удалил(а) подписки'}
         },
         URLS: {
             BASE_NAME: 'http://evendate.ru',
@@ -25,6 +25,7 @@ var child_browser_opened = false,
             TAGS_PATH: '/tags',
             MY_PART: '/my',
             FAVORITES_PART: '/favorites',
+            NOTIFICATIONS_PART: '/notifications',
             RECOMMENDATIONS_PART: '/recommendations',
             FEED_PART: '/feed',
             FRIENDS_PART: '/friends',
@@ -559,6 +560,15 @@ function openNotification() {
     }
 }
 
+function showNotificationsList(){
+    angular.element($$('.page.event.page-on-center')).scope().showNotificationsList();
+}
+
+//HACK!
+function moveBackground(){
+
+}
+
 function openApplication() {
 
     $$('.main-tabbar').removeClass('hidden');
@@ -571,21 +581,23 @@ function openApplication() {
 
     angular.element($$('#profile')).scope().setUser();
 
-    angular.element($$('#calendar')).scope().startBinding(function () {
-        angular.element($$('#catalog')).scope().getOrganizationsCatalog();
-    });
+    angular.element($$('#calendar')).scope().startBinding();
+
+    angular.element($$('#catalog')).scope().getOrganizationsCatalog();
 
     angular.element($$('#feeds')).scope().startBinding(function () {
-        angular.element($$('#friends')).scope().showFeed(true);
+        angular.element($$('#friends')).scope().startBinding(true);
     });
 
-
+    $$('#friends-tabbar-link').on('click', function(){
+        $$('#view-friends .tab-link.active').click();
+    });
 
     $$('.main-tabbar .toolbar-inner a').on('click', function () {
 
         var $toolbar = $$('.main-tabbar .toolbar-inner'),
             $$this = $$(this),
-            $$i = $$this.find('i');
+            $$i = $$this.find('img');
 
         if ($$this.hasClass('active')) {
             var max_pages_count = 0;
@@ -598,21 +610,12 @@ function openApplication() {
             }
         }
 
-        $toolbar.removeClass('toolbar-item-0 toolbar-item-1 toolbar-item-2 toolbar-item-3 toolbar-item-4');
+        $toolbar.find('.active-icon.active').removeClass('active').addClass('hidden');
+        $toolbar.find('.muted-icon').addClass('active').removeClass('hidden');
 
-        $toolbar.find('i').each(function () {
-            var $$this_i = $$(this);
-            $$this_i
-                .removeClass($$this_i.data('active-icon'))
-                .addClass($$this_i.data('icon'));
-        });
+        $$this.find('.muted-icon').removeClass('active').addClass('hidden');
+        $$this.find('.active-icon').addClass('active').removeClass('hidden');
 
-        $$i
-            .removeClass($$i.data('icon'))
-            .addClass($$i.data('active-icon'));
-
-        $toolbar.addClass('animated');
-        $toolbar.addClass('toolbar-item-' + $$this.data('number'));
     });
 
 

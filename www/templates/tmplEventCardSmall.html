@@ -31,7 +31,7 @@
             <div class="dates">{{event.nearest_event_date_string}}</div>
             <div class="users">
                 <img class="user-avatar" ng-src="{{event.getUser().avatar_url}}">
-                <img class="user-avatar" ng-repeat="user in event.favored" ng-src="{{user.avatar_url}}">
+                <img class="user-avatar" ng-repeat="user in event.favored" ng-hide="event.getUser().id == user.id" ng-src="{{user.avatar_url}}">
             </div>
         </a>
     </div>
