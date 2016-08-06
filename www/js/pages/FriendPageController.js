@@ -4,176 +4,178 @@
 MyApp.ns('MyApp.pages');
 
 MyApp.pages.FriendPageController = function ($scope) {
-	'use strict';
+    'use strict';
+    var
+        action_names = CONTRACT.ACTION_NAMES,
+        tabs = [];
 
-	$scope.user = {};
-	$scope.subscriptions = [];
-	$scope.cards = [];
-	$scope.page_counter = 0;
-	$scope.friend_id = null;
-	$scope.no_subscriptions = true;
-	$scope.no_actions = true;
-	$scope.is_downloading = false;
+    $scope.user = {};
+    $scope.subscriptions = [];
+    $scope.cards = [];
+    $scope.page = 0;
+    $scope.no_subscriptions = null;
+    $scope.no_actions = null;
+    $scope.is_downloading = false;
 
-	$scope.subscriptions_downloading = true;
+    var active_tab = 'activity',
+        cards_by_users = {};
 
-	var feed_is_active = false,
-		cards_by_users = {};
+    $scope.setUser = function (user) {
+        user.html_id = user.id + '-' + moment().unix();
+        $scope.user = user;
 
-	$scope.setUser = function(user){
-		$scope.user = user;
-		$scope.$apply();
-	};
+        $scope.getSubscriptions();
+        $scope.showFeed(true);
 
-	$scope.setFriendId = function(friend_id){
-		$scope.friend_id = friend_id;
-	};
+        var $$friend_page = $$('#friend-page-' + user.html_id);
 
-	$scope.setSubscriptions = function(data){
-		$scope.subscriptions = data;
-		$scope.no_subscriptions = data.length != 0;
-		$scope.subscriptions_downloading = false;
-	};
 
-	$$(fw7App.getCurrentView().activePage.container).find('.friend .page-content').on('infinite', function (){
-		if (feed_is_active){
-			$scope.showFeed(false);
-		}
-	});
+        $$friend_page.find('.page-content').on('infinite', function () {
+            if (active_tab == 'activity') {
+                $scope.showFeed(false);
+            }
+        });
 
-	$scope.showFeed = function(first_page, cb){
-		feed_is_active = true;
-		if ($scope.is_downloading == true){
-			if (cb){
-				cb();
-			}
-			return;
-		}
-		$scope.is_downloading = true;
+        $scope.$apply();
+    };
 
-		if (first_page == true){
-			$scope.cards = [];
-			cards_by_users = {};
-			$scope.page_counter = 0;
-		}
+    $scope.getSubscriptions = function () {
+        __api.users.get([
+            {friend_id: $scope.user.id},
+            {length: 500},
+            {fields: 'subscriptions{fields:"img_medium_url,short_name,"},type,uid'}
+        ], function (data) {
+            $scope.subscriptions = data[0].subscriptions;
+            $scope.no_subscriptions = data[0].subscriptions.length == 0;
 
-		__api.users.get([
-			{actions: true},
-			{fields: 'uid,type,type_code,organization{fields:"img_small_url"},event{fields:"image_square_vertical_url"},created_at,user'},
-			{friend_id: $scope.friend_id},
-			{page: $scope.page_counter++},
-			{length: 10}
-		], function(data){
-			if (first_page && data.length == 0){
-				$scope.no_actions = false;
-			}
-			data.forEach(function(stat){
-				var date = moment(stat.created_at),
-					ent = stat[stat.entity],
-					key = [stat.entity, stat.stat_type_id, stat.user.id, $scope.page_counter, date.format('DD.MM')].join('-');
-				if (cards_by_users.hasOwnProperty(key) == false){
-					var _user_id = stat.user.id;
-					cards_by_users[key] = {
-						user: stat.user,
-						entity: stat.entity,
-						type_code: stat.type_code,
-						date: date.format('DD.MM'),
-						action_name: CONTRACT.ACTION_NAMES[stat.type_code][0],
-						open: function(){
-							fw7App.showIndicator();
-							__api.users.get([
-								{friend_id: _user_id},
-								{friends: true},
-								{fields: 'blurred_img_url,type,uid'}
-							], function(data){
-								data[0].open();
-							})
-						},
-						entities: []
-					};
-				}
+            if (!$scope.$$phase) {
+                $scope.$apply();
+            } else {
+                setTimeout(function () {
+                    if (!$scope.$$phase) {
+                        $scope.$apply();
+                    }
+                }, 1000);
+            }
+        });
+    };
 
-				if (stat.entity == CONTRACT.ENTITIES.EVENT){
-					ent.img_url = ent.image_square_vertical_url;
-					ent.openEntity = function(){
-						fw7App.showIndicator();
-						storeStat(stat.user.id, CONTRACT.ENTITIES.FRIEND, CONTRACT.STATISTICS.FRIEND_VIEW_EVENT_FROM_USER);
-						__api.events.get([
-							{id: ent.id}
-						], function(res){
-							fw7App.hideIndicator();
-							res[0].open();
-						});
-					};
+    $scope.showFeed = function (first_page, cb) {
 
-				}else if (stat.entity == CONTRACT.ENTITIES.ORGANIZATION){
-					ent.img_url = ent.img_small_url;
-					ent.title = ent.short_name;
-					ent.openEntity = function(){
-						__api.organizations.get([
-							{id: ent.id}
-						], function(res){
-							res[0].open();
-						});
-					};
-				}
+        if ($scope.is_downloading) return;
 
-				cards_by_users[key].entities.push(ent);
-			});
+        $scope.is_downloading = true;
+        $scope.page++;
 
-			$scope.cards = [];
+        if (first_page){
+            $scope.page = 0;
+        }
 
-			for(var day in cards_by_users){
-				if (cards_by_users.hasOwnProperty(day)){
-					$scope.cards.push(cards_by_users[day]);
-				}
-			}
-			$scope.is_downloading = false;
-			$scope.$apply();
-			if (cb){
-				cb();
-			}
-		});
-	};
+        $scope.$apply();
+
+        __api.users.get([
+                {actions: true},
+                {fields: 'type_code,organization{fields:"img_small_url"},event{fields:"image_square_vertical_url"},created_at,user{fields:"gender"}'},
+                {order_by: '-created_at'},
+                {friend_id: $scope.user.id},
+                {page: $scope.page},
+                {length: 20}
+            ],
+            function (data) {
+                cards_by_users = {};
+                data.forEach(function (stat) {
+                    var date = moment.unix(stat.created_at),
+                        ent = stat[stat.entity],
+                        key = [stat.entity, stat.stat_type_id, stat.user.id, $scope.page, date.format('DD.MM')].join('-');
+                    if (cards_by_users.hasOwnProperty(key) == false) {
+                        var action_gender = 'default';
+                        if (stat.user.gender == 'male' || stat.user.gender == 'female') {
+                            action_gender = stat.user.gender;
+                        }
+                        cards_by_users[key] = {
+                            user: stat.user,
+                            entity: stat.entity,
+                            type_code: stat.type_code,
+                            date: date.format('DD.MM'),
+                            action_name: action_names[stat.type_code][action_gender],
+                            open: function () {
+                                fw7App.showIndicator();
+                                __api.users.get([
+                                    {friend_id: this.user.id},
+                                    {fields: 'blurred_img_url,uid,type'}
+                                ], function (data) {
+                                    fw7App.hideIndicator();
+                                    data[0].open();
+                                })
+                            },
+                            entities: []
+                        };
+                    }
+
+                    if (stat.entity == CONTRACT.ENTITIES.EVENT) {
+                        ent.img_url = ent.image_square_vertical_url;
+                        ent.openEntity = function () {
+                            fw7App.showIndicator();
+                            storeStat(stat.user.id, CONTRACT.ENTITIES.FRIEND, CONTRACT.STATISTICS.FRIEND_VIEW_EVENT_FROM_USER);
+                            __api.events.get([
+                                {id: ent.id}
+                            ], function (res) {
+                                fw7App.hideIndicator();
+                                res[0].open();
+                            });
+                        };
+                    } else if (stat.entity == CONTRACT.ENTITIES.ORGANIZATION) {
+                        ent.img_url = ent.img_small_url;
+                        ent.title = ent.short_name;
+                        ent.openEntity = function () {
+                            __api.organizations.get([
+                                {id: ent.id}
+                            ], function (res) {
+                                res[0].open();
+                            });
+                        };
+                    }
+
+                    cards_by_users[key].entities.push(ent);
+                });
+
+                for (var day in cards_by_users) {
+                    if (cards_by_users.hasOwnProperty(day)) {
+                        $scope.cards.push(cards_by_users[day]);
+                    }
+                }
+                $scope.is_downloading = false;
+
+                if (cb) {
+                    cb();
+                }
+
+                if (!$scope.$$phase) {
+                    $scope.$apply();
+                } else {
+                    setTimeout(function () {
+                        if (!$scope.$$phase) {
+                            $scope.$apply();
+                        }
+                    }, 1000);
+                }
+            });
+    };
 };
 
 
-function toggleActiveTabs(el, id){
-	var $$el = $$(el),
-		$$siblings = $$el.parent().find('.button'),
-		$$container = $$(fw7App.getCurrentView().activePage.container);
-	$$siblings.removeClass('active');
-	$$el.addClass('active');
-	if (id){
-		$$siblings.data('friend-id', id);
-	}
-	$$container.find('.friend-tabs .tab').removeClass('active');
-	$$container.find('.tab.' + $$el.data('page')).addClass('active');
-}
 
-function showFriendEvents(el){
-	toggleActiveTabs(el, fw7App.getCurrentView().activePage.query.id);
-	var friend_id = fw7App.getCurrentView().activePage.query.id || $$(el).data('friend-id');
-	var scope = angular.element(fw7App.getCurrentView().activePage.container).scope();
-	scope.$apply(function() {
-		scope.setFriendId(friend_id);
-		scope.showFeed(true, function(){})
-	});
-}
 
-function showFriendSubscriptions(el){
-	toggleActiveTabs(el, fw7App.getCurrentView().activePage.query.id);
 
-	var friend_id = fw7App.getCurrentView().activePage.query.id || $$(el).data('friend-id');
-
-	__api.users.get([
-		{friend_id: friend_id},
-		{fields: 'subscriptions{fields:"img_medium_url"},type,uid'}
-	], function(data){
-		var scope = angular.element(fw7App.getCurrentView().activePage.container).scope();
-		scope.setUser(data[0]);
-		scope.$apply(function(){
-			scope.setSubscriptions(__api.organizations.normalize(data[0].subscriptions));
-		});
-	});
+function toggleActiveTabs(el, id) {
+    var $$el = $$(el),
+        $$siblings = $$el.parent().find('.button'),
+        $$container = $$(fw7App.getCurrentView().activePage.container);
+    $$siblings.removeClass('active');
+    $$el.addClass('active');
+    if (id) {
+        $$siblings.data('friend-id', id);
+    }
+    $$container.find('.friend-tabs .tab').removeClass('active');
+    $$container.find('.tab.' + $$el.data('page')).addClass('active');
 }

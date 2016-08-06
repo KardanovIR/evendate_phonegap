@@ -12,11 +12,11 @@ var child_browser_opened = false,
             fave: {male: 'добавил в избранное', female: 'добавила в избранное', default: 'добавил(а) в избранное'},
             unfave: {male: 'удалил из избранного', female: 'удалила из избранного', default: 'удалил(а) из избранного'},
             subscribe: {male: 'добавил подписки', female: 'добавила подписки', default: 'добавил(а) подписки'},
-            unsubscribe: {male: 'добавил подписки', female: 'добавила подписки', default: 'удалил(а) подписки'}
+            unsubscribe: {male: 'удалил подписки', female: 'удалила подписки', default: 'удалил(а) подписки'}
         },
         URLS: {
-            BASE_NAME: 'http://evendate.ru',
-            API_FULL_PATH: 'http://evendate.ru/api/v1',
+            BASE_NAME: 'https://evendate.ru',
+            API_FULL_PATH: 'https://evendate.ru/api/v1',
             USERS_PATH: '/users',
             SUBSCRIPTIONS_PATH: '/subscriptions',
             ORGANIZATIONS_PATH: '/organizations',
@@ -97,7 +97,7 @@ var child_browser_opened = false,
             }
             var _this = this;
             __api.organizations.get([{
-                fields: 'description,is_subscribed,default_address,background_medium_img_url,img_medium_url,subscribed_count,'
+                fields: 'description,is_new,is_subscribed,default_address,background_medium_img_url,img_medium_url,subscribed_count,'
             }], function (data) {
 
                 _this.list = [];
@@ -107,9 +107,15 @@ var child_browser_opened = false,
                     if (!_this.list_with_keys.hasOwnProperty(key)) {
                         _this.list_with_keys[key] = {
                             name: org.type_name,
-                            organizations: []
+                            organizations: [],
+                            id: key
                         };
                     }
+
+                    if (org.hasOwnProperty('is_new') && org.is_new == true){
+                        _this.list_with_keys.is_new.organizations.push(org);
+                    }
+
                     _this.list_with_keys[key].organizations.push(org);
                 });
                 _this.updateListByKeys();
@@ -127,7 +133,13 @@ var child_browser_opened = false,
             }
         },
         list: [],
-        list_with_keys: {},
+        list_with_keys: {
+            is_new: {
+                name: 'Новые организации',
+                organizations: [],
+                id: 'is_new'
+            }
+        },
         update: function (organization) {
             if (this.list.length == 0) return;
             var key = '_' + organization.type_id,
@@ -199,12 +211,6 @@ MyApp.init = (function () {
         dynamicNavbar: true,
         scrollTopOnStatusbarClick: true,
         statusbarOverlay: true,
-        onAjaxStart: function () {
-            fw7App.showIndicator();
-        },
-        onAjaxComplete: function () {
-            fw7App.hideIndicator();
-        },
         onAjaxError: function (e) {
             if (e.status != 200 && e.requestUrl.indexOf(CONTRACT.URLS.BASE_NAME) != -1) {
                 fw7App.alert(CONTRACT.ALERTS.NO_INTERNET);
@@ -322,7 +328,7 @@ MyApp.init = (function () {
 document.addEventListener("deviceready", onDeviceReady, false);
 
 function onImgErrorSmall(source) {
-    source.src = "img/icon_500.png";
+    source.src = "img/icon.png";
     source.onerror = "";
     return true;
 }
@@ -571,12 +577,6 @@ function moveBackground(){
 
 function openApplication() {
 
-    $$('.main-tabbar').removeClass('hidden');
-    var viewInstance = fw7App.getViewByName('events');
-    viewInstance.showNavbar();
-    viewInstance.showToolbar();
-    fw7App.setView('events');
-    $$('.view-main').addClass('tab');
 
 
     angular.element($$('#profile')).scope().setUser();
@@ -586,6 +586,13 @@ function openApplication() {
     angular.element($$('#catalog')).scope().getOrganizationsCatalog();
 
     angular.element($$('#feeds')).scope().startBinding(function () {
+
+        $$('.main-tabbar').removeClass('hidden');
+        var viewInstance = fw7App.getViewByName('events');
+        viewInstance.showNavbar();
+        viewInstance.showToolbar();
+        fw7App.setView('events');
+        $$('.view-main').addClass('tab');
         angular.element($$('#friends')).scope().startBinding(true);
     });
 
@@ -596,8 +603,7 @@ function openApplication() {
     $$('.main-tabbar .toolbar-inner a').on('click', function () {
 
         var $toolbar = $$('.main-tabbar .toolbar-inner'),
-            $$this = $$(this),
-            $$i = $$this.find('img');
+            $$this = $$(this);
 
         if ($$this.hasClass('active')) {
             var max_pages_count = 0;
@@ -722,7 +728,7 @@ function showSlides(to_reset) {
 }
 
 function checkToken(to_reset) {
-    fw7App.showIndicator();
+    // fw7App.showIndicator();
     $$('.preloader-indicator-modal').addClass('with-top');
     L.log(window.device);
     if (to_reset) {

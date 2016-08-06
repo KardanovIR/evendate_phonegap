@@ -12,7 +12,11 @@ function Organizations(){
 					url: CONTRACT.URLS.API_FULL_PATH + CONTRACT.URLS.ORGANIZATIONS_PATH + '/' + value.id + CONTRACT.URLS.SUBSCRIPTIONS_PATH,
 					data: {organization_id: value.id},
 					complete: function(){
-						if ($$('#profile').hasClass('active') == false){
+						if ($$('#view-profile').hasClass('active')){
+							if ($$('#profile').hasClass('active')){
+								angular.element($$('#profile')).scope().getSubscriptionsList();
+							}
+						}else{
 							angular.element($$('#profile')).scope().getSubscriptionsList();
 						}
 						angular.element($$('#view-events')).scope().getTimeline('timeline', true, function(){});
@@ -24,7 +28,11 @@ function Organizations(){
 						url: CONTRACT.URLS.API_FULL_PATH + CONTRACT.URLS.ORGANIZATIONS_PATH + '/' + value.id + CONTRACT.URLS.SUBSCRIPTIONS_PATH,
 						data: {subscription_id: value.subscription_id},
 						complete: function(){
-							if ($$('#profile').hasClass('active') == false){
+							if ($$('#view-profile').hasClass('active')){
+								if ($$('#profile').hasClass('active')){
+									angular.element($$('#profile')).scope().getSubscriptionsList();
+								}
+							}else{
 								angular.element($$('#profile')).scope().getSubscriptionsList();
 							}
 							angular.element($$('#view-events')).scope().getTimeline('timeline', true, function(){});

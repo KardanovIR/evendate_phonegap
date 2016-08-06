@@ -1,106 +1,111 @@
 <div class="navbar">
-  <div class="navbar-inner friend-page-navbar">
-    <div class="left sliding">
-      <a href="#" class="link back">
-        <i class="ion-ios-arrow-back"></i></a>
+    <div class="navbar-inner blur">
+        <div class="left sliding">
+            <a href="#" class="link back">
+                <i class="ion-ios-arrow-back"></i>
+            </a>
+        </div>
+        <div class="center sliding user-name">Событие</div>
+        <div class="right"></div>
     </div>
-    <div class="center sliding">
-      <div class="buttons-row">
-        <a href="#" data-page="friend-subscriptions" onclick="showFriendSubscriptions(this);" class="friend-subscriptions friend-buttons button button-white">Подписки</a>
-        <a href="#" data-page="friend-actions" onclick="showFriendEvents(this);" class="friend-actions button friend-buttons button-white">События</a>
-      </div>
-
-    </div>
-    <div class="right"></div>
-  </div>
 </div>
 <div class="pages">
-  <div class="page friend" data-page="friend" ng-controller="FriendPageController">
-    <div class="page-content infinite-scroll" data-ptr-distance="40" data-distance="100">
-      <div class="no-events-text ng-hide" ng-hide="no_actions">
-        Нет активности
-      </div>
-      <div class="tabs friend-tabs">
-        <div class="friend-actions tab">
-          <div>
-            <div class="list-block cards-list">
-              <ul>
-                <li class="card feed-card {{card.entity}}" ng-repeat="card in cards">
-                  <div class="card-header">
-                    <span class="pull-right feed-date">{{card.date}}</span>
-                    <img ng-src="{{card.user.avatar_url}}" onerror="onImgErrorSmall(this)" class="user-avatar pull-left">
-                    <span class="user-name sfns_display_regular">{{card.user.last_name}} {{card.user.first_name}}</span>
-                    <br>
-                    <span class="action-name sfui_display_medium">{{card.action_name}}</span>
-                  </div>
-                  <div class="card-content">
-                    <div class="card-content-inner">
-                      <div class="list-block subscriptions-list">
-                        <ul class="without-top-border without-bottom-border">
-                          <li ng-repeat="entity in card.entities" ng-click="entity.openEntity();">
-                            <a href="#" class="item-link item-content">
-                              <div class="item-media">
-                                <img ng-src="{{entity.img_url}}" class="image-cirle" onerror="onImgErrorSmall(this)" >
-                              </div>
-                              <div class="item-inner">
-                                <div class="item-title">{{entity.title}}</div>
-                                <div class="item-after"></div>
-                              </div>
-                            </a>
-                          </li>
-                        </ul>
-                      </div>
+    <div data-page="friend" class="page friend with-subnavbar"
+         ng-attr-id="{{'friend-page-' + user.html_id}}"
+         ng-controller="FriendPageController">
+        <div class="page-content infinite-scroll" data-distance="300">
+            <div class="content-block">
+                <div class="friend-profile-fixed-part text-center">
+                    <img class="avatar" onerror="onImgErrorSmall(this);" ng-src="{{user.avatar_url}}">
+                </div>
+                <div class="profile-buttons">
+                    <a ng-attr-href="{{'#activity-' + user.html_id}}"
+                       class="button button-round tab-link active" data-type="activity">Активность</a>
+                    <a ng-attr-href="{{'#subscriptions-' + user.html_id}}" class="button button-round tab-link"
+                       data-type="subscriptions" style="margin-left: 35px;"> Подписки</a>
+                </div>
+            </div>
+            <div class="tabs">
+                <div ng-attr-id="{{'activity-' + user.html_id}}" class="tab active profile-page-content">
+                    <div class="list-block subscriptions-list">
+                        <div class="no-subscriptions-text" ng-show="no_actions">
+                            Нет активности
+                        </div>
+
+                        <div class="list-block cards-list no-top-margin">
+                            <ul>
+                                <li class="card feed-card" ng-repeat="card in cards">
+                                    <div class="card-header" ng-click="card.open();">
+                                        <span class="pull-right feed-date">{{card.date}}</span>
+                                        <img ng-src="{{card.user.avatar_url}}" class="user-avatar pull-left"
+                                             onerror="onImgErrorSmall(this);">
+                                        <div class="action-icon {{card.type_code}}">
+                                            <span class="icon ion-ios-star" ng-show="card.entity == 'event'"></span>
+                                            <span class="icon ion-plus subscrobed"
+                                                  ng-show="card.entity == 'organization' && card.type_code == 'subscribe'"></span>
+                                            <span class="icon ion-minus unsubscribed"
+                                                  ng-show="card.entity == 'organization' && card.type_code == 'unsubscribe'"></span>
+                                        </div>
+                                        <span class="user-name sfui_display_medium">{{card.user.last_name}} {{card.user.first_name}}</span>
+                                        <div class="action-name text-gray">{{card.action_name}}</div>
+                                    </div>
+                                    <div class="card-content">
+                                        <div class="card-content-inner">
+                                            <div class="list-block subscriptions-list">
+                                                <ul class="without-top-border without-bottom-border">
+                                                    <li ng-repeat="entity in card.entities"
+                                                        class="feed-action-item"
+                                                        ng-click="entity.openEntity();">
+                                                        <a href="#" class="item-link item-content">
+                                                            <div class="item-media media-left {{card.entity}}">
+                                                                <img ng-src="{{entity.img_url}}"
+                                                                     class="image-cirle feed-item-img"
+                                                                     onerror="onImgErrorSmall(this);">
+                                                            </div>
+                                                            <div class="item-inner">
+                                                                <div class="item-title">{{entity.title}}</div>
+                                                                <div class="item-media media-right {{card.entity}}">
+                                                                    <img ng-src="{{entity.img_url}}"
+                                                                         class="image-cirle feed-item-img"
+                                                                         onerror="onImgErrorSmall(this);">
+                                                                </div>
+                                                            </div>
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                            <div infinite-scroll ng-show="is_downloading"></div>
+                        </div>
                     </div>
-                  </div>
-                </li>
-              </ul>
-              <div class="infinite-scroll-preloader ng-hide" ng-hide="is_downloading == false">
-                <div class="loader"></div>
-              </div>
+                </div>
+                <div ng-attr-id="subscriptions-{{user.html_id}}" class="tab profile-page-content">
+                    <div class="list-block subscriptions-list no-top-margin">
+                        <div class="no-subscriptions-text" ng-show="no_subscriptions">
+                            Нет подписок
+                        </div>
+                        <ul class="without-top-border without-bottom-border">
+                            <li class="swipeout profile-subscription"
+                                ng-repeat="subscription in subscriptions">
+                                <a href="#" class="item-link swipeout-content item-content"
+                                   ng-click="subscription.open()">
+                                    <div class="item-media">
+                                        <img ng-src="{{subscription.img_medium_url}}"
+                                             onerror="onImgErrorSmall(this);">
+                                    </div>
+                                    <div class="item-inner">
+                                        <div class="item-title">{{subscription.short_name}}</div>
+                                        <div class="item-after"></div>
+                                    </div>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
             </div>
-          </div>
         </div>
-        <div class="friend-subscriptions tab active">
-          <div class="friend-profile-fixed-part" ng-click="user.openProfile();">
-            <div class="profile-background-image">
-              <div class="user-background-opacity" ng-style="{'background-image': 'url(' + user.blurred_img_url + ')'}"></div>
-            </div>
-            <div class="user-info">
-              <img class="avatar" ng-src="{{user.avatar_url}}" ng-click="user.openProfile();" onerror="onImgErrorSmall(this)" >
-            </div>
-            <div class="user-name sfui_display_light">
-              {{user.last_name}} {{user.first_name}}
-            </div>
-            <div class="social-type">
-              {{user.type_name}}
-            </div>
-          </div>
-          <div class="friend-page-content list-block">
-            <div class="no-subscriptions-text ng-hide" ng-hide="no_subscriptions">
-              Нет подписок
-            </div>
-            <ul class="without-top-border without-bottom-border">
-              <li ng-repeat="subscription in subscriptions">
-                <a href="#" class="item-link item-content"
-                   ng-click="subscription.open()">
-                  <div class="item-media">
-                    <img ng-src="{{subscription.img_medium_url}}" onerror="onImgErrorSmall(this)" >
-                  </div>
-                  <div class="item-inner">
-                    <div class="item-title">{{subscription.short_name}}</div>
-                    <div class="item-after"></div>
-                  </div>
-                </a>
-              </li>
-            </ul>
-          </div>
-
-          <div class="infinite-scroll-preloader" style="margin-top: 25px;"  ng-show="subscriptions_downloading">
-            <div class="loader"></div>
-          </div>
-        </div>
-      </div>
     </div>
-  </div>
-
 </div>

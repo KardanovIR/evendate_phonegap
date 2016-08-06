@@ -21,15 +21,10 @@ function Users() {
                     callbackObjects['userPageAfterAnimation'].remove();
                 }
 
-                callbackObjects['userPageAfterAnimation'] = fw7App.onPageAfterAnimation('friend', function (page) {
-                    if ($$(page.navbarInnerContainer).find('.friend-buttons.active').length == 0) {
-                        $$(page.navbarInnerContainer).find('a.friend-subscriptions').click();
-                    }
-                    is_opening = false;
-                });
                 callbackObjects['userPageBeforeAnimation'] = fw7App.onPageBeforeAnimation('friend', function (page) {
                     if ($$(page.container).hasClass('page-on-left')) return;
                     var $$container = $$(page.container);
+                    $$(page.navbarInnerContainer).find('.user-name').text(_user.first_name + ' ' + _user.last_name);
                     if ($$container.data('opened') == true) {
                         var $scope = angular.element($$container[0]).scope();
                         $scope.setUser(_user);
@@ -45,6 +40,7 @@ function Users() {
                             }]);
                         });
                     }
+                    is_opening = false;
                     fw7App.hideIndicator();
                 });
                 fw7App.getCurrentView().router.loadPage({
@@ -59,30 +55,25 @@ function Users() {
                 var _link = '',
                     type = '';
                 switch (item.type) {
-                    case CONTRACT.SOCIAL_LINK_TYPES.VK:
-                    {
+                    case CONTRACT.SOCIAL_LINK_TYPES.VK: {
                         type = 'vk';
                         _link = 'vk://vk.com/id' + item.uid;
                         items[index].link = 'https://vk.com/id' + item.uid;
                         break;
                     }
-                    case CONTRACT.SOCIAL_LINK_TYPES.FACEBOOK:
-                    {
+                    case CONTRACT.SOCIAL_LINK_TYPES.FACEBOOK: {
                         type = 'fb';
                         _link = 'fb://profile/' + item.uid;
                         items[index].link = 'https://facebook.com/' + item.uid;
                         break;
                     }
-                    case CONTRACT.SOCIAL_LINK_TYPES.GOOGLE:
-                    {
+                    case CONTRACT.SOCIAL_LINK_TYPES.GOOGLE: {
                         type = 'gplus';
                         _link = 'gplus://plus.google.com/u/0/' + item.uid;
                         items[index].link = 'https://plus.google.com/' + item.uid;
                         break;
                     }
-
                 }
-
                 openLink(type, _link, items[index].link);
             }
         });
@@ -119,8 +110,7 @@ function Users() {
                     _r = normalize(res.data);
                     cb(_r);
                 },
-                error: function(a, b, c){
-                    debugger;
+                error: function (jqXHR, textStatus, errorThrown) {
                     fw7App.hideIndicator();
                     fw7App.alert(CONTRACT.ALERTS.REQUEST_ERROR);
                 }

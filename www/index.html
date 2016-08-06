@@ -73,30 +73,34 @@
                 <div class="subnavbar blur">
                     <div class="left"></div>
                     <div class="center">Организаторы</div>
-                    <div class="right hidden"></div>
+                    <div class="right"></div>
                 </div>
             </div>
         </div>
         <div class="pages">
             <div data-page="catalog" class="page navbar-fixed" id="catalog">
                 <div class="page-content">
-                    <div class="list-block without-top-border" style="margin: 0 0;" ng-hide="is_downloading">
+                    <div class="list-block without-top-border" style="margin: 0 0;">
                         <ul>
-                            <li class="accordion-item" ng-repeat="category in organization_categories">
-                                <a href="#" class="item-content item-link">
-                                    <div class="item-inner">
+                            <li class="accordion-item organization-accordion-item"
+                                ng-repeat="category in organization_categories"
+                                ng-hide="category.organizations.length == 0">
+                                <a href="#" class="item-content item-link"
+                                   ng-class="{'is-new': category.id == 'is_new'}">
+                                    <div class="item-inner category-item-inner">
                                         <div class="item-title">{{category.name}}</div>
+                                        <span class="icon ion-ios-arrow-down"></span>
+                                        <span class="icon ion-ios-arrow-up"></span>
                                     </div>
                                 </a>
                                 <div class="accordion-item-content">
-                                    <div class="content-block">
-                                        <div class="list-block media-list">
-                                            <ul>
-                                                <div organization-item
-                                                     ng-repeat="organization in category.organizations"
-                                                     ng-click="organization.open();"></div>
-                                            </ul>
-                                        </div>
+                                    <div class="list-block media-list">
+                                        <ul>
+                                            <div organization-item
+                                                 ng-repeat="organization in category.organizations"
+                                                 ng-click="organization.open();"
+                                                 class="catalog-organization-item"></div>
+                                        </ul>
                                     </div>
                                 </div>
                             </li>
@@ -108,18 +112,19 @@
         </div>
     </div>
     <div id="view-calendar" class="view view-calendar tab" ng-controller="CalendarPageController">
-        <!--<div class="navbar">-->
-        <!--<div class="navbar-inner">-->
-        <!--<div class="subnavbar blur">-->
-        <!--<div class="left"></div>-->
-        <!--<div class="center">Календарь</div>-->
-        <!--<div class="right hidden"></div>-->
-        <!--</div>-->
-        <!--</div>-->
-        <!--</div>-->
+        <div class="navbar not-visible">
+            <div class="navbar-inner">
+                <div class="subnavbar blur">
+                    <div class="left"></div>
+                    <div class="center"></div>
+                    <div class="right"></div>
+                </div>
+            </div>
+        </div>
         <div class="pages">
             <div data-page="calendar" class="page" id="calendar" style="background: #fafafa">
-                <div id="calendar-inline-container" style="margin-bottom: 8px;box-shadow: 0 0 7px 0 rgba(0, 0, 0, 0.3);"></div>
+                <div id="calendar-inline-container"
+                     style="margin-bottom: 8px;box-shadow: 0 0 7px 0 rgba(0, 0, 0, 0.3);"></div>
                 <div id="calendar-date-events-list">
                     <div class="no-events-text ng-hide" ng-hide="no_events">
                         Нет событий
@@ -142,7 +147,8 @@
                                             <div class="item-title">{{event.title}}</div>
                                         </div>
                                         <div class="item-subtitle">
-                                            <img ng-src="{{event.organization_logo_small_url}}"><span class="name">{{event.organization_short_name}}</span><span class="time">{{event.display_time.start}}-{{event.display_time.end}}</span>
+                                            <img ng-src="{{event.organization_logo_small_url}}"><span class="name">{{event.organization_short_name}}</span><span
+                                                class="time">{{event.display_time.start}}-{{event.display_time.end}}</span>
                                         </div>
                                     </div>
                                 </a>
@@ -265,41 +271,53 @@
             </div>
         </div>
         <div class="pages navbar-through">
-            <div data-page="friends" class="page navbar-fixed toolbar-fixed">
+            <div data-page="friends" class="page navbar-fixed toolbar-fixed background-fafafa">
                 <div id="friends"
                      class="page-content padding-top-30 infinite-scroll friends-page-content pull-to-refresh-content"
                      data-distance="300" data-ptr-distance="50">
                     <div pull-to-refresh class="big-margin"></div>
                     <div class="tabs">
-                        <div id="friends-feed" class="tab">
-                            <div class="no-events-text" ng-show="no_actions">
+                        <div id="friends-feed" class="tab active">
+                            <div class="no-events-text" ng-show="tabs.feed.no_timeline_events">
                                 Нет активности
                             </div>
                             <div class="list-block cards-list">
                                 <ul>
-                                    <li class="card feed-card {{card.entity}}" ng-repeat="card in tabs.feed.items">
+                                    <li class="card feed-card" ng-repeat="card in tabs.feed.items">
                                         <div class="card-header" ng-click="card.open();">
                                             <span class="pull-right feed-date">{{card.date}}</span>
                                             <img ng-src="{{card.user.avatar_url}}" class="user-avatar pull-left"
                                                  onerror="onImgErrorSmall(this);">
+                                            <div class="action-icon {{card.type_code}}">
+                                                <span class="icon ion-ios-star" ng-show="card.entity == 'event'"></span>
+                                                <span class="icon ion-plus subscrobed"
+                                                      ng-show="card.entity == 'organization' && card.type_code == 'subscribe'"></span>
+                                                <span class="icon ion-minus unsubscribed"
+                                                      ng-show="card.entity == 'organization' && card.type_code == 'unsubscribe'"></span>
+                                            </div>
                                             <span class="user-name sfui_display_medium">{{card.user.last_name}} {{card.user.first_name}}</span>
-                                            <br>
-                                            <span class="action-name text-gray">{{card.action_name}}</span>
+                                            <div class="action-name text-gray">{{card.action_name}}</div>
                                         </div>
                                         <div class="card-content">
                                             <div class="card-content-inner">
                                                 <div class="list-block subscriptions-list">
                                                     <ul class="without-top-border without-bottom-border">
                                                         <li ng-repeat="entity in card.entities"
+                                                            class="feed-action-item"
                                                             ng-click="entity.openEntity();">
                                                             <a href="#" class="item-link item-content">
-                                                                <div class="item-media">
-                                                                    <img ng-src="{{entity.img_url}}" class="image-cirle"
+                                                                <div class="item-media media-left {{card.entity}}">
+                                                                    <img ng-src="{{entity.img_url}}"
+                                                                         class="image-cirle feed-item-img"
                                                                          onerror="onImgErrorSmall(this);">
                                                                 </div>
                                                                 <div class="item-inner">
                                                                     <div class="item-title">{{entity.title}}</div>
-                                                                    <div class="item-after"></div>
+                                                                    <div class="item-media media-right {{card.entity}}">
+                                                                        <img ng-src="{{entity.img_url}}"
+                                                                             class="image-cirle feed-item-img"
+                                                                             onerror="onImgErrorSmall(this);">
+                                                                    </div>
                                                                 </div>
                                                             </a>
                                                         </li>
@@ -322,13 +340,10 @@
                                                 <img ng-src="{{friend.avatar_url}}" class="friend-image"
                                                      onerror="onImgErrorSmall(this);">
                                             </div>
-                                            <div class="item-inner">
-                                                <div class="item-title-row">
+                                            <div class="item-inner user-name-in-list">
+                                                <div class="item-title-row ">
                                                     <div class="item-title">{{friend.last_name}} {{friend.first_name}}
                                                     </div>
-                                                </div>
-                                                <div class="item-subtitle text-gray">
-                                                    {{friend.type_name}}
                                                 </div>
                                             </div>
                                         </a>
@@ -361,7 +376,6 @@
                                         </button>
                                     </div>
                                 </div>
-
                             </div>
                         </div>
                     </div>
@@ -392,44 +406,83 @@
                                style="margin-left: 35px;">Настройки </a>
                         </div>
                     </div>
-                    <div class="tabs-animated-wrap">
-                        <div class="tabs">
-                            <div id="profile" class="tab active profile-page-content">
-                                <div class="content-block">
-                                    <div class="list-block subscriptions-list">
-                                        <div class="no-subscriptions-text ng-hide" ng-hide="no_subscriptions">
-                                            Нет подписок
-                                        </div>
-
-                                        <div infinite-scroll class="text-center subscriptions-loader ng-hide"></div>
-
-                                        <ul class="without-top-border without-bottom-border">
-                                            <li class="swipeout profile-subscription"
-                                                ng-repeat="subscription in subscriptions">
-                                                <a href="#" class="item-link swipeout-content item-content"
-                                                   ng-click="subscription.open()">
-                                                    <div class="item-media">
-                                                        <img ng-src="{{subscription.img_medium_url}}"
-                                                             onerror="onImgErrorSmall(this);">
-                                                    </div>
-                                                    <div class="item-inner">
-                                                        <div class="item-title">{{subscription.short_name}}</div>
-                                                        <div class="item-after"><span class="badge pink"
-                                                                                      ng-hide="subscription.new_events_count == 0">{{subscription.new_events_count}}</span>
-                                                        </div>
-                                                    </div>
-                                                </a>
-
-                                                <div class="swipeout-actions-right">
-                                                    <a href="#" class="swipeout-delete swipeout-overswipe"
-                                                       ng-click="subscription.toggleSubscriptionStatus();">Отписаться</a>
-                                                </div>
-                                            </li>
-                                        </ul>
+                    <div class="tabs">
+                        <div id="profile" class="tab active profile-page-content">
+                            <div class="content-block">
+                                <div class="list-block subscriptions-list">
+                                    <div class="no-subscriptions-text ng-hide" ng-hide="no_subscriptions">
+                                        Нет подписок
                                     </div>
+
+                                    <div infinite-scroll class="text-center subscriptions-loader ng-hide"></div>
+
+                                    <ul class="without-top-border without-bottom-border">
+                                        <li class="swipeout profile-subscription"
+                                            ng-repeat="subscription in subscriptions">
+                                            <a href="#" class="item-link swipeout-content item-content"
+                                               ng-click="subscription.open()">
+                                                <div class="item-media">
+                                                    <img ng-src="{{subscription.img_medium_url}}"
+                                                         onerror="onImgErrorSmall(this);">
+                                                </div>
+                                                <div class="item-inner">
+                                                    <div class="item-title">{{subscription.short_name}}</div>
+                                                    <div class="item-after"><span class="badge pink"
+                                                                                  ng-hide="subscription.new_events_count == 0">{{subscription.new_events_count}}</span>
+                                                    </div>
+                                                </div>
+                                            </a>
+
+                                            <div class="swipeout-actions-right">
+                                                <a href="#" class="swipeout-delete swipeout-overswipe"
+                                                   ng-click="subscription.toggleSubscriptionStatus();">Отписаться</a>
+                                            </div>
+                                        </li>
+                                    </ul>
                                 </div>
                             </div>
-                            <div id="settings" class="tab profile-page-content">
+                        </div>
+                        <div id="settings" class="tab profile-page-content">
+                            <div class="list-block">
+                                <ul>
+                                    <!-- Text inputs -->
+                                    <li>
+                                        <div class="item-content">
+                                            <div class="item-inner">
+                                                <div class="item-title label settings">Добавлять избранные события в календарь</div>
+                                                <div class="item-input">
+                                                    <label class="label-switch">
+                                                        <input type="checkbox">
+                                                        <div class="checkbox"></div>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="item-content">
+                                            <div class="item-inner">
+                                                <div class="item-title label settings">Показывать мои действия друзьям</div>
+                                                <div class="item-input">
+                                                    <label class="label-switch">
+                                                        <input type="checkbox">
+                                                        <div class="checkbox"></div>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="item-content">
+                                            <div class="item-inner">
+                                                <div class="item-title label settings">Версия</div>
+                                                <div class="item-input">
+                                                    v 2.0.0
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
                             </div>
                         </div>
                     </div>

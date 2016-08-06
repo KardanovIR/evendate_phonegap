@@ -4,26 +4,26 @@
 MyApp.ns('MyApp.pages');
 
 MyApp.pages.EventPageController = function ($scope) {
-	'use strict';
+    'use strict';
 
-	$scope.event = {};
-	$scope.details_shown = false;
+    $scope.event = {};
+    $scope.details_shown = false;
 
-	$scope.toggleDetails = function () {
-		$scope.details_shown = !$scope.details_shown;
-		if (!$scope.details_shown) {
-			$scope.details_text = 'Подробнее';
-		} else {
-			$scope.details_text = 'Скрыть';
-		}
-	};
+    $scope.toggleDetails = function () {
+        $scope.details_shown = !$scope.details_shown;
+        if (!$scope.details_shown) {
+            $scope.details_text = 'Подробнее';
+        } else {
+            $scope.details_text = 'Скрыть';
+        }
+    };
 
-	function toggleNotificationState(){
+    function toggleNotificationState() {
         $scope.event.toggleNotification(this.type);
         $$('.bg-' + this.bg).toggleClass('active');
     }
 
-	$scope.showNotificationsList = function(){
+    $scope.showNotificationsList = function () {
         var notifications = [
             {
                 text: 'За 15 минут',
@@ -69,28 +69,26 @@ MyApp.pages.EventPageController = function ($scope) {
         var notification_buttons = [],
             m_now = moment().unix(),
             first_event_date = $scope.event.first_event_date;
-        notifications.forEach(function(notification){
+        notifications.forEach(function (notification) {
             if (first_event_date - notification.timediff <= m_now) return true;
-            if($scope.event.notifications_by_types[notification.type]){
-                if ($scope.event.notifications_by_types[notification.type].status){
-                    notification.bg += ' active';
-                }
+            if ($scope.event.notifications_by_types.hasOwnProperty(notification.type)) {
+                notification.bg += ' active';
             }
             notification_buttons.push(notification);
         });
         fw7App.actions(notification_buttons);
     };
 
-	$scope.setEvent = function(event){
-		$scope.event = event;
+    $scope.setEvent = function (event) {
+        $scope.event = event;
 
-		__api.events.get([
-			{id: event.id},
-			{fields: 'detail_info_url,first_event_date,notifications{fields:"notification_type,done"},is_favorite,nearest_event_date,min_price,registration_required,registration_till,location,favored_users_count,favored{length:5,fields:"is_friend",order_by:"-is_friend"},organization_name,organization_logo_small_url,description,is_same_time,tags,dates{fields:"end_time,start_time",order_by:"event_date"}'}
-		], function(res){
-			$scope.event = res[0];
-			$scope.$digest();
-		});
-	}
+        __api.events.get([
+            {id: event.id},
+            {fields: 'detail_info_url,first_event_date,notifications{fields:"notification_type,done,status"},is_favorite,nearest_event_date,min_price,registration_required,registration_till,location,favored_users_count,favored{length:5,fields:"is_friend",order_by:"-is_friend"},organization_name,organization_logo_small_url,description,is_same_time,tags,dates{fields:"end_time,start_time",order_by:"event_date"}'}
+        ], function (res) {
+            $scope.event = res[0];
+            $scope.$digest();
+        });
+    }
 
 };

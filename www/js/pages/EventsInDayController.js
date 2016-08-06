@@ -16,14 +16,14 @@ MyApp.pages.EventsInDayController = function ($scope, $element) {
     $scope.page_counter = 0;
 
     function getEventsPortion(date, cb) {
-        if ($scope.all_downloaded) return cb();
+        if ($scope.all_downloaded || $scope.is_downloading) return;
         var is_first_page = $scope.page_counter == 0,
             date_formatted = date.format(CONTRACT.DATE_FORMAT),
             send_data = [
                 {date: date_formatted},
                 {fields: 'is_favorite,organization_short_name,favored_users_count,favored{length:5, fields:"avatar_url"},organization_logo_small_url,nearest_event_date,dates{length:1000,fields:"end_time,start_time"},image_horizontal_medium_url,is_free,dates,min_price'},
                 {length: 10},
-                {offset: $scope.page_counter * 10},
+                {page: $scope.page_counter++},
                 {order_by: '-is_favorite'},
                 {my: true}
             ];
@@ -32,35 +32,28 @@ MyApp.pages.EventsInDayController = function ($scope, $element) {
             if (data.length < 10) {
                 $scope.all_downloaded = true;
             }
-            data.forEach(function(item, index){
+            data.forEach(function (item, index) {
                 item.display_date = item.moment_dates_object[date_formatted][0];
                 data[index] = item;
             });
             $scope.is_downloading = false;
-            $scope.page_counter++;
             cb(data, is_first_page);
         });
     }
 
     function changeDate(direction) {
-        fw7App.showIndicator();
         $scope.no_events = false;
         $scope.all_downloaded = false;
         $scope.page_counter = 0;
         $scope.$apply();
 
-        var $$loader = $$element.find('.calendar-loader').show();
         $scope.day_events = [];
         $scope.setDate($scope.date.add(direction, 'days'));
 
-        getEventsPortion($scope.date.format(CONTRACT.DATE_FORMAT), function () {
-            $$loader.hide();
-            fw7App.hideIndicator();
-        });
+        getEventsPortion($scope.date, updateView);
     }
 
-    function updateView(data, is_first_page){
-
+    function updateView(data, is_first_page) {
         if (is_first_page) {
             $scope.day_events = data;
             $scope.no_events = data.length == 0;
@@ -72,6 +65,10 @@ MyApp.pages.EventsInDayController = function ($scope, $element) {
 
     $scope.showPage = function () {
         getEventsPortion($scope.date, updateView);
+        $$('#view-calendar .navbar').removeClass('not-visible');
+        fw7App.onPageBack('events_in_day', function () {
+            $$('#view-calendar .navbar').addClass('not-visible');
+        })
     };
 
     $scope.setDate = function (date) {
@@ -98,9 +95,7 @@ MyApp.pages.EventsInDayController = function ($scope, $element) {
     });
 
 
-
     $$('.events_in_day.page-content').on('infinite', function () {
-        if ($scope.is_downloading) return;
         getEventsPortion($scope.date, updateView);
     });
 };

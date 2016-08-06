@@ -67,6 +67,10 @@ MyApp.pages.FriendsTabController = function ($scope) {
         $scope.tabs.feed.is_downloading = true;
         $scope.tabs.feed.page++;
 
+        if (first_page){
+            $scope.tabs.feed.page = 0;
+        }
+
         $scope.$apply();
 
         __api.users.get([
@@ -80,7 +84,6 @@ MyApp.pages.FriendsTabController = function ($scope) {
                 if (first_page) {
                     $scope.tabs.feed.no_timeline_events = data.length == 0;
                     $scope.tabs.feed.items = [];
-                    $scope.tabs.feed.page = 0;
                 }
                 cards_by_users = {};
                 data.forEach(function (stat) {
@@ -164,12 +167,12 @@ MyApp.pages.FriendsTabController = function ($scope) {
 
     $scope.startBinding = function(){
         $scope.showFeed(true, function(){
-            $$('#friends-feed-btn').click();
+            // $$('#friends-feed-btn').click();
         })
     };
 
     $scope.showFriends = function (first_page, cb) {
-        if ($scope.tabs.friends.is_downloading == true) {
+        if ($scope.tabs.friends.is_downloading == true || $scope.tabs.friends.all_loaded) {
             if (cb) {
                 cb();
             }
@@ -205,7 +208,7 @@ MyApp.pages.FriendsTabController = function ($scope) {
             }
 
             $scope.tabs.friends.is_downloading = false;
-
+            $scope.tabs.friends.all_loaded = data.length < 10;
             if (!$scope.$$phase) {
                 $scope.$apply();
             } else {

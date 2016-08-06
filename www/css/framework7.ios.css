@@ -1501,6 +1501,7 @@ html.pixel-ratio-3 .toolbar:before {
     position: relative;
     text-overflow: ellipsis;
     white-space: nowrap;
+    padding-top: 3px;
 }
 
 @media all and (min-width: 768px) {
@@ -3284,7 +3285,7 @@ html.pixel-ratio-3 .list-block li:last-child li .item-inner:after {
 }
 
 .label-switch input[type="checkbox"]:checked + .checkbox {
-    background: #4cd964;
+    background: #fd6ea6;
 }
 
 .label-switch input[type="checkbox"]:checked + .checkbox:before {

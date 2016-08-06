@@ -4,13 +4,9 @@
     <title>Shape</title>
     <desc>Created with Sketch.</desc>
     <defs></defs>
-    <g id="320" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <g id="Artboard" transform="translate(-118.000000, -127.000000)" stroke-width="1.2" stroke="#9FA6B3">
-            <g id="Tab_bar" transform="translate(96.000000, 116.000000)">
-                <g id="Home">
-                    <path d="M32,12 L23,21 L23,30 L29,30 L29,27 C29,25.35 30.35,24 32,24 C33.65,24 35,25.35 35,27 L35,30 L41,30 L41,21 L32,12 Z" id="Shape"></path>
-                </g>
-            </g>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Home" transform="translate(1.000000, 1.000000)" stroke="#9FA6B3" stroke-width="1.2">
+            <path d="M9,0 L0,9 L0,18 L6,18 L6,15 C6,13.35 7.35,12 9,12 C10.65,12 12,13.35 12,15 L12,18 L18,18 L18,9 L9,0 L9,0 Z" id="Shape"></path>
         </g>
     </g>
 </svg>

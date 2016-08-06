@@ -30,7 +30,7 @@
                 </ul>
             </div>
             <!-- Preloader -->
-            <infinite-scroll ng-class="{'big-margin': page_counter == 0}"></infinite-scroll>
+            <infinite-scroll ng-class="{'huge-margin': day_events.length == 0}" ng-hide="all_downloaded"></infinite-scroll>
         </div>
     </div>
 </div>

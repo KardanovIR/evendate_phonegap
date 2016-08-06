@@ -81,19 +81,28 @@
                                 <tr>
                                     <td colspan="2" class="ng-binding">
                                         <div class="content-block-title">Дата</div>
-                                        <div class="accordion-item" ng-show="event.with_long_dates">
+                                        <!--Every day and same time-->
+                                        <div ng-show="event.short_dates != null">
+                                            {{event.dates_text}}
+                                        </div>
+                                        <!--LessOrEqual 5 days, not every day or not same time-->
+                                        <div ng-repeat="date in event.dates_text_obj" ng-show="event.short_dates == null && event.dates_text_obj.length <= 5">
+                                            <span class="event-date">{{date}}</span>
+                                        </div>
+                                        <!--More, than 5 days, not every day or not same time-->
+                                        <div class="accordion-item" ng-show="event.short_dates == null && event.dates_text_obj.length > 5">
+                                            <p class="event-date" ng-repeat="date in event.dates_text_obj | limitTo:3">{{date}}</p>
                                             <div class="accordion-item-toggle organization-details"
-                                                 ng-click="toggleDetails();">{{details_text}}
+                                                 ng-click="toggleDetails();" ng-show="event.dates.length > 2">Показать все ({{event.dates.length}})
                                                 <span
                                                         class="icon"
                                                         ng-class="{'ion-ios-arrow-down':details_shown == false, 'ion-ios-arrow-up':details_shown}"></span>
                                             </div>
                                             <div class="accordion-item-content">
-
+                                                <div ng-repeat="(index, date) in event.dates_text_obj">
+                                                    <p class="event-date" ng-hide="index < 3">{{date}}</p>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div ng-show="!event.with_long_dates">
-                                            {{event.dates_text}}
                                         </div>
                                     </td>
                                 </tr>

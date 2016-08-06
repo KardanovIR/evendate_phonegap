@@ -11,7 +11,7 @@ MyApp.pages.CatalogPageController = function ($scope) {
     $scope.is_downloading = true;
 
     $scope.getOrganizationsCatalog = function () {
-        fw7App.showIndicator();
+        // fw7App.showIndicator();
 
         __organizations.getList(function (categories_array) {
             $scope.organization_categories = categories_array;

@@ -62,6 +62,8 @@ function Events() {
                 event.one_day = event.dates.length == 1;
                 event.short_dates = [];
                 event.dates_text = [];
+                event.future_dates_text = [];
+                event.dates_text_obj = [];
                 event.every_day = true;
 
                 if (event.is_free == true) {
@@ -74,6 +76,12 @@ function Events() {
                     var mdate = val.start_date.clone();
                     event.short_dates.push(val.start_date.format('DD/MM'));
                     event.dates_text.push(val.start_date.format('DD/MM'));
+                    if (val.end_date.unix() > _today_unix){
+                        event.future_dates_text.push(val.start_date.format('DD/MM'));
+                    }
+
+
+                    event.dates_text_obj.push(val.start_date.format('DD MMMM с HH:mm до ') + val.end_date.format('HH:mm'));
 
                     if (index == 0) return true;
                     event.every_day =
@@ -96,8 +104,10 @@ function Events() {
                     }
                 } else {
                     event.dates_text = event.dates_text.join(', ');
-                    event.short_dates = event.short_dates.join(', ');
+                    event.short_dates = null;
                 }
+                event.future_dates_text = event.future_dates_text.join(', ');
+
                 event.day_name = event.moment_dates[0].start_date.format('dddd');
             }
 
@@ -164,6 +174,7 @@ function Events() {
                 } else {
                     $$event_card.addClass('favored');
                 }
+                event.toggleFavorite();
             };
 
             event.open = function () {
@@ -177,6 +188,9 @@ function Events() {
                 }
                 if (callbackObjects['eventPageAfterAnimation']) {
                     callbackObjects['eventPageAfterAnimation'].remove();
+                }
+                if (callbackObjects['onPageBack']) {
+                    callbackObjects['onPageBack'].remove();
                 }
                 callbackObjects['eventPageBeforeAnimation'] = fw7App.onPageBeforeAnimation('event', function (page) {
                     var $$container = $$(page.container),
@@ -200,10 +214,19 @@ function Events() {
                     }
                     fw7App.hideIndicator();
                 });
-
                 callbackObjects['eventPageAfterAnimation'] = fw7App.onPageAfterAnimation('event', function () {
                     is_opening = false;
                 });
+
+                callbackObjects['onPageBack'] = fw7App.onPageBack('event', function () {
+                    if (fw7App.getCurrentView().history.length == 2){
+                        $$('#view-calendar .navbar').addClass('not-visible');
+                    }
+                });
+
+                if (fw7App.getCurrentView().selector == '.view-calendar'){
+                    $$('#view-calendar .navbar').removeClass('not-visible');
+                }
 
                 fw7App.getCurrentView().router.loadPage({
                     url: 'pages/event.html?id=' + event.id + '&t=' + new Date().getTime(),
@@ -241,13 +264,13 @@ function Events() {
 
                                 if (!favorites_scope.$$phase) {
                                     favorites_scope.$apply();
-                                    favorites_scope.startBinding();
+                                    favorites_scope.getTimeline('favorites', true, function(){});
                                 } else {
                                     setTimeout(function () {
                                         if (!favorites_scope.$$phase) {
                                             favorites_scope.$apply();
                                         }
-                                        favorites_scope.startBinding();
+                                        favorites_scope.getTimeline('favorites', true, function(){});
                                     }, 1000);
                                 }
                             }

@@ -58,7 +58,7 @@ MyApp.pages.CalendarPageController = function ($scope) {
 
     $scope.startBinding = function (callback) {
         $scope.binded = true;
-        $$('.picker-calendar-day-today').click();
+        $$('.picker-calendar-month-current .picker-calendar-day-today').click();
         var since = $scope.year + '-' + ($scope.month - 1),
             till = $scope.year + '-' + ($scope.month + 1);
         getDates(since, till, function (dates) {
