@@ -226,7 +226,7 @@ function Events() {
             };
 
             event.share = function(){
-                window.plugins.socialsharing.socialsharing.shareWithOptions({
+                window.plugins.socialsharing.shareWithOptions({
                         message: 'Мне понравилось событие ' + event.title + ' в ' + event.organization_name, // not supported on some apps (Facebook, Instagram)
                         subject: event.title, // fi. for email
                         files: [event.image_horizontal_url], // an array of filenames either locally or remotely
@@ -285,7 +285,7 @@ function Events() {
                 if ($event) {
                     fw7App.swipeoutClose($$($event.target).parents('.swipeout')[0])
                 }
-                this.addToCalendar();
+                event.addToCalendar();
 
             };
 
