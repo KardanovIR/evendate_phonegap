@@ -2408,6 +2408,14 @@ button.rounded-large {
     margin-right: 12px;
 }
 
+#catalog .accordion-item-content {
+    box-shadow: inset 0 5px 3px -3px #ccc, inset 0 -5px 3px -3px #ccc;
+}
+
+#catalog .accordion-item-content > .list-block > ul {
+    background-color: transparent;
+}
+
 #catalog .accordion-item-content .content-block {
     padding-left: 0;
 }
@@ -3118,17 +3126,8 @@ button.rounded-large {
     display: none;
 }
 
-.organization-accordion-item.accordion-item-expanded > a.item-content.item-link {
-    box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.12), inset 0 0 0 0 #2e3b50;
-    margin-bottom: 5px;
-}
-
 .catalog-organization-item .item-inner:after {
     content: none !important;
-}
-
-.organization-accordion-item.accordion-item-expanded + .organization-accordion-item {
-    box-shadow: 0 -2px 3px 0 rgba(0, 0, 0, 0.12), inset 0 0 0 0 #2e3b50;
 }
 
 .item-link.is-new {
@@ -3180,6 +3179,10 @@ button.rounded-large {
 
 .users-feed-card .item-inner {
     background-image: none;
+}
+
+.no-background-image{
+    background-image: none !important;
 }
 
 .feed-card .item-title {
@@ -3263,4 +3266,8 @@ button.rounded-large {
 
 .tab-link .evendate-notification.new-events{
     display: block;
+}
+
+#view-calendar .navbar{
+    box-shadow: none !important;
 }

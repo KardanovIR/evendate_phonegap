@@ -225,6 +225,15 @@ function Events() {
 
             };
 
+            event.share = function(){
+                window.plugins.socialsharing.socialsharing.shareWithOptions({
+                        message: 'Мне понравилось событие ' + event.title + ' в ' + event.organization_name, // not supported on some apps (Facebook, Instagram)
+                        subject: event.title, // fi. for email
+                        files: [event.image_horizontal_url], // an array of filenames either locally or remotely
+                        url:'http://evendate.ru/event/' + event.id
+                    }, function(){}, function(){});
+            }
+
             event.openDetailInfoUrl = function () {
                 storeStat(event.id, CONTRACT.ENTITIES.EVENT, CONTRACT.STATISTICS.EVENT_OPEN_SITE);
                 window.open(event.detail_info_url, '_system', 'location=yes');
@@ -325,47 +334,75 @@ function Events() {
             };
 
             event.addToCalendar = function () {
+
+                var cal = window.plugins.calendar;
+                var title = "New Years party";
+                var loc = "The Club";
+                var notes = "Bring pizza.";
+                var start = new Date(2015,0,1,20,0,0,0,0); // Jan 1st, 2015 20:00
+                var end = new Date(2015,0,1,22,0,0,0,0);   // Jan 1st, 2015 22:00
+                var calendarName = "MyCal";
+
+                var success = function(message) {alert("Success: " + JSON.stringify(message))};
+                var error   = function(message) {alert("Error: " + message)};
+
+                cal.createEvent(title, loc, notes, start, end, onSuccess, onError);
                 // create a calendar (iOS only for now)
-                var create_cal_options = window.plugins.calendar.getCreateCalendarOptions();
-                create_cal_options.calendarName = "Evendate";
-                create_cal_options.calendarColor = "#E33D74"; // an optional hex color (with the # char), default is null, so the OS picks a color
-                L.log(create_cal_options);
+                // var cal = window.plugins.calendar,
+                //     create_cal_options = cal.getCreateCalendarOptions();
+                // create_cal_options.calendarName = "Evendate";
+                // create_cal_options.calendarColor = "#E33D74"; // an optional hex color (with the # char), default is null, so the OS picks a color
+                // L.log(create_cal_options);
 
-                window.plugins.calendar.createCalendar(create_cal_options, function (param1, param2) {
-                    L.log('CREATE_CALENDAR_SUCCESS:', param1, param2);
-                    window.plugins.calendar.listCalendars(L.log, L.log);
-                }, function (param1, param2) {
-                    L.log('CREATE_CALENDAR_FAIL:', param1, param2);
-                });
+                // cal.createCalendar(create_cal_options, function (param1, param2) {
+                //     L.log('CREATE_CALENDAR_SUCCESS:', param1, param2);
+                //     cal.listCalendars(L.log, L.log);
+                // }, function (param1, param2) {
+                //     L.log('CREATE_CALENDAR_FAIL:', param1, param2);
+                // });
 
-                __api.events.get([
-                        {id: event.id},
-                        {fields: 'dates{fields:"start_time,end_time"},description,location'}
-                    ],
-                    function (_events) {
-                        var _e = _events[0];
-                        //
-                        L.log(_e);
-                        //
-                        var calOptions = window.plugins.calendar.getCalendarOptions(); // grab the defaults
-                        calOptions.firstReminderMinutes = null; // default is 60, pass in null for no reminder (alarm)
-                        calOptions.secondReminderMinutes = null;
-                        //
-                        calOptions.recurrence = "daily"; // supported are: daily, weekly, monthly, yearly
-                        calOptions.recurrenceEndDate = _e.moment_dates[_e.moment_dates.length - 1].toDate(); // leave null to add events into infinity and beyond
-                        calOptions.calendarName = "Evendate"; // iOS only
-                        //
-                        // This is new since 4.2.7:
-                        calOptions.recurrenceInterval = 1; // once every 2 months in this case, default: 1
-                        //
-                        //
-                        // create an event in a named calendar (iOS only for now)
-                        window.plugins.calendar.createEvent(_e.title, _e.location, _e.description, _e.moment_dates[0].toDate(), _e.moment_dates[_e.moment_dates.length - 1].toDate(), function (param1, param2) {
-                            L.log('CREATE_EVENT_SUCCESS:', param1, param2);
-                        }, function (param1, param2) {
-                            L.log('CREATE_EVENT_ERROR:', param1, param2);
-                        });
-                    });
+                // __api.events.get([
+                //         {id: event.id},
+                //         {fields: 'dates{fields:"start_time,end_time"},description,location'}
+                //     ],
+                //     function (_events) {
+                //         var _e = _events[0];
+                //         //
+                //         L.log(_e);
+                //         //
+
+//                         var options = cal.getCalendarOptions(); // grab the defaults
+//                         options.firstReminderMinutes = 180;     // default is 60, pass in null for no reminder
+//                         options.url = "https://www.telerik.com";
+//                         options.calendar.calendarName = "MyCal"; // iOS only, created for you if not found
+//                         options.calendarId = 1; // Android only, use id obtained from listCalendars()
+// // recurrence options
+//                         options.recurrence = "monthly"; // supported are: daily, weekly, monthly, yearly
+//                         options.recurrenceEndDate = new Date(2016,10,1,0,0,0,0,0); // leave empty to recur forever
+//                         options.recurrenceInterval = 2; // once every 2 months in this case, default: 1
+// // create the event
+//                         cal.createEventWithOptions(title, loc, notes, start, end, options, success, error);
+
+
+                        // var calOptions = window.plugins.calendar.getCalendarOptions(); // grab the defaults
+                        // calOptions.firstReminderMinutes = null; // default is 60, pass in null for no reminder (alarm)
+                        // calOptions.secondReminderMinutes = null;
+                        // //
+                        // calOptions.recurrence = "daily"; // supported are: daily, weekly, monthly, yearly
+                        // calOptions.recurrenceEndDate = _e.moment_dates[_e.moment_dates.length - 1].toDate(); // leave null to add events into infinity and beyond
+                        // calOptions.calendarName = "Evendate"; // iOS only
+                        // //
+                        // // This is new since 4.2.7:
+                        // calOptions.recurrenceInterval = 1; // once every 2 months in this case, default: 1
+                        // //
+                        // //
+                        // // create an event in a named calendar (iOS only for now)
+                        // cal.createEvent(_e.title, _e.location, _e.description, _e.moment_dates[0].toDate(), _e.moment_dates[_e.moment_dates.length - 1].toDate(), function (param1, param2) {
+                        //     L.log('CREATE_EVENT_SUCCESS:', param1, param2);
+                        // }, function (param1, param2) {
+                        //     L.log('CREATE_EVENT_ERROR:', param1, param2);
+                        // });
+                    // });
             };
 
             event.openLikedFriends = function () {

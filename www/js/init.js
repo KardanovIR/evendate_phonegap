@@ -832,5 +832,5 @@ function prepareFilterQuery(filters) {
 }
 
 function shareInfoAboutApp() {
-    window.plugins.socialsharing.share('Я пользуюсь Evendate, чтобы не пропустить интересные события в своих любимых местах.', null, 'http://evendate.ru/app/img/logo_500.png', 'http://evendate.ru')
+    window.plugins.socialsharing.share('Я пользуюсь Evendate, чтобы не пропустить интересные события в своих любимых местах.', null, 'http://evendate.ru/app/img/logo_500.png', 'http://evendate.ru');
 }
