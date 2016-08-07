@@ -345,8 +345,19 @@ function Events() {
 
                 var success = function(message) {alert("Success: " + JSON.stringify(message))};
                 var error   = function(message) {alert("Error: " + message)};
+                var options = cal.getCalendarOptions(); // grab the defaults
+                options.firstReminderMinutes = 180;     // default is 60, pass in null for no reminder
+                options.secondReminderMinutes = 120;
+                options.url = "https://www.telerik.com";
+                options.calendar.calendarName = "MyCal"; // iOS only, created for you if not found
+                options.calendarId = 1; // Android only, use id obtained from listCalendars()
+// recurrence options
+                options.recurrence = "monthly"; // supported are: daily, weekly, monthly, yearly
+                options.recurrenceEndDate = new Date(2016,10,1,0,0,0,0,0); // leave empty to recur forever
+                options.recurrenceInterval = 2; // once every 2 months in this case, default: 1
+// create the event
+                cal.createEventWithOptions(title, loc, notes, start, end, options, success, error);
 
-                cal.createEvent(title, loc, notes, start, end, success, error);
 
                 // create a calendar (iOS only for now)
                 // var cal = window.plugins.calendar,
