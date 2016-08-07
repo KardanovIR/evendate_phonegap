@@ -90,10 +90,10 @@ var child_browser_opened = false,
     __app,
     __to_open_event,
     __setHttpsUsage = function () {
-        if (permanentStorage.getItem('use-https') == 'true'){
+        if (permanentStorage.getItem('use-https') == 'true') {
             CONTRACT.URLS.BASE_NAME = 'https://evendate.ru';
             CONTRACT.URLS.API_FULL_PATH = 'https://evendate.ru/api/v1';
-        }else{
+        } else {
             CONTRACT.URLS.BASE_NAME = 'http://evendate.ru';
             CONTRACT.URLS.API_FULL_PATH = 'http://evendate.ru/api/v1';
         }
@@ -533,12 +533,21 @@ function onDeviceReady() {
         .on('click', function () {
             facebookConnectPlugin.login(['public_profile', 'email', 'user_friends'],
                 function (response) {
-                    L.log('success: ');
-                    L.log(response);
+                    if (response.status == 'connected') {
+                        var ref = window.open('https://evendate.ru/oAuthDone.php?mobile=true&type=facebook&access_token=' + response.authResponse.accessToken, '_blank', 'location=yes');
+
+                        ref.addEventListener('loadstop', function (e) {
+                            L.log(e);
+                            if (/mobileAuthDone/.test(e.url)) {
+                                saveTokenInLocalStorage(url);
+                            }
+                        });
+                    } else {
+                        fw7App.alert('Извините, мы не смогли Вас авторизовать. Попробуйте еще раз или другую соц. сеть.');
+                    }
                 },
-                function (response) {
-                    L.log('error: ');
-                    L.log(response);
+                function (error_text) {
+                    fw7App.alert('Произошла ошибка. Описание: ' + error_text);
                 });
         });
 
