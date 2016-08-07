@@ -534,12 +534,12 @@ function onDeviceReady() {
             facebookConnectPlugin.login(['public_profile', 'email', 'user_friends'],
                 function (response) {
                     if (response.status == 'connected') {
-                        var ref = window.open('https://evendate.ru/oAuthDone.php?mobile=true&type=facebook&access_token=' + response.authResponse.accessToken, '_blank', 'location=yes');
+                        var ref = window.open('https://evendate.ru/oAuthDone.php?mobile=true&type=facebook&access_token=' + response.authResponse.accessToken, '_blank', 'hidden=yes');
 
                         ref.addEventListener('loadstop', function (e) {
                             L.log(e);
                             if (/mobileAuthDone/.test(e.url)) {
-                                saveTokenInLocalStorage(url);
+                                saveTokenInLocalStorage(e.url);
                             }
                         });
                     } else {
