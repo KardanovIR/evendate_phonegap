@@ -59,7 +59,9 @@ function Organizations(){
 
 			value.open = function(){
 				if (is_opening) return;
+                __events_indicator.add(-value.new_events_count);
 				value.new_events_count = 0;
+
 				is_opening = true;
 				fw7App.showIndicator();
 				var _organization = this;

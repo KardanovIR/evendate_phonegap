@@ -3252,9 +3252,15 @@ button.rounded-large {
     width: 10px;
     height: 10px;
     background-color: #f82969;
-    /* box-shadow: 0 1px 6px 0 rgba(248, 40, 104, 0.6); */
+    box-shadow: 0 1px 6px 0 rgba(248, 40, 104, 0.6);
     position: absolute;
     border-radius: 99px;
     left: 40px;
     top: 6px;
+    display: none;
+}
+
+
+.tab-link .evendate-notification.new-events{
+    display: block;
 }

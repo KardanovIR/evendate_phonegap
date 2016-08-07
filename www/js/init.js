@@ -1,7 +1,7 @@
 /*jslint browser: true*/
 /*global console, Framework7, angular, Dom7*/
 
-String.prototype.capitalize = function() {
+String.prototype.capitalize = function () {
     return this.charAt(0).toUpperCase() + this.slice(1);
 };
 
@@ -89,6 +89,34 @@ var child_browser_opened = false,
     __api,
     __app,
     __to_open_event,
+    __setHttpsUsage = function () {
+        if (permanentStorage.getItem('use-https') == 'true'){
+            CONTRACT.URLS.BASE_NAME = 'https://evendate.ru';
+            CONTRACT.URLS.API_FULL_PATH = 'https://evendate.ru/api/v1';
+        }else{
+            CONTRACT.URLS.BASE_NAME = 'http://evendate.ru';
+            CONTRACT.URLS.API_FULL_PATH = 'http://evendate.ru/api/v1';
+        }
+    },
+    __events_indicator = {
+        count: 0,
+        setCount: function (count) {
+            this.count = count;
+            this.updateView();
+        },
+        updateView: function () {
+            var $$indicator = $$('.evendate-notification');
+            if (this.count <= 0) {
+                $$indicator.removeClass('new-events');
+            } else {
+                $$indicator.addClass('new-events');
+            }
+        },
+        add: function (count) {
+            this.count += count;
+            this.updateView();
+        }
+    },
     __organizations = {
         getList: function (callback) {
             if (this.list.length != 0) {
@@ -112,7 +140,7 @@ var child_browser_opened = false,
                         };
                     }
 
-                    if (org.hasOwnProperty('is_new') && org.is_new == true){
+                    if (org.hasOwnProperty('is_new') && org.is_new == true) {
                         _this.list_with_keys.is_new.organizations.push(org);
                     }
 
@@ -162,7 +190,7 @@ var child_browser_opened = false,
     callbackObjects = {};
 
 if (window.hasOwnProperty('io')) {
-    window.socket = io.connect('http://evendate.ru:443');
+    window.socket = io.connect('http://test.evendate.ru:443');
 }
 window.L = {
     log: function (data) {
@@ -491,6 +519,7 @@ function resetAccount() {
 }
 
 function onDeviceReady() {
+    __setHttpsUsage();
     __api = initAPI();
     moment.locale("ru");
 
@@ -498,30 +527,6 @@ function onDeviceReady() {
 
     StatusBar.overlaysWebView(true);
     StatusBar.styleDefault();
-
-    $$('')
-        .off('click')
-        .on('click', function () {
-            window.plugins.googleplus.isAvailable(
-                function (available) {
-                    L.log('available:', available);
-                }
-            );
-
-            window.plugins.googleplus.login(
-                {
-                    'scopes': 'email profile https://www.googleapis.com/auth/plus.login', // optional, space-separated list of scopes, If not included or empty, defaults to `profile` and `email`.
-                    'webClientId': '403640417782-lfkpm73j5gqqnq4d3d97vkgfjcoebucv.apps.googleusercontent.com', // optional clientId of your Web application from Credentials settings of your project - On Android, this MUST be included to get an idToken. On iOS, it is not required.
-                    'offline': true // optional, but requires the webClientId - if set to true the plugin will also return a serverAuthCode, which can be used to grant offline access to a non-Google server
-                },
-                function (obj) {
-                    L.log(JSON.stringify(obj)); // do something useful instead of alerting
-                },
-                function (msg) {
-                    L.log('error: ' + msg);
-                }
-            );
-        });
 
     $$('.facebook-btn')
         .off('click')
@@ -566,17 +571,11 @@ function openNotification() {
     }
 }
 
-function showNotificationsList(){
+function showNotificationsList() {
     angular.element($$('.page.event.page-on-center')).scope().showNotificationsList();
 }
 
-//HACK!
-function moveBackground(){
-
-}
-
 function openApplication() {
-
 
 
     angular.element($$('#profile')).scope().setUser();
@@ -596,7 +595,7 @@ function openApplication() {
         angular.element($$('#friends')).scope().startBinding(true);
     });
 
-    $$('#friends-tabbar-link').on('click', function(){
+    $$('#friends-tabbar-link').on('click', function () {
         $$('#view-friends .tab-link.active').click();
     });
 
@@ -623,7 +622,6 @@ function openApplication() {
         $$this.find('.active-icon').addClass('active').removeClass('hidden');
 
     });
-
 
     __is_ready = true;
     L.log(__to_open_event);
@@ -686,11 +684,8 @@ function showSlides(to_reset) {
     $$('.view').removeClass('active');
     $$('.view-main').removeClass('active');
 
-    if (window.VkSdk){
-        VkSdk.init('5029623');
-    }
 
-    $$('.google-btn')
+    $$('.vk-btn,.google-btn')
         .off('click')
         .on('click', function () {
             var type = $$(this).data('type');
@@ -711,14 +706,6 @@ function showSlides(to_reset) {
                 }
             };
         });
-
-    $$('.vk-btn').on('click', function(){
-        VkSdk.initiateLogin(['groups','friends','email','wall','offline','pages','photos']);
-    });
-
-    document.addEventListener('vkSdk.newToken', function(token) {
-        L.log('New token is ' + token);
-    });
 
     $$('.start-demo-button').on('click', function () {
         setDemoAccount();

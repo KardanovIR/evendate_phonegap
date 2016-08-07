@@ -134,6 +134,9 @@ function Users() {
             if (values.hasOwnProperty('add-to-calendar')){
                 permanentStorage.setItem('add-to-calendar', values['add-to-calendar']);
             }
+            if (values.hasOwnProperty('use-https')){
+                permanentStorage.setItem('use-https', values['use-https']);
+            }
             if (values.hasOwnProperty('show-to-friends')){
                 $$.ajax({
                     url: CONTRACT.URLS.API_FULL_PATH + CONTRACT.URLS.USERS_PATH + '/me/settings',

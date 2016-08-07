@@ -8,7 +8,7 @@ MyApp.pages.OnboardingPageController = function ($scope) {
     var ls,
         page = 1;
 
-    $scope.setItems = function(items){
+    $scope.setCount = function(items){
         $scope.organizations = items;
         ls = fw7App.loginScreen();
         fw7App.attachInfiniteScroll($$('.login-screen-content'));

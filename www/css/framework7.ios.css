@@ -1419,7 +1419,7 @@ html.pixel-ratio-3 .toolbar:before {
 }
 
 .tabbar a {
-    opacity: 0.69;
+    /*opacity: 0.69;*/
     font-size: 10px;
     color: #ffffff;
     letter-spacing: -0.07px;

@@ -6,7 +6,6 @@
     <meta name="viewport"
           content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <meta name="format-detection" content="telephone=no"/>
     <title>Evendate</title>
     <!-- Path to Framework7 Library CSS-->
@@ -16,8 +15,6 @@
     <link rel="stylesheet" href="css/ionic_icons.min.css">
     <link rel="stylesheet" href="css/sf.css">
     <link rel="stylesheet" href="css/welcomescreen/main.css?nc=3">
-    <!--<link rel="stylesheet" href="css/lineicons.css">-->
-    <link rel="stylesheet" href="css/introjs.css">
 </head>
 
 <body id="main-body">
@@ -482,6 +479,21 @@
                                     <li>
                                         <div class="item-content">
                                             <div class="item-inner">
+                                                <div class="item-title label settings">Использовать HTTPS
+                                                </div>
+                                                <div class="item-input">
+                                                    <label class="label-switch">
+                                                        <input type="checkbox" name="use-https"
+                                                               id="use-https">
+                                                        <div class="checkbox"></div>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="item-content">
+                                            <div class="item-inner">
                                                 <div class="item-title label settings">Версия</div>
                                                 <div class="item-input">
                                                     2.0.0
@@ -554,10 +566,6 @@
     </div>
 </div>
 
-<div style="visibility: hidden;">
-
-</div>
-
 <script type="text/javascript" src="js/models/Organizations.js"></script>
 <script type="text/javascript" src="js/models/Subscriptions.js"></script>
 <script type="text/javascript" src="js/models/Events.js"></script>
@@ -585,7 +593,7 @@
 <script type="text/javascript" src="js/pages/FeedsPageController.js"></script>
 <script type="text/javascript" src="js/pages/OnboardingPageController.js"></script>
 <script type="text/javascript" src="js/imgcache.js"></script>
-<script type="text/javascript" src="http://evendate.ru:443/socket.io/socket.io.js"></script>
+<script type="text/javascript" src="http://test.evendate.ru:443/socket.io/socket.io.js"></script>
 <script type="text/javascript" src="phonegap.js"></script>
 <script type="text/javascript" src="childbrowser.js"></script>
 <script type="text/javascript" src="PushNotification.js"></script>
