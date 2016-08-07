@@ -534,12 +534,14 @@ function onDeviceReady() {
             facebookConnectPlugin.login(['public_profile', 'email', 'user_friends'],
                 function (response) {
                     if (response.status == 'connected') {
+                        fw7App.showIndicator();
                         var ref = window.open('https://evendate.ru/oAuthDone.php?mobile=true&type=facebook&access_token=' + response.authResponse.accessToken, '_blank', 'hidden=yes');
 
                         ref.addEventListener('loadstop', function (e) {
                             L.log(e);
                             if (/mobileAuthDone/.test(e.url)) {
                                 saveTokenInLocalStorage(e.url);
+                                fw7App.hideIndicator();
                             }
                         });
                     } else {
