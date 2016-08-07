@@ -346,7 +346,8 @@ function Events() {
                 var success = function(message) {alert("Success: " + JSON.stringify(message))};
                 var error   = function(message) {alert("Error: " + message)};
 
-                cal.createEvent(title, loc, notes, start, end, onSuccess, onError);
+                cal.createEvent(title, loc, notes, start, end, success, error);
+
                 // create a calendar (iOS only for now)
                 // var cal = window.plugins.calendar,
                 //     create_cal_options = cal.getCreateCalendarOptions();
