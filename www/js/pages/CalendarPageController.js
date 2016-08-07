@@ -148,25 +148,14 @@ MyApp.pages.CalendarPageController = function ($scope) {
             weekHeader: true,
             monthPicker: false,
             yearPicker: false,
-            toolbarTemplate: '<div class="calendar-head-year"></div>' +
-            '<div class="toolbar calendar-custom-toolbar">' +
-            '<div class="toolbar-inner">' +
-            '<div class="left">' +
-            '<a href="#" class="link icon-only calendar"><i class="ion-ios-arrow-thin-left"></i></a>' +
-            '</div>' +
-            '<div class="center calendar-month-name"></div>' +
-            '<div class="right">' +
-            '<a href="#" class="link icon-only calendar"><i class="ion-ios-arrow-thin-right"></i></a>' +
-            '</div>' +
-            '</div>' +
-            '</div>',
+            toolbarTemplate: '',
             onOpen: function (p) {
                 $scope.year = p.currentYear;
                 $scope.month = p.currentMonth + 1;
-                $$('.calendar-custom-toolbar .left .link').on('click', function () {
+                $$('#view-calendar .left .link').on('click', function () {
                     calendarInline.prevMonth();
                 });
-                $$('.calendar-custom-toolbar .right .link').on('click', function () {
+                $$('#view-calendar .right .link').on('click', function () {
                     calendarInline.nextMonth();
                 });
                 $$('.picker-calendar-day-selected').removeClass('picker-calendar-day-selected');
@@ -250,7 +239,7 @@ MyApp.pages.CalendarPageController = function ($scope) {
     });
 
     $scope.$watch('month', function (val) {
-        $$('.calendar-custom-toolbar .center').text(monthNames[val]);
+        $scope.month_name = monthNames[val];
     });
 
 

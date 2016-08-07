@@ -65,10 +65,6 @@ MyApp.pages.EventsInDayController = function ($scope, $element) {
 
     $scope.showPage = function () {
         getEventsPortion($scope.date, updateView);
-        $$('#view-calendar .navbar').removeClass('not-visible');
-        fw7App.onPageBack('events_in_day', function () {
-            $$('#view-calendar .navbar').addClass('not-visible');
-        })
     };
 
     $scope.setDate = function (date) {

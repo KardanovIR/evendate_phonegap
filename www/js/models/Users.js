@@ -116,6 +116,39 @@ function Users() {
                 }
             });
         },
+        getSettings: function(cb){
+            $$.ajax({
+                url: CONTRACT.URLS.API_FULL_PATH + CONTRACT.URLS.USERS_PATH + '/settings',
+                success: function (res) {
+                    var save_in_calendar = permanentStorage.getItem('add-to-calendar');
+                    res.data['add-to-calendar'] = save_in_calendar === null ? true : save_in_calendar;
+                    cb(res.data);
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    fw7App.hideIndicator();
+                    fw7App.alert(CONTRACT.ALERTS.REQUEST_ERROR);
+                }
+            });
+        },
+        setSettings: function(values, cb){
+            if (values.hasOwnProperty('add-to-calendar')){
+                permanentStorage.setItem('add-to-calendar', values['add-to-calendar']);
+            }
+            if (values.hasOwnProperty('show-to-friends')){
+                $$.ajax({
+                    url: CONTRACT.URLS.API_FULL_PATH + CONTRACT.URLS.USERS_PATH + '/me/settings',
+                    type: 'PUT',
+                    data:{'show-to-friends': values['show-to-friends']},
+                    success: function (res) {
+                        cb(res.data);
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        fw7App.hideIndicator();
+                        fw7App.alert(CONTRACT.ALERTS.REQUEST_ERROR);
+                    }
+                });
+            }
+        },
         normalize: normalize
     }
 }

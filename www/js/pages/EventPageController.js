@@ -9,6 +9,54 @@ MyApp.pages.EventPageController = function ($scope) {
     $scope.event = {};
     $scope.details_shown = false;
 
+    function toggleNotificationState() {
+        $scope.event.toggleNotification(this.type);
+        $$('.bg-' + this.bg).toggleClass('active');
+    }
+
+    var notifications = [
+        {
+            text: 'За 15 минут',
+            close: false,
+            type: 'notification-before-quarter-of-hour',
+            timediff: 900,
+            bg: 'notification-before-quarter-of-hour',
+            onClick: toggleNotificationState
+        },
+        {
+            text: 'За 3 часа',
+            close: false,
+            timediff: 10800,
+            type: 'notification-before-three-hours',
+            bg: 'notification-before-three-hours',
+            onClick: toggleNotificationState
+        },
+        {
+            text: 'За день',
+            close: false,
+            timediff: 86400,
+            type: 'notification-before-day',
+            bg: 'notification-before-day',
+            onClick: toggleNotificationState
+        },
+        {
+            text: 'За 3 дня',
+            close: false,
+            timediff: 259200,
+            type: 'notification-before-three-days',
+            bg: 'notification-before-three-days',
+            onClick: toggleNotificationState
+        },
+        {
+            text: 'За неделю',
+            close: false,
+            timediff: 604800,
+            type: 'notification-before-week',
+            bg: 'notification-before-week',
+            onClick: toggleNotificationState
+        }
+    ];
+
     $scope.toggleDetails = function () {
         $scope.details_shown = !$scope.details_shown;
         if (!$scope.details_shown) {
@@ -18,54 +66,7 @@ MyApp.pages.EventPageController = function ($scope) {
         }
     };
 
-    function toggleNotificationState() {
-        $scope.event.toggleNotification(this.type);
-        $$('.bg-' + this.bg).toggleClass('active');
-    }
-
-    $scope.showNotificationsList = function () {
-        var notifications = [
-            {
-                text: 'За 15 минут',
-                close: false,
-                type: 'notification-before-quarter-of-hour',
-                timediff: 900,
-                bg: 'notification-before-quarter-of-hour',
-                onClick: toggleNotificationState
-            },
-            {
-                text: 'За 3 часа',
-                close: false,
-                timediff: 10800,
-                type: 'notification-before-three-hours',
-                bg: 'notification-before-three-hours',
-                onClick: toggleNotificationState
-            },
-            {
-                text: 'За день',
-                close: false,
-                timediff: 86400,
-                type: 'notification-before-day',
-                bg: 'notification-before-day',
-                onClick: toggleNotificationState
-            },
-            {
-                text: 'За 3 дня',
-                close: false,
-                timediff: 259200,
-                type: 'notification-before-three-days',
-                bg: 'notification-before-three-days',
-                onClick: toggleNotificationState
-            },
-            {
-                text: 'За неделю',
-                close: false,
-                timediff: 604800,
-                type: 'notification-before-week',
-                bg: 'notification-before-week',
-                onClick: toggleNotificationState
-            }
-        ];
+    function getNotificationButtons(){
         var notification_buttons = [],
             m_now = moment().unix(),
             first_event_date = $scope.event.first_event_date;
@@ -76,7 +77,24 @@ MyApp.pages.EventPageController = function ($scope) {
             }
             notification_buttons.push(notification);
         });
-        fw7App.actions(notification_buttons);
+        return notification_buttons;
+    }
+
+    $scope.showNotificationsList = function () {
+        var buttons = getNotificationButtons();
+        if (buttons.length == 0){
+            buttons = [
+                {
+                    text: 'Событие уже началось, добавить дополнительные уведомления нельзя.',
+                    label: true
+                },
+                {
+                    text: 'Закрыть',
+                    color: 'red'
+                }
+            ];
+        }
+        fw7App.actions(buttons);
     };
 
     $scope.setEvent = function (event) {

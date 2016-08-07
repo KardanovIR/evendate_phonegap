@@ -189,9 +189,7 @@ function Events() {
                 if (callbackObjects['eventPageAfterAnimation']) {
                     callbackObjects['eventPageAfterAnimation'].remove();
                 }
-                if (callbackObjects['onPageBack']) {
-                    callbackObjects['onPageBack'].remove();
-                }
+
                 callbackObjects['eventPageBeforeAnimation'] = fw7App.onPageBeforeAnimation('event', function (page) {
                     var $$container = $$(page.container),
                         $$page = $$container.parents('.page.event');
@@ -217,16 +215,6 @@ function Events() {
                 callbackObjects['eventPageAfterAnimation'] = fw7App.onPageAfterAnimation('event', function () {
                     is_opening = false;
                 });
-
-                callbackObjects['onPageBack'] = fw7App.onPageBack('event', function () {
-                    if (fw7App.getCurrentView().history.length == 2){
-                        $$('#view-calendar .navbar').addClass('not-visible');
-                    }
-                });
-
-                if (fw7App.getCurrentView().selector == '.view-calendar'){
-                    $$('#view-calendar .navbar').removeClass('not-visible');
-                }
 
                 fw7App.getCurrentView().router.loadPage({
                     url: 'pages/event.html?id=' + event.id + '&t=' + new Date().getTime(),

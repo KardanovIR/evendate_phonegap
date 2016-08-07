@@ -343,17 +343,17 @@ span.day-number.with-favorites-13::after {
     /*-webkit-transition: all 0.3s linear;*/
     /*transition: all 0.3s linear;*/
     position: fixed;
-    top: calc(50% + 14px);
+    top: calc(50% + 54px);
     display: block;
     overflow: scroll;
-    height: calc(50% - 70px);
+    height: calc(50% - 110px);
     width: 100%;
     padding-top: 5px;
 }
 
 .picker-calendar.picker-modal-inline {
     position: absolute;
-    top: 2px;
+    top: 44px;
     box-shadow: 0 0 7px 0 rgba(0, 0, 0, 0.3);
 }
 
@@ -1110,14 +1110,12 @@ li.organization {
 }
 
 .events_in_day .day-title {
-    top: 38px;
+    top: 43px;;
     height: 56px;
     width: 100%;
     position: absolute;
     left: 0;
-    /* top: 0; */
     width: 100%;
-    /* height: 100%; */
     padding: 0 8px;
     box-sizing: border-box;
     display: -webkit-box;
@@ -1132,7 +1130,6 @@ li.organization {
     -ms-flex-align: center;
     -webkit-align-items: center;
     align-items: center;
-    background-color: #ffffff;
     font-size: 20px;
     color: #4A4A4A;
     letter-spacing: 2px;
@@ -1153,7 +1150,7 @@ li.organization {
 }
 
 .events_in_day .list-block {
-    margin: 50px 0;
+    margin: 100px 0;
 }
 
 .no-events-text, .no-friends-text {
@@ -1519,7 +1516,7 @@ and (orientation: portrait) {
     }
 
     #calendar-date-events-list {
-        top: calc(58% + 14px);
+        top: calc(58% + 54px);
     }
 
     .auth-slide .content-block {
@@ -1672,8 +1669,8 @@ and (orientation: portrait) {
     }
 
     #calendar-date-events-list {
-        top: calc(48% + 14px);
-        height: calc(46% - 38px);
+        top: calc(48% + 54px);
+        height: calc(46% - 78px);
         padding-top: 5px;
     }
 
@@ -1871,8 +1868,8 @@ and (-webkit-min-device-pixel-ratio: 2) {
     }
 
     #calendar-date-events-list {
-        top: calc(51% - 4px);
-        height: calc(46% - 33px);
+        top: calc(51% + 38px);
+        height: calc(46% - 73px);
         padding-top: 5px;
     }
 
@@ -3247,6 +3244,17 @@ button.rounded-large {
     padding-left: 3px;
 }
 
-.item-title.label.settings{
+.item-title.label.settings {
     width: 80%
+}
+
+.tab-link .evendate-notification {
+    width: 10px;
+    height: 10px;
+    background-color: #f82969;
+    /* box-shadow: 0 1px 6px 0 rgba(248, 40, 104, 0.6); */
+    position: absolute;
+    border-radius: 99px;
+    left: 40px;
+    top: 6px;
 }

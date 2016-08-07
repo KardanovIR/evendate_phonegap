@@ -23,6 +23,21 @@ MyApp.pages.ProfilePageController = function ($scope) {
         $scope.getSubscriptionsList();
     };
 
+    function getSettings() {
+        __api.users.getSettings(function (data) {
+            $$('#show-to-friends')
+                .prop('checked', data.show_to_friends)
+                .on('change', function () {
+                    __api.users.setSettings({'show-to-friends': $$(this).prop('checked')}, function(){});
+                });
+            $$('#add-to-calendar')
+                .prop('checked', data['add-to-calendar'] == 'true')
+                .on('change', function () {
+                    __api.users.setSettings({'add-to-calendar': $$(this).prop('checked')}, function(){});
+                });
+        });
+    }
+
     $scope.getSubscriptionsList = function () {
         $scope.data_loaded = false;
         $scope.no_subscriptions = true;
@@ -45,6 +60,7 @@ MyApp.pages.ProfilePageController = function ($scope) {
             }
             $scope.$apply();
         });
+        getSettings()
     };
 
     $$('.logout-icon').on('click', resetAccount);

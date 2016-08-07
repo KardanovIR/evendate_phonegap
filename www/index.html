@@ -112,12 +112,14 @@
         </div>
     </div>
     <div id="view-calendar" class="view view-calendar tab" ng-controller="CalendarPageController">
-        <div class="navbar not-visible">
+        <div class="navbar">
             <div class="navbar-inner">
                 <div class="subnavbar blur">
-                    <div class="left"></div>
-                    <div class="center"></div>
-                    <div class="right"></div>
+                    <div class="left"><a href="#" class="link icon-only calendar"><i
+                            class="ion-ios-arrow-thin-left"></i></a></div>
+                    <div class="center calendar-month-name">{{month_name}}</div>
+                    <div class="right"><a href="#" class="link icon-only calendar"><i
+                            class="ion-ios-arrow-thin-right"></i></a></div>
                 </div>
             </div>
         </div>
@@ -449,10 +451,13 @@
                                     <li>
                                         <div class="item-content">
                                             <div class="item-inner">
-                                                <div class="item-title label settings">Добавлять избранные события в календарь</div>
+                                                <div class="item-title label settings">Добавлять избранные события в
+                                                    календарь
+                                                </div>
                                                 <div class="item-input">
                                                     <label class="label-switch">
-                                                        <input type="checkbox">
+                                                        <input type="checkbox" name="add-to-calendar"
+                                                               id="add-to-calendar">
                                                         <div class="checkbox"></div>
                                                     </label>
                                                 </div>
@@ -462,10 +467,12 @@
                                     <li>
                                         <div class="item-content">
                                             <div class="item-inner">
-                                                <div class="item-title label settings">Показывать мои действия друзьям</div>
+                                                <div class="item-title label settings">Показывать мои действия друзьям
+                                                </div>
                                                 <div class="item-input">
                                                     <label class="label-switch">
-                                                        <input type="checkbox">
+                                                        <input type="checkbox" name="show_to_friends"
+                                                               id="show-to-friends">
                                                         <div class="checkbox"></div>
                                                     </label>
                                                 </div>
@@ -477,7 +484,7 @@
                                             <div class="item-inner">
                                                 <div class="item-title label settings">Версия</div>
                                                 <div class="item-input">
-                                                    v 2.0.0
+                                                    2.0.0
                                                 </div>
                                             </div>
                                         </div>
@@ -541,6 +548,7 @@
                 <img src="img/icons/muted/profile.svg" class="muted-icon active">
                 <img src="img/icons/active/profile.svg" class="active-icon hidden">
                 <span class="tabbar-label">Профиль</span>
+                <span class="evendate-notification"></span>
             </a>
         </div>
     </div>
