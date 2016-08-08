@@ -392,14 +392,14 @@ function Events() {
                                         function(message){
                                             if (++index < _e.moment_dates.length){
                                                 L.log('Added: ' + message + '... Adding next');
-                                                addNextDate(moment_dates[index], index);
+                                                addNextDate(_e.moment_dates[index], index);
                                             }else{
                                                 L.log('Done.');
                                             }
                                         },
                                         error
                                     );
-                                })(moment_dates[0], 0);
+                                })(_e.moment_dates[0], 0);
                             }
                         }
 
