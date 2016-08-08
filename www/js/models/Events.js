@@ -349,14 +349,15 @@ function Events() {
                         //
 
 
-                        var success = function(message) { L.log("Success: " + JSON.stringify(message)); };
-                        var error = function(message) { L.log("Error: " + message); };
+                        var success = function (message) {
+                            L.log("Success: " + JSON.stringify(message));
+                        };
+                        var error = function (message) {
+                            L.log("Error: " + message);
+                        };
 
-                        var createCalOptions = cal.getCreateCalendarOptions();
-                        createCalOptions.calendarName = "Evendate";
-                        createCalOptions.calendarColor = "#f82969"; // an optional hex color (with the # char), default is null, so the OS picks a color
-                        cal.createCalendar(createCalOptions, function (id) {
-                            L.log('Calendar created'  + id);
+                        function addDatesToCalendar() {
+                            L.log('Calendar created' + id);
                             var calOptions = cal.getCalendarOptions(); // grab the defaults
                             calOptions.calendarName = "Evendate";
 
@@ -388,9 +389,30 @@ function Events() {
                                     );
                                 });
                             }
-                        }, function (message) {
-                            alert("Error: " + message);
-                        });
+                        }
+
+                        cal.listCalendars(function (calendars) {
+                            var calendar_exists = false;
+                            calendars.forEach(function (calendar) {
+                                if (calendar.name == 'Evendate' && calendar.id == permanentStorage.getItem('calendar-id')) {
+                                    calendar_exists = true;
+                                }
+                            });
+
+                            if (calendar_exists == false) {
+                                var createCalOptions = cal.getCreateCalendarOptions();
+                                createCalOptions.calendarName = "Evendate";
+                                createCalOptions.calendarColor = "#f82969"; // an optional hex color (with the # char), default is null, so the OS picks a color
+                                cal.createCalendar(createCalOptions, function (id) {
+                                    permanentStorage.setItem('calendar-id', id);
+                                    addDatesToCalendar();
+                                }, function (message) {
+                                    alert("Error: " + message);
+                                });
+                            } else {
+                                addDatesToCalendar();
+                            }
+                        }, error);
 
 
                         // // reminderd
@@ -470,72 +492,72 @@ function Events() {
         return _items;
     }
 
-    return {
-        'get': function (filters, cb) {
-            var _f = prepareFilterQuery(filters),
-                _r,
-                url = CONTRACT.URLS.API_FULL_PATH + CONTRACT.URLS.EVENTS_PATH;
-            if (_f.data.hasOwnProperty('timeline') && _f.data.timeline == true) {
-                url += '/' + CONTRACT.URLS.MY_PART
-            }
-            if (_f.data.hasOwnProperty('favorites') && _f.data.favorites == true) {
-                url += '/' + CONTRACT.URLS.FAVORITES_PART
-            }
-            if (_f.data.hasOwnProperty('recommendations') && _f.data.favorites == true) {
-                url += '/' + CONTRACT.URLS.RECOMMENDATIONS_PART
-            }
-            if (_f.data.hasOwnProperty('type')) {
-                switch (_f.data.type) {
-                    case 'timeline': {
-                        url += '/' + CONTRACT.URLS.MY_PART;
-                        break;
-                    }
-                    case 'favorites': {
-                        url += '/' + CONTRACT.URLS.FAVORITES_PART;
-                        break;
-                    }
-                    case 'recommendations': {
-                        url += '/' + CONTRACT.URLS.RECOMMENDATIONS_PART;
-                        break;
-                    }
-                }
-            }
-            if (_f.data.hasOwnProperty('id')) {
-                url += '/' + _f.data.id;
-            }
-            if (_f.data.hasOwnProperty('my')) {
-                url += '/my';
-            }
-
-            L.log(url);
-            L.log(_f.data);
-
-            $$.ajax({
-                url: url,
-                data: _f.data,
-                success: function (res) {
-                    res.data = [].concat(res.data);
-                    _r = normalize(res.data);
-                    cb(_r);
-                }
-            });
-
-        },
-        normalizeAll: function (items) {
-            return normalize(items);
-        },
-        'dates': {
+        return {
             'get': function (filters, cb) {
                 var _f = prepareFilterQuery(filters),
-                    url = CONTRACT.URLS.API_FULL_PATH + CONTRACT.URLS.EVENTS_PATH + '/' + CONTRACT.URLS.DATES_PATH + '';
+                    _r,
+                    url = CONTRACT.URLS.API_FULL_PATH + CONTRACT.URLS.EVENTS_PATH;
+                if (_f.data.hasOwnProperty('timeline') && _f.data.timeline == true) {
+                    url += '/' + CONTRACT.URLS.MY_PART
+                }
+                if (_f.data.hasOwnProperty('favorites') && _f.data.favorites == true) {
+                    url += '/' + CONTRACT.URLS.FAVORITES_PART
+                }
+                if (_f.data.hasOwnProperty('recommendations') && _f.data.favorites == true) {
+                    url += '/' + CONTRACT.URLS.RECOMMENDATIONS_PART
+                }
+                if (_f.data.hasOwnProperty('type')) {
+                    switch (_f.data.type) {
+                        case 'timeline': {
+                            url += '/' + CONTRACT.URLS.MY_PART;
+                            break;
+                        }
+                        case 'favorites': {
+                            url += '/' + CONTRACT.URLS.FAVORITES_PART;
+                            break;
+                        }
+                        case 'recommendations': {
+                            url += '/' + CONTRACT.URLS.RECOMMENDATIONS_PART;
+                            break;
+                        }
+                    }
+                }
+                if (_f.data.hasOwnProperty('id')) {
+                    url += '/' + _f.data.id;
+                }
+                if (_f.data.hasOwnProperty('my')) {
+                    url += '/my';
+                }
+
+                L.log(url);
+                L.log(_f.data);
+
                 $$.ajax({
                     url: url,
                     data: _f.data,
                     success: function (res) {
-                        cb(res.data);
+                        res.data = [].concat(res.data);
+                        _r = normalize(res.data);
+                        cb(_r);
                     }
                 });
+
+            },
+            normalizeAll: function (items) {
+                return normalize(items);
+            },
+            'dates': {
+                'get': function (filters, cb) {
+                    var _f = prepareFilterQuery(filters),
+                        url = CONTRACT.URLS.API_FULL_PATH + CONTRACT.URLS.EVENTS_PATH + '/' + CONTRACT.URLS.DATES_PATH + '';
+                    $$.ajax({
+                        url: url,
+                        data: _f.data,
+                        success: function (res) {
+                            cb(res.data);
+                        }
+                    });
+                }
             }
         }
     }
-}
