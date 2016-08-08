@@ -335,7 +335,7 @@ function Events() {
 
             event.addToCalendar = function () {
 
-                __addToCalendar();
+                __addToCalendar
 
                 // create a calendar (iOS only for now)
                 // var cal = window.plugins.calendar,

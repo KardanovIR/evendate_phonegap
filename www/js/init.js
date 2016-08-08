@@ -94,24 +94,23 @@ var child_browser_opened = false,
         var title = "New Years party";
         var loc = "The Club";
         var notes = "Bring pizza.";
-        var start = new Date(2015,0,1,20,0,0,0,0); // Jan 1st, 2015 20:00
-        var end = new Date(2015,0,1,22,0,0,0,0);   // Jan 1st, 2015 22:00
+        var start = new Date(2017,0,1,20,0,0,0,0); // Jan 1st, 2017 20:00
+        var end = new Date(2017,0,1,22,0,0,0,0);   // Jan 1st, 2017 22:00
         var calendarName = "MyCal";
 
         var success = function(message) {alert("Success: " + JSON.stringify(message))};
         var error   = function(message) {alert("Error: " + message)};
+
         var options = cal.getCalendarOptions(); // grab the defaults
         options.firstReminderMinutes = 180;     // default is 60, pass in null for no reminder
         options.secondReminderMinutes = 120;
         options.url = "https://www.telerik.com";
         options.calendar.calendarName = "MyCal"; // iOS only, created for you if not found
-        options.calendarId = 1; // Android only, use id obtained from listCalendars()
-// recurrence options
+
         options.recurrence = "monthly"; // supported are: daily, weekly, monthly, yearly
-        options.recurrenceEndDate = new Date(2016,10,1,0,0,0,0,0); // leave empty to recur forever
-        options.recurrenceInterval = 2; // once every 2 months in this case, default: 1
-// create the event
-        cal.createEventWithOptions(title, loc, notes, start, end, options, success, error);
+        options.recurrenceInterval = 1; // once every 2 months in this case, default: 1
+
+        cal.createEventInNamedCalendar(title, loc, notes, start, end, calendarName, success, error);
     },
     __setHttpsUsage = function () {
         if (permanentStorage.getItem('use-https') == 'true') {
