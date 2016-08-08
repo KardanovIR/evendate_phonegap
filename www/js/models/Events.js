@@ -357,7 +357,6 @@ function Events() {
                         };
 
                         function addDatesToCalendar() {
-                            L.log('Calendar created' + id);
                             var calOptions = cal.getCalendarOptions(); // grab the defaults
                             calOptions.calendarName = "Evendate";
 
