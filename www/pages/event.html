@@ -134,15 +134,6 @@
                             <div class="list-block event-menu-items">
                                 <ul class="no-border">
                                     <li>
-                                        <a href="#" class="item-link item-content" ng-click="event.share();">
-                                            <div class="item-media"><i class="ion-ios-upload-outline"></i></div>
-                                            <div class="item-inner no-background-image">
-                                                <div class="item-title text-bold">Рассказать друзьям</div>
-                                                <div class="item-after"></div>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li>
                                         <a href="#" class="item-link item-content"
                                            ng-click="event.openDetailInfoUrl();">
                                             <div class="item-media"><i class="ion-ios-browsers-outline"></i></div>
@@ -152,10 +143,28 @@
                                         </a>
                                     </li>
                                     <li>
+                                        <a href="#" class="item-link item-content" ng-click="event.share();">
+                                            <div class="item-media"><i class="ion-ios-upload-outline"></i></div>
+                                            <div class="item-inner no-background-image">
+                                                <div class="item-title text-bold">Рассказать друзьям</div>
+                                                <div class="item-after"></div>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li>
                                         <a href="#" class="item-link item-content" ng-click="event.openMap();">
                                             <div class="item-media"><i class="ion-ios-navigate-outline"></i></div>
                                             <div class="item-inner no-background-image">
                                                 <div class="item-title text-bold">Показать на карте</div>
+                                                <div class="item-after"></div>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#" class="item-link item-content" onclick="__addToCalendar();">
+                                            <div class="item-media"><i class="ion-ios-navigate-outline"></i></div>
+                                            <div class="item-inner no-background-image">
+                                                <div class="item-title text-bold">Добавить в календарь</div>
                                                 <div class="item-after"></div>
                                             </div>
                                         </a>
