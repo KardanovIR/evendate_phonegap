@@ -350,8 +350,12 @@ function Events() {
                     event.moment_dates[0].start_date.toDate(),
                     event.moment_dates[event.moment_dates.length - 1].end_date.toDate(),
                     'Evendate',
-                    success,
-                    error);
+                    function(message){
+                        L.log("Success: " + JSON.stringify(message));
+                    },
+                    function(message){
+                        L.log("error: " + message);
+                    });
             };
 
             event.addToCalendar = function () {
