@@ -340,13 +340,12 @@ function Events() {
 
                 __api.events.get([
                         {id: event.id},
-                        {fields: 'dates{fields:"start_time,end_time"},description,location,link'}
+                        {fields: 'dates{fields:"start_time,end_time",length:500},description,is_same_time,location,link'}
                     ],
                     function (_events) {
                         var cal = window.plugins.calendar;
                         var _e = _events[0];
                         //
-                        L.log(_e);
                         //
 
 
@@ -357,44 +356,41 @@ function Events() {
                         createCalOptions.calendarName = "Evendate";
                         createCalOptions.calendarColor = "#f82969"; // an optional hex color (with the # char), default is null, so the OS picks a color
                         cal.createCalendar(createCalOptions, function (id) {
+                            L.log('Calendar created'  + id);
+                            var calOptions = cal.getCalendarOptions(); // grab the defaults
+                            calOptions.calendarName = "Evendate";
 
-                        }, function (message) {
-                            alert("Error: " + message);
-                        });
-
-
-                        var calOptions = cal.getCalendarOptions(); // grab the defaults
-                        calOptions.calendarName = "Evendate";
-                        calOptions.url = _e.link;
-
-                        if (_e.every_day && _e.is_same_time) {
-                            calOptions.recurrence = "daily"; // supported are: daily, weekly, monthly, yearly
-                            calOptions.recurrenceEndDate = _e.moment_dates[_e.moment_dates.length - 1].toDate(); // leave empty to recur forever
-                            calOptions.recurrenceInterval = 1; // once every 2 months in this case, default: 1
-                            cal.createEventWithOptions(
-                                _e.title,
-                                _e.location,
-                                _e.description,
-                                _e.moment_dates[0].start_date.toDate(),
-                                _e.moment_dates[_e.moment_dates.length - 1].end_date.toDate(),
-                                calOptions,
-                                success,
-                                error
-                            );
-                        } else {
-                            _e.moment_dates.forEach(function (date) {
+                            if (_e.every_day && _e.is_same_time) {
+                                calOptions.recurrence = "daily"; // supported are: daily, weekly, monthly, yearly
+                                calOptions.recurrenceEndDate = _e.moment_dates[_e.moment_dates.length - 1].toDate(); // leave empty to recur forever
+                                calOptions.recurrenceInterval = 1; // once every 2 months in this case, default: 1
                                 cal.createEventWithOptions(
                                     _e.title,
                                     _e.location,
                                     _e.description,
-                                    date.start_date.toDate(),
-                                    date.end_date.toDate(),
+                                    _e.moment_dates[0].start_date.toDate(),
+                                    _e.moment_dates[_e.moment_dates.length - 1].end_date.toDate(),
                                     calOptions,
                                     success,
                                     error
                                 );
-                            });
-                        }
+                            } else {
+                                _e.moment_dates.forEach(function (date) {
+                                    cal.createEventWithOptions(
+                                        _e.title,
+                                        _e.location,
+                                        _e.description,
+                                        date.start_date.toDate(),
+                                        date.end_date.toDate(),
+                                        calOptions,
+                                        success,
+                                        error
+                                    );
+                                });
+                            }
+                        }, function (message) {
+                            alert("Error: " + message);
+                        });
 
 
                         // // reminderd
@@ -404,7 +400,7 @@ function Events() {
                         // //
                         // // create an event in a named calendar (iOS only for now)
                         // cal.createEventWithOptions(_e.title, _e.location, _e.description, _e.moment_dates[0].toDate(), _e.moment_dates[_e.moment_dates.length - 1].toDate(), 'Evendate', function (param1, param2) {
-                        //     L.log('CREATE_EVENT_SUCCESS:', param1, param2);
+                        //     L.log('CREATE_EVENT_SUCCESS:', param1, param2);\
                         // }, function (param1, param2) {
                         //     L.log('CREATE_EVENT_ERROR:', param1, param2);
                         // });
