@@ -344,12 +344,12 @@ function Events() {
             };
 
             event.removeFromCalendar = function () {
-                window.plugins.calendar.deleteEventFromNamedCalendar(event.title,
+                window.plugins.calendar.deleteEvent(
+                    event.title,
                     null,
                     null,
                     event.moment_dates[0].start_date.toDate(),
                     event.moment_dates[event.moment_dates.length - 1].end_date.toDate(),
-                    'Evendate',
                     function(message){
                         L.log("Success: " + JSON.stringify(message));
                     },
