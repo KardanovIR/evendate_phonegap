@@ -288,7 +288,14 @@ function Events() {
                 if ($event) {
                     fw7App.swipeoutClose($$($event.target).parents('.swipeout')[0])
                 }
-                event.addToCalendar();
+
+                if (permanentStorage.getItem('add-to-calendar') == 'true') {
+                    if (event.is_favorite) {
+                        event.addToCalendar();
+                    } else {
+                        event.removeFromCalendar();
+                    }
+                }
 
             };
 
@@ -336,8 +343,15 @@ function Events() {
                 });
             };
 
-            event.removeFromCalendar = function(){
-
+            event.removeFromCalendar = function () {
+                window.plugins.calendar.deleteEventFromNamedCalendar(event.title,
+                    null,
+                    null,
+                    event.moment_dates[0].start_date.toDate(),
+                    event.moment_dates[event.moment_dates.length - 1].end_date.toDate(),
+                    'Evendate',
+                    success,
+                    error);
             };
 
             event.addToCalendar = function () {
@@ -349,7 +363,7 @@ function Events() {
                     function (_events) {
                         var cal = window.plugins.calendar;
                         var _e = _events[0];
-
+                        _e.note = _e.description + ' \n ' + _e.link;
 
                         var success = function (message) {
                             L.log("Success: " + JSON.stringify(message));
@@ -359,14 +373,12 @@ function Events() {
                         };
 
                         function addDatesToCalendar() {
-
-
                             if (_e.every_day && _e.is_same_time) {
                                 var calOptions = cal.getCalendarOptions(); // grab the defaults
                                 calOptions.calendarName = "Evendate";
                                 calOptions.recurrence = "daily"; // supported are: daily, weekly, monthly, yearly
-                                calOptions.recurrenceEndDate = _e.moment_dates[_e.moment_dates.length - 1].toDate(); // leave empty to recur forever
-                                calOptions.recurrenceInterval = 1; // once every 2 months in this case, default: 1
+                                calOptions.recurrenceEndDate = _e.moment_dates[_e.moment_dates.length - 1].end_date.toDate(); // leave empty to recur forever
+                                calOptions.recurrenceInterval = 1;
                                 cal.createEventWithOptions(
                                     _e.title,
                                     _e.location,
@@ -378,8 +390,7 @@ function Events() {
                                     error
                                 );
                             } else {
-
-                                (function addNextDate(date, index){
+                                (function addNextDate(date, index) {
                                     var calOptions = cal.getCalendarOptions(); // grab the defaults
                                     calOptions.calendarName = "Evendate";
                                     cal.createEventWithOptions(
@@ -389,11 +400,11 @@ function Events() {
                                         date.start_date.toDate(),
                                         date.end_date.toDate(),
                                         calOptions,
-                                        function(message){
-                                            if (++index < _e.moment_dates.length){
+                                        function (message) {
+                                            if (++index < _e.moment_dates.length) {
                                                 L.log('Added: ' + message + '... Adding next');
                                                 addNextDate(_e.moment_dates[index], index);
-                                            }else{
+                                            } else {
                                                 L.log('Done.');
                                             }
                                         },
@@ -504,72 +515,72 @@ function Events() {
         return _items;
     }
 
-        return {
-            'get': function (filters, cb) {
-                var _f = prepareFilterQuery(filters),
-                    _r,
-                    url = CONTRACT.URLS.API_FULL_PATH + CONTRACT.URLS.EVENTS_PATH;
-                if (_f.data.hasOwnProperty('timeline') && _f.data.timeline == true) {
-                    url += '/' + CONTRACT.URLS.MY_PART
-                }
-                if (_f.data.hasOwnProperty('favorites') && _f.data.favorites == true) {
-                    url += '/' + CONTRACT.URLS.FAVORITES_PART
-                }
-                if (_f.data.hasOwnProperty('recommendations') && _f.data.favorites == true) {
-                    url += '/' + CONTRACT.URLS.RECOMMENDATIONS_PART
-                }
-                if (_f.data.hasOwnProperty('type')) {
-                    switch (_f.data.type) {
-                        case 'timeline': {
-                            url += '/' + CONTRACT.URLS.MY_PART;
-                            break;
-                        }
-                        case 'favorites': {
-                            url += '/' + CONTRACT.URLS.FAVORITES_PART;
-                            break;
-                        }
-                        case 'recommendations': {
-                            url += '/' + CONTRACT.URLS.RECOMMENDATIONS_PART;
-                            break;
-                        }
+    return {
+        'get': function (filters, cb) {
+            var _f = prepareFilterQuery(filters),
+                _r,
+                url = CONTRACT.URLS.API_FULL_PATH + CONTRACT.URLS.EVENTS_PATH;
+            if (_f.data.hasOwnProperty('timeline') && _f.data.timeline == true) {
+                url += '/' + CONTRACT.URLS.MY_PART
+            }
+            if (_f.data.hasOwnProperty('favorites') && _f.data.favorites == true) {
+                url += '/' + CONTRACT.URLS.FAVORITES_PART
+            }
+            if (_f.data.hasOwnProperty('recommendations') && _f.data.favorites == true) {
+                url += '/' + CONTRACT.URLS.RECOMMENDATIONS_PART
+            }
+            if (_f.data.hasOwnProperty('type')) {
+                switch (_f.data.type) {
+                    case 'timeline': {
+                        url += '/' + CONTRACT.URLS.MY_PART;
+                        break;
+                    }
+                    case 'favorites': {
+                        url += '/' + CONTRACT.URLS.FAVORITES_PART;
+                        break;
+                    }
+                    case 'recommendations': {
+                        url += '/' + CONTRACT.URLS.RECOMMENDATIONS_PART;
+                        break;
                     }
                 }
-                if (_f.data.hasOwnProperty('id')) {
-                    url += '/' + _f.data.id;
-                }
-                if (_f.data.hasOwnProperty('my')) {
-                    url += '/my';
-                }
+            }
+            if (_f.data.hasOwnProperty('id')) {
+                url += '/' + _f.data.id;
+            }
+            if (_f.data.hasOwnProperty('my')) {
+                url += '/my';
+            }
 
-                L.log(url);
-                L.log(_f.data);
+            L.log(url);
+            L.log(_f.data);
 
+            $$.ajax({
+                url: url,
+                data: _f.data,
+                success: function (res) {
+                    res.data = [].concat(res.data);
+                    _r = normalize(res.data);
+                    cb(_r);
+                }
+            });
+
+        },
+        normalizeAll: function (items) {
+            return normalize(items);
+        },
+        'dates': {
+            'get': function (filters, cb) {
+                var _f = prepareFilterQuery(filters),
+                    url = CONTRACT.URLS.API_FULL_PATH + CONTRACT.URLS.EVENTS_PATH + '/' + CONTRACT.URLS.DATES_PATH + '';
                 $$.ajax({
                     url: url,
                     data: _f.data,
                     success: function (res) {
-                        res.data = [].concat(res.data);
-                        _r = normalize(res.data);
-                        cb(_r);
+                        cb(res.data);
                     }
                 });
-
-            },
-            normalizeAll: function (items) {
-                return normalize(items);
-            },
-            'dates': {
-                'get': function (filters, cb) {
-                    var _f = prepareFilterQuery(filters),
-                        url = CONTRACT.URLS.API_FULL_PATH + CONTRACT.URLS.EVENTS_PATH + '/' + CONTRACT.URLS.DATES_PATH + '';
-                    $$.ajax({
-                        url: url,
-                        data: _f.data,
-                        success: function (res) {
-                            cb(res.data);
-                        }
-                    });
-                }
             }
         }
     }
+}

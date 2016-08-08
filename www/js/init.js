@@ -88,18 +88,24 @@ var child_browser_opened = false,
     __user,
     __api,
     __app,
+    __db,
+    __table_exists,
     __to_open_event,
-    __addToCalendar = function(){
+    __addToCalendar = function () {
         var cal = window.plugins.calendar;
         var title = "New Years party";
         var loc = "The Club";
         var notes = "Bring pizza.";
-        var start = new Date(2017,0,1,20,0,0,0,0); // Jan 1st, 2017 20:00
-        var end = new Date(2017,0,1,22,0,0,0,0);   // Jan 1st, 2017 22:00
+        var start = new Date(2017, 0, 1, 20, 0, 0, 0, 0); // Jan 1st, 2017 20:00
+        var end = new Date(2017, 0, 1, 22, 0, 0, 0, 0);   // Jan 1st, 2017 22:00
         var calendarName = "MyCal";
 
-        var success = function(message) {alert("Success: " + JSON.stringify(message))};
-        var error   = function(message) {alert("Error: " + message)};
+        var success = function (message) {
+            alert("Success: " + JSON.stringify(message))
+        };
+        var error = function (message) {
+            alert("Error: " + message)
+        };
 
         cal.createEventInNamedCalendar(title, loc, notes, start, end, calendarName, success, error);
     },
@@ -536,6 +542,7 @@ function onDeviceReady() {
     __setHttpsUsage();
     __api = initAPI();
     moment.locale("ru");
+
 
     registerPushService();
 
