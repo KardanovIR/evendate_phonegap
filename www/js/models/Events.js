@@ -336,6 +336,10 @@ function Events() {
                 });
             };
 
+            event.removeFromCalendar = function(){
+
+            };
+
             event.addToCalendar = function () {
 
                 __api.events.get([
@@ -345,8 +349,6 @@ function Events() {
                     function (_events) {
                         var cal = window.plugins.calendar;
                         var _e = _events[0];
-                        //
-                        //
 
 
                         var success = function (message) {
@@ -357,10 +359,11 @@ function Events() {
                         };
 
                         function addDatesToCalendar() {
-                            var calOptions = cal.getCalendarOptions(); // grab the defaults
-                            calOptions.calendarName = "Evendate";
+
 
                             if (_e.every_day && _e.is_same_time) {
+                                var calOptions = cal.getCalendarOptions(); // grab the defaults
+                                calOptions.calendarName = "Evendate";
                                 calOptions.recurrence = "daily"; // supported are: daily, weekly, monthly, yearly
                                 calOptions.recurrenceEndDate = _e.moment_dates[_e.moment_dates.length - 1].toDate(); // leave empty to recur forever
                                 calOptions.recurrenceInterval = 1; // once every 2 months in this case, default: 1
@@ -375,7 +378,10 @@ function Events() {
                                     error
                                 );
                             } else {
-                                _e.moment_dates.forEach(function (date) {
+
+                                (function addNextDate(date, index){
+                                    var calOptions = cal.getCalendarOptions(); // grab the defaults
+                                    calOptions.calendarName = "Evendate";
                                     cal.createEventWithOptions(
                                         _e.title,
                                         _e.location,
@@ -383,10 +389,17 @@ function Events() {
                                         date.start_date.toDate(),
                                         date.end_date.toDate(),
                                         calOptions,
-                                        success,
+                                        function(message){
+                                            if (++index < _e.moment_dates.length){
+                                                L.log('Added: ' + message + '... Adding next');
+                                                addNextDate(moment_dates[index], index);
+                                            }else{
+                                                L.log('Done.');
+                                            }
+                                        },
                                         error
                                     );
-                                });
+                                })(moment_dates[0], 0);
                             }
                         }
 
