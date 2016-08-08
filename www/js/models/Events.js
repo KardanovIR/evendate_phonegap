@@ -350,34 +350,53 @@ function Events() {
                         //
 
 
-                        var success = function(message) { alert("Success: " + JSON.stringify(message)); };
-                        var error = function(message) { alert("Error: " + message); };
+                        var success = function(message) { L.log("Success: " + JSON.stringify(message)); };
+                        var error = function(message) { L.log("Error: " + message); };
 
                         var createCalOptions = cal.getCreateCalendarOptions();
                         createCalOptions.calendarName = "Evendate";
                         createCalOptions.calendarColor = "#f82969"; // an optional hex color (with the # char), default is null, so the OS picks a color
-                        cal.createCalendar(createCalOptions, function (message) {
-                            alert('create calendar '  + JSON.stringify(message))
-                        }, function () {
+                        cal.createCalendar(createCalOptions, function (id) {
+
+                        }, function (message) {
                             alert("Error: " + message);
                         });
 
 
-                        // var calOptions = cal.getCalendarOptions(); // grab the defaults
+                        var calOptions = cal.getCalendarOptions(); // grab the defaults
+                        calOptions.calendarName = "Evendate";
+                        calOptions.url = _e.link;
+
+                        if (_e.every_day && _e.is_same_time) {
+                            calOptions.recurrence = "daily"; // supported are: daily, weekly, monthly, yearly
+                            calOptions.recurrenceEndDate = _e.moment_dates[_e.moment_dates.length - 1].toDate(); // leave empty to recur forever
+                            calOptions.recurrenceInterval = 1; // once every 2 months in this case, default: 1
+                            cal.createEventWithOptions(
+                                _e.title,
+                                _e.location,
+                                _e.description,
+                                _e.moment_dates[0].start_date.toDate(),
+                                _e.moment_dates[_e.moment_dates.length - 1].end_date.toDate(),
+                                calOptions,
+                                success,
+                                error
+                            );
+                        } else {
+                            _e.moment_dates.forEach(function (date) {
+                                cal.createEventWithOptions(
+                                    _e.title,
+                                    _e.location,
+                                    _e.description,
+                                    date.start_date.toDate(),
+                                    date.end_date.toDate(),
+                                    calOptions,
+                                    success,
+                                    error
+                                );
+                            });
+                        }
 
 
-                        // if (_e.every_day) {
-                        //     calOptions.recurrence = "daily"; // supported are: daily, weekly, monthly, yearly
-                        //     calOptions.recurrenceEndDate = _e.moment_dates[_e.moment_dates.length - 1].toDate(); // leave empty to recur forever
-                        //     calOptions.recurrenceInterval = 1; // once every 2 months in this case, default: 1
-                        // } else {
-                        //     _e.moment_dates.forEach(function () {
-
-                        //     });
-                        // }
-
-
-                        // calOptions.url = _e.link;
                         // // reminderd
                         // calOptions.firstReminderMinutes = 120; // default is 60, pass in null for no reminder/alarm
                         // calOptions.secondReminderMinutes = 60;
