@@ -440,19 +440,6 @@ function Events() {
                                 addDatesToCalendar();
                             }
                         }, error);
-
-
-                        // // reminderd
-                        // calOptions.firstReminderMinutes = 120; // default is 60, pass in null for no reminder/alarm
-                        // calOptions.secondReminderMinutes = 60;
-                        // // recurrance
-                        // //
-                        // // create an event in a named calendar (iOS only for now)
-                        // cal.createEventWithOptions(_e.title, _e.location, _e.description, _e.moment_dates[0].toDate(), _e.moment_dates[_e.moment_dates.length - 1].toDate(), 'Evendate', function (param1, param2) {
-                        //     L.log('CREATE_EVENT_SUCCESS:', param1, param2);\
-                        // }, function (param1, param2) {
-                        //     L.log('CREATE_EVENT_ERROR:', param1, param2);
-                        // });
                     });
             };
 

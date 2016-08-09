@@ -121,7 +121,9 @@ function Users() {
                 url: CONTRACT.URLS.API_FULL_PATH + CONTRACT.URLS.USERS_PATH + '/settings',
                 success: function (res) {
                     var save_in_calendar = permanentStorage.getItem('add-to-calendar');
+                    var use_https = permanentStorage.getItem('use-https');
                     res.data['add-to-calendar'] = save_in_calendar === null ? true : save_in_calendar;
+                    res.data['use-https'] = use_https === null ? true : use_https;
                     cb(res.data);
                 },
                 error: function (jqXHR, textStatus, errorThrown) {
