@@ -24,9 +24,11 @@ MyApp.pages.EventsInDayController = function ($scope, $element) {
                 {fields: 'is_favorite,organization_short_name,favored_users_count,favored{length:5, fields:"avatar_url"},organization_logo_small_url,nearest_event_date,dates{length:1000,fields:"end_time,start_time"},image_horizontal_medium_url,is_free,dates,min_price'},
                 {length: 10},
                 {page: $scope.page_counter++},
-                {order_by: '-is_favorite'},
-                {my: true}
+                {order_by: '-is_favorite'}
             ];
+        if (__authorized){
+            send_data.push({my: true});
+        }
         $scope.is_downloading = true;
         __api.events.get(send_data, function (data) {
             if (data.length < 10) {

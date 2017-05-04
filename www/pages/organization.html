@@ -26,7 +26,7 @@
 
             <div class="text-center">
                 <button type="button" ng-click="organization.toggleSubscriptionStatus($event);"
-                        class="rounded-large button-switch" style="margin-top: 24px; margin-bottom: 25px;"
+                        class="rounded-large button-switch" style="margin-top: 10px;margin-bottom: 10px;"
                         ng-class="{'button-active':organization.is_subscribed}">
                     {{organization.subscription_text}}
                 </button>
@@ -39,7 +39,7 @@
                  padding-right: 0;">
                 <div class="text-center">
                     <div class="liked-users" ng-click="organization.openSubscribedFriends()">
-                        <img class="user-avatar" ng-repeat="user in organization.subscribed"
+                        <img class="user-avatar" ng-repeat="user in organization.subscribed track by user.id"
                              ng-src="{{user.avatar_url}}" onerror="onImgErrorSmall(this);">
                         <div class="organization-subscribed-count">{{organization.subscribed_count}}</div>
                     </div>
@@ -72,7 +72,7 @@
             </div>
 
             <div class="list-block cards-list">
-                <event-card ng-repeat="event in organization.events"></event-card>
+                <event-card ng-repeat="event in organization.events track by event.id"></event-card>
                 <infinite-scroll ng-hide="is_downloading == false"></infinite-scroll>
             </div>
         </div>

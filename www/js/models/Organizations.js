@@ -4,9 +4,13 @@ function Organizations(){
 
 	function normalize(items){
 
+		if (!items) return items;
 		var _ret = [];
 		items.forEach(function(value){
 			value.toggleSubscriptionStatus = function($event){
+				if (!__authorized){
+                    showAuthorizationModal();
+				}
 				var opts = {
 					type: 'POST',
 					url: CONTRACT.URLS.API_FULL_PATH + CONTRACT.URLS.ORGANIZATIONS_PATH + '/' + value.id + CONTRACT.URLS.SUBSCRIPTIONS_PATH,
@@ -103,8 +107,8 @@ function Organizations(){
 				});
 
 				fw7App.getCurrentView().router.loadPage({
-					url: 'pages/organization.html',
-					query: {id: value.id},
+					url: 'pages/organization.html?id=' + _organization.id + '&t=' + new Date().getTime() + '&organization_id=' + _organization.id,
+					query: {id: value.id, type: 'organization'},
 					pushState: true,
 					animatePages: true
 				});
@@ -164,7 +168,7 @@ function Organizations(){
 
 				fw7App.getCurrentView().router.loadPage({
 					url: 'pages/friends_subscribed.html',
-					query: {id: value.id},
+					query: {id: value.id, type: 'friends_subscribed'},
 					pushState: true,
 					animatePages: true
 				});

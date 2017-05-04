@@ -45,7 +45,7 @@ function Users() {
                 });
                 fw7App.getCurrentView().router.loadPage({
                     url: 'pages/friend.html',
-                    query: {id: _user.id},
+                    query: {id: _user.id, type: 'user'},
                     pushState: true,
                     animatePages: true
                 });
@@ -117,9 +117,14 @@ function Users() {
             });
         },
         getSettings: function(cb){
+            if (!__authorized){
+                cb([]);
+                return;
+            }
             $$.ajax({
                 url: CONTRACT.URLS.API_FULL_PATH + CONTRACT.URLS.USERS_PATH + '/settings',
                 success: function (res) {
+                    if (res.data)
                     var save_in_calendar = permanentStorage.getItem('add-to-calendar');
                     var use_https = permanentStorage.getItem('use-https');
                     res.data['add-to-calendar'] = save_in_calendar === null ? true : save_in_calendar;

@@ -13,6 +13,14 @@ function Events() {
             event.moment_dates = [];
             event.moment_dates_object = {};
 
+
+            if (window.innerWidth > 320){
+                event.image_horizontal_medium_url = event.image_horizontal_url + '?width=' + window.innerWidth;
+            }
+
+            event.image_horizontal_url = event.image_horizontal_url + '?width=750';
+
+
             if (event.tags) {
                 event.tags.forEach(function (tag) {
                     event.tags_array.push(tag.name);
@@ -20,9 +28,16 @@ function Events() {
             }
 
 
-            if (event.hasOwnProperty('nearest_event_date') && event.nearest_event_date != null) {
+            if (event.hasOwnProperty('nearest_event_date') && event.nearest_event_date !== null) {
                 event.moment_nearest_event_date = moment.unix(event.nearest_event_date);
                 event.nearest_event_date_string = event.moment_nearest_event_date.format('DD/MM');
+            }
+
+            if (event.hasOwnProperty('first_event_date') && event.first_event_date !== null) {
+                event.moment_first_event_date = moment.unix(event.first_event_date);
+            }
+            if (event.hasOwnProperty('last_event_date') && event.last_event_date !== null) {
+                event.moment_last_event_date = moment.unix(event.last_event_date);
             }
 
             event.liked_users_count = event.favored_users_count;
@@ -111,6 +126,28 @@ function Events() {
                 event.day_name = event.moment_dates[0].start_date.format('dddd');
             }
 
+            event.first_dates = event.moment_dates[0];
+            event.last_dates = event.moment_dates[event.moment_dates.length - 1];
+
+            if (event.registration_fields) {
+                event.form_fields = [];
+                event.registration_fields.forEach(function (field) {
+                    var _type = 'text';
+                    switch (event.type) {
+                        case 'email': {
+                            _type = 'email';
+                            break;
+                        }
+                    }
+                    event.form_fields.push({
+                        name: field.uuid,
+                        required: field.required,
+                        label: field.label,
+                        original_type: field.type,
+                        type: _type
+                    })
+                })
+            }
 
             var _a = document.createElement('a'),
                 _url = event.detail_info_url,
@@ -118,7 +155,7 @@ function Events() {
 
             _a.href = event.detail_info_url;
 
-            if (_a.search != '') {
+            if (_a.search !== '') {
                 _url += '&' + params_array.join('&')
             } else {
                 _url += '?' + params_array.join('&')
@@ -129,6 +166,8 @@ function Events() {
             event.hide_text = 'Не показывать';
 
 
+            event.map_url = '"https://maps.googleapis.com/maps/api/staticmap?center=' + encodeURI(event.location) + '&zoom=14&size=100x120&maptype=roadmap&key=AIzaSyDTMfxuwhYa6sLEQ0Pib78RH0C_GzwPHAY"';
+
             if (event.notifications) {
                 event.notifications_by_types = {};
                 event.notifications.forEach(function (notification) {
@@ -137,6 +176,11 @@ function Events() {
             }
 
             function updateNotification(type, status, uuid) {
+                if (!__authorized){
+                    showAuthorizationModal();
+                    return;
+                }
+
                 if (event.notifications_by_types.hasOwnProperty(type) == false) {
                     event.notifications_by_types[type] = {
                         status: false,
@@ -152,11 +196,37 @@ function Events() {
                 }
             }
 
+            event.showTickets = function(){
+                if (event.tickets){
+                    var _tickets = [];
+                    event.tickets.forEach(function(item){
+                        item.event_title = event.title;
+                        item.event_location = event.location;
+
+                        item.status_text = item.checkout == true ? 'Билет использован': item.order.status_name;
+
+                        if (event.nearest_event_date != null){
+                            item.event_date_time = event.future_moment_dates[0].start_date.format('DD MMM') + ', ' + event.future_moment_dates[0].start_date.format('HH:mm') + ' - ' + event.future_moment_dates[0].end_date.format('HH:mm');
+                        }else{
+                            item.event_date_time = event.moment_dates[0].start_date.format('DD MMM') + ', ' + event.moment_dates[0].start_date.format('HH:mm') + ' - ' + event.moment_dates[0].end_date.format('HH:mm');
+                        }
+                        _tickets.push(item);
+                    })
+                    var $scope = angular.element($$('.popup-tickets')[0]).scope();
+                    $scope.setTickets(_tickets);
+                }
+            };
+
             event.getUser = function () {
                 return __user;
             };
 
             event.toggleHidden = function () {
+                if (!__authorized){
+                    showAuthorizationModal();
+                    return;
+                }
+
                 $$.ajax({
                     url: CONTRACT.URLS.API_FULL_PATH + CONTRACT.URLS.EVENTS_PATH + '/' + event.id + '/status',
                     data: {
@@ -164,6 +234,41 @@ function Events() {
                     },
                     type: 'PUT'
                 })
+            };
+
+            event.showRegistrationForm = function () {
+                if (event.registration_required !== true
+                    || event.registration_locally !== true
+                    || event.registration_available !== true) {
+                    event.openDetailInfoUrl();
+                    return
+                }
+                if ($$('.picker-modal.modal-in').length > 0) {
+                    fw7App.closeModal('.picker-modal.modal-in');
+                }
+                var selector = '.page.event.page-on-center .registration-form',
+                    $picker_el = $$(selector),
+                    $overlay_el = $$('.registration-form-overlay'),
+                    $$reg_text = $$('.registration-text'),
+                    $$bottom_bar_main_btn = $$('.clickable-icon.main'),
+                    $$close_registration_modal_btn = $$('.close-registration-modal');
+
+                $overlay_el.removeClass('hidden');
+                $picker_el.removeClass('hidden').on('closed', function (e) {
+                    $picker_el.addClass('hidden');
+                    $overlay_el.addClass('hidden');
+                    $$reg_text.removeClass('muted');
+                    $$bottom_bar_main_btn.removeClass('hidden');
+                    $$close_registration_modal_btn.addClass('hidden');
+                });
+
+                $$('.close-registration-modal').off('click').on('click', function () {
+                    fw7App.closeModal(selector);
+                });
+                fw7App.pickerModal(selector);
+                $$reg_text.addClass('muted');
+                $$bottom_bar_main_btn.addClass('hidden');
+                $$close_registration_modal_btn.removeClass('hidden');
             };
 
             event.smallCardFavorite = function ($event) {
@@ -217,8 +322,8 @@ function Events() {
                 });
 
                 fw7App.getCurrentView().router.loadPage({
-                    url: 'pages/event.html?id=' + event.id + '&t=' + new Date().getTime(),
-                    query: {id: event.id},
+                    url: 'pages/event.html?id=' + event.id + '&t=' + new Date().getTime() + '&event_id=' + event.id,
+                    query: {id: event.id, event: event},
                     pushState: true,
                     animatePages: true
                 });
@@ -233,7 +338,7 @@ function Events() {
                 }, function () {
                 }, function () {
                 });
-            }
+            };
 
             event.openDetailInfoUrl = function () {
                 storeStat(event.id, CONTRACT.ENTITIES.EVENT, CONTRACT.STATISTICS.EVENT_OPEN_SITE);
@@ -252,6 +357,10 @@ function Events() {
             };
 
             event.toggleFavorite = function ($event) {
+                if (!__authorized){
+                    showAuthorizationModal();
+                    return;
+                }
                 var _url = CONTRACT.URLS.API_FULL_PATH + CONTRACT.URLS.EVENTS_PATH + '/' + event.id + CONTRACT.URLS.FAVORITES_PART,
                     opts = {
                         type: 'POST',
@@ -296,20 +405,25 @@ function Events() {
                         event.removeFromCalendar();
                     }
                 }
-
+                return event;
             };
 
             event.toggleNotification = function (type) {
+
+                if (!__authorized){
+                    showAuthorizationModal();
+                    return;
+                }
                 if (event.notifications) {
                     var _url = CONTRACT.URLS.API_FULL_PATH + CONTRACT.URLS.EVENTS_PATH + '/' + event.id + CONTRACT.URLS.NOTIFICATIONS_PART,
                         opts;
 
-                    if (event.notifications_by_types[type] && event.notifications_by_types[type].status == true) {
+                    if (event.notifications_by_types[type] && event.notifications_by_types[type].status === true) {
                         opts = {
                             type: 'DELETE',
                             url: _url + '/' + event.notifications_by_types[type].uuid,
                             success: function (res) {
-                                updateNotification(type, null, null);
+                                updateNotification(type, false, null);
                             }
                         };
                         updateNotification(type, false);
@@ -321,7 +435,7 @@ function Events() {
                             },
                             url: _url,
                             success: function (res) {
-                                updateNotification(type, null, res.data.uuid);
+                                updateNotification(type, true, res.data.uuid);
                             }
                         };
                         updateNotification(type, true)
@@ -344,16 +458,17 @@ function Events() {
             };
 
             event.removeFromCalendar = function () {
+                if (!window.plugins || !window.plugins.calendar) return;
                 window.plugins.calendar.deleteEvent(
                     event.title,
                     null,
                     null,
                     event.moment_dates[0].start_date.toDate(),
                     event.moment_dates[event.moment_dates.length - 1].end_date.toDate(),
-                    function(message){
+                    function (message) {
                         L.log("Success: " + JSON.stringify(message));
                     },
-                    function(message){
+                    function (message) {
                         L.log("error: " + message);
                     });
             };
@@ -365,6 +480,7 @@ function Events() {
                         {fields: 'dates{fields:"start_time,end_time",length:500},description,is_same_time,location,link'}
                     ],
                     function (_events) {
+                        if (!window.plugins || !window.plugins.calendar) return;
                         var cal = window.plugins.calendar;
                         var _e = _events[0];
                         _e.note = _e.description + ' \n ' + _e.link;
@@ -494,11 +610,6 @@ function Events() {
                 event.favorite_short_text = event.is_favorite ? 'В избранном' : 'В избранное';
                 event.favorite_icon = event.is_favorite ? 'ion-ios-star' : 'ion-ios-star-outline';
             };
-
-            //КОСТЫЛЬ для iPhone 4
-            if (window.innerHeight == IPHONE_4_HEIGHT) {
-                event.image_vertical_url = event.image_square_url;
-            }
 
             event.updateFavoriteTexts();
             _items.push(event);

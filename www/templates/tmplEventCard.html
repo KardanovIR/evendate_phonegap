@@ -1,18 +1,22 @@
 <div class="card event-card"
      ng-class="{'favorite':event.is_favorite}">
-    <div ng-click="event.open()"
-         style="background-image:url({{event.image_horizontal_url}})" valign="bottom"
-         class="card-header color-white no-border event-card-img">
+  <div ng-click="event.open()"
+       style="background-image:url({{event.image_horizontal_url}})" valign="bottom"
+       class="card-header color-white no-border event-card-img">
+  </div>
+  <div class="card-content" ng-click="event.open()">
+    <div class="card-content-inner">
+      <p class="event-card-organization-name">
+        <img ng-src="{{event.organization_logo_small_url}}" style="width: 30px; vertical-align: middle;">
+        {{event.organization_short_name}}
+      </p>
+      <p class="title">{{event.title}}</p>
+      <!--<p class="color-gray time">{{event.display_time.start}} - -->
+      <!--{{event.display_time.end}}</p>-->
     </div>
-    <div class="card-content" ng-click="event.open()">
-        <div class="card-content-inner">
-            <p class="title">{{event.title}}</p>
-            <!--<p class="color-gray time">{{event.display_time.start}} - -->
-                <!--{{event.display_time.end}}</p>-->
-        </div>
-    </div>
-    <div class="card-footer no-border" ng-class="{'active': event.is_favorite}">
-        <a href="#" ng-click="event.toggleFavorite($event);" class="link"><span
-                class="icon {{event.favorite_icon}}"></span> {{event.favorite_text}}</a>
-    </div>
+  </div>
+  <div class="card-footer no-border" ng-class="{'active': event.is_favorite}">
+    <a href="#" ng-click="event.toggleFavorite($event);" class="link"><span
+        class="icon {{event.favorite_icon}}"></span> {{event.favorite_text}}</a>
+  </div>
 </div>

@@ -1,171 +1,182 @@
 <div class="navbar">
-    <div class="navbar-inner blur">
-        <div class="left sliding">
-            <a href="#" class="link back">
-                <i class="ion-ios-arrow-back"></i>
-            </a>
-        </div>
-        <div class="center sliding heading-name">Событие</div>
-        <div class="right"><span class="icon ion-ios-bell-outline event-bell" onclick="showNotificationsList()"></span>
-        </div>
+  <div class="navbar-inner blur">
+    <div class="left sliding">
+      <a href="#" class="link back">
+        <i class="ion-ios-arrow-back"></i>
+      </a>
     </div>
+    <div class="center sliding heading-name">Событие</div>
+    <div class="right"><span class="icon ion-ios-upload-outline event-bell" onclick="shareEvent()"></span>
+    </div>
+  </div>
 </div>
 <div class="pages">
-    <div data-page="event" class="page event" ng-controller="EventPageController">
-        <div class="page-content">
-            <div class="event-viewport">
-                <div class="event-wrapper">
-                    <div class="content-block event-page-content-block">
-                        <div class="background-img-wrapper" data-top="0">
-                            <img ng-src="{{event.image_horizontal_url}}"
-                                 class="background-img"
-                                 onerror="onImgErrorPattern(this);">
-                        </div>
-
-                        <div class="text-center">
-                            <a href="#" ng-click="event.toggleFavorite($event);"
-                               ng-class="{'button-active':event.is_favorite}"
-                               class="button button-round button-switch event-favorite-button">{{event.favorite_text}}</a>
-                        </div>
-
-                        <div class="content-block-inner without-top-border without-bottom-border event-page-content-block-inner">
-
-                            <table class="event-attributes">
-                                <tbody>
-                                <tr ng-click="event.openOrganization();">
-                                    <td class="event-organization-name" colspan="2"><img
-                                            onerror="onImgErrorSmall(this);"
-                                            ng-src="{{event.organization_logo_small_url}}"><span
-                                            class="event-organization-title">{{event.organization_name}}</span></td>
-                                </tr>
-                                <tr class="event-block-separator">
-                                    <td colspan="2"></td>
-                                </tr>
-                                <tr>
-                                    <td colspan="2" class="event-page-title">{{event.title}}</td>
-                                </tr>
-                                <tr class="event-block-separator">
-                                    <td colspan="2"></td>
-                                </tr>
-                                <tr ng-hide="event.favored.length == 0">
-                                    <td colspan="2" class="text-center">
-                                        <div class="liked-users" ng-click="event.openLikedFriends()">
-                                            <img class="user-avatar" ng-repeat="user in event.favored"
-                                                 ng-src="{{user.avatar_url}}" onerror="onImgErrorSmall(this);">
-                                            <div class="organization-subscribed-count">
-                                                {{event.favored_users_count}}
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr class="event-block-separator" ng-hide="event.favored.length == 0">
-                                    <td colspan="2"></td>
-                                </tr>
-                                <tr>
-                                    <td colspan="2">
-                                        <div class="content-block-title">Описание</div><span class="event-description">{{event.description}}</span>
-                                    </td>
-                                </tr>
-                                <tr class="event-block-separator">
-                                    <td colspan="2"></td>
-                                </tr>
-                                <tr>
-                                    <td colspan="2" class="ng-binding">
-                                        <div class="content-block-title">Место</div>
-                                        {{event.location}}
-                                    </td>
-                                </tr>
-                                <tr class="event-block-separator">
-                                    <td colspan="2"></td>
-                                </tr>
-                                <tr>
-                                    <td colspan="2" class="ng-binding">
-                                        <div class="content-block-title">Дата</div>
-                                        <!--Every day and same time-->
-                                        <div ng-show="event.short_dates != null">
-                                            {{event.dates_text}}
-                                        </div>
-                                        <!--LessOrEqual 5 days, not every day or not same time-->
-                                        <div ng-repeat="date in event.dates_text_obj" ng-show="event.short_dates == null && event.dates_text_obj.length <= 5">
-                                            <span class="event-date">{{date}}</span>
-                                        </div>
-                                        <!--More, than 5 days, not every day or not same time-->
-                                        <div class="accordion-item" ng-show="event.short_dates == null && event.dates_text_obj.length > 5">
-                                            <p class="event-date" ng-repeat="date in event.dates_text_obj | limitTo:3">{{date}}</p>
-                                            <div class="accordion-item-toggle organization-details"
-                                                 ng-click="toggleDetails();" ng-show="event.dates.length > 2">Показать все ({{event.dates.length}})
-                                                <span
-                                                        class="icon"
-                                                        ng-class="{'ion-ios-arrow-down':details_shown == false, 'ion-ios-arrow-up':details_shown}"></span>
-                                            </div>
-                                            <div class="accordion-item-content">
-                                                <div ng-repeat="(index, date) in event.dates_text_obj">
-                                                    <p class="event-date" ng-hide="index < 3">{{date}}</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr class="event-block-separator">
-                                    <td colspan="2"></td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div class="content-block-title">Регистрация</div>
-                                        <span>{{event.registration_till_text}}</span>
-                                    </td>
-                                    <td ng-hide="event.min_price == null">
-                                        <div class="content-block-title">Цена</div>
-                                        <span>{{event.price_text}}</span>
-                                    </td>
-                                </tr>
-                                <tr class="event-block-separator">
-                                    <td colspan="2"></td>
-                                </tr>
-                                <tr>
-                                    <td colspan="2">
-                                        <div class="content-block-title">Теги</div>
-                                        <div class="tag-name" ng-repeat="tag in event.tags">{{tag.name}}</div>
-                                    </td>
-                                </tr>
-                                </tbody>
-                            </table>
-
-                            <div class="list-block event-menu-items">
-                                <ul class="no-border">
-                                    <li>
-                                        <a href="#" class="item-link item-content"
-                                           ng-click="event.openDetailInfoUrl();">
-                                            <div class="item-media"><i class="ion-ios-browsers-outline"></i></div>
-                                            <div class="item-inner no-background-image">
-                                                <div class="item-title text-bold">Страница события</div>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#" class="item-link item-content" ng-click="event.share();">
-                                            <div class="item-media"><i class="ion-ios-upload-outline"></i></div>
-                                            <div class="item-inner no-background-image">
-                                                <div class="item-title text-bold">Рассказать друзьям</div>
-                                                <div class="item-after"></div>
-                                            </div>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#" class="item-link item-content" ng-click="event.openMap();">
-                                            <div class="item-media"><i class="ion-ios-navigate-outline"></i></div>
-                                            <div class="item-inner no-background-image">
-                                                <div class="item-title text-bold">Показать на карте</div>
-                                                <div class="item-after"></div>
-                                            </div>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+  <div data-page="event" class="page event" ng-controller="EventPageController">
+    <div class="page-content">
+      <div class="event-viewport">
+        <div class="event-wrapper">
+          <div class="content-block event-page-content-block">
+            <div class="registration-form-overlay hidden"></div>
+            <div class="background-img-wrapper" data-top="0">
+              <img ng-src="{{event.image_horizontal_url}}"
+                   class="background-img"
+                   onerror="onImgErrorPattern(this);">
             </div>
+
+            <div class="content-block-inner without-top-border without-bottom-border event-page-content-block-inner">
+              <table class="event-attributes">
+                <tbody>
+                <tr ng-hide="event.favored.length == 0">
+                  <td colspan="2" class="text-center">
+                    <div class="liked-users" ng-click="event.openLikedFriends()">
+                      <img class="user-avatar" ng-repeat="user in event.favored track by user.id"
+                           ng-src="{{user.avatar_url}}" onerror="onImgErrorSmall(this);">
+                      <div class="organization-subscribed-count">
+                        {{event.favored_users_count}}
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td colspan="2" class="event-page-title">{{event.title}}</td>
+                </tr>
+                <tr>
+                  <td colspan="2">
+                    <div class="content-block-title">Описание</div>
+                    <span class="event-description">{{event.description}}</span>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="ng-binding">
+                    <div class="content-block-title">Место проведения</div>
+                    {{event.location}}
+                  </td>
+                  <td ng-click="event.openMap();" class="event-location-row"
+                      style="background-image:url({{event.map_url}})">
+                  </td>
+                </tr>
+                <tr>
+                  <td colspan="2" class="accordion-item" style="padding-bottom: 60px;" ng-click="toggleDates($event);">
+                    <div class="content-block-title">Дата и время</div>
+                    <div class="dates-wrapper">
+                      <div class="event-date-square left">
+                        <span class="event-date-number">{{event.first_dates.start_date.format('DD')}}</span>
+                        <span class="event-date-name">{{event.first_dates.start_date.format('MMM')}}</span>
+                      </div>
+                      <div class="event-one-day-description" ng-hide="!event.one_day">
+                        <span>{{event.first_dates.start_date.format('dddd')}}, </span>
+                        <span>{{event.first_dates.start_date.format('HH:mm')}} — {{event.first_dates.end_date.format('HH:mm')}}</span>
+                      </div>
+                      <div class="event-datetime left" ng-hide="event.one_day">
+                        <span class="event-datetime-start">{{event.first_dates.start_date.format('HH:mm')}}</span>
+                        <span class="event-datetime-divider"></span>
+                        <span class="event-datetime-end">{{event.first_dates.end_date.format('HH:mm')}}</span>
+                      </div>
+                      <div class="event-date-divider" ng-hide="event.one_day"></div>
+                      <div class="event-date-square right" ng-hide="event.one_day">
+                        <span class="event-date-number">{{event.last_dates.start_date.format('DD')}}</span>
+                        <span class="event-date-name">{{event.last_dates.start_date.format('MMM')}}</span>
+                      </div>
+                      <div class="event-datetime right" ng-hide="event.one_day">
+                        <span class="event-datetime-start">{{event.last_dates.start_date.format('HH:mm')}}</span>
+                        <span class="event-datetime-divider"></span>
+                        <span class="event-datetime-end">{{event.last_dates.end_date.format('HH:mm')}}</span>
+                      </div>
+                    </div>
+                    <div class="accordion-item-content">
+                      <table class="event-dates-table">
+                        <tr>
+                          <td><span class="icon ion-ios-calendar-outline"></span></td>
+                          <td><span class="icon ion-ios-clock-outline"></span></td>
+                        </tr>
+                        <tr ng-repeat="date in event.moment_dates">
+                          <td>{{date.start_date.format('DD MMMM')}}</td>
+                          <td>{{date.start_date.format('HH:mm')}} — {{date.end_date.format('HH:mm')}}</td>
+                        </tr>
+                      </table>
+                    </div>
+                  </td>
+                </tr>
+
+                <tr>
+                  <td colspan="2">
+                    <div class="content-block-title">Организатор</div>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="event-organization-logo" colspan="2">
+                    <img ng-click="event.openOrganization();"
+                         onerror="onImgErrorSmall(this);"
+                         ng-src="{{event.organization_logo_small_url}}">
+                    <span
+                        ng-click="event.openOrganization();"
+                        class="event-organization-title">{{event.organization_name}}</span>
+                    <p><a href="#" class="button event-detail-organization-btn"
+                          ng-click="organization.toggleSubscriptionStatus()">{{organization.subscription_text}}</a></p>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="content-block-title">Регистрация</div>
+                    <span>{{event.registration_till_text}}</span>
+                  </td>
+                  <td ng-hide="event.min_price == null">
+                    <div class="content-block-title">Цена</div>
+                    <span>{{event.price_text}}</span>
+                  </td>
+                </tr>
+                <tr>
+                  <td colspan="2">
+                    <div class="content-block-title">Теги</div>
+                    <div class="tag-name" ng-repeat="tag in event.tags track by tag.id">{{tag.name}}</div>
+                  </td>
+                </tr>
+                <tr>
+                  <td colspan="2">
+                    <div class="content-block-title">Подробнее</div>
+                    <div class="details-link-btn">
+                      <a class="button event-detail-info-btn" ng-click="event.openDetailInfoUrl();">
+                        <i class="icon ion-link"></i> Открыть страницу события
+                      </a>
+                    </div>
+                  </td>
+                </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
         </div>
+      </div>
+      <div class="picker-modal registration-form hidden">
+        <div class="toolbar">
+          <div class="toolbar-inner">
+            <div class="left">Регистрация</div>
+            <div class="right">
+              <a href="#" class="send-picker" ng-click="event.sendRegistrationForm();">Готово</a>
+            </div>
+          </div>
+        </div>
+        <div class="picker-modal-inner">
+          <div class="content-block">
+            <div class="list-block">
+              <ul>
+                <li ng-repeat="field in event.form_fields track by field.uuid">
+                  <div class="item-content">
+                    <div class="item-inner">
+                      <div class="item-title label">{{field.label}}</div>
+                      <div class="item-input">
+                        <textarea ng-hide="field.original_type != 'extended_custom'"></textarea>
+                        <input  ng-hide="field.original_type == 'extended_custom'" type="{{field.type}}" placeholder="{{field.label}}" class="">
+                      </div>
+                    </div>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
+  </div>
+</div>
 </div>

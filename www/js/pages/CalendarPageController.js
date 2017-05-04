@@ -32,7 +32,7 @@ MyApp.pages.CalendarPageController = function ($scope) {
                 day = m_date.format('D'),
                 $$day = $$('.d-' + [year, month, day].join('-'));
 
-            $$day.each(function(){
+            $$day.each(function () {
                 var $el = $$(this);
                 if ($el.parents('.picker-calendar-day-prev,.picker-calendar-day-next').length > 0) return true;
                 if (date.favorites_count > 0) {
@@ -40,7 +40,7 @@ MyApp.pages.CalendarPageController = function ($scope) {
                     var add_class = '';
                     if (date.favorites_count > 2 && date.favorites_count <= 13) {
                         add_class = 'with-favorites-' + date.favorites_count;
-                    }else if (date.favorites_count > 13){
+                    } else if (date.favorites_count > 13) {
                         add_class = 'with-favorites-16';
                     }
                     $el.addClass(add_class);
@@ -77,14 +77,17 @@ MyApp.pages.CalendarPageController = function ($scope) {
             $scope.events_text = events_text;
         },
         getDates = function (since, till, callback) {
-            __api.events.dates.get([
+            var send_data = [
                 {since: moment(since, 'YYYY-MM').startOf('month').format(CONTRACT.DATE_FORMAT)},
                 {till: moment(till, 'YYYY-MM').endOf('month').format(CONTRACT.DATE_FORMAT)},
-                {my: 'true'},
                 {unique: 'true'},
                 {fields: 'favored_count'},
                 {length: 500}
-            ], function (dates) {
+            ];
+            if (__authorized){
+                send_data.push({my: 'true'});
+            }
+            __api.events.dates.get(send_data, function (dates) {
                 addClassesToDatesWithEvents(dates);
                 if (callback) {
                     callback(dates);
@@ -95,13 +98,18 @@ MyApp.pages.CalendarPageController = function ($scope) {
     $scope.showEventsInSelectedDay = function () {
         if ($scope.selected_day == null) return;
         fw7App.showIndicator();
-        __api.events.get([
+
+        var send_data = [
             {date: $scope.selected_day.format(CONTRACT.DATE_FORMAT)},
             {fields: 'dates{length:500,fields:"start_time,end_time"},image_square_vertical_url,is_favorite,is_same_time'},
             {length: 10},
-            {order_by: '-is_favorite'},
-            {my: true}
-        ], function (data) {
+            {order_by: '-is_favorite'}
+        ];
+
+        if (__authorized){
+            send_data.push({my: 'true'});
+        }
+        __api.events.get(send_data, function (data) {
 
             if (callbackObjects['eventsInDayPageBeforeAnimation']) {
                 callbackObjects['eventsInDayPageBeforeAnimation'].remove();
@@ -130,7 +138,7 @@ MyApp.pages.CalendarPageController = function ($scope) {
 
             fw7App.getCurrentView().router.loadPage({
                 url: 'pages/events_in_day.html',
-                query: {id: event.id},
+                query: {id: event.id, type: 'event'},
                 pushState: true,
                 animatePages: true
             });
@@ -167,13 +175,19 @@ MyApp.pages.CalendarPageController = function ($scope) {
                 _month = _month == 0 ? 12 : _month;
                 $scope.$digest();
                 if ($scope.binded) {
-                    __api.events.dates.get([
+
+                    var send_data = [
                         {since: moment($scope.year + '-' + _month, 'YYYY-MM').startOf('month').format(CONTRACT.DATE_FORMAT)},
                         {till: moment($scope.year + '-' + _month, 'YYYY-MM').endOf('month').format(CONTRACT.DATE_FORMAT)},
-                        {my: true},
                         {unique: true},
                         {length: 500}
-                    ], addClassesToDatesWithEvents);
+                    ];
+
+                    if (__authorized){
+                        send_data.push({my: true});
+                    }
+
+                    __api.events.dates.get(send_data, addClassesToDatesWithEvents);
                 }
             },
             onDayClick: function (p, dayContainer, year, month, day) {
@@ -189,13 +203,19 @@ MyApp.pages.CalendarPageController = function ($scope) {
                         favorites_count = $$day.data('favorites-count');
                     $scope.selected_day = _date;
 
-                    __api.events.get([
+                    var send_data = [
                         {date: _date.format(CONTRACT.DATE_FORMAT)},
-                        {my: true},
                         {fields: 'organization_logo_small_url,organization_short_name,dates{length:500,fields:"start_time,end_time"},image_horizontal_large_url,image_square_vertical_url,is_favorite,is_same_time,tags'},
                         {length: favorites_count > 10 ? favorites_count : 10},
                         {order_by: "-is_favorite"}
-                    ], function (data) {
+                    ];
+
+
+                    if (__authorized){
+                        send_data.push({my: true});
+                    }
+
+                    __api.events.get(send_data, function (data) {
                         generateEventsText(events_count, favorites_count);
 
                         $scope.date_text = _date.format('D MMMM');

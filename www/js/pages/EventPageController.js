@@ -11,7 +11,7 @@ MyApp.pages.EventPageController = function ($scope) {
 
     function toggleNotificationState() {
         $scope.event.toggleNotification(this.type);
-        $$('.bg-' + this.bg).toggleClass('active');
+        $$('.bg-' + this.type).toggleClass('active');
     }
 
     var notifications = [
@@ -57,13 +57,11 @@ MyApp.pages.EventPageController = function ($scope) {
         }
     ];
 
-    $scope.toggleDetails = function () {
-        $scope.details_shown = !$scope.details_shown;
-        if (!$scope.details_shown) {
-            $scope.details_text = 'Подробнее';
-        } else {
-            $scope.details_text = 'Скрыть';
-        }
+    $scope.toggleDates = function ($event) {
+        var $$target = $$($event.target);
+        if ($$target.is('.event-dates-table') || $$target.parents('.event-dates-table').length > 0) return;
+        if (!$$target.is('.accordion-item')) $$target = $$target.parents('.accordion-item');
+        fw7App.accordionToggle($$target);
     };
 
     function getNotificationButtons(){
@@ -72,13 +70,20 @@ MyApp.pages.EventPageController = function ($scope) {
             first_event_date = $scope.event.first_event_date;
         notifications.forEach(function (notification) {
             if (first_event_date - notification.timediff <= m_now) return true;
-            if ($scope.event.notifications_by_types.hasOwnProperty(notification.type)) {
-                notification.bg += ' active';
+            if ($scope.event.notifications_by_types.hasOwnProperty(notification.type) &&
+                $scope.event.notifications_by_types[notification.type].status !== false) {
+                notification.bg = notification.type + ' active';
+            }else{
+                notification.bg = notification.type;
             }
             notification_buttons.push(notification);
         });
         return notification_buttons;
     }
+
+    $scope.shareEvent = function(){
+        $scope.event.share();
+    };
 
     $scope.showNotificationsList = function () {
         var buttons = getNotificationButtons();
@@ -102,9 +107,20 @@ MyApp.pages.EventPageController = function ($scope) {
 
         __api.events.get([
             {id: event.id},
-            {fields: 'detail_info_url,first_event_date,notifications{fields:"notification_type,done,status"},is_favorite,nearest_event_date,min_price,registration_required,registration_till,location,favored_users_count,favored{length:5,fields:"is_friend",order_by:"-is_friend"},organization_name,organization_logo_small_url,description,is_same_time,tags,dates{fields:"end_time,start_time",order_by:"event_date"}'}
+            {fields: 'detail_info_url,first_event_date,notifications{fields:"notification_type,done,status"},is_favorite,nearest_event_date,min_price,registration_required,registration_till,location,favored_users_count,favored{length:5,fields:"is_friend",order_by:"-is_friend"},organization_name,organization_logo_small_url,description,is_same_time,tags,dates{fields:"end_time,start_time",order_by:"event_date"},ticketing_locally,registration_locally,registration_fields,ticket_types,registration_available'}
         ], function (res) {
             $scope.event = res[0];
+
+            window.updateRegistrationInfo(res[0]);
+            window.updateFavoriteBtn(res[0]);
+            __api.organizations.get([
+                {id: event.organization_id},
+                {fields: 'is_subscribed'}
+            ], function(orgs){
+                $scope.organization = orgs[0];
+                $scope.$digest();
+            });
+
             $scope.$digest();
         });
     }

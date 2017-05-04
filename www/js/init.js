@@ -20,7 +20,9 @@ var child_browser_opened = false,
             USERS_PATH: '/users',
             SUBSCRIPTIONS_PATH: '/subscriptions',
             ORGANIZATIONS_PATH: '/organizations',
+            CITIES_PATH: '/cities',
             EVENTS_PATH: '/events',
+            TICKETS_PATH: '/tickets',
             DATES_PATH: '/dates',
             TAGS_PATH: '/tags',
             MY_PART: '/my',
@@ -80,15 +82,14 @@ var child_browser_opened = false,
         },
         DEMO_TOKEN: 'CAAYDHIPuIBYBAM26ZBTlCN1k08K7iZCKTrQ1JjFxNdWoGyFkgZAymhrmn5W92aL7XtPD6m2CYu9sSS1a30HA6TjkNyPkvChyyt1wCu7vleuMHbtpro6lJsJDNbAZBfUZCna1bXMULPv4igyZAEz9qvJxeHiUTgOghmklhlQAgAvvrjqi8sEOSWiJn5DbZAwNcUZDundefinedjrR7TyjWPIN3NjfazLy3hdtYOqnmd11tHWR1F0hoznPPpdaV1FNFlb47pfr4W26i',
     },
-    __os = navigator.platform == 'Win32' ? 'win' : 'hz',
+    __os = navigator.platform == 'Win32' || !window.plugins ? 'win' : 'hz',
     permanentStorage = window.localStorage,
-    tempStorage = window.sessionStorage,
     URLs,
     __device_id = null,
     __user,
     __api,
     __app,
-    __db,
+    __authorized = false,
     __table_exists,
     __to_open_event,
     __addToCalendar = function () {
@@ -110,12 +111,12 @@ var child_browser_opened = false,
         cal.createEventInNamedCalendar(title, loc, notes, start, end, calendarName, success, error);
     },
     __setHttpsUsage = function () {
-        if (permanentStorage.getItem('use-https') == 'true') {
-            CONTRACT.URLS.BASE_NAME = 'https://evendate.ru';
-            CONTRACT.URLS.API_FULL_PATH = 'https://evendate.ru/api/v1';
-        } else {
+        if (permanentStorage.getItem('use-https') == 'false') {
             CONTRACT.URLS.BASE_NAME = 'http://evendate.ru';
             CONTRACT.URLS.API_FULL_PATH = 'http://evendate.ru/api/v1';
+        } else {
+            CONTRACT.URLS.BASE_NAME = 'https://evendate.ru';
+            CONTRACT.URLS.API_FULL_PATH = 'https://evendate.ru/api/v1';
         }
     },
     __events_indicator = {
@@ -138,17 +139,49 @@ var child_browser_opened = false,
         }
     },
     __organizations = {
+        city_id: null,
+        city_changed: true,
+        cities: {
+            get: function (data, callback) {
+                $$.ajax({
+                    url: CONTRACT.URLS.API_FULL_PATH + CONTRACT.URLS.ORGANIZATIONS_PATH + CONTRACT.URLS.CITIES_PATH,
+                    data: data,
+                    success: function (res) {
+                        callback(res.data);
+                    }
+                });
+            },
+            getId: function () {
+                if (__organizations.city_id) return __organizations.city_id;
+                return permanentStorage.getItem('city_id', __organizations.city_id);
+            },
+            set: function (city_id) {
+                __organizations.city_id = city_id;
+                __organizations.city_changed = true;
+                permanentStorage.setItem('city_id', __organizations.city_id);
+            }
+        },
         getList: function (callback) {
-            if (this.list.length != 0) {
+            if (this.list.length != 0 && this.city_changed !== true) {
                 callback(this.list);
                 return;
+            } else {
+                this.city_changed = false;
             }
             var _this = this;
             __api.organizations.get([{
-                fields: 'description,is_new,is_subscribed,default_address,background_medium_img_url,img_medium_url,subscribed_count,'
+                fields: 'description,is_new,is_subscribed,default_address,background_medium_img_url,img_medium_url,subscribed_count,',
+                city_id: __organizations.cities.getId()
             }], function (data) {
 
                 _this.list = [];
+                _this.list_with_keys = {
+                    is_new: {
+                        name: 'Новые организации',
+                        organizations: [],
+                        id: 'is_new'
+                    }
+                };
 
                 data.forEach(function (org) {
                     var key = '_' + org.type_id;
@@ -181,13 +214,7 @@ var child_browser_opened = false,
             }
         },
         list: [],
-        list_with_keys: {
-            is_new: {
-                name: 'Новые организации',
-                organizations: [],
-                id: 'is_new'
-            }
-        },
+        list_with_keys: {},
         update: function (organization) {
             if (this.list.length == 0) return;
             var key = '_' + organization.type_id,
@@ -198,7 +225,7 @@ var child_browser_opened = false,
                 }
             });
             this.updateListByKeys();
-            angular.element($$('#catalog')).scope().getOrganizationsCatalog();
+            angular.element($$('#catalog')).scope().updateOrganizationsList();
         }
     },
     ONE_SIGNAL_APP_ID = '7471a586-01f3-4eef-b989-c809700a8658',
@@ -222,6 +249,57 @@ window.L = {
     }
 };
 
+var eventMethod = window.addEventListener ? "addEventListener" : "attachEvent";
+var eventer = window[eventMethod];
+var messageEvent = eventMethod == "attachEvent" ? "onmessage" : "message";
+
+// Listen to message from child window
+eventer(messageEvent, function (e) {
+    console.log(e);
+    try {
+        var data = JSON.parse(e.data);
+        if (data.token) {
+            permanentStorage.setItem('token', data.token);
+            window.location.reload();
+        }
+    } catch (e) {
+    }
+}, false);
+
+
+function showAuthorizationModal() {
+    fw7App.popup('.popup-authorization');
+    $$('.vk-btn,.google-btn,.facebook-btn')
+        .off('click')
+        .on('click', function () {
+            var type = $$(this).data('type');
+            if (child_browser_opened) return false;
+            child_browser_opened = true;
+            if (window.plugins) {
+                window.plugins.ChildBrowser.showWebPage(URLs[type], {
+                    showLocationBar: true,
+                    showAddress: true,
+                    showNavigationBar: true
+                });
+                window.plugins.ChildBrowser.onClose = function () {
+                    child_browser_opened = false;
+                };
+                window.plugins.ChildBrowser.onLocationChange = function (url) {
+                    if (/mobileAuthDone/.test(url)) {
+                        saveTokenInLocalStorage(url);
+                        window.plugins.ChildBrowser.close();
+                    }
+                };
+            } else {
+                window.open(URLs[type], '_blank')
+            }
+        });
+
+}
+
+function hideAuthorizationModal() {
+    fw7App.closeModal('.popup-authorization');
+}
 
 function getUnitsText(num, cases) {
     num = Math.abs(num);
@@ -257,6 +335,7 @@ MyApp.init = (function () {
         animateNavBackIcon: true,
         swipeBackPage: true,
         dynamicNavbar: true,
+        pushState: false,
         scrollTopOnStatusbarClick: true,
         statusbarOverlay: true,
         onAjaxError: function (e) {
@@ -289,9 +368,14 @@ MyApp.init = (function () {
         domCache: true
     };
 
-    __app = angular.module('MyApp', []);
+    __app = angular.module('MyApp', ['gajus.swing'])
+        .controller('card-stack-playground', function ($scope) {
+            $scope.events = [];
 
-    fw7App.addView('.view-main', fw7ViewOptions);
+        });
+
+
+    // fw7App.addView('.view-main', fw7ViewOptions);
     fw7App.addView('.view-catalog', fw7ViewOptions);
     fw7App.addView('.view-calendar', fw7ViewOptions);
     fw7App.addView('.view-events', fw7ViewOptions);
@@ -312,6 +396,7 @@ MyApp.init = (function () {
     __app.controller('EventsInDayController', ['$scope', '$element', MyApp.pages.EventsInDayController]);
     __app.controller('UsersPageController', ['$scope', '$element', MyApp.pages.UsersPageController]);
     __app.controller('OnboardingPageController', ['$scope', '$element', MyApp.pages.OnboardingPageController]);
+    __app.controller('TicketsController', ['$scope', '$element', MyApp.pages.TicketsController]);
 
 
     __app.directive('loader', function () {
@@ -371,9 +456,79 @@ MyApp.init = (function () {
                 replace: false
             }
         });
+
+
+    var current_page = '';
+    $$('.registration-text').on('click', function () {
+        var $$container = $$(current_page.container);
+        var _event = angular.element($$container[0]).scope().event;
+        _event.showRegistrationForm();
+    });
+
+    window.updateFavoriteBtn = function (_event) {
+        var $$btn = $$('.event-bottom-bar .toggle-favorite>i');
+        var updClasses = function (event) {
+            if (event.is_favorite) {
+                $$btn.addClass('is_favorite').removeClass('ion-ios-star-outline').addClass('ion-ios-star');
+            } else {
+                $$btn.removeClass('is_favorite').addClass('ion-ios-star-outline').removeClass('ion-ios-star');
+            }
+        };
+        updClasses(_event);
+        $$btn.off('click').on('click', function () {
+            if (!__authorized) {
+                showAuthorizationModal();
+            } else {
+                _event = _event.toggleFavorite();
+                updClasses(_event);
+            }
+        });
+    };
+
+    window.updateRegistrationInfo = function (_event) {
+        var reg_text = 'Открыть страницу';
+        if (_event.registration_required === true) {
+            if (_event.ticketing_locally === true && _event.registration_available) {
+                reg_text = 'Купить билеты';
+            } else if (_event.registration_locally === true && _event.registration_available) {
+                reg_text = 'Зарегистрироваться';
+            }
+        }
+        $$('.registration-text').text(reg_text);
+    };
+
+    $$('.show-notifications').on('click', function () {
+        if (!__authorized) {
+            showAuthorizationModal();
+            return;
+        }
+        var $$container = $$(fw7App.getCurrentView().activePage.container);
+        var $scope = angular.element($$container[0]).scope();
+        $scope.showNotificationsList();
+    });
+
+    $$('#viewport').css('height', (window.innerHeight - 130) + 'px');
+
+    fw7App.onPageAfterAnimation('*', function (page) {
+        current_page = page;
+        if (page.name == 'event') {
+            $$('.event-bottom-bar').removeClass('hidden');
+            $$('.main-tabbar').addClass('hidden');
+        } else {
+            $$('.event-bottom-bar').addClass('hidden');
+            $$('.main-tabbar').removeClass('hidden');
+        }
+    });
 }());
 
+
 document.addEventListener("deviceready", onDeviceReady, false);
+if (__os == 'win') {
+    (function () {
+        document.addEventListener("load", onDeviceReady, false);
+        onDeviceReady();
+    })();
+}
 
 function onImgErrorSmall(source) {
     source.src = "img/icon.png";
@@ -387,16 +542,9 @@ function onImgErrorPattern(source) {
     return true;
 }
 
-if (__os == 'win') {
-    (function () {
-        tempStorage.clear();
-        onDeviceReady();
-    })();
-}
-
 
 function openLink(prefix, link, http_link) {
-    if (appAvailability) {
+    if (window.appAvailability) {
         appAvailability.check(
             prefix + '://',
             function () {
@@ -413,7 +561,6 @@ function openLink(prefix, link, http_link) {
 
 function registerPushService() {
     if (__os == 'win') {
-
         $$.ajax({
             url: CONTRACT.URLS.BASE_NAME + '/auth.php?action=get_urls&mobile=true',
             dataType: 'JSON',
@@ -528,13 +675,7 @@ function registerPushService() {
     }
 }
 
-function setDemoAccount() {
-    permanentStorage.setItem('token', CONTRACT.DEMO_TOKEN);
-    permanentStorage.setItem('demo', true);
-}
-
 function resetAccount() {
-    tempStorage.clear();
     checkToken(true);
 }
 
@@ -546,34 +687,37 @@ function onDeviceReady() {
 
     registerPushService();
 
-    StatusBar.overlaysWebView(true);
-    StatusBar.styleDefault();
+    if (window.StatusBar) {
+        StatusBar.overlaysWebView(true);
+        StatusBar.styleDefault();
+    }
 
-    $$('.facebook-btn')
-        .off('click')
-        .on('click', function () {
-            facebookConnectPlugin.login(['public_profile', 'email', 'user_friends'],
-                function (response) {
-                    if (response.status == 'connected') {
-                        fw7App.showIndicator();
-                        var ref = window.open('https://evendate.ru/oAuthDone.php?mobile=true&type=facebook&access_token=' + response.authResponse.accessToken, '_blank', 'hidden=yes');
+    if (window.facebookConnectPlugin) {
+        $$('.facebook-btn')
+            .off('click')
+            .on('click', function () {
+                facebookConnectPlugin.login(['public_profile', 'email', 'user_friends'],
+                    function (response) {
+                        if (response.status == 'connected') {
+                            fw7App.showIndicator();
+                            var ref = window.open('https://evendate.ru/oAuthDone.php?mobile=true&type=facebook&access_token=' + response.authResponse.accessToken, '_blank', 'hidden=yes');
 
-                        ref.addEventListener('loadstop', function (e) {
-                            L.log(e);
-                            if (/mobileAuthDone/.test(e.url)) {
-                                saveTokenInLocalStorage(e.url);
-                                fw7App.hideIndicator();
-                            }
-                        });
-                    } else {
-                        fw7App.alert('Извините, мы не смогли Вас авторизовать. Попробуйте еще раз или другую соц. сеть.');
-                    }
-                },
-                function (error_text) {
-                    fw7App.alert('Произошла ошибка. Описание: ' + error_text);
-                });
-        });
-
+                            ref.addEventListener('loadstop', function (e) {
+                                L.log(e);
+                                if (/mobileAuthDone/.test(e.url)) {
+                                    saveTokenInLocalStorage(e.url);
+                                    fw7App.hideIndicator();
+                                }
+                            });
+                        } else {
+                            fw7App.alert('Извините, мы не смогли Вас авторизовать. Попробуйте еще раз или другую соц. сеть.');
+                        }
+                    },
+                    function (error_text) {
+                        fw7App.alert('Произошла ошибка. Описание: ' + error_text);
+                    });
+            });
+    }
 }
 
 function registerSuccessHandler(result) {
@@ -607,8 +751,24 @@ function showNotificationsList() {
     angular.element($$('.page.event.page-on-center')).scope().showNotificationsList();
 }
 
-function openApplication() {
+function hashToObject() {
+    var pairs = window.location.hash.substring(1).split("&"),
+        obj = {},
+        pair,
+        i;
+    for (i in pairs) {
+        if (pairs.hasOwnProperty(i)) {
+            if (pairs[i] === '') continue;
 
+            pair = pairs[i].split("=");
+            obj[decodeURIComponent(pair[0])] = decodeURIComponent(pair[1]);
+        }
+    }
+    return obj;
+}
+
+
+function openApplication() {
 
     angular.element($$('#profile')).scope().setUser();
 
@@ -623,12 +783,25 @@ function openApplication() {
         viewInstance.showNavbar();
         viewInstance.showToolbar();
         fw7App.setView('events');
-        $$('.view-main').addClass('tab');
+        $$('#timeline-tab-link').click();
+        // $$('.view-main').addClass('tab');
         angular.element($$('#friends')).scope().startBinding(true);
-    });
 
-    $$('#friends-tabbar-link').on('click', function () {
-        $$('#view-friends .tab-link.active').click();
+        var _data = hashToObject(),
+            _loc = window.location.hash;
+        if (_loc.indexOf('event') !== -1){
+            __api.events.get([
+                {id: _data.event_id}
+            ], function(res){
+                res[0].open();
+            })
+        }else if (_loc.indexOf('organization') !== -1){
+            __api.organizations.get([
+                {id: _data.organization_id}
+            ], function(res){
+                res[0].open();
+            })
+        }
     });
 
     $$('.main-tabbar .toolbar-inner a').on('click', function () {
@@ -647,6 +820,10 @@ function openApplication() {
             }
         }
 
+        if (!__authorized && ($$this.attr('id') == 'friends-tabbar-link' || $$this.attr('id') == 'profile-tabbar-link')) {
+            return false;
+        }
+
         $toolbar.find('.active-icon.active').removeClass('active').addClass('hidden');
         $toolbar.find('.muted-icon').addClass('active').removeClass('hidden');
 
@@ -654,6 +831,7 @@ function openApplication() {
         $$this.find('.active-icon').addClass('active').removeClass('hidden');
 
     });
+
 
     __is_ready = true;
     L.log(__to_open_event);
@@ -685,6 +863,24 @@ function openApplication() {
             });
         }
     }, 10000);
+
+    if (__os == 'win') {
+        $$('.statusbar-overlay').addClass('hidden');
+    }
+
+    if (!__authorized) {
+        $$('#friends-tabbar-link, .tab-link.view-profile')
+            .on('click', function (e) {
+                showAuthorizationModal();
+                e.stopPropagation();
+                e.preventDefault();
+                return false;
+            })
+    } else {
+        $$('#friends-tabbar-link').on('click', function () {
+            $$('#view-friends .tab-link.active').click();
+        });
+    }
 }
 
 window.onerror = function sendCrashReport(message, url, linenumber, column, errorObj) {
@@ -704,7 +900,7 @@ window.onerror = function sendCrashReport(message, url, linenumber, column, erro
 function showSlides(to_reset) {
     $$('.splash-icon').addClass('hidden');
     $$('.auth-page-content').addClass('auth-grey');
-    $$('.view-main').removeClass('tab');
+    // $$('.view-main').removeClass('tab');
     $$('.main-tabbar .tab-link').removeClass('active');
     $$('.main-tabbar .toolbar-inner').removeClass('toolbar-item-0').addClass('toolbar-item-1');
 
@@ -714,40 +910,11 @@ function showSlides(to_reset) {
     viewInstance.hideNavbar();
     viewInstance.hideToolbar();
     $$('.view').removeClass('active');
-    $$('.view-main').removeClass('active');
-
-
-    $$('.vk-btn,.google-btn')
-        .off('click')
-        .on('click', function () {
-            var type = $$(this).data('type');
-            if (child_browser_opened) return false;
-            child_browser_opened = true;
-            window.plugins.ChildBrowser.showWebPage(URLs[type], {
-                showLocationBar: true,
-                showAddress: true,
-                showNavigationBar: true
-            });
-            window.plugins.ChildBrowser.onClose = function () {
-                child_browser_opened = false;
-            };
-            window.plugins.ChildBrowser.onLocationChange = function (url) {
-                if (/mobileAuthDone/.test(url)) {
-                    saveTokenInLocalStorage(url);
-                    window.plugins.ChildBrowser.close();
-                }
-            };
-        });
-
-    $$('.start-demo-button').on('click', function () {
-        setDemoAccount();
-        checkToken();
-    });
-
+    // $$('.view-main').removeClass('active');
 }
 
 function checkToken(to_reset) {
-    // fw7App.showIndicator();
+
     $$('.preloader-indicator-modal').addClass('with-top');
     L.log(window.device);
     if (to_reset) {
@@ -771,21 +938,37 @@ function checkToken(to_reset) {
             },
             type: 'PUT',
             dataType: 'JSON',
-            success: function (res) {
+            complete: function (res) {
                 try {
                     var json_res = JSON.parse(res);
+                    __authorized = true;
                 } catch (e) {
-                    fw7App.hideIndicator();
-                    $$('.preloader-indicator-modal').removeClass('with-top');
-                    showSlides(to_reset);
-                    return;
+                    try{
+                        json_res = JSON.parse(res.responseText);
+
+                    }catch(e2){
+                        fw7App.hideIndicator();
+                        $$('.preloader-indicator-modal').removeClass('with-top');
+                        $$.ajaxSetup({
+                            dataType: "json",
+                            contentType: 'application/x-www-form-urlencoded'
+                        });
+                        openApplication();
+                        return;
+                    }
                 }
 
                 fw7App.hideIndicator();
                 $$('.preloader-indicator-modal').removeClass('with-top');
-                if (json_res.status == false) {
-                    showSlides(to_reset);
+                if (!json_res || json_res.status == false) {
+                    $$.ajaxSetup({
+                        dataType: "json",
+                        contentType: 'application/x-www-form-urlencoded'
+                    });
+                    openApplication();
+
                 } else {
+                    __authorized = true;
                     permanentStorage.setItem('user', JSON.stringify(json_res.data));
                     __user = json_res.data;
                     $$.ajaxSetup({
@@ -795,7 +978,6 @@ function checkToken(to_reset) {
                         dataType: "json",
                         contentType: 'application/x-www-form-urlencoded'
                     });
-
                     openApplication();
                 }
             },
@@ -808,7 +990,11 @@ function checkToken(to_reset) {
     } else {
         fw7App.hideIndicator();
         $$('.preloader-indicator-modal').removeClass('with-top');
-        showSlides(to_reset);
+        $$.ajaxSetup({
+            dataType: "json",
+            contentType: 'application/x-www-form-urlencoded'
+        });
+        setTimeout(openApplication, 1);
     }
 }
 
@@ -821,6 +1007,7 @@ function initAPI() {
         event_dates: new EventDates(),
         subscriptions: new Subscriptions(),
         favorite_events: new FavoriteEvents(),
+        tickets: new Tickets(),
         tags: new Tags()
     }
 }

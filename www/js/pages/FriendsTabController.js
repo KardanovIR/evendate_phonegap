@@ -75,7 +75,7 @@ MyApp.pages.FriendsTabController = function ($scope) {
 
         __api.users.get([
                 {feed: true},
-                {fields: 'type_code,organization{fields:"img_small_url"},event{fields:"image_square_vertical_url"},created_at,user{fields:"gender"}'},
+                {fields: 'type_code,organization{fields:"img_small_url"},event{fields:"image_horizontal_small_url"},created_at,user{fields:"gender"}'},
                 {order_by: '-created_at'},
                 {page: $scope.tabs.feed.page},
                 {length: 20}
@@ -116,7 +116,7 @@ MyApp.pages.FriendsTabController = function ($scope) {
                     }
 
                     if (stat.entity == CONTRACT.ENTITIES.EVENT) {
-                        ent.img_url = ent.image_square_vertical_url;
+                        ent.img_url = ent.image_horizontal_small_url;
                         ent.openEntity = function () {
                             fw7App.showIndicator();
                             storeStat(stat.user.id, CONTRACT.ENTITIES.FRIEND, CONTRACT.STATISTICS.FRIEND_VIEW_EVENT_FROM_USER);

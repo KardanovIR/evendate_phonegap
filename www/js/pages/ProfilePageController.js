@@ -11,40 +11,56 @@ MyApp.pages.ProfilePageController = function ($scope) {
     $scope.organization_categories = [];
     $scope.no_subscriptions = true;
     $scope.data_loaded = false;
+    $scope.tickets = {
+        data_loaded: false,
+        no_tickets: false,
+        futures_count: 0,
+        past_count: 0,
+        items: []
+    };
 
 
     $scope.setUser = function () {
-        $scope.info = __api.users.normalize([__user])[0];
+        if (!__user){
+            __user = [{}];
+        }
+        $scope.info = __user[0];
         __api.users.get([
             {me: true},
             {fields: 'blurred_image_url'}
         ], function (data) {
-            $scope.info.blurred_img_url = data[0].blurred_img_url;
+            if (data && data.length > 0){
+                $scope.info.blurred_img_url = data[0].blurred_img_url;
+                $scope.$digest();
+            }
         });
         $scope.getSubscriptionsList();
     };
 
-    function getSettings() {
-        __api.users.getSettings(function (data) {
-            $$('#show-to-friends')
-                .prop('checked', data.show_to_friends)
-                .on('change', function () {
-                    __api.users.setSettings({'show-to-friends': $$(this).prop('checked')}, function () {
-                    });
-                });
-            $$('#add-to-calendar')
-                .prop('checked', data['add-to-calendar'] == 'true')
-                .on('change', function () {
-                    __api.users.setSettings({'add-to-calendar': $$(this).prop('checked')}, function () {
-                    });
-                });
-            $$('#use-https')
-                .prop('checked', data['use-https'] == 'true')
-                .on('change', function () {
-                    __api.users.setSettings({'use-https': $$(this).prop('checked')}, function () {
-                    });
-                    __setHttpsUsage();
-                });
+    function getTickets() {
+        $scope.tickets.data_loaded = false;
+        $scope.tickets.no_tickets = true;
+        __api.events.get([
+            {fields: 'dates,is_same_time,image_horizontal_medium_url,nearest_event_date,location,tickets{"fields":"created_at,number,ticket_type,order"}'},
+            {order_by: 'nearest_event_date'},
+            {is_registered: true}
+            ], function (data) {
+
+            data.forEach(function(event){
+                if (event.nearest_event_date != null){
+                    event.is_future = true;
+                    $scope.tickets.futures_count++;
+                }else{
+                    event.is_future = false;
+                    $scope.tickets.past_count++;
+                }
+            });
+
+            $scope.tickets.items = data ? data : [];
+            $scope.no_subscriptions = $scope.tickets.items.length !== 0;
+            $scope.tickets.data_loaded = true;
+
+            $scope.$apply();
         });
     }
 
@@ -63,12 +79,12 @@ MyApp.pages.ProfilePageController = function ($scope) {
             {subscriptions: true},
             {fields: 'description,new_events_count,is_subscribed,background_medium_img_url,img_medium_url,subscribed_count'}], function (data) {
 
-            $scope.subscriptions = data;
+            $scope.subscriptions = data ? data : [];
             $scope.no_subscriptions = $scope.subscriptions.length != 0;
             $scope.data_loaded = true;
             $scope.updateNewEventsIndicator();
             // INTRO
-            if (data.length == 0) {
+            if (data && data.length == 0 && __authorized) {
                 __api.organizations.get([
                     {fields: 'img_medium_url,subscribed_count'},
                     {recommendations: true},
@@ -79,7 +95,7 @@ MyApp.pages.ProfilePageController = function ($scope) {
             }
             $scope.$apply();
         });
-        getSettings()
+        getTickets();
     };
 
     $$('.logout-icon').on('click', resetAccount);

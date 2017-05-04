@@ -26,7 +26,7 @@
             </div>
             <div class="list-block" ng-class="{hidden: day_events.length == 0}">
                 <ul>
-                    <event-card-small ng-repeat="event in day_events"></event-card-small>
+                    <event-card-small ng-repeat="event in day_events track by event.id"></event-card-small>
                 </ul>
             </div>
             <!-- Preloader -->
