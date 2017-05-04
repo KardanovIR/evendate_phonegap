@@ -50,19 +50,19 @@
     <plugin name="org.apache.cordova.splashscreen" />
 
 
-    <gap:plugin name="com.phonegap.plugins.childbrowser"/>
-    <gap:plugin name="org.apache.cordova.console"/>
-    <gap:plugin name="org.apache.cordova.dialogs"/>
-    <gap:plugin name="org.apache.cordova.statusbar"/>
-    <gap:plugin name="com.analytics.google"/>
-    <gap:plugin name="org.apache.cordova.inappbrowser" />
+    <gap:plugin name="com.phonegap.plugins.childbrowser" source="npm"/>
+    <gap:plugin name="org.apache.cordova.console" source="npm"/>
+    <gap:plugin name="org.apache.cordova.dialogs" source="npm"/>
+    <gap:plugin name="org.apache.cordova.statusbar" source="npm"/>
+    <gap:plugin name="com.analytics.google" source="npm"/>
+    <gap:plugin name="org.apache.cordova.inappbrowser" source="npm" />
     <!--<plugin name="com.philmerrell.cordova.canopen" spec="0.1" source="pgb" />-->
     <gap:plugin name="com.ohh2ahh.plugins.appavailability" source="npm" />
     <gap:plugin name="cordova-plugin-inappbrowser" source="npm" version="~1" />
     <gap:plugin name="cordova-plugin-x-socialsharing" source="npm" />
-    <gap:plugin name="cordova-plugin-calendar" spec="4.4.7" source="pgb" />
+    <gap:plugin name="cordova-plugin-calendar" spec="4.4.7" source="npm" />
 
-    <gap:plugin name="com.phonegap.plugins.facebookconnect" version="0.9.0">
+    <gap:plugin name="com.phonegap.plugins.facebookconnect" version="0.9.0" source="npm">
         <param name="APP_ID" value="1692270867652630" />
         <param name="APP_NAME" value="Evendate" />
     </gap:plugin>
