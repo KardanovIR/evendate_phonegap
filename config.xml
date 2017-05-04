@@ -218,7 +218,4 @@
             <string>fb-messenger-api20140430</string>
         </array>
     </gap:config-file>
-
-
-    <preference name="phonegap-version" value="cli-5.2.0" />
 </widget>
