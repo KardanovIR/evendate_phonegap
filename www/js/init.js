@@ -680,6 +680,17 @@ function resetAccount() {
 }
 
 function onDeviceReady() {
+
+    if (SafariViewController){
+        SafariViewController.isAvailable(function (avail) {
+            L.log(avail ? "YES" : "NO");
+        });
+        SafariViewController.show({
+            url: "https://en.wikipedia.org/wiki/Safari"
+        });
+    }
+
+
     __setHttpsUsage();
     __api = initAPI();
     moment.locale("ru");
