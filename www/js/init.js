@@ -281,7 +281,7 @@ function showAuthorizationModal() {
 
                     var options = "location=no,hidden=no";
 
-                    var inAppBrowserRef = cordova.InAppBrowser.open(url, target, options);
+                    var inAppBrowserRef = cordova.InAppBrowser.open(URLs[type], target, options);
 
                     inAppBrowserRef.addEventListener('loadstart', function(a,b,c){
                         L.log(a, b, c);
