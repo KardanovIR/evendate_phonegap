@@ -276,30 +276,27 @@ function showAuthorizationModal() {
             if (child_browser_opened) return false;
             child_browser_opened = true;
             if (window.plugins) {
-                if (window.hasOwnProperty('SafariViewController')) {
-                    SafariViewController.isAvailable(function (avail) {
-                        L.log(avail ? "YES" : "NO");
-                        SafariViewController.show({
-                                url: URLs[type]
-                            },
-                            // this success handler will be invoked for the lifecycle events 'opened', 'loaded' and 'closed'
-                            function (result) {
-                                L.log(result);
-                                if (result.event === 'opened') {
-                                    L.log('opened');
-                                } else if (result.event === 'loaded') {
-                                    L.log('loaded');
-                                } else if (result.event === 'closed') {
-                                    L.log('closed');
-                                    child_browser_opened = false;
-                                }
-                            },
-                            function (msg) {
-                                L.log("KO: " + msg);
-                            });
+                if (cordova.hasOwnProperty('InAppBrowser')) {
+                    var target = "_blank";
+
+                    var options = "location=no,hidden=no";
+
+                    var inAppBrowserRef = cordova.InAppBrowser.open(url, target, options);
+
+                    inAppBrowserRef.addEventListener('loadstart', function(a,b,c){
+                        L.log(a, b, c);
                     });
+
+                    inAppBrowserRef.addEventListener('loadstop', function(a,b,c){
+                        L.log(a, b, c);
+                    });
+
+                    inAppBrowserRef.addEventListener('loaderror', function(a,b,c){
+                        L.log(a, b, c);
+                    });
+
                 } else {
-                    L.log('SafariViewController does not exist');
+                    L.log('InAppBrowser does not exist');
                 }
 
             } else {
