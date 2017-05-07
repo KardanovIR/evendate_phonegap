@@ -276,20 +276,32 @@ function showAuthorizationModal() {
             if (child_browser_opened) return false;
             child_browser_opened = true;
             if (window.plugins) {
-                window.plugins.ChildBrowser.showWebPage(URLs[type], {
-                    showLocationBar: true,
-                    showAddress: true,
-                    showNavigationBar: true
-                });
-                window.plugins.ChildBrowser.onClose = function () {
-                    child_browser_opened = false;
-                };
-                window.plugins.ChildBrowser.onLocationChange = function (url) {
-                    if (/mobileAuthDone/.test(url)) {
-                        saveTokenInLocalStorage(url);
-                        window.plugins.ChildBrowser.close();
-                    }
-                };
+                if (window.hasOwnProperty('SafariViewController')) {
+                    SafariViewController.isAvailable(function (avail) {
+                        L.log(avail ? "YES" : "NO");
+                    });
+                    SafariViewController.show({
+                            url: URLs[type]
+                        },
+                        // this success handler will be invoked for the lifecycle events 'opened', 'loaded' and 'closed'
+                        function (result) {
+                            L.log(result);
+                            if (result.event === 'opened') {
+                                L.log('opened');
+                            } else if (result.event === 'loaded') {
+                                L.log('loaded');
+                            } else if (result.event === 'closed') {
+                                L.log('closed');
+                                child_browser_opened = false;
+                            }
+                        },
+                        function (msg) {
+                            L.log("KO: " + msg);
+                        });
+                } else {
+                    L.log('SafariViewController does not exist');
+                }
+
             } else {
                 window.open(URLs[type], '_blank')
             }
@@ -681,18 +693,6 @@ function resetAccount() {
 
 function onDeviceReady() {
 
-    if (window.hasOwnProperty('SafariViewController')){
-        SafariViewController.isAvailable(function (avail) {
-            L.log(avail ? "YES" : "NO");
-        });
-        SafariViewController.show({
-            url: "https://en.wikipedia.org/wiki/Safari"
-        });
-    }else{
-        L.log('SafariViewController does not exist');
-    }
-
-
     __setHttpsUsage();
     __api = initAPI();
     moment.locale("ru");
@@ -802,16 +802,16 @@ function openApplication() {
 
         var _data = hashToObject(),
             _loc = window.location.hash;
-        if (_loc.indexOf('event') !== -1){
+        if (_loc.indexOf('event') !== -1) {
             __api.events.get([
                 {id: _data.event_id}
-            ], function(res){
+            ], function (res) {
                 res[0].open();
             })
-        }else if (_loc.indexOf('organization') !== -1){
+        } else if (_loc.indexOf('organization') !== -1) {
             __api.organizations.get([
                 {id: _data.organization_id}
-            ], function(res){
+            ], function (res) {
                 res[0].open();
             })
         }
@@ -956,10 +956,10 @@ function checkToken(to_reset) {
                     var json_res = JSON.parse(res);
                     __authorized = true;
                 } catch (e) {
-                    try{
+                    try {
                         json_res = JSON.parse(res.responseText);
 
-                    }catch(e2){
+                    } catch (e2) {
                         fw7App.hideIndicator();
                         $$('.preloader-indicator-modal').removeClass('with-top');
                         $$.ajaxSetup({
