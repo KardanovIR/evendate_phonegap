@@ -279,25 +279,25 @@ function showAuthorizationModal() {
                 if (window.hasOwnProperty('SafariViewController')) {
                     SafariViewController.isAvailable(function (avail) {
                         L.log(avail ? "YES" : "NO");
+                        SafariViewController.show({
+                                url: URLs[type]
+                            },
+                            // this success handler will be invoked for the lifecycle events 'opened', 'loaded' and 'closed'
+                            function (result) {
+                                L.log(result);
+                                if (result.event === 'opened') {
+                                    L.log('opened');
+                                } else if (result.event === 'loaded') {
+                                    L.log('loaded');
+                                } else if (result.event === 'closed') {
+                                    L.log('closed');
+                                    child_browser_opened = false;
+                                }
+                            },
+                            function (msg) {
+                                L.log("KO: " + msg);
+                            });
                     });
-                    SafariViewController.show({
-                            url: URLs[type]
-                        },
-                        // this success handler will be invoked for the lifecycle events 'opened', 'loaded' and 'closed'
-                        function (result) {
-                            L.log(result);
-                            if (result.event === 'opened') {
-                                L.log('opened');
-                            } else if (result.event === 'loaded') {
-                                L.log('loaded');
-                            } else if (result.event === 'closed') {
-                                L.log('closed');
-                                child_browser_opened = false;
-                            }
-                        },
-                        function (msg) {
-                            L.log("KO: " + msg);
-                        });
                 } else {
                     L.log('SafariViewController does not exist');
                 }
