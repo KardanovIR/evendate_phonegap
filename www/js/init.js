@@ -237,7 +237,7 @@ var child_browser_opened = false,
     callbackObjects = {};
 
 if (window.hasOwnProperty('io')) {
-    window.socket = io.connect('http://test.evendate.ru:443');
+    window.socket = io.connect('http://test.evendate.ru:8443');
 }
 window.L = {
     log: function (data) {
@@ -681,13 +681,15 @@ function resetAccount() {
 
 function onDeviceReady() {
 
-    if (SafariViewController){
+    if (window.hasOwnProperty('SafariViewController')){
         SafariViewController.isAvailable(function (avail) {
             L.log(avail ? "YES" : "NO");
         });
         SafariViewController.show({
             url: "https://en.wikipedia.org/wiki/Safari"
         });
+    }else{
+        L.log('SafariViewController does not exist');
     }
 
 
