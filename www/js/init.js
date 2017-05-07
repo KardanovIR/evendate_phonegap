@@ -279,16 +279,16 @@ function showAuthorizationModal() {
                 if (cordova.hasOwnProperty('InAppBrowser')) {
                     var target = "_blank";
 
-                    var options = "location=no,hidden=no";
+                    var options = "location=no,hidden=no,toolbar=no,";
 
                     var inAppBrowserRef = cordova.InAppBrowser.open(URLs[type], target, options);
 
-                    inAppBrowserRef.addEventListener('loadstart', function(a,b,c){
-                        L.log(a, b, c);
-                    });
 
-                    inAppBrowserRef.addEventListener('loadstop', function(a,b,c){
-                        L.log(a, b, c);
+                    inAppBrowserRef.addEventListener('loadstop', function(data){
+                        if (/mobileAuthDone/.test(data.url)) {
+                            saveTokenInLocalStorage(data.url);
+                            inAppBrowserRef.close();
+                        }
                     });
 
                     inAppBrowserRef.addEventListener('loaderror', function(a,b,c){
@@ -300,7 +300,7 @@ function showAuthorizationModal() {
                 }
 
             } else {
-                window.open(URLs[type], '_blank')
+                fw7App.alert('Cant open auth URL');
             }
         });
 
