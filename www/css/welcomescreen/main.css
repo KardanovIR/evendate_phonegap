@@ -2592,6 +2592,14 @@ button.rounded-large {
     text-align: center;
 }
 
+#admin-tabbar-link {
+    display: none;
+}
+
+#admin-tabbar-link.shown {
+    display: block;
+}
+
 #view-profile .buttons-row,
 #view-friends .buttons-row,
 #view-events .buttons-row {
@@ -3924,6 +3932,8 @@ li.city {
     color: #fff;
 }
 
-.popup-overlay.modal-overlay-visible{
+.popup-overlay.modal-overlay-visible {
     background: rgba(255, 255, 255, 0.4);
 }
+
+

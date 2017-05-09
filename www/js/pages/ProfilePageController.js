@@ -6,7 +6,7 @@ MyApp.ns('MyApp.pages');
 MyApp.pages.ProfilePageController = function ($scope) {
     'use strict';
 
-    var tab_names = ['profile', 'settings', 'admin'];
+    var tab_names = ['profile', 'settings'];
     var active_tab = tab_names[0];
 
 
@@ -16,13 +16,6 @@ MyApp.pages.ProfilePageController = function ($scope) {
     $scope.no_subscriptions = true;
     $scope.data_loaded = false;
     $scope.tickets = {
-        data_loaded: false,
-        no_tickets: false,
-        futures_count: 0,
-        past_count: 0,
-        items: []
-    };
-    $scope.admin_events = {
         data_loaded: false,
         no_tickets: false,
         futures_count: 0,
@@ -42,6 +35,9 @@ MyApp.pages.ProfilePageController = function ($scope) {
             __user = [{}];
         }
         $scope.info = __user[0];
+        if ($scope.info.is_editor) {
+            $$('#admin-tabbar-link').addClass('shown');
+        }
         __api.users.get([
             {me: true},
             {fields: 'blurred_image_url'}
@@ -114,40 +110,6 @@ MyApp.pages.ProfilePageController = function ($scope) {
             $scope.$apply();
         });
         getTickets();
-        $scope.getAdminEvents();
-    };
-
-
-    $scope.getAdminEvents = function(){
-        $scope.admin_events.data_loaded = false;
-        $scope.admin_events.no_tickets = true;
-        __api.events.get([
-            {fields: 'dates,is_same_time,image_horizontal_medium_url,nearest_event_date,sold_tickets_count,tickets_count,tickets{"fields":"created_at,number,ticket_type,order"}'},
-            {order_by: 'nearest_event_date'},
-            {length: 1000},
-            {registration_locally: true},
-            {can_edit: true}
-        ], function (data) {
-
-            data.forEach(function (event) {
-                if (event.nearest_event_date != null) {
-                    event.is_future = true;
-                    $scope.tickets.futures_count++;
-                } else {
-                    event.is_future = false;
-                    $scope.tickets.past_count++;
-                }
-                event.scanQR = scanQR;
-            });
-
-
-            $scope.admin_events.items = data ? data : [];
-            $scope.no_subscriptions = $scope.tickets.items.length !== 0;
-            $scope.admin_events.data_loaded = true;
-
-            $scope.$apply();
-        });
-
     };
 
 
