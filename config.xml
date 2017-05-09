@@ -132,6 +132,11 @@
     <allow-intent href="gplus:*"/>
     <allow-intent href="geo:*" launch-external="yes"/>
 
+    <gap:config-file platform="ios" parent="NSCameraUsageDescription" overwrite="true">
+        <string>Мы используем камеру для сканирования QR с билетов организаторов</string>
+    </gap:config-file>
+
+
     <platform name="ios">
         <access origin="*" />
         <access origin="geo:*" launch-external="yes"/>
