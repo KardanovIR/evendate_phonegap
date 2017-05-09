@@ -30,7 +30,7 @@ MyApp.pages.CalendarPageController = function ($scope) {
                 year = m_date.format('YYYY'),
                 month = m_date.format('M') - 1,
                 day = m_date.format('D'),
-                $$day = $$('.d-' + [year, month, day].join('-'));
+                $$day = $$('.picker-calendar-day[data-date="' + [year, month, day].join('-') + '"]');
 
             $$day.each(function () {
                 var $el = $$(this);
@@ -58,18 +58,22 @@ MyApp.pages.CalendarPageController = function ($scope) {
 
     $scope.startBinding = function (callback) {
         $scope.binded = true;
-        $$('.picker-calendar-month-current .picker-calendar-day-today').click();
         var since = $scope.year + '-' + ($scope.month - 1),
             till = $scope.year + '-' + ($scope.month + 1);
         getDates(since, till, function (dates) {
-            if (callback) {
-                callback(dates);
+            try {
+                if (callback) {
+                    callback(dates);
+                }
+                $$('.picker-calendar-month-current .picker-calendar-day-today').click();
+            } catch (e) {
+                $$('.picker-calendar-month-current .picker-calendar-day-today').click();
             }
         });
     };
 
     var generateEventsText = function (events_count, favorites_count) {
-            if (events_count == undefined) return;
+            if (events_count === undefined) return;
             var events_text = events_count + getUnitsText(events_count, CONTRACT.TEXTS.EVENTS);
             if (favorites_count) {
                 events_text += ', ' + favorites_count + getUnitsText(favorites_count, CONTRACT.TEXTS.FAVORITES);
@@ -84,7 +88,7 @@ MyApp.pages.CalendarPageController = function ($scope) {
                 {fields: 'favored_count'},
                 {length: 500}
             ];
-            if (__authorized){
+            if (__authorized) {
                 send_data.push({my: 'true'});
             }
             __api.events.dates.get(send_data, function (dates) {
@@ -96,7 +100,7 @@ MyApp.pages.CalendarPageController = function ($scope) {
         };
 
     $scope.showEventsInSelectedDay = function () {
-        if ($scope.selected_day == null) return;
+        if ($scope.selected_day === null) return;
         fw7App.showIndicator();
 
         var send_data = [
@@ -106,7 +110,7 @@ MyApp.pages.CalendarPageController = function ($scope) {
             {order_by: '-is_favorite'}
         ];
 
-        if (__authorized){
+        if (__authorized) {
             send_data.push({my: 'true'});
         }
         __api.events.get(send_data, function (data) {
@@ -116,7 +120,7 @@ MyApp.pages.CalendarPageController = function ($scope) {
             }
             callbackObjects['eventsInDayPageBeforeAnimation'] = fw7App.onPageBeforeAnimation('events_in_day', function (page) {
                 var $$container = $$(page.container);
-                if ($$container.data('opened') == true) {
+                if ($$container.data('opened') === true) {
                     var $scope = angular.element($$container[0]).scope();
                     $scope.setDate($scope.selected_day);
                     $scope.showPage();
@@ -171,8 +175,8 @@ MyApp.pages.CalendarPageController = function ($scope) {
             onMonthYearChangeEnd: function (calendar, year, month, dir) {
                 $scope.year = calendar.currentYear;
                 $scope.month = calendar.currentMonth + 1;
-                var _month = calendar.currentMonth + (dir == 'next' ? 2 : 0);
-                _month = _month == 0 ? 12 : _month;
+                var _month = calendar.currentMonth + (dir === 'next' ? 1 : 0);
+                _month = _month === 0 ? 12 : _month;
                 $scope.$digest();
                 if ($scope.binded) {
 
@@ -183,7 +187,7 @@ MyApp.pages.CalendarPageController = function ($scope) {
                         {length: 500}
                     ];
 
-                    if (__authorized){
+                    if (__authorized) {
                         send_data.push({my: true});
                     }
 
@@ -198,7 +202,7 @@ MyApp.pages.CalendarPageController = function ($scope) {
                 $scope.$apply(function () {
 
                     var _date = moment([year, parseInt(month) + 1, day].join('-'), 'YYYY-M-D'),
-                        $$day = $$(dayContainer).find('span.day-number'),
+                        $$day = $$(dayContainer),
                         events_count = $$day.data('events-count'),
                         favorites_count = $$day.data('favorites-count');
                     $scope.selected_day = _date;
@@ -211,7 +215,7 @@ MyApp.pages.CalendarPageController = function ($scope) {
                     ];
 
 
-                    if (__authorized){
+                    if (__authorized) {
                         send_data.push({my: true});
                     }
 

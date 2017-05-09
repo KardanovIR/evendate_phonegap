@@ -433,15 +433,18 @@
     </div>
     <div class="pages navbar-through">
       <div id="subscriptions" data-page="profile" class="page with-subnavbar">
-        <div class="page-content">
+        <div class="page-content" id="user-profile">
           <div class="content-block">
             <div class="friend-profile-fixed-part text-center">
               <img class="avatar" onerror="onImgErrorSmall(this);" ng-src="{{info.avatar_url}}">
             </div>
-            <div class="profile-buttons">
-              <a href="#profile" class="button button-round tab-link active">Подписки </a>
-              <a href="#settings" class="button button-round tab-link"
-                 style="margin-left: 35px;">Билеты </a>
+            <div class="buttons-row" style="width: 100%;">
+              <a href="#profile" class="button tab-link button-white active" id="profile-tab-link"
+                 ng-click="moveActiveBackground($event);" data-name="profile">Подписки</a>
+              <a href="#settings" class="button tab-link button-white"
+                 ng-click="moveActiveBackground($event);" data-name="settings">Билеты</a>
+              <a href="#admin" class="button tab-link button-white" ng-if="info.is_editor"
+                 ng-click="moveActiveBackground($event);" data-name="admin">Админка</a>
             </div>
           </div>
           <div class="tabs">
@@ -514,6 +517,45 @@
                     </div>
                     <div class="event-ticket-location text-center">
                       <span>{{event.location}}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div id="admin" class="tab profile-page-content">
+              <div ng-if="tickets.futures_count > 0">
+                <div class="tickets-section-title">Предстоящие события</div>
+                <div class="list-block">
+                  <div ng-repeat="event in admin_events.items | filter: {is_future: true}  " class="event-ticket-item"
+                       ng-click="event.scanQR()">
+                    <div class="event-ticket-title text-center">
+                      <span>{{event.title}}</span>
+                    </div>
+                    <div class="event-ticket-time text-center">
+                      <span ng-if="event.nearest_event_date != null">{{event.future_moment_dates[0].start_date.format('DD MMM')}}, {{event.future_moment_dates[0].start_date.format('HH:mm')}} - {{event.future_moment_dates[0].end_date.format('HH:mm')}}</span>
+                      <span ng-if="event.nearest_event_date == null">{{event.moment_dates[0].start_date.format('DD MMM')}}, {{event.moment_dates[0].start_date.format('HH:mm')}} - {{event.moment_dates[0].end_date.format('HH:mm')}}</span>
+                    </div>
+                    <div class="event-ticket-location text-center">
+                      <span>Билетов: {{event.sold_tickets_count}}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div ng-if="tickets.past_count > 0">
+                <div class="tickets-section-title">Прошедшие события</div>
+                <div class="list-block">
+                  <div ng-repeat="event in admin_events.items | filter: {is_future: false}  " class="event-ticket-item"
+                       ng-click="event.scanQR()">
+                    <div class="event-ticket-title text-center">
+                      <span>{{event.title}}</span>
+                    </div>
+                    <div class="event-ticket-time text-center">
+                      <span ng-if="event.nearest_event_date != null">{{event.future_moment_dates[0].start_date.format('DD MMM')}}, {{event.future_moment_dates[0].start_date.format('HH:mm')}} - {{event.future_moment_dates[0].end_date.format('HH:mm')}}</span>
+                      <span ng-if="event.nearest_event_date == null">{{event.moment_dates[0].start_date.format('DD MMM')}}, {{event.moment_dates[0].start_date.format('HH:mm')}} - {{event.moment_dates[0].end_date.format('HH:mm')}}</span>
+                    </div>
+                    <div class="event-ticket-location text-center">
+                      <span>Билетов: {{event.sold_tickets_count}}</span>
                     </div>
                   </div>
                 </div>
@@ -672,7 +714,7 @@
       <div class="swiper-slide" ng-repeat="ticket in tickets track by $index">
         <div class="popup-tickets-content">
           <div class="popup-ticket-qr-wrapper"><img
-              ng-src="https://evendate.ru/api/v1/events/5292/tickets/{{ticket.uuid}}/qr"></div>
+              ng-src="https://evendate.ru/api/v1/events/{{ticket.event_id}}/tickets/{{ticket.uuid}}/qr?size=7"></div>
           <div class="popup-ticket-divider"></div>
           <div>
             <div class="popup-tickettype-title">{{ticket.ticket_type.name}}</div>

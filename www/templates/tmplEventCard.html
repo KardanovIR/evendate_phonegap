@@ -6,7 +6,7 @@
   </div>
   <div class="card-content" ng-click="event.open()">
     <div class="card-content-inner">
-      <p class="event-card-organization-name">
+      <p class="event-card-organization-name" ng-if="event.organization_short_name != null">
         <img ng-src="{{event.organization_logo_small_url}}" style="width: 30px; vertical-align: middle;">
         {{event.organization_short_name}}
       </p>

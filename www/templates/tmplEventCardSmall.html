@@ -4,7 +4,7 @@
             <div class="item-media" ng-click="event.open()">
                 <img ng-src="{{event.image_horizontal_medium_url}}">
             </div>
-            <div class="item-title light-blur" ng-click="event.open()">{{event.title}}</div>
+            <div class="item-title" ng-click="event.open()">{{event.title}}</div>
             <div class="event-info">
                 <div ng-click="event.open()" class="event-day-number text-center">{{event.display_date.start_date.format('DD')}}</div>
                 <div ng-click="event.open()" class="event-month-name text-center">{{event.display_date.start_date.format('DD MMMM').split(' ')[1].capitalize()}}</div>

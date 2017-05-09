@@ -249,6 +249,20 @@ window.L = {
     }
 };
 
+var scanQR = function(){
+    cordova.plugins.barcodeScanner.scan(
+        function (result) {
+            L.log("We got a barcode\n" +
+                "Result: " + result.text + "\n" +
+                "Format: " + result.format + "\n" +
+                "Cancelled: " + result.cancelled);
+        },
+        function (error) {
+            L.log("Scanning failed: " + error);
+        }
+    );
+};
+
 var eventMethod = window.addEventListener ? "addEventListener" : "attachEvent";
 var eventer = window[eventMethod];
 var messageEvent = eventMethod == "attachEvent" ? "onmessage" : "message";
@@ -278,29 +292,24 @@ function showAuthorizationModal() {
             if (window.plugins) {
                 if (cordova.hasOwnProperty('InAppBrowser')) {
                     var target = "_blank";
-
                     var options = "location=no,hidden=no,toolbar=no,";
-
                     var inAppBrowserRef = cordova.InAppBrowser.open(URLs[type], target, options);
-
-
-                    inAppBrowserRef.addEventListener('loadstop', function(data){
+                    inAppBrowserRef.addEventListener('loadstop', function (data) {
                         if (/mobileAuthDone/.test(data.url)) {
                             saveTokenInLocalStorage(data.url);
                             inAppBrowserRef.close();
                         }
                     });
 
-                    inAppBrowserRef.addEventListener('loaderror', function(a,b,c){
+                    inAppBrowserRef.addEventListener('loaderror', function (a, b, c) {
                         L.log(a, b, c);
                     });
 
                 } else {
                     L.log('InAppBrowser does not exist');
                 }
-
             } else {
-                fw7App.alert('Cant open auth URL');
+                window.open(URLs[type], '_blank')
             }
         });
 
@@ -380,7 +389,6 @@ MyApp.init = (function () {
     __app = angular.module('MyApp', ['gajus.swing'])
         .controller('card-stack-playground', function ($scope) {
             $scope.events = [];
-
         });
 
 
@@ -880,6 +888,7 @@ function openApplication() {
 
     if (!__authorized) {
         $$('#friends-tabbar-link, .tab-link.view-profile')
+            .off('click')
             .on('click', function (e) {
                 showAuthorizationModal();
                 e.stopPropagation();
@@ -887,9 +896,11 @@ function openApplication() {
                 return false;
             })
     } else {
-        $$('#friends-tabbar-link').on('click', function () {
-            $$('#view-friends .tab-link.active').click();
-        });
+        $$('#friends-tabbar-link')
+            .off('click')
+            .on('click', function () {
+                $$('#view-friends .tab-link.active').click();
+            });
     }
 }
 

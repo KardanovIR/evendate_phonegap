@@ -51,6 +51,7 @@
 
 
     <gap:plugin name="cordova-plugin-inappbrowser" source="npm"/>
+    <gap:plugin name="cordova-plugin-barcodescanner" source="npm"/>
     <gap:plugin name="org.apache.cordova.console" source="npm"/>
     <gap:plugin name="org.apache.cordova.dialogs" source="npm"/>
     <gap:plugin name="org.apache.cordova.statusbar" source="npm"/>

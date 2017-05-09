@@ -60,7 +60,6 @@ MyApp.pages.FeedsPageController = function ($scope, $timeout) {
             return Math.min(Math.abs(offset) / 100, 1);
         },
         isThrowOut: function (offset, element, throwOutConfidence) {
-            console.log('isThrowOut', offset, element.offsetWidth, throwOutConfidence);
             return throwOutConfidence === 1;
         }
     };
@@ -129,7 +128,7 @@ MyApp.pages.FeedsPageController = function ($scope, $timeout) {
     $scope.getTimeline = function (type, first_page, cb) {
         if ($scope.tabs[type].is_downloading) return;
         if ($scope.tabs[type].all_loaded && !first_page) return;
-        if (first_page == true) {
+        if (first_page === true) {
             $scope.tabs[type].page = 0;
             $scope.tabs[type].all_loaded = false;
         }
@@ -142,22 +141,22 @@ MyApp.pages.FeedsPageController = function ($scope, $timeout) {
         var fields_string = 'is_favorite,organization_short_name,favored_users_count,favored{length:5, fields:"is_friend,avatar_url", order_by:"-is_friend"},organization_logo_small_url,nearest_event_date,dates{length:500,fields:"end_time,start_time",},image_horizontal_medium_url,is_free,dates,min_price',
             data = [
                 {type: type},
-                {fields: fields_string + (type == 'timeline' ? ',actuality' : '')},
+                {fields: fields_string + (type === 'timeline' ? ',actuality' : '')},
                 {future: 'true'},
                 {page: $scope.tabs[type].page++},
                 {length: 10}
             ];
 
-        if (type == 'timeline') {
+        if (type === 'timeline') {
             data.push({order_by: '-actuality'});
-        } else if (type == 'recommendations') {
+        } else if (type === 'recommendations') {
             data.push({order_by: '-rating'});
         } else {
             data.push({order_by: 'nearest_event_date'});
         }
 
         __api.events.get(data, function (data) {
-            if (data.length == 0) {
+            if (data.length === 0) {
                 if (first_page) {
                     $scope.tabs[type].no_timeline_events = true;
                 } else {
@@ -175,14 +174,14 @@ MyApp.pages.FeedsPageController = function ($scope, $timeout) {
                 } catch (e) {
                 }
 
-                if (type == 'recommendations') {
+                if (type === 'recommendations') {
                     $scope.tabs[type].items.unshift(item);
                 } else {
                     $scope.tabs[type].items.push(item);
                 }
             });
 
-            if (type == 'recommendations' && first_page) {
+            if (type === 'recommendations' && first_page) {
                 $scope.tabs[type].card_items = $scope.tabs[type].items.slice(0, 4);
                 $scope.tabs.recommendations.items.splice(0, 4);
             }
@@ -230,7 +229,7 @@ MyApp.pages.FeedsPageController = function ($scope, $timeout) {
             var $$this = $$(this),
                 $$tab = $$this.find('.tab.active');
             var name = $$tab.data('name');
-            if (name == 'recommendations'){
+            if (name === 'recommendations'){
                 fw7App.pullToRefreshDone($$('#feeds'));
                 return;
             }
@@ -248,7 +247,7 @@ MyApp.pages.FeedsPageController = function ($scope, $timeout) {
 
         $scope.tabs[active_tab].scroll = $$feeds.scrollTop();
 
-        if (active_tab == 'recommendations') {
+        if (active_tab === 'recommendations') {
             fw7App.destroyPullToRefresh($$('#feeds'));
         } else {
             fw7App.initPullToRefresh($$('#feeds'));

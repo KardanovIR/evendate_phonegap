@@ -679,22 +679,25 @@ span.day-number.with-favorites-13::after {
 }
 
 .friends-page-header-shadow {
-    height: calc(35.5% - 32px);
     position: absolute;
-    background-color: rgba(68, 65, 65, 0.5);
+    top: -5px;
+    left: 0;
     width: 100%;
+    height: 100%;
+    background-color: rgba(68, 65, 65, 0.5);
     z-index: 2;
-    top: 44px;
-    /* opacity: 0.7; */
-    display: table;
 }
 
 .friends-page-header-text {
+    font-size: 17px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
     color: #FFF;
     font-weight: 600;
-    font-size: 17px;
     z-index: 5;
-    display: table-cell;
     vertical-align: middle;
     text-align: center;
 }
@@ -718,6 +721,7 @@ span.day-number.with-favorites-13::after {
 
 .friends-page-header {
     width: 100%;
+    position: relative;
 }
 
 .list-block.no-margin {
@@ -2588,6 +2592,7 @@ button.rounded-large {
     text-align: center;
 }
 
+#view-profile .buttons-row,
 #view-friends .buttons-row,
 #view-events .buttons-row {
     background-color: rgba(197, 201, 209, 0.3);
@@ -2600,6 +2605,7 @@ button.rounded-large {
 }
 
 #view-friends .tab-link,
+#view-profile .tab-link,
 #view-events .tab-link {
     border: none;
     border-radius: 101px;
@@ -2771,6 +2777,7 @@ button.rounded-large {
     -webkit-box-orient: vertical;
     font-size: 16px;
     padding-left: 8px;
+    background-color: rgba(68, 65, 65, 0.8);
 }
 
 .event-card-small .item-media {

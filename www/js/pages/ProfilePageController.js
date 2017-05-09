@@ -6,6 +6,10 @@ MyApp.ns('MyApp.pages');
 MyApp.pages.ProfilePageController = function ($scope) {
     'use strict';
 
+    var tab_names = ['profile', 'settings', 'admin'];
+    var active_tab = tab_names[0];
+
+
     $scope.subscriptions = null;
     $scope.selected_organization = null;
     $scope.organization_categories = [];
@@ -18,10 +22,23 @@ MyApp.pages.ProfilePageController = function ($scope) {
         past_count: 0,
         items: []
     };
+    $scope.admin_events = {
+        data_loaded: false,
+        no_tickets: false,
+        futures_count: 0,
+        past_count: 0,
+        items: []
+    };
+
+    $scope.tabs = {
+        profile: {},
+        settings: {},
+        admin: {}
+    };
 
 
     $scope.setUser = function () {
-        if (!__user){
+        if (!__user) {
             __user = [{}];
         }
         $scope.info = __user[0];
@@ -29,7 +46,7 @@ MyApp.pages.ProfilePageController = function ($scope) {
             {me: true},
             {fields: 'blurred_image_url'}
         ], function (data) {
-            if (data && data.length > 0){
+            if (data && data.length > 0) {
                 $scope.info.blurred_img_url = data[0].blurred_img_url;
                 $scope.$digest();
             }
@@ -43,14 +60,15 @@ MyApp.pages.ProfilePageController = function ($scope) {
         __api.events.get([
             {fields: 'dates,is_same_time,image_horizontal_medium_url,nearest_event_date,location,tickets{"fields":"created_at,number,ticket_type,order"}'},
             {order_by: 'nearest_event_date'},
+            {length: 1000},
             {is_registered: true}
-            ], function (data) {
+        ], function (data) {
 
-            data.forEach(function(event){
-                if (event.nearest_event_date != null){
+            data.forEach(function (event) {
+                if (event.nearest_event_date != null) {
                     event.is_future = true;
                     $scope.tickets.futures_count++;
-                }else{
+                } else {
                     event.is_future = false;
                     $scope.tickets.past_count++;
                 }
@@ -96,6 +114,56 @@ MyApp.pages.ProfilePageController = function ($scope) {
             $scope.$apply();
         });
         getTickets();
+        $scope.getAdminEvents();
+    };
+
+
+    $scope.getAdminEvents = function(){
+        $scope.admin_events.data_loaded = false;
+        $scope.admin_events.no_tickets = true;
+        __api.events.get([
+            {fields: 'dates,is_same_time,image_horizontal_medium_url,nearest_event_date,sold_tickets_count,tickets_count,tickets{"fields":"created_at,number,ticket_type,order"}'},
+            {order_by: 'nearest_event_date'},
+            {length: 1000},
+            {registration_locally: true},
+            {can_edit: true}
+        ], function (data) {
+
+            data.forEach(function (event) {
+                if (event.nearest_event_date != null) {
+                    event.is_future = true;
+                    $scope.tickets.futures_count++;
+                } else {
+                    event.is_future = false;
+                    $scope.tickets.past_count++;
+                }
+                event.scanQR = scanQR;
+            });
+
+
+            $scope.admin_events.items = data ? data : [];
+            $scope.no_subscriptions = $scope.tickets.items.length !== 0;
+            $scope.admin_events.data_loaded = true;
+
+            $scope.$apply();
+        });
+
+    };
+
+
+    $scope.moveActiveBackground = function ($event) {
+        var $$this = $$($event.target),
+            $$feeds = $$('#user-profile'),
+            name = $$this.data('name');
+
+        $scope.tabs[active_tab].scroll = $$feeds.scrollTop();
+
+
+        active_tab = name;
+        $$('#view-profile .tab-runner').css({
+            width: $$this.width() + 'px',
+            left: $$this.offset().left + 'px'
+        });
     };
 
     $$('.logout-icon').on('click', resetAccount);

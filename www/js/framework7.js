@@ -10978,7 +10978,7 @@
                     p.params.onMonthAdd(p, dir === 'next' ? p.months.eq(p.months.length - 1)[0] : p.months.eq(0)[0]);
                 }
                 if (p.params.onMonthYearChangeEnd) {
-                    p.params.onMonthYearChangeEnd(p, p.currentYear, p.currentMonth);
+                    p.params.onMonthYearChangeEnd(p, p.currentYear, p.currentMonth, dir);
                 }
             };
             p.setMonthsTranslate = function (translate) {
