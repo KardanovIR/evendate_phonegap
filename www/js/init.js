@@ -304,6 +304,7 @@ function showAuthorizationModal() {
                     inAppBrowserRef.addEventListener('loadstop', function (data) {
                         if (/mobileAuthDone/.test(data.url)) {
                             saveTokenInLocalStorage(data.url);
+                            hideAuthorizationModal();
                             inAppBrowserRef.close();
                         }
                     });
