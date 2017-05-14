@@ -135,19 +135,22 @@ MyApp.pages.CheckInPageController = function ($scope, $timeout) {
                 _event.scanQR(function (data) {
                     L.log(data);
                     if (data.cancelled !== 0) return;
-                    if (_event.id != _data.event_id){
-                        fw7App.alert('QR не соответствует событию');
-                        return;
-                    }
                     try {
                         var _data = JSON.parse(data.text);
+                        if (_event.id != _data.event_id){
+                            fw7App.alert('QR не соответствует событию');
+                            return;
+                        }
+                        L.log('Parsed:', _data);
                         __api.tickets.get([
                             {event_id: _data.event_id},
                             {uuid: _data.uuid}
                         ], function (data) {
                             data[0].showConfirmationBar();
                         });
-                    } catch (e) {}
+                    } catch (e) {
+                        L.log(e);
+                    }
                 }, function () {
                     fw7App.alert('Произошла ошибка. Попробуйте еще раз!')
                 });
