@@ -1,13 +1,21 @@
 <?xml version='1.0' encoding='utf-8'?>
 <widget id="ru.evendate.phonegap"
-        version="2.0.1"
+        version="2.1.0"
         xmlns="http://www.w3.org/ns/widgets"
         xmlns:gap="http://phonegap.com/ns/1.0"
-        versionCode = "2.0.1">
+        versionCode="2.1.0">
     <name>Evendate</name>
     <description>
-        Evendate - самые интересные события в Москве в твоем телефоне. Афиша выставок, музеев, кинотеатров, концертов, мастер-классов.
-        Ты знаешь сколько меропрятий, которые могли бы быть тебе интересны, ты пропустил на прошлой недели? Наша команда выяснила, что каждый житель Москвы пропускает до 70% событий, соответствующих его интересам, поскольку попросту не узнает о них. Поэтому мы создали Evendate - приложение, с помощью которого ты сможешь собрать все любимые организации в одном месте и получать уведомления о новых событиях. Мастер-классы, выставки, кинотеатры, музеи, ВУЗы, скидки, акции, бесплатные мероприятия и многое другое в удобной персонализированной ленте. Кроме того, с помощью Evendate ты сможешь смотреть какие мероприятия посещают твои друзья из социальных сетей, получать рекомендации на основе собственных интересов и пользоваться интерактивным календарем. Один день с Evendate - ни дня без него.
+        Evendate - самые интересные события в Москве в твоем телефоне. Афиша выставок, музеев, кинотеатров, концертов,
+        мастер-классов.
+        Ты знаешь сколько меропрятий, которые могли бы быть тебе интересны, ты пропустил на прошлой недели? Наша команда
+        выяснила, что каждый житель Москвы пропускает до 70% событий, соответствующих его интересам, поскольку попросту
+        не узнает о них. Поэтому мы создали Evendate - приложение, с помощью которого ты сможешь собрать все любимые
+        организации в одном месте и получать уведомления о новых событиях. Мастер-классы, выставки, кинотеатры, музеи,
+        ВУЗы, скидки, акции, бесплатные мероприятия и многое другое в удобной персонализированной ленте. Кроме того, с
+        помощью Evendate ты сможешь смотреть какие мероприятия посещают твои друзья из социальных сетей, получать
+        рекомендации на основе собственных интересов и пользоваться интерактивным календарем. Один день с Evendate - ни
+        дня без него.
     </description>
     <author email="support@evendate.ru" href="http://evendate.ru">
         Evendate Team
@@ -17,37 +25,37 @@
         <string>2.0.1</string>
     </gap:config-file>
 
-    <content src="index.html" />
+    <content src="index.html"/>
 
-    <preference name="permissions" value="none" />
-    <preference name="orientation" value="portrait" />
-    <preference name="target-device" value="handset" />
-    <preference name="fullscreen" value="true" />
-    <preference name="prerendered-icon" value="true" />
-    <preference name="stay-in-webview" value="false" />
-    <preference name="ios-statusbarstyle" value="black-translucent" />
-    <preference name="detect-data-types" value="true" />
-    <preference name="exit-on-suspend" value="false" />
-    <preference name="show-splash-screen-spinner" value="true" />
-    <preference name="auto-hide-splash-screen" value="true" />
-    <preference name="disable-cursor" value="true" />
-    <preference name="deployment-target" value="8.0" />
+    <preference name="permissions" value="none"/>
+    <preference name="orientation" value="portrait"/>
+    <preference name="target-device" value="handset"/>
+    <preference name="fullscreen" value="true"/>
+    <preference name="prerendered-icon" value="true"/>
+    <preference name="stay-in-webview" value="false"/>
+    <preference name="ios-statusbarstyle" value="black-translucent"/>
+    <preference name="detect-data-types" value="true"/>
+    <preference name="exit-on-suspend" value="false"/>
+    <preference name="show-splash-screen-spinner" value="true"/>
+    <preference name="auto-hide-splash-screen" value="true"/>
+    <preference name="disable-cursor" value="true"/>
+    <preference name="deployment-target" value="8.0"/>
 
 
     <preference name="StatusBarOverlaysWebView" value="true"/>
-    <preference name="StatusBarStyle" value="default" />
-    <preference name="DisallowOverscroll" value="true" />
-    <preference name="webviewbounce" value="false" />
-    <preference name="android-build-tool" value="gradle" />
+    <preference name="StatusBarStyle" value="default"/>
+    <preference name="DisallowOverscroll" value="true"/>
+    <preference name="webviewbounce" value="false"/>
+    <preference name="android-build-tool" value="gradle"/>
 
 
-    <plugin name="org.apache.cordova.device" />
-    <plugin name="org.apache.cordova.device-motion" />
-    <plugin name="org.apache.cordova.geolocation" />
-    <plugin name="org.apache.cordova.globalization" />
-    <plugin name="org.apache.cordova.media" />
-    <plugin name="org.apache.cordova.network-information" />
-    <plugin name="org.apache.cordova.splashscreen" />
+    <plugin name="org.apache.cordova.device"/>
+    <plugin name="org.apache.cordova.device-motion"/>
+    <plugin name="org.apache.cordova.geolocation"/>
+    <plugin name="org.apache.cordova.globalization"/>
+    <plugin name="org.apache.cordova.media"/>
+    <plugin name="org.apache.cordova.network-information"/>
+    <plugin name="org.apache.cordova.splashscreen"/>
 
 
     <gap:plugin name="cordova-plugin-inappbrowser" source="npm"/>
@@ -56,77 +64,80 @@
     <gap:plugin name="org.apache.cordova.dialogs" source="npm"/>
     <gap:plugin name="org.apache.cordova.statusbar" source="npm"/>
     <gap:plugin name="com.analytics.google" source="npm"/>
-    <gap:plugin name="org.apache.cordova.inappbrowser" source="npm" />
+    <gap:plugin name="org.apache.cordova.inappbrowser" source="npm"/>
     <!--<plugin name="com.philmerrell.cordova.canopen" spec="0.1" source="pgb" />-->
-    <gap:plugin name="com.ohh2ahh.plugins.appavailability" source="npm" />
+    <gap:plugin name="com.ohh2ahh.plugins.appavailability" source="npm"/>
     <!--<gap:plugin name="cordova-plugin-inappbrowser" source="npm" version="~1" />-->
-    <gap:plugin name="cordova-plugin-x-socialsharing" source="npm" />
-    <gap:plugin name="cordova-plugin-calendar" spec="4.4.7" source="npm" />
+    <gap:plugin name="cordova-plugin-x-socialsharing" source="npm"/>
+    <gap:plugin name="cordova-plugin-calendar" spec="4.4.7" source="npm"/>
 
     <!--<gap:plugin name="com.phonegap.plugins.facebookconnect" version="0.9.0" source="npm">-->
-        <!--<param name="APP_ID" value="1692270867652630" />-->
-        <!--<param name="APP_NAME" value="Evendate" />-->
+    <!--<param name="APP_ID" value="1692270867652630" />-->
+    <!--<param name="APP_NAME" value="Evendate" />-->
     <!--</gap:plugin>-->
 
     <gap:plugin name="cordova-plugin-googleplus" source="npm">
-        <param name="REVERSED_CLIENT_ID" value="com.googleusercontent.apps.403640417782-mtv5sc64omm5k49l8hiqa7j2iecpq5se" />
+        <param name="REVERSED_CLIENT_ID"
+               value="com.googleusercontent.apps.403640417782-mtv5sc64omm5k49l8hiqa7j2iecpq5se"/>
     </gap:plugin>
 
 
-    <gap:plugin name="onesignal-cordova-plugin" source="npm" />
-    <gap:plugin name="cordova-plugin-appavailability" source="npm" />
+    <gap:plugin name="onesignal-cordova-plugin" source="npm"/>
+    <gap:plugin name="cordova-plugin-appavailability" source="npm"/>
 
-    <icon src="www/res/icon/ios/icon.png" />
-    <icon gap:platform="ios" height="57" src="res/icon/ios/iOS_57.png" width="57" />
-    <icon gap:platform="ios" height="72" src="res/icon/ios/iOS_72.png" width="72" />
-    <icon gap:platform="ios" height="114" src="res/icon/ios/iOS_114.png" width="114" />
-    <icon gap:platform="ios" height="120" src="res/icon/ios/iOS_120.png" width="120" />
-    <icon gap:platform="ios" height="144" src="res/icon/ios/iOS_144.png" width="144" />
+    <icon src="www/res/icon/ios/icon.png"/>
 
-    <icon platform="ios" height="57" src="res/icon/ios/iOS_57.png" width="57" />
-    <icon platform="ios" height="72" src="res/icon/ios/iOS_72.png" width="72" />
-    <icon platform="ios" height="114" src="res/icon/ios/iOS_114.png" width="114" />
-    <icon platform="ios" height="120" src="res/icon/ios/iOS_120.png" width="120" />
-    <icon platform="ios" height="144" src="res/icon/ios/iOS_144.png" width="144" />
+    <platform name="ios">
+
+        <icon platform="ios" height="57" src="res/icon/ios/iOS_57.png" width="57"/>
+        <icon platform="ios" height="72" src="res/icon/ios/iOS_72.png" width="72"/>
+        <icon platform="ios" height="114" src="res/icon/ios/iOS_114.png" width="114"/>
+        <icon platform="ios" height="120" src="res/icon/ios/iOS_120.png" width="120"/>
+        <icon platform="ios" height="144" src="res/icon/ios/iOS_144.png" width="144"/>
+
+    </platform>
+    <icon gap:platform="ios" height="57" src="res/icon/ios/iOS_57.png" width="57"/>
+    <icon gap:platform="ios" height="72" src="res/icon/ios/iOS_72.png" width="72"/>
+    <icon gap:platform="ios" height="114" src="res/icon/ios/iOS_114.png" width="114"/>
+    <icon gap:platform="ios" height="120" src="res/icon/ios/iOS_120.png" width="120"/>
+    <icon gap:platform="ios" height="144" src="res/icon/ios/iOS_144.png" width="144"/>
 
 
     <!-- Optional splash screen image, e.g.: -->
-    <gap:splash src="res/screen/ios/screen-iphone-landscape.png" gap:platform="ios" width="480" height="320" />
-    <gap:splash src="res/screen/ios/screen-iphone-portrait.png" gap:platform="ios" width="320" height="480" />
+    <gap:splash src="res/screen/ios/screen-iphone-landscape.png" gap:platform="ios" width="480" height="320"/>
+    <gap:splash src="res/screen/ios/screen-iphone-portrait.png" gap:platform="ios" width="320" height="480"/>
 
-    <gap:splash src="res/screen/ios/screen-iphone-landscape-2x.png" gap:platform="ios" width="960" height="640" />
-    <gap:splash src="res/screen/ios/screen-iphone-portrait-2x.png" gap:platform="ios" width="640" height="960" />
+    <gap:splash src="res/screen/ios/screen-iphone-landscape-2x.png" gap:platform="ios" width="960" height="640"/>
+    <gap:splash src="res/screen/ios/screen-iphone-portrait-2x.png" gap:platform="ios" width="640" height="960"/>
 
-    <gap:splash src="res/screen/ios/screen-iphone1136-portrait.png" gap:platform="ios" width="1136" height="640" />
-    <gap:splash src="res/screen/ios/screen-iphone-portrait-568h-2x.png" gap:platform="ios" width="640" height="1136" />
+    <gap:splash src="res/screen/ios/screen-iphone1136-portrait.png" gap:platform="ios" width="1136" height="640"/>
+    <gap:splash src="res/screen/ios/screen-iphone-portrait-568h-2x.png" gap:platform="ios" width="640" height="1136"/>
 
-    <gap:splash src="res/screen/ios/screen-ipad-landscape.png" gap:platform="ios" width="1024" height="768" />
-    <gap:splash src="res/screen/ios/screen-ipad-portrait.png" gap:platform="ios" width="768" height="1024" />
+    <gap:splash src="res/screen/ios/screen-ipad-landscape.png" gap:platform="ios" width="1024" height="768"/>
+    <gap:splash src="res/screen/ios/screen-ipad-portrait.png" gap:platform="ios" width="768" height="1024"/>
 
-    <gap:splash src="res/screen/ios/screen-iphone568-portrait.png" gap:platform="ios" width="568" height="320" />
-    <gap:splash src="res/screen/ios/screen-iphone320-portrait.png" gap:platform="ios" width="320" height="568" />
+    <gap:splash src="res/screen/ios/screen-iphone568-portrait.png" gap:platform="ios" width="568" height="320"/>
+    <gap:splash src="res/screen/ios/screen-iphone320-portrait.png" gap:platform="ios" width="320" height="568"/>
 
-    <gap:splash src="res/screen/ios/screen-iphone1334-portrait.png" gap:platform="ios" width="1334" height="750" />
-    <gap:splash src="res/screen/ios/screen-iphone750-portrait.png" gap:platform="ios" width="750" height="1334" />
+    <gap:splash src="res/screen/ios/screen-iphone1334-portrait.png" gap:platform="ios" width="1334" height="750"/>
+    <gap:splash src="res/screen/ios/screen-iphone750-portrait.png" gap:platform="ios" width="750" height="1334"/>
 
-    <gap:splash src="res/screen/ios/screen-iphone2208-portrait.png" gap:platform="ios" width="2208" height="1242" />
-    <gap:splash src="res/screen/ios/screen-iphone1242-portrait.png" gap:platform="ios" width="1242" height="2208" />
+    <gap:splash src="res/screen/ios/screen-iphone2208-portrait.png" gap:platform="ios" width="2208" height="1242"/>
+    <gap:splash src="res/screen/ios/screen-iphone1242-portrait.png" gap:platform="ios" width="1242" height="2208"/>
 
-    <gap:splash src="res/screen/ios/screen-iphone2048-portrait.png" gap:platform="ios" width="2048" height="1536" />
-    <gap:splash src="res/screen/ios/screen-iphone1536-portrait.png" gap:platform="ios" width="1536" height="2048" />
-
-
+    <gap:splash src="res/screen/ios/screen-iphone2048-portrait.png" gap:platform="ios" width="2048" height="1536"/>
+    <gap:splash src="res/screen/ios/screen-iphone1536-portrait.png" gap:platform="ios" width="1536" height="2048"/>
 
 
-    <plugin name="cordova-plugin-whitelist" version="1" />
-    <access origin="*" />
-    <allow-intent href="http://*/*" />
-    <allow-intent href="https://*/*" />
-    <allow-intent href="tel:*" />
-    <allow-intent href="sms:*" />
-    <allow-intent href="mailto:*" />
-    <allow-intent href="map:*" />
-    <allow-intent href="maps:*" />
+    <plugin name="cordova-plugin-whitelist" version="1"/>
+    <access origin="*"/>
+    <allow-intent href="http://*/*"/>
+    <allow-intent href="https://*/*"/>
+    <allow-intent href="tel:*"/>
+    <allow-intent href="sms:*"/>
+    <allow-intent href="mailto:*"/>
+    <allow-intent href="map:*"/>
+    <allow-intent href="maps:*"/>
     <allow-intent href="fb:*"/>
     <allow-intent href="vk:*"/>
     <allow-intent href="gplus:*"/>
@@ -138,46 +149,46 @@
 
 
     <platform name="ios">
-        <access origin="*" />
+        <access origin="*"/>
         <access origin="geo:*" launch-external="yes"/>
-        <allow-intent href="http://*/*" />
-        <allow-intent href="https://*/*" />
-        <allow-intent href="tel:*" />
-        <allow-intent href="sms:*" />
-        <allow-intent href="mailto:*" />
-        <allow-intent href="map:*" />
-        <allow-intent href="maps:*" />
+        <allow-intent href="http://*/*"/>
+        <allow-intent href="https://*/*"/>
+        <allow-intent href="tel:*"/>
+        <allow-intent href="sms:*"/>
+        <allow-intent href="mailto:*"/>
+        <allow-intent href="map:*"/>
+        <allow-intent href="maps:*"/>
         <allow-intent href="fb:*"/>
         <allow-intent href="vk:*"/>
         <allow-intent href="gplus:*"/>
 
 
-        <allow-intent href="itms:*" />
-        <allow-intent href="itms-apps:*" />
+        <allow-intent href="itms:*"/>
+        <allow-intent href="itms-apps:*"/>
 
-        <splash src="res/screen/ios/screen-iphone-landscape.png" width="480" height="320" />
-        <splash src="res/screen/ios/screen-iphone-portrait.png" width="320" height="480" />
+        <splash src="res/screen/ios/screen-iphone-landscape.png" width="480" height="320"/>
+        <splash src="res/screen/ios/screen-iphone-portrait.png" width="320" height="480"/>
 
-        <splash src="res/screen/ios/screen-iphone-landscape-2x.png" width="960" height="640" />
-        <splash src="res/screen/ios/screen-iphone-portrait-2x.png" width="640" height="960" />
+        <splash src="res/screen/ios/screen-iphone-landscape-2x.png" width="960" height="640"/>
+        <splash src="res/screen/ios/screen-iphone-portrait-2x.png" width="640" height="960"/>
 
-        <splash src="res/screen/ios/screen-iphone1136-portrait.png" width="1136" height="640" />
-        <splash src="res/screen/ios/screen-iphone-portrait-568h-2x.png" width="640" height="1136" />
+        <splash src="res/screen/ios/screen-iphone1136-portrait.png" width="1136" height="640"/>
+        <splash src="res/screen/ios/screen-iphone-portrait-568h-2x.png" width="640" height="1136"/>
 
-        <splash src="res/screen/ios/screen-ipad-landscape.png" width="1024" height="768" />
-        <splash src="res/screen/ios/screen-ipad-portrait.png" width="768" height="1024" />
+        <splash src="res/screen/ios/screen-ipad-landscape.png" width="1024" height="768"/>
+        <splash src="res/screen/ios/screen-ipad-portrait.png" width="768" height="1024"/>
 
-        <splash src="res/screen/ios/screen-iphone-portrait.png" width="568" height="320" />
-        <splash src="res/screen/ios/screen-iphone-portrait.png" width="320" height="568" />
+        <splash src="res/screen/ios/screen-iphone-portrait.png" width="568" height="320"/>
+        <splash src="res/screen/ios/screen-iphone-portrait.png" width="320" height="568"/>
 
-        <splash src="res/screen/ios/screen-iphone1334-portrait.png" width="1334" height="750" />
-        <splash src="res/screen/ios/screen-iphone750-portrait.png" width="750" height="1334" />
+        <splash src="res/screen/ios/screen-iphone1334-portrait.png" width="1334" height="750"/>
+        <splash src="res/screen/ios/screen-iphone750-portrait.png" width="750" height="1334"/>
 
-        <splash src="res/screen/ios/screen-iphone2208-portrait.png" width="2208" height="1242" />
-        <splash src="res/screen/ios/screen-iphone1242-portrait.png" width="1242" height="2208" />
+        <splash src="res/screen/ios/screen-iphone2208-portrait.png" width="2208" height="1242"/>
+        <splash src="res/screen/ios/screen-iphone1242-portrait.png" width="1242" height="2208"/>
 
-        <splash src="res/screen/ios/screen-iphone2048-portrait.png" width="2048" height="1536" />
-        <splash src="res/screen/ios/screen-iphone1536-portrait.png" width="1536" height="2048" />
+        <splash src="res/screen/ios/screen-iphone2048-portrait.png" width="2048" height="1536"/>
+        <splash src="res/screen/ios/screen-iphone1536-portrait.png" width="1536" height="2048"/>
     </platform>
 
 
@@ -185,26 +196,26 @@
         <param name="ios-package" value="DatePicker"/>
     </feature>
     <feature name="NetworkStatus">
-        <param name="ios-package" value="CDVConnection" />
+        <param name="ios-package" value="CDVConnection"/>
     </feature>
     <feature name="Device">
-        <param name="ios-package" value="CDVDevice" />
-        <param name="android-package" value="org.apache.cordova.device.Device" />
+        <param name="ios-package" value="CDVDevice"/>
+        <param name="android-package" value="org.apache.cordova.device.Device"/>
     </feature>
     <feature name="File">
-        <param name="ios-package" value="CDVFile" />
-        <param name="android-package" value="org.apache.cordova.file.FileUtils" />
+        <param name="ios-package" value="CDVFile"/>
+        <param name="android-package" value="org.apache.cordova.file.FileUtils"/>
     </feature>
     <feature name="FileTransfer">
-        <param name="ios-package" value="CDVFileTransfer" />
-        <param name="android-package" value="org.apache.cordova.filetransfer.FileTransfer" />
+        <param name="ios-package" value="CDVFileTransfer"/>
+        <param name="android-package" value="org.apache.cordova.filetransfer.FileTransfer"/>
     </feature>
     <feature name="Calendar">
-        <param name="ios-package" value="Calendar" />
+        <param name="ios-package" value="Calendar"/>
     </feature>
 
     <gap:platforms>
-        <gap:platform name="ios" />
+        <gap:platform name="ios"/>
     </gap:platforms>
 
     <gap:config-file platform="ios" parent="LSApplicationQueriesSchemes" overwrite="true">
