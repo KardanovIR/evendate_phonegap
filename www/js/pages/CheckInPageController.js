@@ -134,6 +134,16 @@ MyApp.pages.CheckInPageController = function ($scope, $timeout) {
             .on('click', function () {
                 _event.scanQR(function (data) {
                     L.log(data);
+                    if (data.cancelled) return;
+                    try {
+                        var _data = JSON.parse(data.text);
+                        __api.tickets.get([
+                            {event_id: _data.event_id},
+                            {uuid: _data.uuid}
+                        ], function (data) {
+                            data[0].showConfirmationBar();
+                        });
+                    } catch (e) {}
                 }, function () {
                     fw7App.alert('Произошла ошибка. Попробуйте еще раз!')
                 });

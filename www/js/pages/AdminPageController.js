@@ -51,13 +51,8 @@ MyApp.pages.AdminPageController = function ($scope) {
                         event.is_future = false;
                         $scope.admin_events.past_count++;
                     }
-                    event.scanQR = function () {
-                        scanQR(function (res) {
+                    event.scanQR = scanQR;
 
-                        }, function (err) {
-
-                        })
-                    };
                     event.openCheckInPage = function () {
 
                         var _event = event;
