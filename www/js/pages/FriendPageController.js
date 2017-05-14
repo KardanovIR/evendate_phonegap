@@ -13,6 +13,7 @@ MyApp.pages.FriendPageController = function ($scope) {
     $scope.subscriptions = [];
     $scope.cards = [];
     $scope.page = 0;
+    $scope.all_actions_downloaded = false;
     $scope.no_subscriptions = null;
     $scope.no_actions = null;
     $scope.is_downloading = false;
@@ -69,7 +70,10 @@ MyApp.pages.FriendPageController = function ($scope) {
 
         if (first_page){
             $scope.page = 0;
+            $scope.all_actions_downloaded = false;
         }
+
+        if ($scope.all_actions_downloaded) return;
 
         $scope.$apply();
 
@@ -82,6 +86,9 @@ MyApp.pages.FriendPageController = function ($scope) {
                 {length: 20}
             ],
             function (data) {
+            if (data.length < 20){
+                $scope.all_actions_downloaded = true;
+            }
                 cards_by_users = {};
                 data.forEach(function (stat) {
                     var date = moment.unix(stat.created_at),

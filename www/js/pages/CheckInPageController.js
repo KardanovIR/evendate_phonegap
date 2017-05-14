@@ -132,7 +132,11 @@ MyApp.pages.CheckInPageController = function ($scope, $timeout) {
         $$('.view.active .scan-qr-btn')
             .off('click')
             .on('click', function () {
-                _event.scanQR();
+                _event.scanQR(function (data) {
+                    L.log(data);
+                }, function () {
+                    fw7App.alert('Произошла ошибка. Попробуйте еще раз!')
+                });
             });
 
         fw7App.searchbar('.view.active .searchbar');
