@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="21px" height="20px" viewBox="0 0 21 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 43.1 (39012) - http://www.bohemiancoding.com/sketch -->
+    <title>briefcase-3</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <rect id="path-1" x="0" y="0" width="320" height="48"></rect>
+        <filter x="-3.3%" y="-21.9%" width="106.6%" height="143.7%" filterUnits="objectBoundingBox" id="filter-2">
+            <feOffset dx="0" dy="0" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="3.5" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feComposite in="shadowBlurOuter1" in2="SourceAlpha" operator="out" result="shadowBlurOuter1"></feComposite>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.14 0" type="matrix" in="shadowBlurOuter1"></feColorMatrix>
+        </filter>
+    </defs>
+    <g id="Evendate-App" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Catalog_2" transform="translate(-214.000000, -531.000000)">
+            <rect id="bg" fill="#F4F4F4" x="0" y="0" width="320" height="584"></rect>
+            <g id="Tab_bar" transform="translate(0.000000, 520.000000)">
+                <g id="Tab_bar_blur">
+                    <use fill="black" fill-opacity="1" filter="url(#filter-2)" xlink:href="#path-1"></use>
+                    <use fill-opacity="0.8" fill="#FFFFFF" fill-rule="evenodd" xlink:href="#path-1"></use>
+                </g>
+                <g id="Profile" transform="translate(192.000000, 0.000000)">
+                    <rect id="Tab_br" x="0" y="0" width="64" height="48"></rect>
+                    <g id="briefcase-3" transform="translate(22.000000, 11.000000)" fill-rule="nonzero" fill="#F82969">
+                        <path d="M20.1706554,2.89264271 L14.8205835,2.89264271 L14.8205835,1.26494715 C14.8205835,0.576236786 14.2323171,0.0159830867 13.5091712,0.0159830867 L7.33836786,0.0159830867 C6.61522199,0.0159830867 6.0269556,0.576236786 6.0269556,1.26494715 L6.0269556,2.89268499 L0.812207188,2.89268499 C0.363615222,2.89264271 0,3.23902748 0,3.66621564 L0,10.7049894 C0,10.8349683 0.0368942918,10.9556025 0.0963868922,11.0631712 L4.20963425,11.0631712 L4.20963425,10.1722622 L6.54835941,10.1722622 L6.54835941,11.0631712 L14.4344588,11.0631712 L14.4344588,10.1722622 L16.7731839,10.1722622 L16.7731839,11.0631712 L20.8865201,11.0631712 C20.9460571,10.9556448 20.982907,10.8349683 20.982907,10.7049894 L20.982907,3.66621564 C20.982907,3.23902748 20.6192474,2.89264271 20.1706554,2.89264271 Z M13.9463087,2.89264271 L6.90118605,2.89264271 L6.90118605,1.26494715 C6.90118605,1.03526427 7.09733404,0.848625793 7.33832347,0.848625793 L13.5091268,0.848625793 C13.7501163,0.848625793 13.9462643,1.03526427 13.9462643,1.26494715 L13.9462643,2.89264271 L13.9463087,2.89264271 Z" id="Shape"></path>
+                        <path d="M16.7731839,11.895814 L16.7731839,12.0706554 C16.7731839,12.6867653 16.2486279,13.1863848 15.6016237,13.1863848 C14.9590148,13.1863848 14.4344588,12.6868076 14.4344588,12.0706554 L14.4344588,11.895814 L6.54835941,11.895814 L6.54835941,12.0706554 C6.54835941,12.6867653 6.02380338,13.1863848 5.3811945,13.1863848 C4.73423467,13.1863848 4.20963425,12.6868076 4.20963425,12.0706554 L4.20963425,11.895814 L1.21835518,11.895814 L1.21835518,18.5431712 C1.21835518,19.0030021 1.60976321,19.375814 2.09263002,19.375814 L18.7548647,19.375814 C19.2377315,19.375814 19.6291395,19.0030021 19.6291395,18.5431712 L19.6291395,11.895814 L16.7731839,11.895814 Z" id="Shape"></path>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

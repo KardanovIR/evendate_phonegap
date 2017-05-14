@@ -37,6 +37,8 @@ MyApp.pages.ProfilePageController = function ($scope) {
         $scope.info = __user[0];
         if ($scope.info.is_editor) {
             $$('#admin-tabbar-link').addClass('shown');
+
+            angular.element($$('#admin-events-content')).scope().getAdminEvents(function () {})
         }
         __api.users.get([
             {me: true},

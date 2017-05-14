@@ -1,0 +1,89 @@
+<!-- We don't need full layout here, because this page will be parsed with Ajax-->
+<!-- Top Navbar-->
+<div class="navbar">
+  <div class="navbar-inner blur">
+    <div class="left sliding main-nav">
+      <a href="#" class="link back">
+        <i class="ion-ios-arrow-back"></i></a>
+    </div>
+    <div class="center sliding heading-name main-nav">Контроль входа</div>
+    <div class="right main-nav">
+      <a href="#" class="link checkin-search-btn scan-qr-btn" style="padding-right: 5px;">
+        <i class="ion-qr-scanner"></i></a>
+      <a href="#" class="link checkin-search-btn search-btn">
+        <i class="ion-ios-search-strong"></i></a>
+    </div>
+    <form class="searchbar hidden">
+      <div class="searchbar-input">
+        <input type="search" placeholder="Поиск">
+        <a href="#" class="searchbar-clear"></a>
+      </div>
+      <a href="#" class="searchbar-cancel" style="color: #000000;">Отмена</a>
+    </form>
+    <div class="subnavbar blur">
+      <div class="buttons-row new" style="width: 100%;">
+        <a href="#waiting" class="button tab-link button-white active">Ожидают</a>
+        <a href="#used" class="button tab-link button-white">Использованы</a>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="pages navbar-through">
+  <div data-page="checkn-page" id="checkin-page" class="page checkn-page" ng-controller="CheckInPageController">
+    <div class="page-content infinite-scroll checkn-page pull-to-refresh-content" data-distance="100">
+      <div pull-to-refresh class="big-margin" style="margin-top: 5px;margin-bottom: 5px;"></div>
+      <div class="tabs" id="checkin-content">
+        <!--Waiting tickets-->
+        <div id="waiting" class="tab active" data-name="waiting">
+          <div class="no-events-text" ng-show="tabs.waiting.no_items">
+            Нет билетов
+          </div>
+          <div class="list-block no-top-margin">
+            <ul class="no-border no-top-margin">
+              <li ng-repeat="ticket in tabs.waiting.items track by ticket.number" ng-click="ticket.showConfirmationBar();">
+                <a href="#" class="item-link item-content">
+                  <div class="item-media">
+                    <img ng-src="{{ticket.user.avatar_url}}" onerror="onImgErrorSmall(this)" class="friend-image">
+                  </div>
+                  <div class="item-inner" style="background-image: none;">
+                    <div class="item-title-row">
+                      <div class="item-title">{{ticket.user.last_name}} {{ticket.user.first_name}}</div>
+                      <div class="item-subtitle">№ {{ticket.number}}</div>
+                    </div>
+                  </div>
+                </a>
+              </li>
+            </ul>
+          </div>
+          <div infinite-scroll
+               ng-show="tabs.waiting.is_downloading && tabs.waiting.page != 0"></div>
+        </div>
+        <!--Used tickets-->
+        <div id="used" class="tab" data-name="used">
+          <div class="no-events-text" ng-show="tabs.used.no_items">
+            Нет билетов
+          </div>
+          <div class="list-block no-top-margin">
+            <ul class="no-border no-top-margin">
+              <li ng-repeat="ticket in tabs.used.items track by ticket.number" ng-click="ticket.showConfirmationBar();">
+                <a href="#" class="item-link item-content">
+                  <div class="item-media">
+                    <img ng-src="{{ticket.user.avatar_url}}" onerror="onImgErrorSmall(this)" class="friend-image">
+                  </div>
+                  <div class="item-inner" style="background-image: none;">
+                    <div class="item-title-row">
+                      <div class="item-title">{{ticket.user.last_name}} {{ticket.user.first_name}}</div>
+                      <div class="item-subtitle">№ {{ticket.number}}</div>
+                    </div>
+                  </div>
+                </a>
+              </li>
+            </ul>
+          </div>
+          <div infinite-scroll
+               ng-show="tabs.used.is_downloading && tabs.used.page != 0"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

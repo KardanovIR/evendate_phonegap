@@ -146,6 +146,13 @@ function Events() {
                         original_type: field.type,
                         type: _type
                     })
+                    event.form_fields.push({
+                        name: field.uuid,
+                        required: field.required,
+                        label: field.label,
+                        original_type: field.type,
+                        type: _type
+                    })
                 })
             }
 

@@ -39,7 +39,7 @@
                  padding-right: 0;">
                 <div class="text-center">
                     <div class="liked-users" ng-click="organization.openSubscribedFriends()">
-                        <img class="user-avatar" ng-repeat="user in organization.subscribed track by user.id"
+                        <img class="user-avatar" ng-repeat="user in organization.subscribed track by $index"
                              ng-src="{{user.avatar_url}}" onerror="onImgErrorSmall(this);">
                         <div class="organization-subscribed-count">{{organization.subscribed_count}}</div>
                     </div>

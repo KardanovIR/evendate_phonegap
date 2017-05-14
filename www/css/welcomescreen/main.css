@@ -2602,6 +2602,7 @@ button.rounded-large {
 
 #view-profile .buttons-row,
 #view-friends .buttons-row,
+.buttons-row.new,
 #view-events .buttons-row {
     background-color: rgba(197, 201, 209, 0.3);
     border-radius: 100px;
@@ -2612,6 +2613,8 @@ button.rounded-large {
     background: none;
 }
 
+
+.buttons-row.new .tab-link,
 #view-friends .tab-link,
 #view-profile .tab-link,
 #view-events .tab-link {
@@ -3936,4 +3939,31 @@ li.city {
     background: rgba(255, 255, 255, 0.4);
 }
 
+.navbar a.checkin-search-btn{
+    padding-left: 10px;
+    font-size: 23px;
+    padding-right: 10px;
+}
 
+.picker-modal-inner{
+    overflow-y: scroll;
+}
+
+.checkin-modal .list-block.no-top-margin ul::before{
+    display: none;
+}
+
+.checkin-modal .toolbar-inner{
+    padding-top: 10px;
+    padding-right: 15px;
+}
+.checkin-modal .close-picker{
+    color: #000000;
+}
+
+.close-checkin-picker{
+
+    font-size: 40px;
+    margin-left: 18px;
+    line-height: 40px;
+}

@@ -22,7 +22,9 @@ var child_browser_opened = false,
             ORGANIZATIONS_PATH: '/organizations',
             CITIES_PATH: '/cities',
             EVENTS_PATH: '/events',
+            STATISTICS_PATH: '/statistics',
             TICKETS_PATH: '/tickets',
+            ORDERS_PATH: '/orders',
             DATES_PATH: '/dates',
             TAGS_PATH: '/tags',
             MY_PART: '/my',
@@ -249,16 +251,10 @@ window.L = {
     }
 };
 
-var scanQR = function () {
-    L.log('Trying barcode');
-    L.log('Plugin exists: ', cordova.plugins.barcodeScanner != undefined);
+var scanQR = function (success, fail) {
     cordova.plugins.barcodeScanner.scan(
-        function (result) {
-            L.log(result);
-        },
-        function (error) {
-            L.log(error);
-        },
+        success,
+        fail,
         {
             preferFrontCamera: true, // iOS and Android
             showFlipCameraButton: true, // iOS and Android
@@ -409,6 +405,7 @@ MyApp.init = (function () {
     fw7App.addView('.view-events', fw7ViewOptions);
     fw7App.addView('.view-friends', fw7ViewOptions);
     fw7App.addView('.view-profile', fw7ViewOptions);
+    fw7App.addView('.view-admin', fw7ViewOptions);
 
 
     __app.controller('CalendarPageController', ['$scope', MyApp.pages.CalendarPageController]);
@@ -426,6 +423,8 @@ MyApp.init = (function () {
     __app.controller('UsersPageController', ['$scope', '$element', MyApp.pages.UsersPageController]);
     __app.controller('OnboardingPageController', ['$scope', '$element', MyApp.pages.OnboardingPageController]);
     __app.controller('TicketsController', ['$scope', '$element', MyApp.pages.TicketsController]);
+    __app.controller('ApproveController', ['$scope', '$element', MyApp.pages.ApproveController]);
+    __app.controller('CheckInPageController', ['$scope', '$element', MyApp.pages.CheckInPageController]);
 
 
     __app.directive('loader', function () {

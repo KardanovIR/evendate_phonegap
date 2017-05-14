@@ -10,7 +10,6 @@ MyApp.pages.TicketsController = function ($scope) {
     };
 
     $scope.setTickets = function (tickets) {
-        console.log(tickets);
         $scope.tickets = tickets;
         $$('.popup-tickets').on('popup:opened', function () {
             setTicketNumber(tickets[0].number);
