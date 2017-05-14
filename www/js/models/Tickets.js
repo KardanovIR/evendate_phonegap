@@ -54,8 +54,12 @@ function Tickets() {
                 _url_part = CONTRACT.URLS.STATISTICS_PATH + CONTRACT.URLS.EVENTS_PATH + '/' + _f.data.event_id;
                 delete _f.data.event_id;
             }
+            _url_part += CONTRACT.URLS.TICKETS_PATH;
+            if (_f.data.uuid && _f.data.stats === true){
+                _url_part += '/' + _f.data.uuid;
+            }
             $$.ajax({
-                url: CONTRACT.URLS.API_FULL_PATH + _url_part + CONTRACT.URLS.TICKETS_PATH,
+                url: CONTRACT.URLS.API_FULL_PATH + _url_part,
                 data: _f.data,
                 success: function (res) {
                     L.log(res);
