@@ -148,7 +148,7 @@ MyApp.pages.CheckInPageController = function ($scope, $timeout) {
                         ], function (res) {
                             L.log('Tickets get');
                             L.log(res);
-                            data[0].showConfirmationBar();
+                            res[0].showConfirmationBar();
                         });
                     } catch (e) {
                         L.log(e);
