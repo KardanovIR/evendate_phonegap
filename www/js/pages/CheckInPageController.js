@@ -145,7 +145,9 @@ MyApp.pages.CheckInPageController = function ($scope, $timeout) {
                         __api.tickets.get([
                             {event_id: _data.event_id},
                             {uuid: _data.uuid}
-                        ], function (data) {
+                        ], function (res) {
+                            L.log('Tickets get');
+                            L.log(res);
                             data[0].showConfirmationBar();
                         });
                     } catch (e) {
