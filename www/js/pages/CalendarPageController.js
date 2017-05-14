@@ -37,13 +37,15 @@ MyApp.pages.CalendarPageController = function ($scope) {
                 if ($el.parents('.picker-calendar-day-prev,.picker-calendar-day-next').length > 0) return true;
                 if (date.favorites_count > 0) {
                     $el.addClass('with-events with-favorites');
-                    var add_class = '';
+                    var add_class = 'a ';
                     if (date.favorites_count > 2 && date.favorites_count <= 13) {
                         add_class = 'with-favorites-' + date.favorites_count;
                     } else if (date.favorites_count > 13) {
                         add_class = 'with-favorites-16';
                     }
-                    $el.addClass(add_class);
+                    try{
+                        $el.addClass(add_class);
+                    }catch(e){}
                 }
             });
 

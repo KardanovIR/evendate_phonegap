@@ -150,29 +150,35 @@
       <div class="picker-modal registration-form hidden">
         <div class="toolbar">
           <div class="toolbar-inner">
-            <div class="left">Регистрация</div>
+            <div class="left"><a href="#" class="close-picker"><span
+                class="icon ion-ios-close-empty close-picker-icon"></span></a></div>
             <div class="right">
-              <a href="#" class="send-picker" ng-click="event.sendRegistrationForm();">Готово</a>
+              <a href="#" class="send-picker" ng-click="sendRegistrationForm($event);">Отправить</a>
             </div>
           </div>
         </div>
         <div class="picker-modal-inner">
           <div class="content-block">
-            <div class="list-block">
+            <form class="list-block">
               <ul>
                 <li ng-repeat="field in event.form_fields track by $index">
                   <div class="item-content">
-                    <div class="item-inner">
+                    <div class="item-inner form-field" ng-class="{'with-error': field.error != null}">
                       <div class="item-title label">{{field.label}}</div>
                       <div class="item-input">
-                        <textarea ng-hide="field.original_type != 'extended_custom'"></textarea>
-                        <input  ng-hide="field.original_type == 'extended_custom'" type="{{field.type}}" placeholder="{{field.label}}" class="">
+                        <textarea  name="{{field.uuid}}" ng-hide="field.original_type != 'extended_custom'"></textarea>
+                        <input  ng-hide="field.original_type == 'extended_custom'" type="{{field.type}}" placeholder="{{field.label}}" name="{{field.uuid}}">
                       </div>
+                    </div>
+                  </div>
+                  <div class="item-content" ng-show="field.error != null">
+                    <div class="item-inner">
+                      <div class="item-text error-text">{{field.error}}</div>
                     </div>
                   </div>
                 </li>
               </ul>
-            </div>
+            </form>
           </div>
         </div>
       </div>

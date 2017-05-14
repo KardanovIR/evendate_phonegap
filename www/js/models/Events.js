@@ -144,15 +144,9 @@ function Events() {
                         required: field.required,
                         label: field.label,
                         original_type: field.type,
-                        type: _type
-                    })
-                    event.form_fields.push({
-                        name: field.uuid,
-                        required: field.required,
-                        label: field.label,
-                        original_type: field.type,
-                        type: _type
-                    })
+                        type: _type,
+                        uuid: field.uuid
+                    });
                 })
             }
 
@@ -478,6 +472,44 @@ function Events() {
                     function (message) {
                         L.log("error: " + message);
                     });
+            };
+
+            event.sendRegistrationForm = function(e, callback){
+                var send_data = {registration_fields: fw7App.formToData($$(e.target).parents('.picker-modal').find('form'))};
+                fw7App.showIndicator();
+                event.form_fields.forEach(function(field, index){
+                    event.form_fields[index].error = null;
+                });
+                $$.ajax({
+                    url: CONTRACT.URLS.API_FULL_PATH + CONTRACT.URLS.EVENTS_PATH + '/' + event.id  + CONTRACT.URLS.ORDERS_PATH,
+                    data: JSON.stringify(send_data),
+                    type: 'POST',
+                    contentType: 'application/json; charset=utf-8',
+                    dataType: 'json',
+                    success: function(res){
+                        if (res.status == false){
+                            fw7App.alert(res.text);
+                            var with_errors = {};
+                            res.data.registration_fields.forEach(function(field){
+                                with_errors[field.uuid] = field;
+                            });
+                            event.form_fields.forEach(function(field, index){
+                                event.form_fields[index].error = with_errors[field.uuid].error;
+                            });
+                            if (callback){
+                                callback();
+                            }
+                        }else{
+                            if (callback){
+                                callback();
+                            }
+                        }
+
+                    },
+                    complete: function(){
+                        fw7App.hideIndicator();
+                    }
+                });
             };
 
             event.addToCalendar = function () {

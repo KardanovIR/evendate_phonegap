@@ -774,8 +774,9 @@
 </div>
 
 
-<div class="picker-modal checkin-modal" style="background: #ffffff;" ng-controller="ApproveController">
-  <div class="toolbar">
+<div class="picker-modal checkin-modal" style="
+    background-color: #F7F7F8;" ng-controller="ApproveController">
+  <div class="toolbar" style="background-color: #F7F7F8;">
     <div class="toolbar-inner">
       <div class="left"><a href="#" class="close-picker"><span
           class="icon ion-ios-close-empty close-checkin-picker"></span></a></div>
@@ -788,7 +789,7 @@
         <li>
           <div class="item-content">
             <div class="item-media"><img class="friend-image"
-                                         src="{{ticket.user.avatar_url}}">
+                                         ng-src="{{ticket.user.avatar_url}}">
             </div>
             <div class="item-inner">
               <div class="item-title-row">

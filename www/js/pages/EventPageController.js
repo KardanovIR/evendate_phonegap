@@ -125,4 +125,18 @@ MyApp.pages.EventPageController = function ($scope) {
         });
     }
 
+    $scope.sendRegistrationForm = function($event){
+        $scope.event.sendRegistrationForm($event, function(){
+            if (!$scope.$$phase) {
+                $scope.$apply();
+            } else {
+                setTimeout(function () {
+                    if (!$scope.$$phase) {
+                        $scope.$apply();
+                    }
+                }, 500);
+            }
+        })
+    }
+
 };

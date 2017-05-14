@@ -2613,7 +2613,6 @@ button.rounded-large {
     background: none;
 }
 
-
 .buttons-row.new .tab-link,
 #view-friends .tab-link,
 #view-profile .tab-link,
@@ -3510,8 +3509,6 @@ td.event-location-row {
     font-size: 17px;
     color: #2E3B50;
     letter-spacing: -0.41px;
-    padding-left: 14px;
-    padding-top: 13px;
 }
 
 .registration-form .send-picker {
@@ -3520,10 +3517,6 @@ td.event-location-row {
     letter-spacing: -0.41px;
     padding-right: 10px;
     margin-top: 8px;
-}
-
-.registration-form .right {
-    margin-top: 9px;
 }
 
 .select-city {
@@ -3939,31 +3932,46 @@ li.city {
     background: rgba(255, 255, 255, 0.4);
 }
 
-.navbar a.checkin-search-btn{
+.navbar a.checkin-search-btn {
     padding-left: 10px;
     font-size: 23px;
     padding-right: 10px;
 }
 
-.picker-modal-inner{
+.picker-modal-inner {
     overflow-y: scroll;
 }
 
-.checkin-modal .list-block.no-top-margin ul::before{
+.checkin-modal .list-block.no-top-margin ul::before {
     display: none;
 }
 
-.checkin-modal .toolbar-inner{
-    padding-top: 10px;
+.checkin-modal .toolbar-inner {
     padding-right: 15px;
 }
-.checkin-modal .close-picker{
+
+.checkin-modal .close-picker {
     color: #000000;
 }
 
-.close-checkin-picker{
-
+.close-picker-icon,
+.close-checkin-picker {
+    color: #2E3B50;
     font-size: 40px;
     margin-left: 18px;
     line-height: 40px;
+}
+
+.checkin-approve-btn {
+    color: #00dc88;
+}
+
+.item-text.error-text {
+    height: auto;
+    display: block;
+    color: #e80048;
+}
+
+.form-field.item-inner.with-error:after {
+    display: none;
 }

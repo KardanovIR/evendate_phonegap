@@ -40,7 +40,7 @@
           </div>
           <div class="list-block no-top-margin">
             <ul class="no-border no-top-margin">
-              <li ng-repeat="ticket in tabs.waiting.items track by ticket.number" ng-click="ticket.showConfirmationBar();">
+              <li ng-repeat="ticket in tabs.waiting.items | filter: {checkout: false} track by ticket.number " ng-click="ticket.showConfirmationBar();">
                 <a href="#" class="item-link item-content">
                   <div class="item-media">
                     <img ng-src="{{ticket.user.avatar_url}}" onerror="onImgErrorSmall(this)" class="friend-image">
@@ -65,7 +65,7 @@
           </div>
           <div class="list-block no-top-margin">
             <ul class="no-border no-top-margin">
-              <li ng-repeat="ticket in tabs.used.items track by ticket.number" ng-click="ticket.showConfirmationBar();">
+              <li ng-repeat="ticket in tabs.used.items | filter: {checkout: true} track by ticket.number " ng-click="ticket.showConfirmationBar();">
                 <a href="#" class="item-link item-content">
                   <div class="item-media">
                     <img ng-src="{{ticket.user.avatar_url}}" onerror="onImgErrorSmall(this)" class="friend-image">

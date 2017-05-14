@@ -133,7 +133,6 @@ MyApp.pages.CheckInPageController = function ($scope, $timeout) {
             .off('click')
             .on('click', function () {
                 _event.scanQR(function (data) {
-                    L.log(data);
                     if (data.cancelled !== 0) return;
                     try {
                         var _data = JSON.parse(data.text);
@@ -143,11 +142,10 @@ MyApp.pages.CheckInPageController = function ($scope, $timeout) {
                         }
                         __api.tickets.get([
                             {stats: true},
+                            {fields: 'number,user,ticket_type,ticket_order_uuid'},
                             {event_id: _data.event_id},
                             {uuid: _data.uuid}
                         ], function (res) {
-                            L.log('Tickets get');
-                            L.log(res);
                             res[0].showConfirmationBar();
                         });
                     } catch (e) {
@@ -170,12 +168,12 @@ MyApp.pages.CheckInPageController = function ($scope, $timeout) {
                 $scope.getTickets('used', true);
             });
 
-        $$('.view.active .searchbar .searchbar-input > input')
-            .on('input', function (e) {
-                search_term = e.target.value;
-                $scope.getTickets('waiting', true);
-                $scope.getTickets('used', true);
-            });
+        // $$('.view.active .searchbar .searchbar-input > input')
+        //     .on('input', function (e) {
+        //         search_term = e.target.value;
+        //         $scope.getTickets('waiting', true);
+        //         $scope.getTickets('used', true);
+        //     });
 
         $$('.view.active .search-btn')
             .off('click')
