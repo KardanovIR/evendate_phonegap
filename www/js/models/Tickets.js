@@ -58,6 +58,7 @@ function Tickets() {
                 url: CONTRACT.URLS.API_FULL_PATH + _url_part + CONTRACT.URLS.TICKETS_PATH,
                 data: _f.data,
                 success: function (res) {
+                    L.log(res);
                     res.data.forEach(function (value, index) {
                         res.data[index] = normalize(value);
                     });

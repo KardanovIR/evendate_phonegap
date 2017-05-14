@@ -141,8 +141,8 @@ MyApp.pages.CheckInPageController = function ($scope, $timeout) {
                             fw7App.alert('QR не соответствует событию');
                             return;
                         }
-                        L.log('Parsed:', _data);
                         __api.tickets.get([
+                            {stats: true},
                             {event_id: _data.event_id},
                             {uuid: _data.uuid}
                         ], function (res) {
