@@ -134,7 +134,11 @@ MyApp.pages.CheckInPageController = function ($scope, $timeout) {
             .on('click', function () {
                 _event.scanQR(function (data) {
                     L.log(data);
-                    if (data.cancelled) return;
+                    if (data.cancelled !== 0) return;
+                    if (_event.id != _data.event_id){
+                        fw7App.alert('QR не соответствует событию');
+                        return;
+                    }
                     try {
                         var _data = JSON.parse(data.text);
                         __api.tickets.get([
