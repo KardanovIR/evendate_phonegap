@@ -129,8 +129,8 @@ MyApp.pages.CheckInPageController = function ($scope, $timeout) {
             });
         });
 
-        if (__os === 'win'){
-            $$('.view.active .scan-qr-btn').addClass('hidden');
+        if (__os === 'win') {
+            $$('.scan-qr-btn').addClass('hidden');
         }
 
         $$('.view.active .scan-qr-btn')
@@ -140,7 +140,7 @@ MyApp.pages.CheckInPageController = function ($scope, $timeout) {
                     if (data.cancelled !== 0) return;
                     try {
                         var _data = JSON.parse(data.text);
-                        if (_event.id != _data.event_id){
+                        if (_event.id != _data.event_id) {
                             fw7App.alert('QR не соответствует событию');
                             return;
                         }
