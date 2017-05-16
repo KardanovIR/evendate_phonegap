@@ -14,7 +14,7 @@ function Events() {
             event.moment_dates_object = {};
 
 
-            if (window.innerWidth > 320){
+            if (window.innerWidth > 320) {
                 event.image_horizontal_medium_url = event.image_horizontal_url + '?width=' + window.innerWidth;
             }
 
@@ -177,7 +177,7 @@ function Events() {
             }
 
             function updateNotification(type, status, uuid) {
-                if (!__authorized){
+                if (!__authorized) {
                     showAuthorizationModal();
                     return;
                 }
@@ -197,24 +197,38 @@ function Events() {
                 }
             }
 
-            event.showTickets = function(){
-                if (event.tickets){
+            event.showTickets = function () {
+
+                var processEvent = function(_event){
                     var _tickets = [];
-                    event.tickets.forEach(function(item){
-                        item.event_title = event.title;
-                        item.event_location = event.location;
+                    _event.tickets.forEach(function (item) {
+                        item.event_title = _event.title;
+                        item.event_location = _event.location;
 
-                        item.status_text = item.checkout == true ? 'Билет использован': item.order.status_name;
+                        item.status_text = item.checkout == true ? 'Билет использован' : item.order.status_name;
 
-                        if (event.nearest_event_date != null){
-                            item.event_date_time = event.future_moment_dates[0].start_date.format('DD MMM') + ', ' + event.future_moment_dates[0].start_date.format('HH:mm') + ' - ' + event.future_moment_dates[0].end_date.format('HH:mm');
-                        }else{
-                            item.event_date_time = event.moment_dates[0].start_date.format('DD MMM') + ', ' + event.moment_dates[0].start_date.format('HH:mm') + ' - ' + event.moment_dates[0].end_date.format('HH:mm');
+                        if (_event.nearest_event_date != null) {
+                            item.event_date_time = _event.future_moment_dates[0].start_date.format('DD MMM') + ', ' + _event.future_moment_dates[0].start_date.format('HH:mm') + ' - ' + _event.future_moment_dates[0].end_date.format('HH:mm');
+                        } else {
+                            item.event_date_time = _event.moment_dates[0].start_date.format('DD MMM') + ', ' + _event.moment_dates[0].start_date.format('HH:mm') + ' - ' + _event.moment_dates[0].end_date.format('HH:mm');
                         }
                         _tickets.push(item);
-                    })
+                    });
+                    return _tickets;
+                };
+
+                if (event.tickets) {
                     var $scope = angular.element($$('.popup-tickets')[0]).scope();
-                    $scope.setTickets(_tickets);
+                    $scope.setTickets(processEvent(event));
+                } else {
+                    __api.events.get([
+                        {id: event.id},
+                        {fields: 'created_at,location,tickets{fields:"order,ticket_type,checkout"},nearest_event_date,dates'},
+                        {order_by: '-created_at'}
+                    ], function(res){
+                        var $scope = angular.element($$('.popup-tickets')[0]).scope();
+                        $scope.setTickets(processEvent(res[0]));
+                    })
                 }
             };
 
@@ -223,7 +237,7 @@ function Events() {
             };
 
             event.toggleHidden = function () {
-                if (!__authorized){
+                if (!__authorized) {
                     showAuthorizationModal();
                     return;
                 }
@@ -358,7 +372,7 @@ function Events() {
             };
 
             event.toggleFavorite = function ($event) {
-                if (!__authorized){
+                if (!__authorized) {
                     showAuthorizationModal();
                     return;
                 }
@@ -411,7 +425,7 @@ function Events() {
 
             event.toggleNotification = function (type) {
 
-                if (!__authorized){
+                if (!__authorized) {
                     showAuthorizationModal();
                     return;
                 }
@@ -474,39 +488,47 @@ function Events() {
                     });
             };
 
-            event.sendRegistrationForm = function(e, callback){
-                var send_data = {registration_fields: fw7App.formToData($$(e.target).parents('.picker-modal').find('form'))};
+            event.sendRegistrationForm = function (e, callback) {
+                var form_data = fw7App.formToData($$(e.target).parents('.popup-registration').find('form')),
+                    send_data = [];
+
+                $$.each(form_data, function (key, value) {
+                    send_data.push({uuid: key, value: value});
+                });
+
+                send_data = {registration_fields: send_data};
+
                 fw7App.showIndicator();
-                event.form_fields.forEach(function(field, index){
+                event.form_fields.forEach(function (field, index) {
                     event.form_fields[index].error = null;
                 });
                 $$.ajax({
-                    url: CONTRACT.URLS.API_FULL_PATH + CONTRACT.URLS.EVENTS_PATH + '/' + event.id  + CONTRACT.URLS.ORDERS_PATH,
+                    url: CONTRACT.URLS.API_FULL_PATH + CONTRACT.URLS.EVENTS_PATH + '/' + event.id + CONTRACT.URLS.ORDERS_PATH,
                     data: JSON.stringify(send_data),
                     type: 'POST',
                     contentType: 'application/json; charset=utf-8',
                     dataType: 'json',
-                    success: function(res){
-                        if (res.status == false){
+                    success: function (res) {
+                        if (res.status == false) {
                             fw7App.alert(res.text);
                             var with_errors = {};
-                            res.data.registration_fields.forEach(function(field){
+                            res.data.registration_fields.forEach(function (field) {
                                 with_errors[field.uuid] = field;
                             });
-                            event.form_fields.forEach(function(field, index){
+                            event.form_fields.forEach(function (field, index) {
                                 event.form_fields[index].error = with_errors[field.uuid].error;
                             });
-                            if (callback){
-                                callback();
+                            if (callback) {
+                                callback(res);
                             }
-                        }else{
-                            if (callback){
-                                callback();
+                        } else {
+                            if (callback) {
+                                callback(res);
                             }
                         }
 
                     },
-                    complete: function(){
+                    complete: function () {
                         fw7App.hideIndicator();
                     }
                 });

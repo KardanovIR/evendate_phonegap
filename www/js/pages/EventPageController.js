@@ -126,7 +126,7 @@ MyApp.pages.EventPageController = function ($scope) {
     }
 
     $scope.sendRegistrationForm = function($event){
-        $scope.event.sendRegistrationForm($event, function(){
+        $scope.event.sendRegistrationForm($event, function(res){
             if (!$scope.$$phase) {
                 $scope.$apply();
             } else {
@@ -136,6 +136,12 @@ MyApp.pages.EventPageController = function ($scope) {
                     }
                 }, 500);
             }
+
+            if (res.status == true){
+                fw7App.closeModal('.popup-registration.registration-form');
+                $scope.event.showTickets();
+            }
+
         })
     }
 

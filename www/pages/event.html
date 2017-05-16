@@ -147,10 +147,10 @@
           </div>
         </div>
       </div>
-      <div class="picker-modal registration-form hidden">
+      <div class="popup popup-registration registration-form hidden large">
         <div class="toolbar">
           <div class="toolbar-inner">
-            <div class="left"><a href="#" class="close-picker"><span
+            <div class="left"><a href="#" class="close-popup"><span
                 class="icon ion-ios-close-empty close-picker-icon"></span></a></div>
             <div class="right">
               <a href="#" class="send-picker" ng-click="sendRegistrationForm($event);">Отправить</a>
@@ -166,8 +166,8 @@
                     <div class="item-inner form-field" ng-class="{'with-error': field.error != null}">
                       <div class="item-title label">{{field.label}}</div>
                       <div class="item-input">
-                        <textarea  name="{{field.uuid}}" ng-hide="field.original_type != 'extended_custom'"></textarea>
-                        <input  ng-hide="field.original_type == 'extended_custom'" type="{{field.type}}" placeholder="{{field.label}}" name="{{field.uuid}}">
+                        <textarea  name="{{field.uuid}}" ng-if="field.original_type == 'extended_custom'"></textarea>
+                        <input  ng-if="field.original_type != 'extended_custom'" type="{{field.type}}" placeholder="{{field.label}}" name="{{field.uuid}}">
                       </div>
                     </div>
                   </div>

@@ -56,7 +56,7 @@ MyApp.pages.ProfilePageController = function ($scope) {
         $scope.tickets.data_loaded = false;
         $scope.tickets.no_tickets = true;
         __api.events.get([
-            {fields: 'dates,is_same_time,image_horizontal_medium_url,nearest_event_date,location,tickets{"fields":"created_at,number,ticket_type,order"}'},
+            {fields: 'dates,is_same_time,image_horizontal_medium_url,nearest_event_date,location,tickets{"fields":"created_at,number,ticket_type,order,checkout"}'},
             {order_by: 'nearest_event_date,-first_event_date'},
             {length: 1000},
             {is_registered: true}
