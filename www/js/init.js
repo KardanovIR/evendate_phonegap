@@ -328,9 +328,8 @@ function showAuthorizationModal() {
                 L.log('window.plugins.googleplus is running');
                 window.plugins.googleplus.login(
                     {
-                        'scopes': 'https://www.googleapis.com/auth/plus.login', // optional, space-separated list of scopes, If not included or empty, defaults to `profile` and `email`.
-                        'webClientId': 'com.googleusercontent.apps.403640417782-mtv5sc64omm5k49l8hiqa7j2iecpq5se', // optional clientId of your Web application from Credentials settings of your project - On Android, this MUST be included to get an idToken. On iOS, it is not required.
-                        'offline': true, // optional, but requires the webClientId - if set to true the plugin will also return a serverAuthCode, which can be used to grant offline access to a non-Google server
+                        'scopes': 'email profile https://www.googleapis.com/auth/plus.login', // optional, space-separated list of scopes, If not included or empty, defaults to `profile` and `email`.
+                        'offline': false, // optional, but requires the webClientId - if set to true the plugin will also return a serverAuthCode, which can be used to grant offline access to a non-Google server
                     },
                     function (obj) {
                         L.log(obj); // do something useful instead of alerting
