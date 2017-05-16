@@ -701,9 +701,17 @@ function registerPushService() {
                     }
                 };
 
-                window.plugins.OneSignal.init(ONE_SIGNAL_APP_ID,
-                    {googleProjectNumber: '', autoRegister: true},
-                    notificationOpenedCallback);
+
+                var iosSettings = {};
+                iosSettings["kOSSettingsKeyAutoPrompt"] = true;
+                iosSettings["kOSSettingsKeyInAppLaunchURL"] = false;
+
+                window.plugins.OneSignal
+                    .startInit(ONE_SIGNAL_APP_ID)
+                    .handleNotificationOpened(notificationOpenedCallback)
+                    .inFocusDisplaying(window.plugins.OneSignal.OSInFocusDisplayOption.Notification)
+                    .iOSSettings(iosSettings)
+                    .endInit();
 
 
                 // window.plugins.OneSignal.enableInAppAlertNotification(true);
