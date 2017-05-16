@@ -129,6 +129,10 @@ MyApp.pages.CheckInPageController = function ($scope, $timeout) {
             });
         });
 
+        if (__os === 'win'){
+            $$('.view.active .scan-qr-btn').addClass('hidden');
+        }
+
         $$('.view.active .scan-qr-btn')
             .off('click')
             .on('click', function () {

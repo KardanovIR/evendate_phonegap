@@ -350,7 +350,7 @@
                                        onerror="onImgErrorSmall(this);">
                                 </div>
                                 <div class="item-inner">
-                                  <div class="item-title">{{entity.title}}</div>
+                                  <div class="item-title item-title-block">{{entity.title}}</div>
                                   <div class="item-media media-right {{card.entity}}">
                                     <img ng-src="{{entity.img_url}}"
                                          class="image-cirle feed-item-img"
@@ -556,7 +556,7 @@
                   <span ng-if="event.nearest_event_date == null">{{event.moment_dates[0].start_date.format('DD MMM')}}, {{event.moment_dates[0].start_date.format('HH:mm')}} - {{event.moment_dates[0].end_date.format('HH:mm')}}</span>
                 </div>
                 <div class="event-ticket-location text-center">
-                  <span>Билетов: {{event.tickets_count}}</span>
+                  <span>Билетов: {{event.sold_tickets_count}}</span>
                 </div>
               </div>
             </div>
@@ -575,7 +575,7 @@
                   <span ng-if="event.nearest_event_date == null">{{event.moment_dates[0].start_date.format('DD MMM')}}, {{event.moment_dates[0].start_date.format('HH:mm')}} - {{event.moment_dates[0].end_date.format('HH:mm')}}</span>
                 </div>
                 <div class="event-ticket-location text-center">
-                  <span>Билетов: {{event.tickets_count}}</span>
+                  <span>Билетов: {{event.sold_tickets_count}}</span>
                 </div>
               </div>
             </div>

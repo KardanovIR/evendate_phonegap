@@ -3975,3 +3975,11 @@ li.city {
 .form-field.item-inner.with-error:after {
     display: none;
 }
+
+.item-title-block {
+    display: block;
+}
+
+.checkin-modal .toolbar:before {
+    display: none;
+}
