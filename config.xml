@@ -90,14 +90,18 @@
     <platform name="ios">
 
         <icon platform="ios" height="57" src="res/icon/ios/iOS_57.png" width="57"/>
+        <icon platform="ios" height="58" src="res/icon/ios/iOS_72.png" width="58"/>
         <icon platform="ios" height="72" src="res/icon/ios/iOS_72.png" width="72"/>
+        <icon platform="ios" height="87" src="res/icon/ios/iOS_114.png" width="87"/>
         <icon platform="ios" height="114" src="res/icon/ios/iOS_114.png" width="114"/>
         <icon platform="ios" height="120" src="res/icon/ios/iOS_120.png" width="120"/>
         <icon platform="ios" height="144" src="res/icon/ios/iOS_144.png" width="144"/>
 
     </platform>
     <icon gap:platform="ios" height="57" src="res/icon/ios/iOS_57.png" width="57"/>
+    <icon gap:platform="ios" height="58" src="res/icon/ios/iOS_72.png" width="58"/>
     <icon gap:platform="ios" height="72" src="res/icon/ios/iOS_72.png" width="72"/>
+    <icon gap:platform="ios" height="87" src="res/icon/ios/iOS_114.png" width="87"/>
     <icon gap:platform="ios" height="114" src="res/icon/ios/iOS_114.png" width="114"/>
     <icon gap:platform="ios" height="120" src="res/icon/ios/iOS_120.png" width="120"/>
     <icon gap:platform="ios" height="144" src="res/icon/ios/iOS_144.png" width="144"/>
