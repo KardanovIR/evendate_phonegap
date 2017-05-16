@@ -290,7 +290,7 @@ eventer(messageEvent, function (e) {
 
 function showAuthorizationModal() {
     fw7App.popup('.popup-authorization');
-    $$('.vk-btn,.google-btn,.facebook-btn')
+    $$('.vk-btn,.facebook-btn')
         .off('click')
         .on('click', function () {
             var type = $$(this).data('type');
@@ -322,8 +322,10 @@ function showAuthorizationModal() {
         });
 
     if (__os != 'win') {
+        L.log('opening auth modal');
         $$('.google-btn').off('click')
             .on('click', function () {
+                L.log('window.plugins.googleplus is running');
                 window.plugins.googleplus.login(
                     {
                         'scopes': 'email,profile,https://www.googleapis.com/auth/plus.login', // optional, space-separated list of scopes, If not included or empty, defaults to `profile` and `email`.
