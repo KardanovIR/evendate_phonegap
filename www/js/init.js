@@ -290,7 +290,7 @@ eventer(messageEvent, function (e) {
 
 function showAuthorizationModal() {
     fw7App.popup('.popup-authorization');
-    $$('.vk-btn,.facebook-btn')
+    $$('.vk-btn,.facebook-btn,.google-btn')
         .off('click')
         .on('click', function () {
             var type = $$(this).data('type');
@@ -329,7 +329,7 @@ function showAuthorizationModal() {
                 window.plugins.googleplus.login(
                     {
                         'scopes': 'email profile https://www.googleapis.com/auth/plus.login', // optional, space-separated list of scopes, If not included or empty, defaults to `profile` and `email`.
-                        'offline': false, // optional, but requires the webClientId - if set to true the plugin will also return a serverAuthCode, which can be used to grant offline access to a non-Google server
+                        'offline': false // optional, but requires the webClientId - if set to true the plugin will also return a serverAuthCode, which can be used to grant offline access to a non-Google server
                     },
                     function (obj) {
                         L.log(obj); // do something useful instead of alerting
@@ -1007,7 +1007,7 @@ function checkToken(to_reset) {
                 } catch (e) {
                     try {
                         json_res = JSON.parse(res.responseText);
-
+                        openApplication();
                     } catch (e2) {
                         fw7App.hideIndicator();
                         $$('.preloader-indicator-modal').removeClass('with-top');
