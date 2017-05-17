@@ -1,9 +1,9 @@
 <?xml version='1.0' encoding='utf-8'?>
 <widget id="ru.evendate.phonegap"
-        version="2.1.0"
+        version="2.1.1"
         xmlns="http://www.w3.org/ns/widgets"
         xmlns:gap="http://phonegap.com/ns/1.0"
-        versionCode="2.1.0">
+        versionCode="2.1.1">
     <name>Evendate</name>
     <description>
         Evendate - самые интересные события в Москве в твоем телефоне. Афиша выставок, музеев, кинотеатров, концертов,
@@ -22,7 +22,7 @@
     </author>
 
     <gap:config-file platform="iOS" parent="CFBundleVersion">
-        <string>2.1.0</string>
+        <string>2.1.1</string>
     </gap:config-file>
 
     <content src="index.html"/>
