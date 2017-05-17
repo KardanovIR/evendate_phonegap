@@ -893,7 +893,6 @@ function openApplication() {
 
     });
 
-
     __is_ready = true;
     L.log(__to_open_event);
     openNotification();
