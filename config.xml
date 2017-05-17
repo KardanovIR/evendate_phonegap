@@ -65,9 +65,7 @@
     <gap:plugin name="org.apache.cordova.statusbar" source="npm"/>
     <gap:plugin name="com.analytics.google" source="npm"/>
     <gap:plugin name="org.apache.cordova.inappbrowser" source="npm"/>
-    <!--<plugin name="com.philmerrell.cordova.canopen" spec="0.1" source="pgb" />-->
     <gap:plugin name="com.ohh2ahh.plugins.appavailability" source="npm"/>
-    <!--<gap:plugin name="cordova-plugin-inappbrowser" source="npm" version="~1" />-->
     <gap:plugin name="cordova-plugin-x-socialsharing" source="npm"/>
     <gap:plugin name="cordova-plugin-calendar" spec="4.4.7" source="npm"/>
 
@@ -80,6 +78,14 @@
         <param name="REVERSED_CLIENT_ID"
                value="com.googleusercontent.apps.403640417782-mtv5sc64omm5k49l8hiqa7j2iecpq5se"/>
     </gap:plugin>
+
+    <gap:config-file platform="ios" parent="NSCalendarsUsageDescription" overwrite="true">
+        <string>We are using the Calendar to add info about your favorite events.</string>
+    </gap:config-file>
+
+    <gap:config-file platform="ios" parent="NSCameraUsageDescription" overwrite="true">
+        <string>We are using the Camera for scanning QR codes.</string>
+    </gap:config-file>
 
 
     <gap:plugin name="onesignal-cordova-plugin" source="npm"/>
