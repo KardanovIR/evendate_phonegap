@@ -299,12 +299,13 @@ function showAuthorizationModal() {
             if (window.plugins) {
                 if (cordova.hasOwnProperty('InAppBrowser')) {
                     var target = "_blank";
-                    var options = "location=no,hidden=no,toolbar=no,";
+                    var options = "location=no,closebuttoncaption=Отмена,toolbar=yes";
                     var inAppBrowserRef = cordova.InAppBrowser.open(URLs[type], target, options);
                     inAppBrowserRef.addEventListener('loadstop', function (data) {
                         if (/mobileAuthDone/.test(data.url)) {
                             saveTokenInLocalStorage(data.url);
                             hideAuthorizationModal();
+                            window.location = initialHref;
                             inAppBrowserRef.close();
                         }
                     });
