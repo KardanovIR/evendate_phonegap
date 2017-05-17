@@ -304,11 +304,12 @@ function showAuthorizationModal() {
                     inAppBrowserRef.addEventListener('loadstop', function (data) {
                         if (/mobileAuthDone/.test(data.url)) {
                             saveTokenInLocalStorage(data.url);
-                            hideAuthorizationModal();
-                            setTimeout(function(){
-                                window.location = initialHref;
+                            window.location.href = initialHref;
+                            setTimeout(function () {
                                 inAppBrowserRef.close();
                             }, 100);
+                        } else {
+                            inAppBrowserRef.close();
                         }
                     });
 
@@ -746,7 +747,7 @@ function onDeviceReady() {
 
     __os = navigator.platform == 'Win32' || !window.plugins ? 'win' : 'hz',
 
-    initialHref = window.location.href;
+        initialHref = window.location.href;
 
     __setHttpsUsage();
     __api = initAPI();
@@ -938,7 +939,7 @@ function openApplication() {
     $$('#friends-tabbar-link, .tab-link.view-profile')
         .off('click')
         .on('click', function (e) {
-            if (!__authorized){
+            if (!__authorized) {
 
                 showAuthorizationModal();
                 e.stopPropagation();
