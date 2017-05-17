@@ -308,8 +308,6 @@ function showAuthorizationModal() {
                             setTimeout(function () {
                                 inAppBrowserRef.close();
                             }, 100);
-                        } else {
-                            inAppBrowserRef.close();
                         }
                     });
 
