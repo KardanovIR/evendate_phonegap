@@ -314,6 +314,10 @@ function showAuthorizationModal() {
                         L.log(a, b, c);
                     });
 
+                    inAppBrowserRef.addEventListener('exit', function (a, b, c) {
+                        child_browser_opened = false;
+                    });
+
                 } else {
                     L.log('InAppBrowser does not exist');
                 }
