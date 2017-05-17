@@ -299,7 +299,7 @@ function showAuthorizationModal() {
             if (window.plugins) {
                 if (cordova.hasOwnProperty('InAppBrowser')) {
                     var target = "_blank";
-                    var options = "location=no,closebuttoncaption=Отмена,toolbar=no,clearcache=yes,clearsessioncache=yes";
+                    var options = "location=no,closebuttoncaption=Отмена,toolbar=yes,clearcache=yes,clearsessioncache=yes";
                     var inAppBrowserRef = cordova.InAppBrowser.open(URLs[type], target, options);
                     inAppBrowserRef.addEventListener('loadstop', function (data) {
                         if (/mobileAuthDone/.test(data.url)) {
