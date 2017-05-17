@@ -92,7 +92,7 @@ var child_browser_opened = false,
     __api,
     __app,
     __authorized = false,
-    __table_exists,
+    initialHref,
     __to_open_event,
     __addToCalendar = function () {
         var cal = window.plugins.calendar;
@@ -321,26 +321,26 @@ function showAuthorizationModal() {
             }
         });
 
-    if (__os != 'win') {
-        L.log('opening auth modal');
-        $$('.google-btn').off('click')
-            .on('click', function () {
-                L.log('window.plugins.googleplus is running');
-                window.plugins.googleplus.login(
-                    {
-                        'scopes': 'email profile https://www.googleapis.com/auth/plus.login', // optional, space-separated list of scopes, If not included or empty, defaults to `profile` and `email`.
-                        'offline': false // optional, but requires the webClientId - if set to true the plugin will also return a serverAuthCode, which can be used to grant offline access to a non-Google server
-                    },
-                    function (obj) {
-                        L.log(obj); // do something useful instead of alerting
-                    },
-                    function (msg) {
-                        L.log(msg)
-                    }
-                );
-
-            })
-    }
+    // if (__os != 'win') {
+    //     L.log('opening auth modal');
+    //     $$('.google-btn').off('click')
+    //         .on('click', function () {
+    //             L.log('window.plugins.googleplus is running');
+    //             window.plugins.googleplus.login(
+    //                 {
+    //                     'scopes': 'email profile https://www.googleapis.com/auth/plus.login', // optional, space-separated list of scopes, If not included or empty, defaults to `profile` and `email`.
+    //                     'offline': false // optional, but requires the webClientId - if set to true the plugin will also return a serverAuthCode, which can be used to grant offline access to a non-Google server
+    //                 },
+    //                 function (obj) {
+    //                     L.log(obj); // do something useful instead of alerting
+    //                 },
+    //                 function (msg) {
+    //                     L.log(msg)
+    //                 }
+    //             );
+    //
+    //         })
+    // }
 }
 
 function hideAuthorizationModal() {
@@ -739,6 +739,8 @@ function onDeviceReady() {
 
     __os = navigator.platform == 'Win32' || !window.plugins ? 'win' : 'hz',
 
+    initialHref = window.location.href;
+
     __setHttpsUsage();
     __api = initAPI();
     moment.locale("ru");
@@ -927,22 +929,17 @@ function openApplication() {
         $$('.statusbar-overlay').addClass('hidden');
     }
 
-    if (!__authorized) {
-        $$('#friends-tabbar-link, .tab-link.view-profile')
-            .off('click')
-            .on('click', function (e) {
+    $$('#friends-tabbar-link, .tab-link.view-profile')
+        .off('click')
+        .on('click', function (e) {
+            if (!__authorized){
+
                 showAuthorizationModal();
                 e.stopPropagation();
                 e.preventDefault();
                 return false;
-            })
-    } else {
-        $$('#friends-tabbar-link')
-            .off('click')
-            .on('click', function () {
-                $$('#view-friends .tab-link.active').click();
-            });
-    }
+            }
+        });
 }
 
 window.onerror = function sendCrashReport(message, url, linenumber, column, errorObj) {
@@ -982,6 +979,8 @@ function checkToken(to_reset) {
     if (to_reset) {
         permanentStorage.clear();
         token = null;
+        window.location = initialHref;
+        return;
     } else {
         var token = permanentStorage.getItem('token');
     }
@@ -1007,7 +1006,7 @@ function checkToken(to_reset) {
                 } catch (e) {
                     try {
                         json_res = JSON.parse(res.responseText);
-                        openApplication();
+                        __authorized = true;
                     } catch (e2) {
                         fw7App.hideIndicator();
                         $$('.preloader-indicator-modal').removeClass('with-top');
