@@ -74,10 +74,10 @@
     <!--<param name="APP_NAME" value="Evendate" />-->
     <!--</gap:plugin>-->
 
-    <gap:plugin name="cordova-plugin-googleplus" source="npm">
-        <param name="REVERSED_CLIENT_ID"
-               value="com.googleusercontent.apps.403640417782-mtv5sc64omm5k49l8hiqa7j2iecpq5se"/>
-    </gap:plugin>
+    <!--<gap:plugin name="cordova-plugin-googleplus" source="npm">-->
+        <!--<param name="REVERSED_CLIENT_ID"-->
+               <!--value="com.googleusercontent.apps.403640417782-mtv5sc64omm5k49l8hiqa7j2iecpq5se"/>-->
+    <!--</gap:plugin>-->
 
     <gap:config-file platform="ios" parent="NSCalendarsUsageDescription" overwrite="true">
         <string>We are using the Calendar to add info about your favorite events.</string>
