@@ -349,7 +349,7 @@ function Events() {
                     message: 'Мне понравилось событие ' + event.title + ' в ' + event.organization_name, // not supported on some apps (Facebook, Instagram)
                     subject: event.title, // fi. for email
                     files: [event.image_horizontal_url], // an array of filenames either locally or remotely
-                    url: 'http://evendate.ru/event/' + event.id
+                    url: 'http://evendate.io/event/' + event.id
                 }, function () {
                 }, function () {
                 });

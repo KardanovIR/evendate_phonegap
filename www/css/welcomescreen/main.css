@@ -3983,3 +3983,8 @@ li.city {
 .checkin-modal .toolbar:before {
     display: none;
 }
+
+[contenteditable="true"] , input, textarea {
+    -webkit-user-select: auto !important;
+    user-select: auto !important;
+}
