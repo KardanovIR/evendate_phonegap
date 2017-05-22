@@ -15,8 +15,8 @@ var child_browser_opened = false,
             unsubscribe: {male: 'удалил подписки', female: 'удалила подписки', default: 'удалил(а) подписки'}
         },
         URLS: {
-            BASE_NAME: 'https://evendate.ru',
-            API_FULL_PATH: 'https://evendate.ru/api/v1',
+            BASE_NAME: 'https://evendate.io',
+            API_FULL_PATH: 'https://evendate.io/api/v1',
             USERS_PATH: '/users',
             SUBSCRIPTIONS_PATH: '/subscriptions',
             ORGANIZATIONS_PATH: '/organizations',
@@ -114,11 +114,11 @@ var child_browser_opened = false,
     },
     __setHttpsUsage = function () {
         if (permanentStorage.getItem('use-https') == 'false') {
-            CONTRACT.URLS.BASE_NAME = 'http://evendate.ru';
-            CONTRACT.URLS.API_FULL_PATH = 'http://evendate.ru/api/v1';
+            CONTRACT.URLS.BASE_NAME = 'http://evendate.io';
+            CONTRACT.URLS.API_FULL_PATH = 'http://evendate.io/api/v1';
         } else {
-            CONTRACT.URLS.BASE_NAME = 'https://evendate.ru';
-            CONTRACT.URLS.API_FULL_PATH = 'https://evendate.ru/api/v1';
+            CONTRACT.URLS.BASE_NAME = 'https://evendate.io';
+            CONTRACT.URLS.API_FULL_PATH = 'https://evendate.io/api/v1';
         }
     },
     __events_indicator = {
@@ -767,7 +767,7 @@ function onDeviceReady() {
                     function (response) {
                         if (response.status == 'connected') {
                             fw7App.showIndicator();
-                            var ref = window.open('https://evendate.ru/oAuthDone.php?mobile=true&type=facebook&access_token=' + response.authResponse.accessToken, '_blank', 'hidden=yes');
+                            var ref = window.open('https://evendate.io/oAuthDone.php?mobile=true&type=facebook&access_token=' + response.authResponse.accessToken, '_blank', 'hidden=yes');
 
                             ref.addEventListener('loadstop', function (e) {
                                 L.log(e);
