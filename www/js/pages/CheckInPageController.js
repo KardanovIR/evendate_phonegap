@@ -172,12 +172,12 @@ MyApp.pages.CheckInPageController = function ($scope, $timeout) {
                 $scope.getTickets('used', true);
             });
 
-        // $$('.view.active .searchbar .searchbar-input > input')
-        //     .on('input', function (e) {
-        //         search_term = e.target.value;
-        //         $scope.getTickets('waiting', true);
-        //         $scope.getTickets('used', true);
-        //     });
+        $$('.view.active .searchbar .searchbar-input > input')
+            .on('input', function (e) {
+                search_term = e.target.value;
+                $scope.getTickets('waiting', true);
+                $scope.getTickets('used', true);
+            });
 
         $$('.view.active .search-btn')
             .off('click')
