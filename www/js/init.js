@@ -834,6 +834,24 @@ function hashToObject() {
     return obj;
 }
 
+function searchToObject() {
+    var pairs = window.location.search.substring(1).split("&"),
+        obj = {},
+        pair,
+        i;
+
+    for (i in pairs) {
+        if (pairs.hasOwnProperty(i)) {
+            if (pairs[i] === "") continue;
+
+            pair = pairs[i].split("=");
+            obj[decodeURIComponent(pair[0])] = decodeURIComponent(pair[1]);
+        }
+    }
+
+    return obj;
+}
+
 
 function openApplication() {
 
@@ -854,20 +872,33 @@ function openApplication() {
         // $$('.view-main').addClass('tab');
         angular.element($$('#friends')).scope().startBinding(true);
 
-        var _data = hashToObject(),
-            _loc = window.location.hash;
-        if (_loc.indexOf('event') !== -1) {
-            __api.events.get([
-                {id: _data.event_id}
-            ], function (res) {
-                res[0].open();
-            })
-        } else if (_loc.indexOf('organization') !== -1) {
-            __api.organizations.get([
-                {id: _data.organization_id}
-            ], function (res) {
-                res[0].open();
-            })
+        var search_object = searchToObject();
+        if (search_object['from']) {
+            var _parts = decodeURIComponent(search_object['from']).split('/');
+            if (_parts.length > 2) {
+                switch (_parts[1]) {
+                    case 'organization':
+                    case 'event': {
+                        __api[ _parts[1] + 's'].get([
+                            {id: _parts[2]}
+                        ], function(res){
+                            res[0].open();
+                        });
+                        break;
+                    }
+                    case 'organizations': {
+                        $$('.tab-link-catalog').click();
+                        break;
+                    }
+                    case 'my': {
+                        $$('.tab-link.view-profile').click();
+                        if (_parts[2] == 'tickets'){
+                            $$(fw7App.getCurrentView().activePage.container).find('[data-name="settings"]').click();
+                        }
+                        break;
+                    }
+                }
+            }
         }
     });
 

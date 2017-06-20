@@ -5582,6 +5582,7 @@
             else {
                 selects = pageContainer.find('.smart-select');
             }
+            console.log(selects);
             if (selects.length === 0) return;
 
             selects.each(function () {

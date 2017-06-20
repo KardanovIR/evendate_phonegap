@@ -145,7 +145,8 @@ function Events() {
                         label: field.label,
                         original_type: field.type,
                         type: _type,
-                        uuid: field.uuid
+                        uuid: field.uuid,
+                        values: field.values
                     });
                 })
             }
@@ -231,6 +232,8 @@ function Events() {
                     })
                 }
             };
+
+            event.not_default_inputs = ['extended_custom', 'select', 'select_multi'];
 
             event.getUser = function () {
                 return __user;
@@ -489,7 +492,8 @@ function Events() {
             };
 
             event.sendRegistrationForm = function (e, callback) {
-                var form_data = fw7App.formToData($$(e.target).parents('.popup-registration').find('form')),
+                var $$form = $$(e.target).parents('.popup-registration').find('form'),
+                    form_data = fw7App.formToData($$form),
                     send_data = [];
 
                 $$.each(form_data, function (key, value) {

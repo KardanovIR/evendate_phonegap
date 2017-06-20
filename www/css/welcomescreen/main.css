@@ -3984,7 +3984,20 @@ li.city {
     display: none;
 }
 
-[contenteditable="true"] , input, textarea {
+[contenteditable="true"], input, textarea {
     -webkit-user-select: auto !important;
     user-select: auto !important;
+}
+
+.select-multi-label {
+    margin-left: 15px;
+}
+
+.list-block ul ul.select-multi-list {
+    padding-left: 14px;
+}
+
+.select-multi.list-block{
+    margin-bottom: 0;
+    padding-bottom: 0;
 }

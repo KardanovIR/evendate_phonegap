@@ -109,8 +109,8 @@
                          onerror="onImgErrorSmall(this);"
                          ng-src="{{event.organization_logo_small_url}}">
                     <span
-                        ng-click="event.openOrganization();"
-                        class="event-organization-title">{{event.organization_name}}</span>
+                      ng-click="event.openOrganization();"
+                      class="event-organization-title">{{event.organization_name}}</span>
                     <p><a href="#" class="button event-detail-organization-btn"
                           ng-click="organization.toggleSubscriptionStatus()">{{organization.subscription_text}}</a></p>
                   </td>
@@ -147,11 +147,12 @@
           </div>
         </div>
       </div>
+
       <div class="popup popup-registration registration-form hidden large">
         <div class="toolbar">
           <div class="toolbar-inner">
             <div class="left"><a href="#" class="close-popup"><span
-                class="icon ion-ios-close-empty close-picker-icon"></span></a></div>
+              class="icon ion-ios-close-empty close-picker-icon"></span></a></div>
             <div class="right">
               <a href="#" class="send-picker" ng-click="sendRegistrationForm($event);">Отправить</a>
             </div>
@@ -162,15 +163,59 @@
             <form class="list-block">
               <ul>
                 <li ng-repeat="field in event.form_fields track by $index">
-                  <div class="item-content">
+
+                  <div class="item-content" ng-if="field.original_type == 'extended_custom'">
                     <div class="item-inner form-field" ng-class="{'with-error': field.error != null}">
                       <div class="item-title label">{{field.label}}</div>
                       <div class="item-input">
-                        <textarea  name="{{field.uuid}}" ng-if="field.original_type == 'extended_custom'"></textarea>
+                        <textarea name="{{field.uuid}}"></textarea>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="item-content" ng-if="field.original_type == 'select'">
+                    <div class="item-inner form-field" ng-class="{'with-error': field.error != null}">
+                      <div class="item-title label">{{field.label}}</div>
+                      <div class="item-input">
+                        <select name="{{field.uuid}}">
+                          <option selected hidden>Выберите вариант</option>
+                          <option ng-repeat="value in field.values" value="{{value.uuid}}">{{value.value}}</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div ng-if="field.original_type == 'select_multi'">
+                    <div class="select-multi-label label">{{field.label}}</div>
+                    <div class="list-block select-multi">
+                      <ul class="select-multi-list">
+                        <!-- Single chekbox item -->
+                        <li ng-repeat="value in field.values">
+                          <label class="label-checkbox item-content">
+                            <!-- Checked by default -->
+                            <input type="checkbox" name="{{field.uuid}}" value="{{value.uuid}}">
+                            <div class="item-media">
+                              <i class="icon icon-form-checkbox"></i>
+                            </div>
+                            <div class="item-inner">
+                              <div class="item-title">{{value.value}}</div>
+                            </div>
+                          </label>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+
+                  <div class="item-content" ng-if="event.not_default_inputs.indexOf(field.original_type) == -1">
+                    <div class="item-inner form-field" ng-class="{'with-error': field.error != null}">
+                      <div class="item-title label">{{field.label}}</div>
+                      <div class="item-input">
                         <input  ng-if="field.original_type != 'extended_custom'" type="{{field.type}}" placeholder="{{field.label}}" name="{{field.uuid}}">
                       </div>
                     </div>
                   </div>
+
+
                   <div class="item-content" ng-show="field.error != null">
                     <div class="item-inner">
                       <div class="item-text error-text">{{field.error}}</div>

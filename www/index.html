@@ -289,6 +289,34 @@
         </div>
       </div>
     </div>
+
+    <div class="list-block smart-select-wrapper hidden" >
+      <ul>
+        <!-- Smart select item -->
+        <li>
+          <!-- Additional "smart-select" class -->
+          <a href="#" class="item-link smart-select">
+            <!-- select -->
+            <select name="fruits">
+              <option value="apple" selected>Apple</option>
+              <option value="pineapple">Pineapple</option>
+              ...
+            </select>
+            <div class="item-content">
+              <div class="item-inner">
+                <!-- Select label -->
+                <div class="item-title">Fruit</div>
+                <!-- Selected value, not required -->
+                <div class="item-after">Apple</div>
+              </div>
+            </div>
+          </a>
+        </li>
+        <!-- Another smart selects or list view elements -->
+        ...
+      </ul>
+    </div>
+
   </div>
   <div id="view-friends" class="view view-friends tab" ng-controller="FriendsTabController">
     <div class="navbar navbar-hiding">
@@ -621,7 +649,7 @@
   </div>
   <div class="toolbar tabbar tabbar-labels main-tabbar hidden blur">
     <div class="toolbar-inner animated">
-      <a href="#view-catalog" data-position="top" class="tab-link">
+      <a href="#view-catalog" data-position="top" class="tab-link tab-link-catalog">
         <img src="img/icons/muted/catalog.svg" class="muted-icon active">
         <img src="img/icons/active/catalog.svg" class="active-icon hidden">
         <span class="tabbar-label">Каталог</span>
